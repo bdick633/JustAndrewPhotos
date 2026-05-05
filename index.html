@@ -1,435 +1,355 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JustAndrew - Galeria Fotografii</title>
+    <title>Moja Galeria</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .gallery-img { transition: transform 0.4s ease-out, filter 0.4s ease; }
-        .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
-        .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        body, header, footer, main, .bg-card, .border-custom {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
         }
-    </style>
+    </script>
 </head>
-<body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
-    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
-        <div class="flex items-center space-x-3">
-            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
-        </div>
-
-        <div class="flex items-center space-x-5">
-            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none transition-all duration-300" aria-label="Zmień motyw">
-                <i id="themeIcon" class="fas fa-moon text-lg"></i>
-            </button>
-
-            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400" title="Steam"><i class="fab fa-steam text-xl"></i></a>
-                <button onclick="openDiscordModal()" class="hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none"><i class="fab fa-discord text-xl"></i></button>
+    <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-100 dark:border-gray-700 fixed w-full z-10 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Moja Galeria</span>
+                </div>
+                <div class="flex items-center">
+                    <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                        🌙/☀️
+                    </button>
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-10">
-        <section class="text-center mb-16 max-w-2xl mx-auto">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
-            <p id="mainSubtext" class="text-gray-600 dark:text-gray-400 text-lg md:text-xl leading-relaxed">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+    <main class="pt-20">
+
+        <section class="py-16 text-center max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">
+                Witaj w mojej <span class="text-indigo-600 dark:text-indigo-400">galerii</span>
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Zbiór moich najlepszych fotografii i wspomnień uchwyconych w jednym miejscu. Przeglądaj, inspiruj się i ciesz się chwilą.
+            </p>
         </section>
 
-        <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
-            
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image1.png', 'Zdjęcie 1', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Zdjęcie 1" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 1</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+        <section id="gallery" class="py-12 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">Galeria zdjęć</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image1.png', 'Zdjęcie 1', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Zdjęcie 1" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 1</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image2.png', 'Zdjęcie 2', 'Chwila pełna energii i emocji między ludźmi.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Zdjęcie 2" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 2</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Ludzie</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image2.png', 'Zdjęcie 2', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Zdjęcie 2" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 2</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image3.png', 'Zdjęcie 3', 'Dynamika ruchu i skupienie na szczegółach.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Zdjęcie 3" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 3</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Siła</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image3.png', 'Zdjęcie 3', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Zdjęcie 3" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 3</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image4.png', 'Zdjęcie 4', 'Fotografia akcji zatrzymana w kadrze.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Zdjęcie 4" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 4</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Akcja</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image4.png', 'Zdjęcie 4', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Zdjęcie 4" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 4</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image5.png', 'Zdjęcie 5', 'Codzienny kadr w surowym, miejskim stylu.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Zdjęcie 5" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 5</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image5.png', 'Zdjęcie 5', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Zdjęcie 5" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 5</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image6.png', 'Zdjęcie 6', 'Wyrazisty portret o głębokim wyrazie.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Zdjęcie 6" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 6</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portret</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image6.png', 'Zdjęcie 6', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Zdjęcie 6" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 6</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image7.png', 'Zdjęcie 7', 'Zestawienie kolorów i faktur.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Zdjęcie 7" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 7</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Napoje</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image7.png', 'Zdjęcie 7', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Zdjęcie 7" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 7</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image8.png', 'Zdjęcie 8', 'Kadr z miejsca pracy i codziennych obowiązków.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Zdjęcie 8" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 8</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image8.png', 'Zdjęcie 8', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Zdjęcie 8" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 8</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image9.png', 'Zdjęcie 9', 'Skupienie i autentyczność chwili.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Zdjęcie 9" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 9</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image9.png', 'Zdjęcie 9', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Zdjęcie 9" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 9</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image10.png', 'Zdjęcie 10', 'Portret w otoczeniu ludzi.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Zdjęcie 10" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 10</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Ludzie</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image10.png', 'Zdjęcie 10', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Zdjęcie 10" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 10</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image11.png', 'Zdjęcie 11', 'Spokojna chwila z natury.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Zdjęcie 11" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 11</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Zwierzęta</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image11.png', 'Zdjęcie 11', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Zdjęcie 11" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 11</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image12.png', 'Zdjęcie 12', 'Radosny moment pełen zabawy.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zdjęcie 12" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 12</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Zabawa</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image12.png', 'Zdjęcie 12', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zdjęcie 12" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 12</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image13.png', 'Zdjęcie 13', 'Głębokie emocje zamknięte w kadrze.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Zdjęcie 13" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 13</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image13.png', 'Zdjęcie 13', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Zdjęcie 13" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 13</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image14.png', 'Zdjęcie 14', 'Czyste kontrasty i wyrazisty styl portretowy.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.png" alt="Zdjęcie 14" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 14</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portret</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image14.jpg', 'Zdjęcie 14', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Zdjęcie 14" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 14</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image15.png', 'Zdjęcie 15', 'Otwartość i styl życia.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Zdjęcie 15" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 15</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image15.png', 'Zdjęcie 15', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Zdjęcie 15" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 15</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image16.png', 'Zdjęcie 16', 'Profesjonalizm i zaangażowanie w miejscu pracy.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Zdjęcie 16" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 16</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image16.png', 'Zdjęcie 16', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Zdjęcie 16" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 16</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image17.png', 'Zdjęcie 17', 'Codzienne wyzwania na wyciągnięcie ręki.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Zdjęcie 17" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 17</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image17.png', 'Zdjęcie 17', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Zdjęcie 17" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 17</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image18.png', 'Zdjęcie 18', 'Chwila skupienia podczas pracy.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Zdjęcie 18" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 18</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image18.png', 'Zdjęcie 18', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Zdjęcie 18" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 18</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image19.png', 'Zdjęcie 19', 'Zatrzymaj się na chwilę refleksji.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Zdjęcie 19" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 19</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image19.png', 'Zdjęcie 19', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Zdjęcie 19" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 19</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image20.png', 'Zdjęcie 20', 'Gotowość do działania.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Zdjęcie 20" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 20</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image20.png', 'Zdjęcie 20', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Zdjęcie 20" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 20</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image21.png', 'Zdjęcie 21', 'Portret o naturalnym świetle.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.png" alt="Zdjęcie 21" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 21</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portret</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image21.jpg', 'Zdjęcie 21', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Zdjęcie 21" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 21</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image22.png', 'Zdjęcie 22', 'Emocje uchwycone na żywo.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Zdjęcie 22" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 22</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image22.png', 'Zdjęcie 22', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Zdjęcie 22" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 22</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image23.png', 'Zdjęcie 23', 'Wzajemne relacje i ludzie.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image23.png" alt="Zdjęcie 23" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 23</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Ludzie</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image23.png', 'Zdjęcie 23', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image23.png" alt="Zdjęcie 23" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 23</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image24.png', 'Zdjęcie 24', 'Siła, która nie zna kompromisów.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Zdjęcie 24" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 24</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Siła</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image24.png', 'Zdjęcie 24', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Zdjęcie 24" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 24</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image25.png', 'Zdjęcie 25', 'Pokaż swoją pasję w akcji.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Zdjęcie 25" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 25</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Akcja</p>
+                    <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+                        <button onclick="openImageModal('image25.png', 'Zdjęcie 25', 'Subtelny moment uchwycony w ciepłym świetle.')" class="w-full text-left focus:outline-none h-full block">
+                            <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Zdjęcie 25" class="w-full h-full object-cover"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 25</h3>
+                                <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                            </div>
+                        </button>
                     </div>
-                </button>
+                </div>
             </div>
-
         </section>
+
     </main>
 
-    <footer id="footerText" class="py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
-        &copy; 2026 JustAndrew. Wszelkie prawa zastrzeżone.
+    <footer class="bg-white dark:bg-gray-800 py-8 border-t border-gray-100 dark:border-gray-700 text-center">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            &copy; 2026 Moja Galeria. Wszelkie prawa zastrzeżone.
+        </p>
     </footer>
 
-    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-3xl w-full flex flex-col items-center bg-[#F3F4F6] dark:bg-[#1a1c24] p-8 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl modal-fade-in">
-            <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white mb-6"></h3>
-            
-            <div class="max-h-[50vh] w-full flex justify-center mb-6">
-                <img id="modalImage" src="" alt="" class="object-contain max-h-full rounded-2xl border border-gray-300 dark:border-gray-700 shadow-lg">
+    <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeImageModal()">
+        <div class="max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <div class="md:w-2/3 flex items-center justify-center bg-gray-100 dark:bg-gray-800 relative">
+                <img id="modalImage" src="" alt="Zdjęcie" class="max-h-[60vh] md:max-h-[75vh] w-full object-contain">
             </div>
-
-            <div id="descriptionBox" class="hidden w-full max-w-xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[120px] overflow-y-auto">
-                <p id="modalDescriptionText"></p>
+            <div class="md:w-1/3 p-8 flex flex-col justify-between bg-white dark:bg-gray-900">
+                <div>
+                    <button onclick="closeImageModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 float-right text-2xl">
+                        &times;
+                    </button>
+                    <h3 id="modalTitle" class="text-2xl font-bold text-gray-900 dark:text-white mt-4 md:mt-0 mb-2"></h3>
+                    <p id="modalDescription" class="text-gray-600 dark:text-gray-400 leading-relaxed"></p>
+                </div>
+                <div class="mt-6">
+                    <a id="modalDownload" href="#" download class="w-full block text-center px-5 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm">
+                        Pobierz zdjęcie
+                    </a>
+                </div>
             </div>
-
-            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full justify-center max-w-xl">
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-3.5 px-5 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition flex items-center justify-center">
-                    <i class="fas fa-info-circle mr-2.5"></i> Pokaż opis
-                </button>
-                <a id="modalDownloadBtn" href="" download class="flex-1 py-3.5 px-5 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition flex items-center justify-center">
-                    <i class="fas fa-download mr-2.5"></i> Pobierz
-                </a>
-                <button onclick="closeImageModal()" class="flex-1 py-3.5 px-5 bg-white dark:bg-[#0D0E12] hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-800 dark:text-gray-300 font-semibold border border-gray-300 dark:border-gray-700 rounded-xl transition flex items-center justify-center">
-                    Zamknij
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="discordModal" onclick="checkCloseDiscord(event)" class="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div onclick="event.stopPropagation()" class="bg-[#F3F4F6] dark:bg-[#1a1c24] p-8 rounded-3xl border border-gray-300 dark:border-gray-700 max-w-sm w-full mx-6 text-center shadow-2xl modal-fade-in">
-            <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl"><i class="fab fa-discord"></i></div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Znajdź mnie na Discordzie</h3>
-            <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">Mój tag discord:</p>
-            <div class="bg-gray-50 dark:bg-[#0D0E12] rounded-xl p-3 border border-gray-300 dark:border-gray-700 flex items-center justify-between mb-8">
-                <span class="text-gray-900 dark:text-white font-mono font-semibold px-2">andrewk0x</span>
-                <button onclick="copyToClipboard()" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-semibold px-3 py-1 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg"><i class="far fa-copy mr-1"></i> Kopiuj</button>
-            </div>
-            <button onclick="closeDiscordModal()" class="w-full py-3 rounded-xl bg-gray-900 dark:bg-gray-800 text-white font-medium border border-gray-800">Zamknij</button>
         </div>
     </div>
 
     <script>
-        const siteBody = document.getElementById('siteBody');
-        const themeIcon = document.getElementById('themeIcon');
-
-        window.onload = function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                applyDarkTheme();
-            } else {
-                applyLightTheme();
-            }
-        }
-
-        function toggleTheme() {
-            if (localStorage.getItem('theme') === 'dark') {
-                applyLightTheme();
-            } else {
-                applyDarkTheme();
-            }
-        }
-
-        function applyLightTheme() {
-            localStorage.setItem('theme', 'light');
-            siteBody.classList.remove('bg-[#0D0E12]', 'text-gray-300');
-            siteBody.classList.add('bg-[#F3F4F6]', 'text-gray-800');
-            themeIcon.className = 'fas fa-moon text-lg';
-        }
-
-        function applyDarkTheme() {
-            localStorage.setItem('theme', 'dark');
-            siteBody.classList.remove('bg-[#F3F4F6]', 'text-gray-800');
-            siteBody.classList.add('bg-[#0D0E12]', 'text-gray-300');
-            themeIcon.className = 'fas fa-sun text-lg';
-        }
-
         function openImageModal(src, title, description) {
-            document.getElementById('imageModal').classList.remove('hidden');
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalImage').src = src;
-            document.getElementById('modalDownloadBtn').href = src;
-            document.getElementById('modalDescriptionText').innerText = description;
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalDownload = document.getElementById('modalDownload');
+
+            img.src = src;
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalDownload.href = src;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function closeImageModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-            const descBox = document.getElementById('descriptionBox');
-            if (!descBox.classList.contains('hidden')) {
-                toggleDescription();
-            }
-        }
-
-        function checkCloseModal(event) {
-            if (event.target.id === 'imageModal') {
-                closeImageModal();
-            }
-        }
-
-        function toggleDescription() {
-            const descBox = document.getElementById('descriptionBox');
-            const descButton = document.getElementById('descButton');
-            
-            descBox.classList.toggle('hidden');
-            if (descBox.classList.contains('hidden')) {
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
-            } else {
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
-            }
-        }
-
-        function openDiscordModal() {
-            document.getElementById('discordModal').classList.remove('hidden');
-        }
-
-        function closeDiscordModal() {
-            document.getElementById('discordModal').classList.add('hidden');
-        }
-
-        function checkCloseDiscord(event) {
-            if (event.target.id === 'discordModal') {
-                closeDiscordModal();
-            }
-        }
-
-        function copyToClipboard() {
-            navigator.clipboard.writeText('andrewk0x').then(() => {
-                alert('Skopiowano tag do schowka!');
-            });
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
     </script>
+
 </body>
 </html>
