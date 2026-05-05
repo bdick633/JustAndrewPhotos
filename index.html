@@ -12,7 +12,7 @@
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         /* Płynne przejścia dla zmiany motywu */
-        body, header, footer, main {
+        body, header, footer, main, .bg-card, .border-custom {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
     </style>
@@ -67,8 +67,8 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
-                <button onclick="openImageModal('image3.png', 'Flexing')" class="w-full text-left focus:outline-none">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image3.jpg', 'Flexing')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.jpg" alt="Flexing" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Flexing</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Siła</p>
@@ -97,11 +97,31 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
-                <button onclick="openImageModal('image6.png', 'Głębokie skupienie')" class="w-full text-left focus:outline-none">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image6.jpg', 'Głębokie skupienie')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.jpg" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Głębokie skupienie</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portrait</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
+                <button onclick="openImageModal('image7.png', 'Bliskie spotkanie')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Bliskie spotkanie" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Bliskie spotkanie</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Close-up</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
+                <button onclick="openImageModal('image8.png', 'Ostatni łyk')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Ostatni łyk" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Ostatni łyk</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
                     </div>
                 </button>
             </div>
@@ -138,7 +158,7 @@
     </div>
 
     <div id="discordModal" onclick="checkCloseDiscord(event)" class="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div onclick="event.stopPropagation()" class="bg-white dark:bg-[#1a1c24] p-8 rounded-3xl border border-gray-200 dark:border-gray-800 max-sm w-full mx-6 text-center shadow-2xl modal-fade-in">
+        <div onclick="event.stopPropagation()" class="bg-white dark:bg-[#1a1c24] p-8 rounded-3xl border border-gray-200 dark:border-gray-800 max-w-sm w-full mx-6 text-center shadow-2xl modal-fade-in">
             <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl"><i class="fab fa-discord"></i></div>
             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Znajdź mnie na Discordzie</h2>
             <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">Skopiuj mój tag i wyślij zaproszenie:</p>
@@ -155,28 +175,46 @@
         const siteBody = document.getElementById('siteBody');
         const themeIcon = document.getElementById('themeIcon');
 
-        function toggleTheme() {
-            if (siteBody.classList.contains('bg-[#F3F4F6]')) {
-                // Przejście na ciemny motyw
-                siteBody.className = 'bg-[#0D0E12] text-gray-300 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white';
-                document.getElementById('siteTitle').className = 'font-extrabold text-2xl tracking-tight text-white';
-                document.getElementById('mainHeading').className = 'text-4xl md:text-6xl font-black text-white mb-4';
-                document.getElementById('mainSubtext').className = 'text-gray-400 text-lg md:text-xl leading-relaxed';
-                document.getElementById('footerText').className = 'py-6 border-t border-gray-800 text-center text-sm text-gray-400';
-                
-                themeIcon.className = 'fas fa-sun text-lg';
-            } else {
-                // Przejście na jasny motyw
-                siteBody.className = 'bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white';
-                document.getElementById('siteTitle').className = 'font-extrabold text-2xl tracking-tight text-gray-900';
-                document.getElementById('mainHeading').className = 'text-4xl md:text-6xl font-black text-gray-900 mb-4';
-                document.getElementById('mainSubtext').className = 'text-gray-600 text-lg md:text-xl leading-relaxed';
-                document.getElementById('footerText').className = 'py-6 border-t border-gray-200 text-center text-sm text-gray-500';
-                
-                themeIcon.className = 'fas fa-moon text-lg';
+        // Funkcja pobierająca zapamiętany motyw
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                siteBody.classList.add('dark-mode-active'); // Pomocnicza klasa
+                applyDarkTheme();
             }
         }
 
+        function toggleTheme() {
+            if (siteBody.classList.contains('bg-[#F3F4F6]')) {
+                applyDarkTheme();
+                localStorage.setItem('theme', 'dark');
+            } else {
+                applyLightTheme();
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function applyDarkTheme() {
+            // Przejście na ciemny motyw
+            siteBody.className = 'bg-[#0D0E12] text-gray-300 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white';
+            document.getElementById('siteTitle').className = 'font-extrabold text-2xl tracking-tight text-white';
+            document.getElementById('mainHeading').className = 'text-4xl md:text-6xl font-black text-white mb-4';
+            document.getElementById('mainSubtext').className = 'text-gray-400 text-lg md:text-xl leading-relaxed';
+            document.getElementById('footerText').className = 'py-6 border-t border-gray-800 text-center text-sm text-gray-400';
+            themeIcon.className = 'fas fa-sun text-lg';
+        }
+
+        function applyLightTheme() {
+            // Przejście na jasny motyw
+            siteBody.className = 'bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white';
+            document.getElementById('siteTitle').className = 'font-extrabold text-2xl tracking-tight text-gray-900';
+            document.getElementById('mainHeading').className = 'text-4xl md:text-6xl font-black text-gray-900 mb-4';
+            document.getElementById('mainSubtext').className = 'text-gray-600 text-lg md:text-xl leading-relaxed';
+            document.getElementById('footerText').className = 'py-6 border-t border-gray-200 text-center text-sm text-gray-500';
+            themeIcon.className = 'fas fa-moon text-lg';
+        }
+
+        // Modale
         function openDiscordModal() { 
             document.getElementById('discordModal').classList.remove('hidden'); 
         }
@@ -184,12 +222,12 @@
             document.getElementById('discordModal').classList.add('hidden'); 
         }
         
+        // Zamykanie modalów po kliknięciu w tło
         function checkCloseDiscord(event) {
             if (event.target.id === 'discordModal') {
                 closeDiscordModal();
             }
         }
-        
         function checkCloseModal(event) {
             if (event.target.id === 'imageModal') {
                 closeImageModal();
@@ -199,7 +237,7 @@
         function openImageModal(imageSrc, titleText) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('modalTitle').textContent = titleText;
-            document.getElementById('modalNewTabBtn').href = imageSrc; 
+            document.getElementById('modalNewTabBtn').href = imageSrc;
             document.getElementById('modalDownloadBtn').href = imageSrc;
             document.getElementById('imageModal').classList.remove('hidden');
         }
@@ -208,6 +246,7 @@
             document.getElementById('imageModal').classList.add('hidden');
         }
 
+        // Kopiowanie tagu Discord
         function copyToClipboard() {
             navigator.clipboard.writeText('andrewk0x').then(() => {
                 const btn = document.querySelector('#discordModal button[onclick="copyToClipboard()"]');
