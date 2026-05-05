@@ -199,8 +199,8 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
-                <button onclick="openImageModal('image16.png', 'Serce z pracy', 'Pozytywny akcent wpleciony w codzienne obowiązki, pokazujący, że nawet w trudzie można znaleźć miejsce na radość i uśmiech.')" class="w-full text-left focus:outline-none">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image16.jpg', 'Serce z pracy', 'Pozytywny akcent wpleciony w codzienne obowiązki, pokazujący, że nawet w trudzie można znaleźć miejsce na radość i uśmiech.')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.jpg" alt="Serce z pracy" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce z pracy</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
@@ -209,8 +209,8 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img">
-                <button onclick="openImageModal('image17.png', 'Niezadowolenie', 'Chwila zmęczenia i zwątpienia podczas długiej pracy. Kadr doskonale oddaje emocje i pozwala utożsamić się z trudem.')" class="w-full text-left focus:outline-none">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image17.jpg', 'Niezadowolenie', 'Chwila zmęczenia i zwątpienia podczas długiej pracy. Kadr doskonale oddaje emocje i pozwala utożsamić się z trudem.')" class="w-full text-left focus:outline-none">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image17.jpg" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Niezadowolenie</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
@@ -346,15 +346,16 @@
         function openImageModal(imageSrc, titleText, descriptionText) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('modalTitle').textContent = titleText;
-            document.getElementById('modalTabBtn').href = imageSrc;
+            document.getElementById('modalNewTabBtn').href = imageSrc;
             document.getElementById('modalDownloadBtn').href = imageSrc;
-            
-            // Zapisz opis do zmiennej i ukryj pole z opisem na start
-            currentDescriptionText = descriptionText;
+
+            currentText = descriptionText;
             document.getElementById('modalDescriptionText').textContent = descriptionText;
+            
+            // Ukryj pole opisu i zresetuj przycisk przy otwieraniu
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
-            
+
             document.getElementById('imageModal').classList.remove('hidden');
         }
 
