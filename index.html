@@ -168,7 +168,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image13.png', 'Zdjęcie 13', 'Głębokie emocje zamknięte w czarno-białej tonacji.')" class="w-full text-left focus:outline-none h-full block">
+                <button onclick="openImageModal('image13.png', 'Zdjęcie 13', 'Głębokie emocje zamknięte w kadrze.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Zdjęcie 13" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Zdjęcie 13</h3>
@@ -410,7 +410,7 @@
         function openImageModal(imageSrc, titleText, descriptionText) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('modalTitle').textContent = titleText;
-            document.getElementById('modalTabBtn').href = imageSrc;
+            document.getElementById('modalNewTabBtn').href = imageSrc;
             document.getElementById('modalDownloadBtn').href = imageSrc;
             document.getElementById('modalDescriptionText').textContent = descriptionText;
             
