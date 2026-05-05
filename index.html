@@ -249,8 +249,8 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image21.png', 'Stream 21', 'Gest symulujący serce z dłoni podczas interakcji z widzami.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.png" alt="Stream 21" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image21.jpg', 'Stream 21', 'Gest symulujący serce z dłoni podczas interakcji z widzami.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Stream 21" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 21</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
@@ -330,7 +330,7 @@
                 </a>
 
                 <a id="modalNewTabBtn" href="" target="_blank" class="sm:flex-1 py-3.5 px-5 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center">
-                    <i class="fas fa-external-link-alt mr-2.5"></i> Nowa karta
+                    <i class="fas fa-external-link-alt mr-2.5"></i> Otwórz
                 </a>
 
                 <button onclick="closeImageModal()" class="sm:flex-1 py-3.5 px-5 bg-white dark:bg-[#0D0E12] hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-800 dark:text-gray-300 font-semibold border border-gray-300 dark:border-gray-700 rounded-xl transition duration-200 flex items-center justify-center">
@@ -412,7 +412,7 @@
         function openImageModal(imageSrc, titleText, descriptionText) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('modalTitle').textContent = titleText;
-            document.getElementById('modalNewTabBtn').href = imageSrc;
+            document.getElementById('modalTabBtn').href = imageSrc;
             document.getElementById('modalDownloadBtn').href = imageSrc;
 
             document.getElementById('modalDescriptionText').textContent = descriptionText;
