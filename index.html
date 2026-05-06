@@ -239,8 +239,8 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
-                <button onclick="openImageModal('image20.jpg', 'Stream 20', 'Perspektywa z kamery umieszczonej niżej, widok na pokój i streamera.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.jpg" alt="Stream 20" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image20.png', 'Stream 20', 'Perspektywa z kamery umieszczonej niżej, widok na pokój i streamera.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Stream 20" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 20</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
@@ -330,5 +330,65 @@
         </div>
     </div>
 
+    <script>
+        function openImageModal(src, title, description) {
+            document.getElementById('imageModal').classList.remove('hidden');
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescriptionText').textContent = description;
+            
+            // Konfiguracja przycisków
+            document.getElementById('modalDownloadBtn').href = src;
+            document.getElementById('modalNewTabBtn').href = src;
+            
+            // Domyślnie schowaj opis przy otwarciu
+            document.getElementById('descriptionBox').classList.add('hidden');
+            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+
+        function checkCloseModal(event) {
+            // Zamyka po kliknięciu w tło
+            if (event.target.id === 'imageModal') {
+                closeImageModal();
+            }
+        }
+
+        function toggleDescription() {
+            const descriptionBox = document.getElementById('descriptionBox');
+            const descButton = document.getElementById('descButton');
+            if (descriptionBox.classList.contains('hidden')) {
+                descriptionBox.classList.remove('hidden');
+                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
+            } else {
+                descriptionBox.classList.add('hidden');
+                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.getElementById('siteBody');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (body.classList.contains('bg-[#F3F4F6]')) {
+                body.classList.remove('bg-[#F3F4F6]', 'text-gray-800');
+                body.classList.add('bg-[#0D0E12]', 'text-gray-200');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('bg-[#0D0E12]', 'text-gray-200');
+                body.classList.add('bg-[#F3F4F6]', 'text-gray-800');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        function openDiscordModal() {
+            alert('Discord: andrewgod666');
+        }
+    </script>
 </body>
 </html>
