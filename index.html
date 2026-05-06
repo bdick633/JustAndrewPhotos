@@ -51,16 +51,16 @@
             stroke-linejoin: round;
         }
 
-        /* Poprawiony wygląd przycisku serduszka (bez inwazyjnego czerwonego tła i obramowania) */
+        /* Usunięcie efektów najechania i obramowania przycisku serduszka */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
         .favorite-btn:hover {
-            transform: scale(1.12);
-            background-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: scale(1.08);
+            background-color: rgba(0, 0, 0, 0.6);
+            box-shadow: none;
         }
     </style>
 </head>
@@ -529,7 +529,7 @@
                 </button>
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto overflow-x-hidden">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-w-[150px] overflow-y-auto overflow-x-hidden">
                 <p id="modalDescriptionText"></p>
             </div>
 
