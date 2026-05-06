@@ -221,9 +221,9 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image14.png" data-title="Skupienie" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image14.jpg" data-title="Skupienie" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.png" alt="Skupienie" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Skupienie</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
@@ -291,9 +291,9 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image21.png" data-title="Stream 21" data-desc="Luźna atmosfera podczas wspólnego spędzania czasu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image21.jpg" data-title="Stream 21" data-desc="Luźna atmosfera podczas wspólnego spędzania czasu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.png" alt="Stream 21" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Stream 21" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 21</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
@@ -447,9 +447,8 @@
             const current = galleryItems[currentIndex];
             document.getElementById('modalImage').src = current.src;
             document.getElementById('modalTitle').textContent = current.title;
-            document.getElementById('modalDescriptionText').textContent = current.desc;
+            document.getElementById('modalText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalNewTabBtn').href = current.src; /* Drobna poprawka referencji, aby była spójna z nazwą */
             document.getElementById('modalNewTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
