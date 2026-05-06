@@ -51,20 +51,40 @@
             stroke-linejoin: round;
         }
 
-        /* Trwałe usunięcie efektów i najechania dla przycisku serduszka */
+        /* Usunięcie niechcianego tła/obwódki i dodanie płynnej animacji dla przycisku serduszka */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
-            transition: none !important; /* Wyłączenie przejść */
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
         }
         .favorite-btn:hover {
-            transform: none !important; /* Wyłączenie powiększania */
-            background-color: rgba(0, 0, 0, 0.4) !important; /* Zachowanie stałego tła */
-            box-shadow: none !important;
+            transform: scale(1.08) !important;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+            outline: none !important;
             border: none !important;
         }
-        .favorite-btn:focus {
+        .favorite-btn:focus,
+        .favorite-btn:active {
             outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Naprawa przycisku serduszka w modalu – usunięcie czerwonego obrysu i tła po najechaniu */
+        #modalFavBtn {
+            transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease !important;
+        }
+        #modalFavBtn:hover {
+            background-color: #ef4444 !important; /* Czerwone tło */
+            color: #ffffff !important; /* Biała ikona */
+            transform: scale(1.08) !important;
+            border-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        #modalFavBtn:focus {
+            outline: none !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -743,7 +763,7 @@
             document.getElementById('modalTitle').textContent = current.title;
             document.getElementById('modalDescriptionText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalNewTabBtn').href = current.src;
+            document.getElementById('modalTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
             updateModalHeartButton();
