@@ -447,9 +447,9 @@
             const current = galleryItems[currentIndex];
             document.getElementById('modalImage').src = current.src;
             document.getElementById('modalTitle').textContent = current.title;
-            document.getElementById('modalText').textContent = current.desc;
+            document.getElementById('modalDescriptionText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalNewTabBtn').href = current.src;
+            document.getElementById('modalTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
         }
