@@ -450,12 +450,22 @@
                 title: item.getAttribute('data-title'),
                 desc: item.getAttribute('data-desc')
             }));
+
+            // Sprawdzamy przy ładowaniu strony, czy użytkownik ukrył baner na stałe
+            if (localStorage.getItem('hideJustAndrewAd') === 'true') {
+                const banner = document.getElementById('adBanner');
+                if (banner) {
+                    banner.classList.add('hidden');
+                }
+            }
         });
 
         // Ukrywanie baneru reklamowego po kliknięciu
         function dismissAd() {
             const banner = document.getElementById('adBanner');
             banner.classList.add('hidden');
+            // Zapisujemy informację w przeglądarce, że użytkownik ukrył reklamę na stałe
+            localStorage.setItem('hideJustAndrewAd', 'true');
         }
 
         function openImageFromCard(element) {
