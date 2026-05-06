@@ -379,11 +379,11 @@
             <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
                 <i class="fab fa-discord"></i>
             </div>
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Nasz kontakt Discord</h3>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Kontakt Discord</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
-                Społeczność i bezpośredni kontakt znajdziesz na Discordzie.<br>
-                Nazwa użytkownika: <strong>andrewk0x</strong>
+                Bezpośredni kontakt:
             </p>
+            <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">andrewk0x</p>
             <div class="flex flex-col sm:flex-row gap-3 w-full">
                 <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
@@ -489,7 +489,7 @@
             }
         }
 
-        // Sprawdź zapamiętany motyw przy ładowaniu
+        // Sprawdź zapamiętany motyw przy ładowaniu (domyślnie jasny)
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const htmlTag = document.documentElement;
@@ -502,6 +502,7 @@
                     themeIcon.classList.add('fa-sun');
                 }
             } else {
+                // Jeśli nie zapisano, domyślnie ustawiamy jasny motyw
                 htmlTag.classList.remove('dark');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-sun');
