@@ -62,12 +62,24 @@
                     Sprawdź nasz serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span> (1.21.11)
                 </p>
             </div>
-            <div class="flex items-center gap-4">
+            
+            <div id="adActionButtons" class="flex items-center gap-4">
                 <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition duration-150 flex items-center gap-1.5 shadow-sm">
                     <i class="fas fa-copy"></i> Kopiuj IP
                 </button>
-                <button onclick="dismissAd()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg focus:outline-none" title="Ukryj reklamę">
+                
+                <button id="adDismissBtn" onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg focus:outline-none" title="Ukryj reklamę">
                     <i class="fas fa-times"></i> <span class="text-xs underline ml-1">Nie interesuje mnie to</span>
+                </button>
+            </div>
+
+            <div id="adConfirmationOptions" class="hidden flex items-center gap-4">
+                <span class="text-emerald-200 text-xs">Na pewno?</span>
+                <button onclick="dismissAdPermanently()" class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg transition duration-150 shadow-sm">
+                    Nie wyświetlaj ponownie
+                </button>
+                <button onclick="cancelConfirmationOptions()" class="text-xs bg-white/10 hover:bg-white/20 text-white py-1.5 px-3 rounded-lg transition duration-150">
+                    Anuluj
                 </button>
             </div>
         </div>
@@ -460,11 +472,23 @@
             }
         });
 
-        // Ukrywanie baneru reklamowego po kliknięciu
-        function dismissAd() {
+        // Ukrywanie przycisków i pokazywanie opcji "Nie wyświetlaj ponownie"
+        function showConfirmationOptions() {
+            document.getElementById('adActionButtons').classList.add('hidden');
+            document.getElementById('adConfirmationOptions').classList.remove('hidden');
+        }
+
+        // Anulowanie i powrót do widocznych przycisków
+        function cancelConfirmationOptions() {
+            document.getElementById('adConfirmationOptions').classList.add('hidden');
+            document.getElementById('adActionButtons').classList.remove('hidden');
+        }
+
+        // Ukrywanie baneru reklamowego po potwierdzeniu decyzji
+        function dismissAdPermanently() {
             const banner = document.getElementById('adBanner');
             banner.classList.add('hidden');
-            // Zapisujemy informację w przeglądarce, że użytkownik ukrył reklamę na stałe
+            // Zapisujemy informację w przeglądarce użytkownika
             localStorage.setItem('hideJustAndrewAd', 'true');
         }
 
