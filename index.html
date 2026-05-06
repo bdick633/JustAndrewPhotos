@@ -89,6 +89,13 @@
             outline: none !important;
             box-shadow: none !important;
         }
+
+        /* Styl dla aktywnego przycisku kategorii */
+        .filter-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
@@ -162,6 +169,21 @@
         <section class="text-center mb-10 max-w-2xl mx-auto">
             <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
             <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed mb-6">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
+                <div class="flex flex-wrap justify-center gap-2 bg-white dark:bg-[#1a1c24] p-2 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <button onclick="filterCategory('all', this)" class="filter-btn active px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200">Wszystkie</button>
+                    <button onclick="filterCategory('Stream', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Stream</button>
+                    <button onclick="filterCategory('Praca', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Praca</button>
+                    <button onclick="filterCategory('Relaks', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Relaks</button>
+                </div>
+
+                <div class="relative w-full max-w-xs">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj zdjęcia..." 
+                        class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                </div>
+            </div>
         </section>
 
         <div id="emptyFavoritesNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8 shadow-sm">
@@ -174,7 +196,8 @@
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
             
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image1.png" data-title="Moment zdziwienia" data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image1.png" data-title="Moment zdziwienia" data-category="Stream" data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.">
                 <div onclick="openModalWithIndex(0)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Moment zdziwienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -187,7 +210,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image2.png" data-title="Duet" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image2.png" data-title="Duet" data-category="Stream" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
                 <div onclick="openModalWithIndex(1)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Duet" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -200,7 +224,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image3.png" data-title="Flexing" data-desc="Zdjęcie zrobione podczas treningu. Pokazuje zaangażowanie i ciężką pracę.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image3.png" data-title="Flexing" data-category="Stream" data-desc="Zdjęcie zrobione podczas treningu. Pokazuje zaangażowanie i ciężką pracę.">
                 <div onclick="openModalWithIndex(2)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -213,7 +238,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image4.png" data-title="Akrobata" data-desc="Chwila pełna energii i dynamiki.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image4.png" data-title="Świeca" data-category="Stream" data-desc="Chwila pełna energii i dynamiki.">
                 <div onclick="openModalWithIndex(3)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Akrobata" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -226,7 +252,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image5.png" data-title="Refreshment" data-desc="Chwila orzeźwienia i relaksu w trakcie dnia.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image5.png" data-title="Refreshment" data-category="Stream" data-desc="Chwila orzeźwienia i relaksu w trakcie dnia.">
                 <div onclick="openModalWithIndex(4)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Refreshment" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -239,7 +266,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image6.png" data-title="Głębokie skupienie" data-desc="Moment, w którym liczy się tylko precyzja i spokój.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image6.png" data-title="Głębokie skupienie" data-category="Stream" data-desc="Moment, w którym liczy się tylko precyzja i spokój.">
                 <div onclick="openModalWithIndex(5)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -252,7 +280,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image7.png" data-title="Odświeżenie" data-desc="Kolejny moment na relaks i złapanie oddechu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image7.png" data-title="Odświeżenie" data-category="Stream" data-desc="Kolejny moment na relaks i złapanie oddechu.">
                 <div onclick="openModalWithIndex(6)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Odświeżenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -265,7 +294,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image8.png" data-title="Przerwa na sprzęt" data-desc="Zdjęcie zrobione w trakcie przygotowań i organizacji technicznej.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image8.png" data-title="Przerwa na sprzęt" data-category="Stream" data-desc="Zdjęcie zrobione w trakcie przygotowań i organizacji technicznej.">
                 <div onclick="openModalWithIndex(7)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Przerwa na sprzęt" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -278,7 +308,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image9.png" data-title="Serce" data-desc="Wyrażenie wdzięczności i miłości do widzów.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image9.png" data-title="Serce" data-category="Stream" data-desc="Wyrażenie wdzięczności i miłości do widzów.">
                 <div onclick="openModalWithIndex(8)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Serce" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -291,7 +322,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image10.png" data-title="Przyjaciele" data-desc="Wspólnie spędzony czas z najbliższymi.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image10.png" data-title="Przyjaciele" data-category="Stream" data-desc="Wspólnie spędzony czas z najbliższymi.">
                 <div onclick="openModalWithIndex(9)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Przyjaciele" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -304,7 +336,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image11.png" data-title="Z puszystym przyjacielem" data-desc="Słodka chwila z pupilem.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image11.png" data-title="Z puszystym przyjacielem" data-category="Stream" data-desc="Słodka chwila z pupilem.">
                 <div onclick="openModalWithIndex(10)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Z puszystym przyjacielem" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -317,11 +350,12 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image12.png" data-title="Zbliżenie i zabawa" data-desc="Radosny moment pełen pozytywnej energii.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image12.png" data-title="Zbliżenie" data-category="Stream" data-desc="Radosny moment pełen pozytywnej energii.">
                 <div onclick="openModalWithIndex(11)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zbliżenie i zabawa" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zbliżenie </h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Zbliżenie</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </div>
@@ -330,7 +364,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image13.png" data-title="Pozdrowienia" data-desc="Kadr podczas interakcji z widzami online.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image13.png" data-title="Pozdrowienia" data-category="Stream" data-desc="Kadr podczas interakcji z widzami online.">
                 <div onclick="openModalWithIndex(12)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Pozdrowienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -343,7 +378,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image14.jpg" data-title="Skupienie" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image14.jpg" data-title="Skupienie" data-category="Stream" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
                 <div onclick="openModalWithIndex(13)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -356,7 +392,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image15.png" data-title="Trening" data-desc="Kolejne ujęcie pokazujące ciężką pracę i pasję.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image15.png" data-title="Trening" data-category="Stream" data-desc="Kolejne ujęcie pokazujące ciężką pracę i pasję.">
                 <div onclick="openModalWithIndex(14)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -369,7 +406,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image16.png" data-title="Serce z pracy" data-desc="Pozytywny gest i uśmiech dla wszystkich.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image16.png" data-title="Serce z pracy" data-category="Praca" data-desc="Pozytywny gest i uśmiech dla wszystkich.">
                 <div onclick="openModalWithIndex(15)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -382,7 +420,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image17.png" data-title="Niezadowolenie" data-desc="Wyrażenie emocji w zabawny sposób.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image17.png" data-title="Niezadowolenie" data-category="Praca" data-desc="Wyrażenie emocji w zabawny sposób.">
                 <div onclick="openModalWithIndex(16)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -395,7 +434,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image18.png" data-title="Siła i motywacja" data-desc="Wzrost formy i determinacja w dążeniu do celu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image18.png" data-title="Siła i motywacja" data-category="Praca" data-desc="Wzrost formy i determinacja w dążeniu do celu.">
                 <div onclick="openModalWithIndex(17)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Siła i motywacja" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -408,7 +448,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image19.png" data-title="Skupienie przed kamerą" data-desc="Bardzo bliskie ujęcie twarzy mężczyzny. Jest on ubrany w jasną koszulkę i ma na sobie słuchawki z mikrofonem. Mężczyzna patrzy bezpośrednio w obiektyw z poważnym lub skupionym wyrazem twarzy. W tle widoczne jest wnętrze z oknem dachowym i stojącym drapakiem dla kota.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image19.png" data-title="Skupienie przed kamerą" data-category="Stream" data-desc="Bardzo bliskie ujęcie twarzy mężczyzny. Jest on ubrany w jasną koszulkę i ma na sobie słuchawki z mikrofonem. Mężczyzna patrzy bezpośrednio w obiektyw z poważnym lub skupionym wyrazem twarzy. W tle widoczne jest wnętrze z oknem dachowym i stojącym drapakiem dla kota.">
                 <div onclick="openModalWithIndex(18)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Skupienie przed kamerą" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -421,7 +462,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image20.png" data-title="Spojrzenie z góry" data-desc="Ujęcie zrobione z niskiej perspektywy, ukazujące mężczyznę w słuchawkach i jasnej koszulce, który patrzy w dół w stronę obiektywu lub ekranu. W tle widać jasne, skośne okno dachowe, przez które wpada światło, oraz rozwieszoną jasną tkaninę.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image20.png" data-title="Spojrzenie z góry" data-category="Stream" data-desc="Ujęcie zrobione z niskiej perspektywy, ukazujące mężczyznę w słuchawkach i jasnej koszulce, który patrzy w dół w stronę obiektywu lub ekranu. W tle widać jasne, skośne okno dachowe, przez które wpada światło, oraz rozwieszoną jasną tkaninę.">
                 <div onclick="openModalWithIndex(19)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Spojrzenie z góry" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -434,7 +476,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image21.jpg" data-title="Gest sympatii" data-desc="Mężczyzna w szarym T-shircie i słuchawkach z mikrofonem siedzi przy biurku, układając dłońmi kształt serca. Z lewej strony kadru widoczna jest jasna część twarzy i włosy innej osoby. W tle za mężczyzną znajdują się jasne drzwi oraz fragment ściany.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image21.jpg" data-title="Gest sympatii" data-category="Stream" data-desc="Mężczyzna w szarym T-shircie i słuchawkach z mikrofonem siedzi przy biurku, układając dłońmi kształt serca. Z lewej strony kadru widoczna jest jasna część twarzy i włosy innej osoby. W tle za mężczyzną znajdują się jasne drzwi oraz fragment ściany.">
                 <div onclick="openModalWithIndex(20)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Gest sympatii" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -447,7 +490,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image22.png" data-title="Transmisja na żywo w kabinie" data-desc="Zbliżenie na twarz mężczyzny podczas prowadzenia transmisji (streama). Na górze po lewej stronie widać ekran z panelem wsparcia i wpłatami od widzów (TOPKA TOPKA), a na dole pasek postępu zbiórki na Starlinka z podpisem w języku polskim: starlink żeby stremować częściej <3. Mężczyzna jest ubrany w jasną koszulkę i prawdopodobnie znajduje się w kabinie pojazdu lub ciężarówki.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image22.png" data-title="W ciężarówce" data-category="Praca" data-desc="Zbliżenie na twarz mężczyzny podczas prowadzenia transmisji (streama). Na górze po lewej stronie widać ekran z panelem wsparcia i wpłatami od widzów (TOPKA TOPKA), a na dole pasek postępu zbiórki na Starlinka z podpisem w języku polskim: starlink żeby stremować częściej <3. Mężczyzna jest ubrany w jasną koszulkę i prawdopodobnie znajduje się w kabinie pojazdu lub ciężarówki.">
                 <div onclick="openModalWithIndex(21)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Transmisja na żywo w kabinie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -460,7 +504,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image24.png" data-title="Relaks ze szklanką" data-desc="Mężczyzna siedzi przed komputerem w pokoju, ubrany w ciemną koszulkę. Na uszach ma duże czarne słuchawki z mikrofonem. W ręku trzyma szklankę, z której pije napój z pianką (przypominający piwo). W tle widoczne są jasne ściany oraz drzwi z przeszkleniami.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image24.png" data-title="Relaks ze szklanką" data-category="Stream" data-desc="Mężczyzna siedzi przed komputerem w pokoju, ubrany w ciemną koszulkę. Na uszach ma duże czarne słuchawki z mikrofonem. W ręku trzyma szklankę, z której pije napój z pianką (przypominający piwo). W tle widoczne są jasne ściany oraz drzwi z przeszkleniami.">
                 <div onclick="openModalWithIndex(22)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Relaks ze szklanką" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -473,7 +518,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image25.png" data-title="Stream 25" data-desc="Kadr kończący wspaniałą transmisję.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image25.png" data-title="Deska" data-category="Praca" data-desc="Kadr kończący wspaniałą transmisję.">
                 <div onclick="openModalWithIndex(23)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -486,7 +532,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image26.jpg" data-title="Chwila wytchnienia" data-desc="Kadr uchwycony w momencie pełnego odprężenia. Delikatne światło i perspektywa budują spokojną atmosferę po długim dniu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image26.jpg" data-title="Chwila wytchnienia" data-category="Relaks" data-desc="Kadr uchwycony w momencie pełnego odprężenia. Delikatne światło i perspektywa budują spokojną atmosferę po długim dniu.">
                 <div onclick="openModalWithIndex(24)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image26.jpg" alt="Chwila wytchnienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -499,7 +546,8 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image27.png" data-title="Transmisja i Orzeźwienie" data-desc="Kulisowe ujęcie z transmisji na żywo, pokazujące luźny klimat podczas interakcji z widzami. Moment zasłużonej przerwy w trakcie streamowania.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image27.png" data-title="Transmisja i Orzeźwienie" data-category="Stream" data-desc="Kulisowe ujęcie z transmisji na żywo, pokazujące luźny klimat podczas interakcji z widzami. Moment zasłużonej przerwy w trakcie streamowania.">
                 <div onclick="openModalWithIndex(25)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image27.png" alt="Orzeźwienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -581,6 +629,8 @@
         let galleryItems = [];
         let currentIndex = 0;
         let isFavoritesView = false;
+        let currentCategory = 'all';
+        let searchQuery = '';
 
         document.addEventListener("DOMContentLoaded", function() {
             const items = document.querySelectorAll('.gallery-card');
@@ -603,10 +653,63 @@
             updateFavoriteButtonsUI();
         });
 
+        // System segregowania i wyszukiwania
+        function filterGallery() {
+            const cards = document.querySelectorAll('.gallery-card');
+            
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const title = card.getAttribute('data-title').toLowerCase();
+                
+                const matchesCategory = (currentCategory === 'all' || category === currentCategory);
+                const matchesSearch = title.includes(searchQuery.toLowerCase());
+
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCategory(category, btn) {
+            currentCategory = category;
+            
+            // Wizualna zmiana aktywnych przycisków
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('active', 'bg-indigo-600', 'text-white');
+                b.classList.add('text-gray-600', 'dark:text-gray-400');
+            });
+            btn.classList.add('active', 'bg-indigo-600', 'text-white');
+            btn.classList.remove('text-gray-600', 'dark:text-gray-400');
+
+            filterGallery();
+        }
+
+        function filterSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            filterGallery();
+        }
+
         function showAllItems() {
+            // Resetuje filtry
+            currentCategory = 'all';
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            
             const cards = document.querySelectorAll('.gallery-card');
             cards.forEach(card => card.classList.remove('hidden'));
             document.getElementById('emptyFavoritesNotice').classList.add('hidden');
+
+            // Reset przycisków kategorii do widoku początkowego
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (b.textContent === 'Wszystkie') {
+                    b.classList.add('active', 'bg-indigo-600', 'text-white');
+                } else {
+                    b.classList.remove('active', 'bg-indigo-600', 'text-white');
+                    b.classList.add('text-gray-600', 'dark:text-gray-400');
+                }
+            });
         }
 
         function openModalWithIndex(index) {
@@ -735,8 +838,13 @@
             cards.forEach(card => {
                 const imgPath = card.getAttribute('data-img');
                 if (favs.includes(imgPath)) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
+                    // Sprawdzamy też czy kategoria jest aktualnie aktywna
+                    if (currentCategory === 'all' || card.getAttribute('data-category') === currentCategory) {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
                 } else {
                     card.classList.add('hidden');
                 }
