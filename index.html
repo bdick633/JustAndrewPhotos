@@ -12,7 +12,6 @@
         }
     </script>
     <style>
-        /* Gwarantujemy, że po dodaniu klasy 'dark' na tag HTML, kolory się zmienią */
         html.dark body { background-color: #0D0E12; color: #E2E8F0; }
         html.dark #siteTitle, html.dark #mainHeading { color: #FFFFFF; }
         html.dark #mainSubtext { color: #94A3B8; }
@@ -24,15 +23,14 @@
         .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        /* Płynne przejścia */
+        
         body, header, footer, main, .bg-card, #siteTitle, #mainHeading, #mainSubtext {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
-        /* Animacja powiadomienia */
+
         .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Animacja Toast */
         .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-leave { animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -58,7 +56,10 @@
                 <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
                 <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply"><i class="fas fa-wallet text-xl"></i></a>
-                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord"><i class="fab fa-discord text-xl"></i></button>
+                
+                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord">
+                    <i class="fab fa-discord text-xl"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -320,20 +321,25 @@
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
         <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl">
-            <div class="w-full flex justify-center items-center mb-4">
+            <div class="w-full flex justify-between items-center mb-4">
                 <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white"></h3>
+                <button onclick="closeImageModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl">&times;</button>
             </div>
             
             <div class="max-h-[50vh] w-full flex justify-center mb-6">
                 <img id="modalImage" src="" alt="Powiększone zdjęcie" class="object-contain max-h-full rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700">
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto overflow-x-hidden">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto">
                 <p id="modalDescriptionText"></p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-stretch">
                 <button onclick="toggleDescription()" id="descButton" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-colors duration-300 shadow-md">Pokaż opis</button>
+                
+                <a id="openNewTabButton" href="#" target="_blank" class="px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-center transition-colors duration-300 shadow-md">Otwórz w nowej karcie</a>
+                <a id="downloadButton" href="#" download class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-center transition-colors duration-300 shadow-md">Pobierz</a>
+                
                 <button onclick="closeImageModal()" class="px-5 py-3 bg-gray-300 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-400 dark:hover:bg-gray-700 transition-colors duration-300 border border-gray-400/20 shadow-md">Zamknij</button>
             </div>
         </div>
@@ -357,6 +363,10 @@
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalImage').src = src;
             document.getElementById('modalDescriptionText').innerText = description;
+
+            // Przypisanie linków do przycisków
+            document.getElementById('openNewTabButton').href = src;
+            document.getElementById('downloadButton').href = src;
 
             document.getElementById('imageModal').classList.remove('hidden');
             document.getElementById('descriptionBox').classList.add('hidden');
