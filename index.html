@@ -76,7 +76,7 @@
                     </svg>
                 </a>
 
-                <button onclick="openMcModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none custom-svg-icon w-7 h-7" title="Minecraft SMP Server Info">
+                <button onclick="document.getElementById('mcModal').classList.remove('hidden'); document.getElementById('mcModal').classList.add('flex');" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none custom-svg-icon w-7 h-7" title="Minecraft SMP Server Info">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 20 H90 V90 H10 Z" stroke-width="6"/>
                         <path d="M10 20 L30 35 L50 20 L70 35 L90 20" stroke-width="6" fill="none"/>
@@ -317,7 +317,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image24.png', 'Stream 24', 'Moment transmisji podczas picia napoju, widok w ciemniejszym oświetleniu.')" class="w-full text-left focus:outline-none h-full block">
+                <button onclick="openImageModal('image24.png', 'Stream 24', 'Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Stream 24" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 24</h3>
@@ -374,7 +374,7 @@
         </div>
     </div>
 
-    <div id="discordModal" onclick="closeDiscordModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
+    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
         <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
             <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
                 <i class="fab fa-discord"></i>
@@ -385,17 +385,17 @@
                 Nazwa użytkownika: <strong>andrewgod666</strong>
             </p>
             <div class="flex flex-col sm:flex-row gap-3 w-full">
-                <button onclick="copyText('andrewgod666', 'Nazwa użytkownika')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                <button onclick="copyDirect('andrewgod666')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
                 </button>
-                <button onclick="closeDiscordModal()" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                <button onclick="document.getElementById('discordModal').classList.add('hidden'); document.getElementById('discordModal').classList.remove('flex');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     Zamknij
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="mcModal" onclick="closeMcModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex relative z-50">
+    <div id="mcModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex relative z-50">
         <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
             <div class="w-16 h-16 bg-[#388E3C] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#388E3C]/20 custom-svg-icon">
                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -412,16 +412,16 @@
             
             <div class="w-full bg-gray-200 dark:bg-[#0D0E12] p-4 rounded-xl border border-gray-300 dark:border-gray-700 mb-6 font-mono text-indigo-600 dark:text-indigo-400 text-sm break-all shadow-inner relative group">
                 JustAndrewSMP.aternos.me
-                <button onclick="copyMcIp()" class="absolute top-2 right-2 text-gray-400 hover:text-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" title="Kopiuj IP">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="absolute top-2 right-2 text-gray-400 hover:text-indigo-500 transition-opacity" title="Kopiuj IP">
                     <i class="fas fa-copy"></i>
                 </button>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 w-full relative z-10">
-                <button onclick="copyMcIp()" class="flex-1 py-3.5 px-4 bg-[#388E3C] hover:bg-[#2E7D32] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="flex-1 py-3.5 px-4 bg-[#388E3C] hover:bg-[#2E7D32] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     <i class="fas fa-copy mr-2"></i> Kopiuj IP
                 </button>
-                <button onclick="closeMcModal()" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                <button onclick="document.getElementById('mcModal').classList.add('hidden'); document.getElementById('mcModal').classList.remove('flex');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     Zamknij
                 </button>
             </div>
@@ -429,12 +429,12 @@
     </div>
 
     <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden">
-        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm shadow-smToast">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">
             <i class="fas fa-check"></i>
         </div>
         <div class="text-card">
-            <p class="text-xs font-bold" id="toastTitle">Pomyślnie skopiowano</p>
-            <p class="text-[11px] subtext-card" id="toastDesc">Dane znajdują się w schowku</p>
+            <p class="text-xs font-bold">Pomyślnie skopiowano</p>
+            <p class="text-[11px] subtext-card" id="toastTextContent">Dane znajdują się w schowku</p>
         </div>
     </div>
 
@@ -446,7 +446,7 @@
             document.getElementById('modalDescriptionText').textContent = description;
             
             document.getElementById('modalDownloadBtn').href = src;
-            document.getElementById('modalNewTabBtn').href = src;
+            document.getElementById('modalNewTabBtn').href = src; // Zmieniono na poprawne odniesienie
             
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
@@ -463,9 +463,6 @@
         }
 
         function toggleDescription() {
-            const descriptionBox = `descriptionBox`;
-            const descButton = `descButton`;
-            
             if (document.getElementById('descriptionBox').classList.contains('hidden')) {
                 document.getElementById('descriptionBox').classList.remove('hidden');
                 document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
@@ -519,59 +516,27 @@
             document.getElementById('discordModal').classList.add('flex');
         }
 
-        function closeDiscordModal() {
-            document.getElementById('discordModal').classList.add('hidden');
-            document.getElementById('discordModal').classList.remove('flex');
-        }
-
-        function openMcModal() {
-            document.getElementById('mcModal').classList.remove('hidden');
-            document.getElementById('mcModal').classList.add('flex');
-        }
-
-        function closeMcModal() {
-            document.getElementById('mcModal').classList.add('hidden');
-            document.getElementById('mcModal').classList.remove('flex');
-        }
-
-        // Generyczna funkcja kopiowania
-        function copyText(text, entityName) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast(text, entityName);
+        function copyDirect(textToCopy) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const toast = document.getElementById('toastNotification');
+                document.getElementById('toastTextContent').textContent = textToCopy;
                 
-                // Zamyka otwarte modale po kliknięciu
+                toast.classList.remove('hidden');
+                
+                // Zamykanie modali po skopiowaniu
                 if(!document.getElementById('discordModal').classList.contains('hidden')) {
-                    closeDiscordModal();
+                    document.getElementById('discordModal').classList.add('hidden');
+                    document.getElementById('discordModal').classList.remove('flex');
                 }
                 if(!document.getElementById('mcModal').classList.contains('hidden')) {
-                    closeMcModal();
+                    document.getElementById('mcModal').classList.add('hidden');
+                    document.getElementById('mcModal').classList.remove('flex');
                 }
-            });
-        }
 
-        function copyMcIp() {
-            copyText('JustAndrewSMP.aternos.me', 'IP Serwera MC');
-        }
-
-        // Pokaż Toast
-        function showToast(text, entityName) {
-            const toast = document.getElementById('toastNotification');
-            const toastTitle = document.getElementById('toastTitle');
-            const toastDesc = document.getElementById('toastDesc');
-
-            toastTitle.textContent = `${entityName}`;
-            toastDesc.innerHTML = `Skopiowano: <span class="font-mono text-indigo-500">${text}</span>`;
-            
-            toast.classList.remove('hidden');
-            toast.classList.add('toast-enter');
-            
-            setTimeout(() => {
-                toast.classList.add('toast-leave');
                 setTimeout(() => {
                     toast.classList.add('hidden');
-                    toast.classList.remove('toast-enter', 'toast-leave');
-                }, 300);
-            }, 3000);
+                }, 3000);
+            });
         }
     </script>
 </body>
