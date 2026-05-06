@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -383,7 +383,7 @@
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
                 Bezpośredni kontakt:
             </p>
-            <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">andrewk0x</p>
+            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-6 tracking-wide leading-tight" style="font-size: 1.875rem;">andrewk0x</p>
             <div class="flex flex-col sm:flex-row gap-3 w-full">
                 <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
                     <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
@@ -446,7 +446,7 @@
             document.getElementById('modalDescriptionText').textContent = description;
             
             document.getElementById('modalDownloadBtn').href = src;
-            document.getElementById('modalNewTabBtn').href = src; // Zmieniono na poprawne odniesienie
+            document.getElementById('modalNewTabBtn').href = src;
             
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
@@ -479,11 +479,13 @@
             if (htmlTag.classList.contains('dark')) {
                 // Przełączamy na jasny
                 htmlTag.classList.remove('dark');
+                htmlTag.classList.add('light');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
                 localStorage.setItem('theme', 'light');
             } else {
                 // Przełączamy na ciemny
+                htmlTag.classList.remove('light');
                 htmlTag.classList.add('dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
@@ -491,21 +493,22 @@
             }
         }
 
-        // Domyślne ustawienia przy ładowaniu
+        // Wymuszenie wczytywania jasnego motywu
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const htmlTag = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
             
             if (savedTheme === 'dark') {
-                // Jeśli użytkownik wcześniej ręcznie włączył ciemny, go przywracamy
                 htmlTag.classList.add('dark');
+                htmlTag.classList.remove('light');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-moon');
                     themeIcon.classList.add('fa-sun');
                 }
             } else {
-                // Domyślnie zawsze jasny (nawet jeśli nic nie ma w pamięci)
+                // Zawsze wczytuje jasny motyw przy pierwszym uruchomieniu i usuwa potencjalne pozostałości ciemnego motywu
+                htmlTag.classList.add('light');
                 htmlTag.classList.remove('dark');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-sun');
@@ -521,17 +524,14 @@
         }
 
         function copyDirect(textToCopy) {
-            // Tworzymy ukryty element textarea
             const el = document.createElement('textarea');
             el.value = textToCopy;
             document.body.appendChild(el);
             
-            // Zaznaczamy tekst
             el.select();
             el.setSelectionRange(0, 99999);
 
             try {
-                // Kopiowanie za pomocą execCommand
                 document.execCommand('copy');
                 
                 const toast = document.getElementById('toastNotification');
@@ -539,7 +539,6 @@
                 
                 toast.classList.remove('hidden');
                 
-                // Zamykanie modali po skopiowaniu
                 if(!document.getElementById('discordModal').classList.contains('hidden')) {
                     document.getElementById('discordModal').classList.add('hidden');
                     document.getElementById('discordModal').classList.remove('flex');
@@ -553,7 +552,6 @@
                     toast.classList.add('hidden');
                 }, 3000);
             } catch (err) {
-                // W razie problemów alternatywa
                 prompt('Skopiuj ręcznie (Ctrl+C):', textToCopy);
             } finally {
                 document.body.removeChild(el);
