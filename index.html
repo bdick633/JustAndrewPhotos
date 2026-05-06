@@ -463,14 +463,15 @@
         }
 
         function toggleDescription() {
-            const descriptionBox = document.getElementById('descriptionBox');
-            const descButton = document.getElementById('descButton');
-            if (descriptionBox.classList.contains('hidden')) {
-                descriptionBox.classList.remove('hidden');
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
+            const descriptionBox = `descriptionBox`;
+            const descButton = `descButton`;
+            
+            if (document.getElementById('descriptionBox').classList.contains('hidden')) {
+                document.getElementById('descriptionBox').classList.remove('hidden');
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
             } else {
-                descriptionBox.classList.add('hidden');
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
+                document.getElementById('descriptionBox').classList.add('hidden');
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
             }
         }
 
