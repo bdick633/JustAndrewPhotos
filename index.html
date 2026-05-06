@@ -51,16 +51,20 @@
             stroke-linejoin: round;
         }
 
-        /* Usunięcie efektów najechania i obramowania przycisku serduszka */
+        /* Trwałe usunięcie efektów i najechania dla przycisku serduszka */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            transition: none !important; /* Wyłączenie przejść */
         }
         .favorite-btn:hover {
-            transform: scale(1.08);
-            background-color: rgba(0, 0, 0, 0.6);
-            box-shadow: none;
+            transform: none !important; /* Wyłączenie powiększania */
+            background-color: rgba(0, 0, 0, 0.4) !important; /* Zachowanie stałego tła */
+            box-shadow: none !important;
+            border: none !important;
+        }
+        .favorite-btn:focus {
+            outline: none !important;
         }
     </style>
 </head>
@@ -148,7 +152,7 @@
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
             
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image1.png" data-title="Moment zdziwienia" data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.">
-                <button onclick="toggleFavorite(event, 'image1.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image1.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="0">
@@ -161,7 +165,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image2.png" data-title="Duet" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
-                <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="1">
@@ -174,7 +178,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image3.png" data-title="Flexing" data-desc="Zdjęcie zrobione podczas treningu. Pokazuje zaangażowanie i ciężką pracę.">
-                <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="2">
@@ -187,7 +191,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image4.png" data-title="Akrobata" data-desc="Chwila pełna energii i dynamiki.">
-                <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="3">
@@ -200,7 +204,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image5.png" data-title="Refreshment" data-desc="Chwila orzeźwienia i relaksu w trakcie dnia.">
-                <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="4">
@@ -213,7 +217,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image6.png" data-title="Głębokie skupienie" data-desc="Moment, w którym liczy się tylko precyzja i spokój.">
-                <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="5">
@@ -226,7 +230,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image7.png" data-title="Odświeżenie" data-desc="Kolejny moment na relaks i złapanie oddechu.">
-                <button onclick="toggleFavorite(event, 'image7.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image7.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="6">
@@ -239,7 +243,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image8.png" data-title="Przerwa na sprzęt" data-desc="Zdjęcie zrobione w trakcie przygotowań i organizacji technicznej.">
-                <button onclick="toggleFavorite(event, 'image8.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image8.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="7">
@@ -252,7 +256,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image9.png" data-title="Serce" data-desc="Wyrażenie wdzięczności i miłości do widzów.">
-                <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="8">
@@ -265,7 +269,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image10.png" data-title="Przyjaciele" data-desc="Wspólnie spędzony czas z najbliższymi.">
-                <button onclick="toggleFavorite(event, 'image10.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image10.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="9">
@@ -278,7 +282,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image11.png" data-title="Z puszystym przyjacielem" data-desc="Słodka chwila z pupilem.">
-                <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="10">
@@ -291,7 +295,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image12.png" data-title="Zbliżenie i zabawa" data-desc="Radosny moment pełen pozytywnej energii.">
-                <button onclick="toggleFavorite(event, 'image12.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image12.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="11">
@@ -304,7 +308,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image13.png" data-title="Pozdrowienia" data-desc="Kadr podczas interakcji z widzami online.">
-                <button onclick="toggleFavorite(event, 'image13.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image13.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="12">
@@ -317,7 +321,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image14.jpg" data-title="Skupienie" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
-                <button onclick="toggleFavorite(event, 'image14.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image14.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="13">
@@ -330,7 +334,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image15.png" data-title="Trening" data-desc="Kolejne ujęcie pokazujące ciężką pracę i pasję.">
-                <button onclick="toggleFavorite(event, 'image15.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image15.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="14">
@@ -343,7 +347,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image16.png" data-title="Serce z pracy" data-desc="Pozytywny gest i uśmiech dla wszystkich.">
-                <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="15">
@@ -356,7 +360,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image17.png" data-title="Niezadowolenie" data-desc="Wyrażenie emocji w zabawny sposób.">
-                <button onclick="toggleFavorite(event, 'image17.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image17.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="16">
@@ -369,7 +373,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image18.png" data-title="Siła i motywacja" data-desc="Wzrost formy i determinacja w dążeniu do celu.">
-                <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="17">
@@ -382,7 +386,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image19.png" data-title="Skupienie przed kamerą" data-desc="Bardzo bliskie ujęcie twarzy mężczyzny. Jest on ubrany w jasną koszulkę i ma na sobie słuchawki z mikrofonem. Mężczyzna patrzy bezpośrednio w obiektyw z poważnym lub skupionym wyrazem twarzy. W tle widoczne jest wnętrze z oknem dachowym i stojącym drapakiem dla kota.">
-                <button onclick="toggleFavorite(event, 'image19.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image19.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="18">
@@ -395,7 +399,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image20.png" data-title="Spojrzenie z góry" data-desc="Ujęcie zrobione z niskiej perspektywy, ukazujące mężczyznę w słuchawkach i jasnej koszulce, który patrzy w dół w stronę obiektywu lub ekranu. W tle widać jasne, skośne okno dachowe, przez które wpada światło, oraz rozwieszoną jasną tkaninę.">
-                <button onclick="toggleFavorite(event, 'image20.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image20.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="19">
@@ -408,7 +412,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image21.jpg" data-title="Gest sympatii" data-desc="Mężczyzna w szarym T-shircie i słuchawkach z mikrofonem siedzi przy biurku, układając dłońmi kształt serca. Z lewej strony kadru widoczna jest jasna część twarzy i włosy innej osoby. W tle za mężczyzną znajdują się jasne drzwi oraz fragment ściany.">
-                <button onclick="toggleFavorite(event, 'image21.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image21.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="20">
@@ -421,7 +425,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image22.png" data-title="Transmisja na żywo w kabinie" data-desc="Zbliżenie na twarz mężczyzny podczas prowadzenia transmisji (streama). Na górze po lewej stronie widać ekran z panelem wsparcia i wpłatami od widzów (TOPKA TOPKA), a na dole pasek postępu zbiórki na Starlinka z podpisem w języku polskim: starlink żeby stremować częściej <3. Mężczyzna jest ubrany w jasną koszulkę i prawdopodobnie znajduje się w kabinie pojazdu lub ciężarówki.">
-                <button onclick="toggleFavorite(event, 'image22.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image22.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="21">
@@ -434,7 +438,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image24.png" data-title="Relaks ze szklanką" data-desc="Mężczyzna siedzi przed komputerem w pokoju, ubrany w ciemną koszulkę. Na uszach ma duże czarne słuchawki z mikrofonem. W ręku trzyma szklankę, z której pije napój z pianką (przypominający piwo). W tle widoczne są jasne ściany oraz drzwi z przeszkleniami.">
-                <button onclick="toggleFavorite(event, 'image24.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image24.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="22">
@@ -447,7 +451,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image25.png" data-title="Stream 25" data-desc="Kadr kończący wspaniałą transmisję.">
-                <button onclick="toggleFavorite(event, 'image25.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image25.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="23">
@@ -460,7 +464,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image26.jpg" data-title="Chwila wytchnienia" data-desc="Kadr uchwycony w momencie pełnego odprężenia. Delikatne światło i perspektywa budują spokojną atmosferę po długim dniu.">
-                <button onclick="toggleFavorite(event, 'image26.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image26.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="24">
@@ -473,7 +477,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image27.png" data-title="Transmisja i Orzeźwienie" data-desc="Kulisowe ujęcie z transmisji na żywo, pokazujące luźny klimat podczas interakcji z widzami. Moment zasłużonej przerwy w trakcie streamowania.">
-                <button onclick="toggleFavorite(event, 'image27.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white duration-200 focus:outline-none favorite-btn shadow-md">
+                <button onclick="toggleFavorite(event, 'image27.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
                 <div class="w-full text-left h-full block gallery-card-trigger" data-index="25">
