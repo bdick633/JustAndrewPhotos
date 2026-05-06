@@ -15,13 +15,16 @@
         body, header, footer, main, .bg-card, .border-custom {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
+        /* Animacja powiadomienia */
+        .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex items-center space-x-3">
-            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
+            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white">JustAndrew</span>
         </div>
 
         <div class="flex items-center space-x-5">
@@ -29,20 +32,20 @@
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
 
-            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400" title="Steam"><i class="fab fa-steam text-xl"></i></a>
-                <button onclick="openDiscordModal()" class="hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none"><i class="fab fa-discord text-xl"></i></button>
+            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400 [&>a]:text-gray-600 dark:[&>a]:text-gray-300 hover:[&>a]:text-indigo-600 dark:hover:[&>a]:text-indigo-400">
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
+                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none"><i class="fab fa-discord text-xl"></i></button>
             </div>
         </div>
     </header>
 
     <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-10">
         <section class="text-center mb-16 max-w-2xl mx-auto">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-4">Witaj w moim świecie</h1>
             <p id="mainSubtext" class="text-gray-600 dark:text-gray-400 text-lg md:text-xl leading-relaxed">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
         </section>
 
@@ -330,18 +333,37 @@
         </div>
     </div>
 
+    <div id="discordModal" onclick="closeDiscordModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in">
+            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
+                <i class="fab fa-discord"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Dołącz do serwera Discord</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                Nasz główny kontakt oraz cała społeczność znajduje się na Discordzie.<br>
+                Nazwa użytkownika: <strong>andrewgod666</strong>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button onclick="copyDiscordName()" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
+                </button>
+                <button onclick="closeDiscordModal()" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    Zamknij
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openImageModal(src, title, description) {
             document.getElementById('imageModal').classList.remove('hidden');
             document.getElementById('modalImage').src = src;
             document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalDescriptionText').textContent = description;
+            document.getElementById('modalText').textContent = description;
             
-            // Konfiguracja przycisków
             document.getElementById('modalDownloadBtn').href = src;
             document.getElementById('modalNewTabBtn').href = src;
             
-            // Domyślnie schowaj opis przy otwarciu
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
         }
@@ -351,7 +373,6 @@
         }
 
         function checkCloseModal(event) {
-            // Zamyka po kliknięciu w tło
             if (event.target.id === 'imageModal') {
                 closeImageModal();
             }
@@ -387,7 +408,18 @@
         }
 
         function openDiscordModal() {
-            alert('Discord: andrewgod666');
+            document.getElementById('discordModal').classList.remove('hidden');
+        }
+
+        function closeDiscordModal() {
+            document.getElementById('discordModal').classList.add('hidden');
+        }
+
+        function copyDiscordName() {
+            const textToCopy = "andrewgod666";
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Skopiowano: ' + textToCopy);
+            });
         }
     </script>
 </body>
