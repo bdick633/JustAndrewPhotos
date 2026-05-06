@@ -43,7 +43,6 @@
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(10px) scale(0.96); } }
 
-        /* Styl dla dedykowanych ikon SVG */
         .custom-svg-icon svg {
             fill: none;
             stroke: currentColor;
@@ -92,10 +91,7 @@
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
             
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image1.png" 
-                 data-title="Moment zdziwienia" 
-                 data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie, kiedy na twarzy pojawiły się szczere emocje. Dynamiczne światło w tle podkreśla zaskoczenie, a głębia ostrości skupia całą uwagę na wyrazie oczu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image1.png" data-title="Moment zdziwienia" data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Moment zdziwienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -105,10 +101,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image2.png" 
-                 data-title="Duet" 
-                 data-desc="Na zdjęciu widać relację między dwoma postaciami, które współpracują, aby osiągnąć wspólny cel. Ciepłe kolory i naturalne oświetlenie budują przyjemną i przyjazną atmosferę.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image2.png" data-title="Duet" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Duet" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -118,75 +111,57 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image3.png" 
-                 data-title="Flexing" 
-                 data-desc="To zdjęcie pokazuje siłę fizyczną oraz zaangażowanie. Kontrastujące cienie uwydatniają muskulaturę, nadając zdjęciu wyrazisty i surowy charakter.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image3.png" data-title="Flexing" data-desc="Zdjęcie zrobione podczas treningu. Pokazuje zaangażowanie i ciężką pracę.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Flexing</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Siła</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Trening</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image4.png" 
-                 data-title="Akrobata" 
-                 data-desc="Zdjęcie uchwycone w pełnym ruchu. Pokazuje dynamikę, precyzję i niezwykłe opanowanie ciała w powietrzu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image4.png" data-title="Akrobata" data-desc="Chwila pełna energii i dynamiki.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Akrobata" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Akrobata</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Akcja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Energia</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image5.png" 
-                 data-title="Refreshment" 
-                 data-desc="Orzeźwiające spojrzenie na codzienność. Kadr skupia się na detalu, który przynosi ulgę podczas ciepłego, aktywnego dnia.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image5.png" data-title="Refreshment" data-desc="Chwila orzeźwienia i relaksu w trakcie dnia.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Refreshment" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Refreshment</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Relaks</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image6.png" 
-                 data-title="Głębokie skupienie" 
-                 data-desc="Portret charakteryzujący się bardzo surowym oświetleniem. Wydobywa on najgłębsze emocje i pokazuje pełne zaangażowanie osoby na zdjęciu w to, co robi.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image6.png" data-title="Głębokie skupienie" data-desc="Moment, w którym liczy się tylko precyzja i spokój.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Głębokie skupienie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portrait</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image7.png" 
-                 data-title="Odświeżenie" 
-                 data-desc="Klimatyczne ujęcie pełne światła i kolorów, które doskonale oddaje moment wytchnienia.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image7.png" data-title="Odświeżenie" data-desc="Kolejny moment na relaks i złapanie oddechu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Odświeżenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Odświeżenie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Napoje</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Relaks</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image8.png" 
-                 data-title="Przerwa na sprzęt" 
-                 data-desc="Chwila relaksu podczas pracy. Sprzęt znajduje się obok, a kadr skupia się na przygotowaniach do kolejnych wyzwań.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image8.png" data-title="Przerwa na sprzęt" data-desc="Zdjęcie zrobione w trakcie przygotowań i organizacji technicznej.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Przerwa na sprzęt" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -196,23 +171,17 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image9.png" 
-                 data-title="Serce" 
-                 data-desc="Symboliczny gest, który został uchwycony w ciepłym świetle. Pokazuje bliskość i pozytywne emocje.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image9.png" data-title="Serce" data-desc="Wyrażenie wdzięczności i miłości do widzów.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Serce" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Społeczność</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image10.png" 
-                 data-title="Przyjaciele" 
-                 data-desc="Wspólna chwila z przyjaciółmi, pełna szczerych uśmiechów i dobrej energii, która udziela się odbiorcy.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image10.png" data-title="Przyjaciele" data-desc="Wspólnie spędzony czas z najbliższymi.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Przyjaciele" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -222,10 +191,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image11.png" 
-                 data-title="Z puszystym przyjacielem" 
-                 data-desc="Ciepłe, pełne czułości zdjęcie przedstawiające relację i przywiązanie do zwierzęcia. Kolorystyka potęguje poczucie spokoju.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image11.png" data-title="Z puszystym przyjacielem" data-desc="Słodka chwila z pupilem.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Z puszystym przyjacielem" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -235,10 +201,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image12.png" 
-                 data-title="Zbliżenie i zabawa" 
-                 data-desc="Dynamiczne ujęcie, w którym główną rolę odgrywają energia i ruch. Zbliżenie pozwala dostrzec emocje na twarzy.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image12.png" data-title="Zbliżenie i zabawa" data-desc="Radosny moment pełen pozytywnej energii.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zbliżenie i zabawa" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -248,158 +211,148 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image13.png" 
-                 data-title="Pozdrowienia" 
-                 data-desc="Przyjazny gest wykonany w stronę obiektywu, który doskonale nawiązuje interakcję z widzem i buduje pozytywny odbiór.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image13.png" data-title="Pozdrowienia" data-desc="Kadr podczas interakcji z widzami online.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Pozdrowienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Pozdrowienia</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image14.png" data-title="Skupienie" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
+                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.png" alt="Skupienie" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Skupienie</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image15.png" data-title="Trening" data-desc="Kolejne ujęcie pokazujące ciężką pracę i pasję.">
+                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Trening</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Trening</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image16.png" data-title="Serce z pracy" data-desc="Pozytywny gest i uśmiech dla wszystkich.">
+                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Serce z pracy</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image14.jpg" 
-                 data-title="Skupienie" 
-                 data-desc="Subtelne światło wydobywa z mroku profil twarzy. Kadr pokazuje pełne zanurzenie w wykonywanej pracy i gotowość do działania.">
-                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Skupienie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Portret</p>
-                    </div>
-                </button>
-            </div>
-
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image15.png" 
-                 data-title="Trening" 
-                 data-desc="Fotografia wykonana podczas aktywnego treningu. Przedstawia konsekwencję, dyscyplinę oraz dążenie do wyznaczonego celu.">
-                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Trening</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Styl życia</p>
-                    </div>
-                </button>
-            </div>
-
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image16.png" 
-                 data-title="Serce z pracy" 
-                 data-desc="Pozytywny akcent wpleciony w codzienne obowiązki, pokazujący, że nawet w trudzie można znaleźć miejsce na radość i uśmiech.">
-                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Serce z pracy</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
-                    </div>
-                </button>
-            </div>
-
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image17.png" 
-                 data-title="Niezadowolenie" 
-                 data-desc="Chwila zmęczenia i zwątpienia podczas długiej pracy. Kadr doskonale oddaje emocje i pozwala utożsamić się z trudem.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image17.png" data-title="Niezadowolenie" data-desc="Wyrażenie emocji w zabawny sposób.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Niezadowolenie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Emocje</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image18.png" 
-                 data-title="Siła i motywacja" 
-                 data-desc="Zdjęcie powstałe z myślą o pokazaniu ciężkiej pracy oraz drogi do sukcesu. Cienie nadają mu dynamizmu.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image18.png" data-title="Siła i motywacja" data-desc="Wzrost formy i determinacja w dążeniu do celu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Siła i motywacja" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Siła i motywacja</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Trening</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image19.png" 
-                 data-title="Stream 19" 
-                 data-desc="Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image19.png" data-title="Stream 19" data-desc="Kadr z transmisji na żywo, dużo energii i rozmów.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Stream 19" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 19</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image20.png" 
-                 data-title="Stream 20" 
-                 data-desc="Perspektywa z kamery umieszczonej niżej, widok na pokój i streamera.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image20.png" data-title="Stream 20" data-desc="Kolejne świetne ujęcie z transmisji z widzami.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Stream 20" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 20</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image21.jpg" 
-                 data-title="Stream 21" 
-                 data-desc="Gest symulujący serce z dłoni podczas interakcji z widzami.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image21.png" data-title="Stream 21" data-desc="Luźna atmosfera podczas wspólnego spędzania czasu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Stream 21" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.png" alt="Stream 21" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 21</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image22.png" 
-                 data-title="Stream 22" 
-                 data-desc="Widok z kabiny ciężarówki wraz z panelem wpłat.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image22.png" data-title="Stream 22" data-desc="Ujęcie z wyjątkowej transmisji.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Stream 22" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 22</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image24.png" 
-                 data-title="Stream 24" 
-                 data-desc="Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image24.png" data-title="Stream 24" data-desc="Klimatyczna chwila z wieczornego streamu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Stream 24" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 24</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" data-img="image25.png" data-title="Stream 25" data-desc="Kadr kończący wspaniałą transmisję.">
+                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 25</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image25.png" 
-                 data-title="Stream 25" 
-                 data-desc="Praca na zewnątrz przy naczepie ciężarówki, widok na topkę dnia.">
+                 data-img="image26.jpg" 
+                 data-title="Chwila wytchnienia" 
+                 data-desc="Kadr uchwycony w momencie pełnego odprężenia. Delikatne światło i perspektywa budują spokojną atmosferę po długim dniu.">
                 <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image26.jpg" alt="Chwila wytchnienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Stream 25</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
+                        <h3 class="text-lg font-bold text-white mb-1">Chwila wytchnienia</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Relaks</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+                 data-img="image27.png" 
+                 data-title="Transmisja i Orzeźwienie" 
+                 data-desc="Kulisowe ujęcie z transmisji na żywo, pokazujące luźny klimat podczas interakcji z widzami. Moment zasłużonej przerwy w trakcie streamowania.">
+                <button onclick="openImageFromCard(this)" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image27.png" alt="Transmisja i Orzeźwienie" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Transmisja i Orzeźwienie</h3>
+                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
                     </div>
                 </button>
             </div>
@@ -467,37 +420,6 @@
         </div>
     </div>
 
-    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
-        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
-            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
-                <i class="fab fa-discord"></i>
-            </div>
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Kontakt Discord</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
-                Bezpośredni kontakt:
-            </p>
-            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-6 tracking-wide leading-tight" style="font-size: 1.875rem;">andrewk0x</p>
-            <div class="flex flex-col sm:flex-row gap-3 w-full">
-                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
-                    <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
-                </button>
-                <button onclick="document.getElementById('discordModal').classList.add('hidden'); document.getElementById('discordModal').classList.remove('flex');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
-                    Zamknij
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden">
-        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">
-            <i class="fas fa-check"></i>
-        </div>
-        <div class="text-card">
-            <p class="text-xs font-bold">Pomyślnie skopiowano</p>
-            <p class="text-[11px] subtext-card" id="toastTextContent">Dane znajdują się w schowku</p>
-        </div>
-    </div>
-
     <script>
         let galleryItems = [];
         let currentIndex = 0;
@@ -514,25 +436,20 @@
         function openImageFromCard(element) {
             const card = element.closest('.gallery-card');
             const clickedSrc = card.getAttribute('data-img');
-            
             currentIndex = galleryItems.findIndex(item => item.src === clickedSrc);
             if (currentIndex === -1) currentIndex = 0;
-
             updateModal();
             document.getElementById('imageModal').classList.remove('hidden');
         }
 
         function updateModal() {
             if (galleryItems.length === 0) return;
-
             const current = galleryItems[currentIndex];
             document.getElementById('modalImage').src = current.src;
             document.getElementById('modalTitle').textContent = current.title;
             document.getElementById('modalDescriptionText').textContent = current.desc;
-
             document.getElementById('modalDownloadBtn').href = current.src;
             document.getElementById('modalNewTabBtn').href = current.src;
-
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
         }
@@ -549,25 +466,14 @@
 
         document.addEventListener('keydown', function(e) {
             if (!document.getElementById('imageModal').classList.contains('hidden')) {
-                if (e.key === 'ArrowLeft') {
-                    prevImage();
-                } else if (e.key === 'ArrowRight') {
-                    nextImage();
-                } else if (e.key === 'Escape') {
-                    closeImageModal();
-                }
+                if (e.key === 'ArrowLeft') prevImage();
+                else if (e.key === 'ArrowRight') nextImage();
+                else if (e.key === 'Escape') closeImageModal();
             }
         });
 
-        function closeImageModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
-
-        function checkCloseModal(event) {
-            if (event.target.id === 'imageModal') {
-                closeImageModal();
-            }
-        }
+        function closeImageModal() { document.getElementById('imageModal').classList.add('hidden'); }
+        function checkCloseModal(event) { if (event.target.id === 'imageModal') closeImageModal(); }
 
         function toggleDescription() {
             const descBox = document.getElementById('descriptionBox');
@@ -583,41 +489,23 @@
         function toggleTheme() {
             const htmlTag = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
-            
             if (htmlTag.classList.contains('dark')) {
                 htmlTag.classList.remove('dark');
                 htmlTag.classList.add('light');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
                 localStorage.setItem('theme', 'light');
             } else {
-                htmlTag.classList.remove('light');
-                htmlTag.classList.add('dark');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+                htmlTag.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
                 localStorage.setItem('theme', 'dark');
             }
         }
 
         (function() {
             const savedTheme = localStorage.getItem('theme');
-            const htmlTag = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            
             if (savedTheme === 'dark') {
-                htmlTag.classList.add('dark');
-                htmlTag.classList.remove('light');
-                if (themeIcon) {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                }
-            } else {
-                htmlTag.classList.add('light');
-                htmlTag.classList.remove('dark');
-                if (themeIcon) {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                }
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
             }
         })();
 
@@ -630,32 +518,34 @@
             const el = document.createElement('textarea');
             el.value = textToCopy;
             document.body.appendChild(el);
-            
             el.select();
-            el.setSelectionRange(0, 99999);
-
-            try {
-                document.execCommand('copy');
-                
-                const toast = document.getElementById('toastNotification');
-                document.getElementById('toastTextContent').textContent = 'Skopiowano: ' + textToCopy;
-                
-                toast.classList.remove('hidden');
-                
-                if(!document.getElementById('discordModal').classList.contains('hidden')) {
-                    document.getElementById('discordModal').classList.add('hidden');
-                    document.getElementById('discordModal').classList.remove('flex');
-                }
-
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 3000);
-            } catch (err) {
-                prompt('Skopiuj ręcznie (Ctrl+C):', textToCopy);
-            } finally {
-                document.body.removeChild(el);
-            }
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const toast = document.getElementById('toastNotification');
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
         }
     </script>
+
+    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
+            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
+                <i class="fab fa-discord"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Kontakt Discord</h3>
+            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-6 tracking-wide">andrewk0x</p>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl">Kopiuj nazwę</button>
+                <button onclick="document.getElementById('discordModal').classList.add('hidden');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 font-semibold rounded-xl">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
+        <p class="text-xs font-bold text-card">Skopiowano do schowka!</p>
+    </div>
+
 </body>
 </html>
