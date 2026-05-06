@@ -494,7 +494,9 @@
         <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl overflow-y-auto">
             
             <div class="w-full flex justify-between items-center mb-4">
-                <div></div>
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full text-gray-700 dark:text-gray-300 hover:bg-red-500 hover:text-white transition-colors duration-200 focus:outline-none border border-gray-300 dark:border-gray-700" title="Dodaj do ulubionych">
+                    <i class="far fa-heart text-lg"></i>
+                </button>
                 <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card"></h3>
                 <button onclick="closeImageModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl focus:outline-none">
                     <i class="fas fa-times"></i>
@@ -608,6 +610,28 @@
             }
         }
 
+        function toggleFavoriteFromModal() {
+            const current = galleryItems[currentIndex];
+            if (!current) return;
+            
+            let favs = getFavorites();
+            const index = favs.indexOf(current.src);
+
+            if (index === -1) {
+                favs.push(current.src);
+            } else {
+                favs.splice(index, 1);
+            }
+
+            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+            updateFavoriteButtonsUI();
+            updateModalHeartButton();
+
+            if (isFavoritesView) {
+                renderFavoritesView();
+            }
+        }
+
         function updateFavoriteButtonsUI() {
             const favs = getFavorites();
             const cards = document.querySelectorAll('.gallery-card');
@@ -625,6 +649,19 @@
                     }
                 }
             });
+        }
+
+        function updateModalHeartButton() {
+            const current = galleryItems[currentIndex];
+            const modalFavBtn = document.getElementById('modalFavBtn');
+            const favs = getFavorites();
+            if (!current) return;
+
+            if (favs.includes(current.src)) {
+                modalFavBtn.innerHTML = '<i class="fas fa-heart text-red-500 text-lg"></i>';
+            } else {
+                modalFavBtn.innerHTML = '<i class="far fa-heart text-lg"></i>';
+            }
         }
 
         function toggleFavoritesView() {
@@ -688,11 +725,12 @@
             const current = galleryItems[currentIndex];
             document.getElementById('modalImage').src = current.src;
             document.getElementById('modalTitle').textContent = current.title;
-            document.getElementById('modalDescriptionText').textContent = current.desc;
+            document.getElementById('modalText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
             document.getElementById('modalNewTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
-            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
+            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
+            updateModalHeartButton();
         }
 
         function nextImage() {
@@ -720,10 +758,10 @@
             const descBox = document.getElementById('descriptionBox');
             if (descBox.classList.contains('hidden')) {
                 descBox.classList.remove('hidden');
-                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Ukryj opis';
             } else {
                 descBox.classList.add('hidden');
-                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
             }
         }
 
