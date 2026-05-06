@@ -477,11 +477,13 @@
             const themeIcon = document.getElementById('themeIcon');
             
             if (htmlTag.classList.contains('dark')) {
+                // Przełączamy na jasny
                 htmlTag.classList.remove('dark');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
                 localStorage.setItem('theme', 'light');
             } else {
+                // Przełączamy na ciemny
                 htmlTag.classList.add('dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
@@ -489,20 +491,21 @@
             }
         }
 
-        // Sprawdź zapamiętany motyw przy ładowaniu (domyślnie jasny)
+        // Domyślne ustawienia przy ładowaniu
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const htmlTag = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
             
             if (savedTheme === 'dark') {
+                // Jeśli użytkownik wcześniej ręcznie włączył ciemny, go przywracamy
                 htmlTag.classList.add('dark');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-moon');
                     themeIcon.classList.add('fa-sun');
                 }
             } else {
-                // Jeśli nie zapisano, domyślnie ustawiamy jasny motyw
+                // Domyślnie zawsze jasny (nawet jeśli nic nie ma w pamięci)
                 htmlTag.classList.remove('dark');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-sun');
