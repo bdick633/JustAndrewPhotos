@@ -30,7 +30,7 @@
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex items-center space-x-3">
-            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-gray-100">JustAndrew</span>
+            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight !dark:text-white">JustAndrew</span>
         </div>
 
         <div class="flex items-center space-x-5">
@@ -51,8 +51,8 @@
 
     <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-10">
         <section class="text-center mb-16 max-w-2xl mx-auto">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 dark:text-gray-100 mb-4">Witaj w moim świecie</h1>
-            <p id="mainSubtext" class="text-gray-600 dark:text-gray-400 text-lg md:text-xl leading-relaxed">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4 !dark:text-white">Witaj w moim świecie</h1>
+            <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed !dark:text-gray-300">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
         </section>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
@@ -320,19 +320,19 @@
 
             <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-stretch">
                 
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-3.5 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
                     <i class="fas fa-info-circle mr-2"></i> Pokaż opis
                 </button>
 
-                <a id="modalDownloadBtn" href="" download class="flex-1 py-3.5 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-download mr-2"></i> Pobierz
                 </a>
 
-                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-3.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
                 </a>
                 
-                <button onclick="closeImageModal()" class="flex-1 py-3.5 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-times mr-2"></i> Zamknij
                 </button>
             </div>
@@ -381,7 +381,7 @@
             document.getElementById('modalNewTabBtn').href = src;
             
             document.getElementById('descriptionBox').classList.add('hidden');
-            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
+            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
         }
 
         function closeImageModal() {
@@ -399,10 +399,10 @@
             const descButton = document.getElementById('descButton');
             if (descriptionBox.classList.contains('hidden')) {
                 descriptionBox.classList.remove('hidden');
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2"></i> Ukryj opis';
+                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
             } else {
                 descriptionBox.classList.add('hidden');
-                descButton.innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
+                descButton.innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
             }
         }
 
