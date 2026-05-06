@@ -12,10 +12,11 @@
         }
     </script>
     <style>
+        /* CSS dla trybu ciemnego */
         html.dark body { background-color: #0D0E12; color: #E2E8F0; }
         html.dark #siteTitle, html.dark #mainHeading { color: #FFFFFF; }
         html.dark #mainSubtext { color: #94A3B8; }
-        html.dark .bg-card { background-color: #1a1c24; border-color: #1f2937; }
+        html.dark .bg-card, html.dark .bg-modal-content { background-color: #1a1c24; border-color: #1f2937; }
         html.dark .text-card { color: #FFFFFF; }
         html.dark .subtext-card { color: #94A3B8; }
 
@@ -24,22 +25,34 @@
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
-        body, header, footer, main, .bg-card, #siteTitle, #mainHeading, #mainSubtext {
+        /* Płynne przejścia */
+        body, header, footer, main, .bg-card, .bg-modal-content, #siteTitle, #mainHeading, #mainSubtext {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
-
+        
+        /* Animacja powiadomienia */
         .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Animacja Toast */
         .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-leave { animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(10px) scale(0.96); } }
+
+        /* Styl dla dedykowanych ikon SVG */
+        .custom-svg-icon svg {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
 
-    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
+    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full relative z-40">
         <div class="flex items-center space-x-3">
             <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
         </div>
@@ -55,11 +68,22 @@
                 <a href="https://www.youtube.com/@andrewgod666" target="_blank" title="YouTube"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
-                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply"><i class="fas fa-wallet text-xl"></i></a>
                 
-                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord">
-                    <i class="fab fa-discord text-xl"></i>
+                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply" class="custom-svg-icon w-6 h-6 block text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="46"/>
+                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" font-family="Arial, sans-serif" fill="currentColor" stroke="none">Tip</text>
+                    </svg>
+                </a>
+
+                <button onclick="document.getElementById('mcModal').classList.remove('hidden'); document.getElementById('mcModal').classList.add('flex');" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none custom-svg-icon w-7 h-7" title="Minecraft SMP Server Info">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20 H90 V90 H10 Z" stroke-width="6"/>
+                        <path d="M10 20 L30 35 L50 20 L70 35 L90 20" stroke-width="6" fill="none"/>
+                    </svg>
                 </button>
+                
+                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord"><i class="fab fa-discord text-xl"></i></button>
             </div>
         </div>
     </header>
@@ -253,60 +277,60 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image19.png', 'Zmęczenie po trasie', 'Wyraziste spojrzenie prosto w obiektyw podczas przerwy lub zakończenia jazdy, ukazujące skupienie i trudy dnia za kierownicą.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Zmęczenie po trasie" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image19.png', 'Stream 19', 'Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Stream 19" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Zmęczenie po trasie</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 19</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image20.png', 'Chwila relaksu', 'Swobodna perspektywa podczas odpoczynku i rozmowy z czatem, uchwycona w domowym otoczeniu w trakcie transmisji na żywo.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Chwila relaksu" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image20.png', 'Stream 20', 'Perspektywa z kamery umieszczonej niżej, widok na pokój i streamera.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Stream 20" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Chwila relaksu</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 20</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image21.jpg', 'Gest wdzięczności', 'Skromny, ciepły gest dłońmi ułożonymi w kształt serca, skierowany do widzów jako podziękowanie za wsparcie i obecność na streamie.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Gest wdzięczności" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image21.jpg', 'Stream 21', 'Gest symulujący serce z dłoni podczas interakcji z widzami.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Stream 21" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Gest wdzięczności</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 21</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image22.png', 'Mówca', 'Dynamiczne ujęcie w trakcie wypowiedzi, ukazujące zaangażowanie i żywą interakcję z odbiorcami podczas codziennych obowiązków.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Mówca" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image22.png', 'Stream 22', 'Widok z kabiny ciężarówki wraz z panelem wpłat.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Stream 22" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Mówca</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 22</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image24.png', 'Na fali', 'Ujęcie przy nastrojowym oświetleniu, gdzie główną rolę gra chwila odpoczynku ze szklanką w ręku.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Na fali" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image24.png', 'Stream 24', 'Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Stream 24" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">Na fali</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 24</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image25.png', 'W trasie', 'Obowiązkowa praca na świeżym powietrzu przy naczepie – kadr oddaje realizm codziennych zadań kierowcy.')" class="w-full text-left focus:outline-none h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="W trasie" class="w-full h-full object-cover"></div>
+                <button onclick="openImageModal('image25.png', 'Stream 25', 'Praca na zewnątrz przy naczepie ciężarówki, widok na topkę dnia.')" class="w-full text-left focus:outline-none h-full block">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                        <h3 class="text-lg font-bold text-white mb-1">W trasie</h3>
+                        <h3 class="text-lg font-bold text-white mb-1">Stream 25</h3>
                         <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Transmisja</p>
                     </div>
                 </button>
@@ -320,57 +344,112 @@
     </footer>
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl">
-            <div class="w-full flex justify-between items-center mb-4">
-                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white"></h3>
-                <button onclick="closeImageModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl">&times;</button>
+        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl overflow-y-auto">
+            <div class="w-full flex justify-center items-center mb-4">
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card"></h3>
             </div>
             
             <div class="max-h-[50vh] w-full flex justify-center mb-6">
                 <img id="modalImage" src="" alt="Powiększone zdjęcie" class="object-contain max-h-full rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700">
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto overflow-x-hidden">
                 <p id="modalDescriptionText"></p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-stretch">
-                <button onclick="toggleDescription()" id="descButton" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-colors duration-300 shadow-md">Pokaż opis</button>
-                
-                <a id="openNewTabButton" href="#" target="_blank" class="px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-center transition-colors duration-300 shadow-md">Otwórz w nowej karcie</a>
-                <a id="downloadButton" href="#" download class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-center transition-colors duration-300 shadow-md">Pobierz</a>
-                
-                <button onclick="closeImageModal()" class="px-5 py-3 bg-gray-300 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-400 dark:hover:bg-gray-700 transition-colors duration-300 border border-gray-400/20 shadow-md">Zamknij</button>
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
+                    <i class="fas fa-info-circle mr-2"></i> Pokaż opis
+                </button>
+                <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                    <i class="fas fa-download mr-2"></i> Pobierz
+                </a>
+                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                    <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
+                </a>
+                <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                    <i class="fas fa-times mr-2"></i> Zamknij
+                </button>
             </div>
         </div>
     </div>
 
+    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
+            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
+                <i class="fab fa-discord"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Dołącz do serwera Discord</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
+                Nasz główny kontakt oraz cała społeczność znajduje się na Discordzie.<br>
+                Nazwa użytkownika: <strong>andrewgod666</strong>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button onclick="copyDirect('andrewgod666')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    <i class="fas fa-copy mr-2"></i> Kopiuj nazwę
+                </button>
+                <button onclick="document.getElementById('discordModal').classList.add('hidden'); document.getElementById('discordModal').classList.remove('flex');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    Zamknij
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mcModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex relative z-50">
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
+            <div class="w-16 h-16 bg-[#388E3C] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#388E3C]/20 custom-svg-icon">
+                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 20 H90 V90 H10 Z" stroke-width="6" stroke="white" fill="none"/>
+                    <path d="M10 20 L30 35 L50 20 L70 35 L90 20" stroke-width="6" stroke="white" fill="none"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">JustAndrewSMP - Info</h3>
+            
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 leading-relaxed subtext-card">
+                Poniżej znajdziesz niezbędne dane serwera:<br>
+                Zalecana wersja: <strong>1.21.11</strong>
+            </p>
+            
+            <div class="w-full bg-gray-200 dark:bg-[#0D0E12] p-4 rounded-xl border border-gray-300 dark:border-gray-700 mb-6 font-mono text-indigo-600 dark:text-indigo-400 text-sm break-all shadow-inner relative group">
+                JustAndrewSMP.aternos.me
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="absolute top-2 right-2 text-gray-400 hover:text-indigo-500 transition-opacity" title="Kopiuj IP">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 w-full relative z-10">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="flex-1 py-3.5 px-4 bg-[#388E3C] hover:bg-[#2E7D32] text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    <i class="fas fa-copy mr-2"></i> Kopiuj IP
+                </button>
+                <button onclick="document.getElementById('mcModal').classList.add('hidden'); document.getElementById('mcModal').classList.remove('flex');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center">
+                    Zamknij
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="text-card">
+            <p class="text-xs font-bold">Pomyślnie skopiowano</p>
+            <p class="text-[11px] subtext-card" id="toastTextContent">Dane znajdują się w schowku</p>
+        </div>
+    </div>
+
     <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                themeIcon.className = 'fas fa-moon text-lg';
-            } else {
-                html.classList.add('dark');
-                themeIcon.className = 'fas fa-sun text-lg';
-            }
-        }
-
         function openImageModal(src, title, description) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalImage').src = src;
-            document.getElementById('modalDescriptionText').innerText = description;
-
-            // Przypisanie linków do przycisków
-            document.getElementById('openNewTabButton').href = src;
-            document.getElementById('downloadButton').href = src;
-
             document.getElementById('imageModal').classList.remove('hidden');
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescriptionText').textContent = description;
+            
+            document.getElementById('modalDownloadBtn').href = src;
+            document.getElementById('modalNewTabBtn').href = src; // Zmieniono na poprawne odniesienie
+            
             document.getElementById('descriptionBox').classList.add('hidden');
-            document.getElementById('descButton').innerText = 'Pokaż opis';
+            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
         }
 
         function closeImageModal() {
@@ -384,20 +463,97 @@
         }
 
         function toggleDescription() {
-            const descriptionBox = document.getElementById('descriptionBox');
-            const descButton = document.getElementById('descButton');
-
-            if (descriptionBox.classList.contains('hidden')) {
-                descriptionBox.classList.remove('hidden');
-                descButton.innerText = 'Ukryj opis';
+            if (document.getElementById('descriptionBox').classList.contains('hidden')) {
+                document.getElementById('descriptionBox').classList.remove('hidden');
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Ukryj opis';
             } else {
-                descriptionBox.classList.add('hidden');
-                descButton.innerText = 'Pokaż opis';
+                document.getElementById('descriptionBox').classList.add('hidden');
+                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
             }
         }
 
+        function toggleTheme() {
+            const htmlTag = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (htmlTag.classList.contains('dark')) {
+                htmlTag.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlTag.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Sprawdź zapamiętany motyw przy ładowaniu
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const htmlTag = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                htmlTag.classList.add('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            } else {
+                htmlTag.classList.remove('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+        })();
+
+        // Obsługa modali
         function openDiscordModal() {
-            alert('Mój Discord: just_andrew');
+            document.getElementById('discordModal').classList.remove('hidden');
+            document.getElementById('discordModal').classList.add('flex');
+        }
+
+        function copyDirect(textToCopy) {
+            // Tworzymy ukryty element textarea
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            document.body.appendChild(el);
+            
+            // Zaznaczamy tekst
+            el.select();
+            el.setSelectionRange(0, 99999);
+
+            try {
+                // Kopiowanie za pomocą execCommand
+                document.execCommand('copy');
+                
+                const toast = document.getElementById('toastNotification');
+                document.getElementById('toastTextContent').textContent = 'Skopiowano: ' + textToCopy;
+                
+                toast.classList.remove('hidden');
+                
+                // Zamykanie modali po skopiowaniu
+                if(!document.getElementById('discordModal').classList.contains('hidden')) {
+                    document.getElementById('discordModal').classList.add('hidden');
+                    document.getElementById('discordModal').classList.remove('flex');
+                }
+                if(!document.getElementById('mcModal').classList.contains('hidden')) {
+                    document.getElementById('mcModal').classList.add('hidden');
+                    document.getElementById('mcModal').classList.remove('flex');
+                }
+
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            } catch (err) {
+                // W razie problemów alternatywa
+                prompt('Skopiuj ręcznie (Ctrl+C):', textToCopy);
+            } finally {
+                document.body.removeChild(el);
+            }
         }
     </script>
 </body>
