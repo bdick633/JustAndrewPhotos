@@ -40,9 +40,13 @@
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(10px) scale(0.96); } }
 
-        /* Styl dla dedykowanej ikony Tipply SVG */
-        .tipply-icon svg {
-            fill: currentColor; /* Używa koloru tekstu Tailwind */
+        /* Styl dla dedykowanych ikon SVG (Tipply i MC) */
+        .custom-svg-icon svg {
+            fill: none;
+            stroke: currentColor; /* Używa koloru tekstu Tailwind */
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
     </style>
 </head>
@@ -65,15 +69,19 @@
                 <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
                 
-                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply" class="tipply-icon w-5 h-5 block">
+                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply" class="custom-svg-icon w-6 h-6 block">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="6"/>
-                        <text x="32" y="68" font-size="52" font-weight="900" font-family="Arial, sans-serif" letter-spacing="-5" fill="currentColor">T</text>
-                        <circle cx="68" cy="68" r="8" fill="currentColor"/>
+                        <circle cx="50" cy="50" r="46"/>
+                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" font-family="Arial, sans-serif" fill="currentColor" stroke="none">Tip</text>
                     </svg>
                 </a>
 
-                <button onclick="openMcModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Minecraft SMP Server IP"><i class="fas fa-cubes text-xl"></i></button>
+                <button onclick="openMcModal()" class="custom-svg-icon w-6 h-6 block focus:outline-none" title="Minecraft SMP Server IP">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 10 H90 V90 H10 Z" stroke-width="6"/>
+                        <path d="M10 40 L30 60 L50 40 L70 60 L90 40" stroke-width="6" fill="none"/>
+                    </svg>
+                </button>
                 
                 <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord"><i class="fab fa-discord text-xl"></i></button>
             </div>
@@ -299,7 +307,7 @@
             </div>
 
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
-                <button onclick="openImageModal('image22.png', 'Stream 22', 'Widok z kabiny ciężarówki wraz z panelem wpłat.')" class="w-full text-left focus:outline-none h-full block">
+                <button onclick="openImageModal('image22.png', 'Stream 22', 'Widok z kabiny ciężarówki wraz z panenel wpłat.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Stream 22" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 22</h3>
@@ -336,7 +344,7 @@
     </footer>
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl">
+        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl overflow-y-auto">
             <div class="w-full flex justify-center items-center mb-4">
                 <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card"></h3>
             </div>
@@ -389,8 +397,11 @@
 
     <div id="mcModal" onclick="closeMcModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex relative z-50">
         <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
-            <div class="w-16 h-16 bg-[#388E3C] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#388E3C]/20">
-                <i class="fas fa-cubes"></i>
+            <div class="w-16 h-16 bg-[#388E3C] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#388E3C]/20 custom-svg-icon">
+                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 10 H90 V90 H10 Z" stroke-width="6" stroke="white" fill="none"/>
+                    <path d="M10 40 L30 60 L50 40 L70 60 L90 40" stroke-width="6" stroke="white" fill="none"/>
+                </svg>
             </div>
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">JustAndrewSMP - Info</h3>
             
