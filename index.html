@@ -6,20 +6,33 @@
     <title>JustAndrew - Galeria Fotografii</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
+        /* Gwarantujemy, że po dodaniu klasy 'dark' na tag HTML, kolory się zmienią */
+        html.dark body { background-color: #0D0E12; color: #E2E8F0; }
+        html.dark #siteTitle, html.dark #mainHeading { color: #FFFFFF; }
+        html.dark #mainSubtext { color: #94A3B8; }
+        html.dark .bg-card { background-color: #1a1c24; border-color: #1f2937; }
+        html.dark .text-card { color: #FFFFFF; }
+        html.dark .subtext-card { color: #94A3B8; }
+
         .gallery-img { transition: transform 0.4s ease-out, filter 0.4s ease; }
         .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        /* Płynne przejścia dla zmiany motywu */
-        body, header, footer, main, .bg-card, .border-custom {
+        /* Płynne przejścia */
+        body, header, footer, main, .bg-card, #siteTitle, #mainHeading, #mainSubtext {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         /* Animacja powiadomienia */
         .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Animacja estetycznego powiadomienia Toast */
+        /* Animacja Toast */
         .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-leave { animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -30,7 +43,7 @@
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex items-center space-x-3">
-            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight !dark:text-white">JustAndrew</span>
+            <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
         </div>
 
         <div class="flex items-center space-x-5">
@@ -39,25 +52,26 @@
             </button>
 
             <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400 [&>a]:text-gray-600 dark:[&>a]:text-gray-300 hover:[&>a]:text-indigo-600 dark:hover:[&>a]:text-indigo-400">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank" title="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" title="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank" title="YouTube"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
-                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none"><i class="fab fa-discord text-xl"></i></button>
+                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply"><i class="fas fa-wallet text-xl"></i></a>
+                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord"><i class="fab fa-discord text-xl"></i></button>
             </div>
         </div>
     </header>
 
     <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-10">
         <section class="text-center mb-16 max-w-2xl mx-auto">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4 !dark:text-white">Witaj w moim świecie</h1>
-            <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed !dark:text-gray-300">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
+            <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
         </section>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
             
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image1.png', 'Moment zdziwienia', 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie, kiedy na twarzy pojawiły się szczere emocje. Dynamiczne światło w tle podkreśla zaskoczenie, a głębia ostrości skupia całą uwagę na wyrazie oczu.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Moment zdziwienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -67,7 +81,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image2.png', 'Duet', 'Na zdjęciu widać relację między dwoma postaciami, które współpracują, aby osiągnąć wspólny cel. Ciepłe kolory i naturalne oświetlenie budują przyjemną i przyjazną atmosferę.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Duet" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -77,7 +91,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image3.png', 'Flexing', 'To zdjęcie pokazuje siłę fizyczną oraz zaangażowanie. Kontrastujące cienie uwydatniają muskulaturę, nadając zdjęciu wyrazisty i surowy charakter.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -87,7 +101,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image4.png', 'Akrobata', 'Zdjęcie uchwycone w pełnym ruchu. Pokazuje dynamikę, precyzję i niezwykłe opanowanie ciała w powietrzu.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Akrobata" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -97,7 +111,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image5.png', 'Refreshment', 'Orzeźwiające spojrzenie na codzienność. Kadr skupia się na detalu, który przynosi ulgę podczas ciepłego, aktywnego dnia.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Refreshment" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -107,7 +121,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image6.png', 'Głębokie skupienie', 'Portret charakteryzujący się bardzo surowym oświetleniem. Wydobywa on najgłębsze emocje i pokazuje pełne zaangażowanie osoby na zdjęciu w to, co robi.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -117,7 +131,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image7.png', 'Odświeżenie', 'Klimatyczne ujęcie pełne światła i kolorów, które doskonale oddaje moment wytchnienia.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Odświeżenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -127,7 +141,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image8.png', 'Przerwa na sprzęt', 'Chwila relaksu podczas pracy. Sprzęt znajduje się obok, a kadr skupia się na przygotowaniach do kolejnych wyzwań.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Przerwa na sprzęt" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -137,7 +151,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image9.png', 'Serce', 'Symboliczny gest, który został uchwycony w ciepłym świetle. Pokazuje bliskość i pozytywne emocje.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Serce" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -147,7 +161,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image10.png', 'Przyjaciele', 'Wspólna chwila z przyjaciółmi, pełna szczerych uśmiechów i dobrej energii, która udziela się odbiorcy.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Przyjaciele" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -157,7 +171,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image11.png', 'Z puszystym przyjacielem', 'Ciepłe, pełne czułości zdjęcie przedstawiające relację i przywiązanie do zwierzęcia. Kolorystyka potęguje poczucie spokoju.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Z puszystym przyjacielem" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -167,7 +181,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image12.png', 'Zbliżenie i zabawa', 'Dynamiczne ujęcie, w którym główną rolę odgrywają energia i ruch. Zbliżenie pozwala dostrzec emocje na twarzy.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zbliżenie i zabawa" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -177,7 +191,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image13.png', 'Pozdrowienia', 'Przyjazny gest wykonany w stronę obiektywu, który doskonale nawiązuje interakcję z widzem i buduje pozytywny odbiór.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Pozdrowienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -187,7 +201,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image14.jpg', 'Skupienie', 'Subtelne światło wydobywa z mroku profil twarzy. Kadr pokazuje pełne zanurzenie w wykonywanej pracy i gotowość do działania.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -197,7 +211,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image15.png', 'Trening', 'Fotografia wykonana podczas aktywnego treningu. Przedstawia konsekwencję, dyscyplinę oraz dążenie do wyznaczonego celu.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -207,7 +221,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image16.png', 'Serce z pracy', 'Pozytywny akcent wpleciony w codzienne obowiązki, pokazujący, że nawet w trudzie można znaleźć miejsce na radość i uśmiech.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -217,7 +231,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image17.png', 'Niezadowolenie', 'Chwila zmęczenia i zwątpienia podczas długiej pracy. Kadr doskonale oddaje emocje i pozwala utożsamić się z trudem.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -227,7 +241,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image18.png', 'Siła i motywacja', 'Zdjęcie powstałe z myślą o pokazaniu ciężkiej pracy oraz drogi do sukcesu. Cienie nadają mu dynamizmu.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Siła i motywacja" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -237,7 +251,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image19.png', 'Stream 19', 'Zrzut ekranu z transmisji na żywo, widok na streamera w słuchawkach.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Stream 19" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -247,7 +261,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image20.png', 'Stream 20', 'Perspektywa z kamery umieszczonej niżej, widok na pokój i streamera.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Stream 20" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -257,7 +271,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image21.jpg', 'Stream 21', 'Gest symulujący serce z dłoni podczas interakcji z widzami.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Stream 21" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -267,7 +281,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image22.png', 'Stream 22', 'Widok z kabiny ciężarówki wraz z panelem wpłat.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Stream 22" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -277,7 +291,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image24.png', 'Stream 24', 'Moment transmisji podczas picia napoju, widok w ciemniejszym oświetleniu.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Stream 24" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -287,7 +301,7 @@
                 </button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card">
                 <button onclick="openImageModal('image25.png', 'Stream 25', 'Praca na zewnątrz przy naczepie ciężarówki, widok na topkę dnia.')" class="w-full text-left focus:outline-none h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
@@ -314,24 +328,20 @@
                 <img id="modalImage" src="" alt="Powiększone zdjęcie" class="object-contain max-h-full rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700">
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-h-[150px] overflow-y-auto overflow-x-hidden">
                 <p id="modalDescriptionText"></p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-stretch">
-                
                 <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
                     <i class="fas fa-info-circle mr-2"></i> Pokaż opis
                 </button>
-
                 <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-download mr-2"></i> Pobierz
                 </a>
-
                 <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
                 </a>
-                
                 <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-times mr-2"></i> Zamknij
                 </button>
@@ -344,8 +354,8 @@
             <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
                 <i class="fab fa-discord"></i>
             </div>
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Dołącz do serwera Discord</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Dołącz do serwera Discord</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
                 Nasz główny kontakt oraz cała społeczność znajduje się na Discordzie.<br>
                 Nazwa użytkownika: <strong>andrewgod666</strong>
             </p>
@@ -364,9 +374,9 @@
         <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm shadow-sm">
             <i class="fas fa-check"></i>
         </div>
-        <div>
-            <p class="text-xs font-bold text-gray-900 dark:text-white">Pomyślnie skopiowano</p>
-            <p class="text-[11px] text-gray-500 dark:text-gray-400">Nazwa <span class="font-mono text-indigo-500">andrewgod666</span> jest w schowku</p>
+        <div class="text-card">
+            <p class="text-xs font-bold">Pomyślnie skopiowano</p>
+            <p class="text-[11px] subtext-card">Nazwa <span class="font-mono text-indigo-500">andrewgod666</span> jest w schowku</p>
         </div>
     </div>
 
@@ -407,21 +417,44 @@
         }
 
         function toggleTheme() {
-            const body = document.getElementById('siteBody');
+            const htmlTag = document.documentElement; // Tag HTML
             const themeIcon = document.getElementById('themeIcon');
             
-            if (body.classList.contains('bg-[#F3F4F6]')) {
-                body.classList.remove('bg-[#F3F4F6]', 'text-gray-800');
-                body.classList.add('bg-[#0D0E12]', 'text-gray-200');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                body.classList.remove('bg-[#0D0E12]', 'text-gray-200');
-                body.classList.add('bg-[#F3F4F6]', 'text-gray-800');
+            if (htmlTag.classList.contains('dark')) {
+                // Przełącz na tryb jasny
+                htmlTag.classList.remove('dark');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Przełącz na tryb ciemny
+                htmlTag.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
             }
         }
+
+        // Sprawdź zapamiętany motyw przy ładowaniu
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const htmlTag = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                htmlTag.classList.add('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            } else {
+                htmlTag.classList.remove('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+        })();
 
         function openDiscordModal() {
             document.getElementById('discordModal').classList.remove('hidden');
