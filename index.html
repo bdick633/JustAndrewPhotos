@@ -54,6 +54,25 @@
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
 
+    <div id="adBanner" class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-700 dark:to-teal-700 py-3 px-6 shadow-sm border-b border-emerald-400/20">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <span class="bg-emerald-200 text-emerald-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Reklama</span>
+                <p class="text-white font-medium text-sm">
+                    Sprawdź nasz serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span> (1.21.11)
+                </p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition duration-150 flex items-center gap-1.5 shadow-sm">
+                    <i class="fas fa-copy"></i> Kopiuj IP
+                </button>
+                <button onclick="dismissAd()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg focus:outline-none" title="Ukryj reklamę">
+                    <i class="fas fa-times"></i> <span class="text-xs underline ml-1">Nie interesuje mnie to</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full relative z-40">
         <div class="flex items-center space-x-3">
             <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
@@ -87,21 +106,6 @@
         <section class="text-center mb-10 max-w-2xl mx-auto">
             <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
             <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed mb-6">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
-
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-700 dark:to-teal-700 p-6 rounded-3xl shadow-lg border border-emerald-400/30 flex flex-col items-center text-center">
-                <span class="bg-emerald-200 text-emerald-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-3">Nowość</span>
-                <h3 class="text-2xl font-black text-white mb-1">Zagraj na naszym serwerze Minecraft!</h3>
-                <p class="text-emerald-100/90 text-sm mb-5">Wersja: 1.21.11 | Dołącz do nas już dziś!</p>
-                
-                <div class="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-                    <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="flex-1 bg-white hover:bg-gray-50 text-emerald-900 font-black py-3 px-5 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
-                        <i class="fas fa-copy"></i> Skopiuj IP
-                    </button>
-                    <div class="flex-1 bg-emerald-800/40 text-white font-mono text-sm py-3 px-5 rounded-xl border border-emerald-400/20 flex items-center justify-center">
-                        JustAndrewSMP.aternos.me
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
@@ -447,6 +451,12 @@
                 desc: item.getAttribute('data-desc')
             }));
         });
+
+        // Ukrywanie baneru reklamowego po kliknięciu
+        function dismissAd() {
+            const banner = document.getElementById('adBanner');
+            banner.classList.add('hidden');
+        }
 
         function openImageFromCard(element) {
             const card = element.closest('.gallery-card');
