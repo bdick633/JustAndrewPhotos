@@ -18,6 +18,12 @@
         /* Animacja powiadomienia */
         .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Animacja estetycznego powiadomienia Toast */
+        .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-leave { animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(10px) scale(0.96); } }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
@@ -354,12 +360,22 @@
         </div>
     </div>
 
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[60] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm shadow-sm">
+            <i class="fas fa-check"></i>
+        </div>
+        <div>
+            <p class="text-xs font-bold text-gray-900 dark:text-white">Pomyślnie skopiowano</p>
+            <p class="text-[11px] text-gray-500 dark:text-gray-400">Nazwa <span class="font-mono text-indigo-500">andrewgod666</span> jest w schowku</p>
+        </div>
+    </div>
+
     <script>
         function openImageModal(src, title, description) {
             document.getElementById('imageModal').classList.remove('hidden');
             document.getElementById('modalImage').src = src;
             document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalText').textContent = description;
+            document.getElementById('modalDescriptionText').textContent = description;
             
             document.getElementById('modalDownloadBtn').href = src;
             document.getElementById('modalNewTabBtn').href = src;
@@ -409,16 +425,33 @@
 
         function openDiscordModal() {
             document.getElementById('discordModal').classList.remove('hidden');
+            document.getElementById('discordModal').classList.add('flex');
         }
 
         function closeDiscordModal() {
             document.getElementById('discordModal').classList.add('hidden');
+            document.getElementById('discordModal').classList.remove('flex');
         }
 
         function copyDiscordName() {
             const textToCopy = "andrewgod666";
             navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('Skopiowano: ' + textToCopy);
+                // Zamyka okno modalne Discorda po skopiowaniu
+                closeDiscordModal();
+                
+                // Pokazuje ładne powiadomienie
+                const toast = document.getElementById('toastNotification');
+                toast.classList.remove('hidden');
+                toast.classList.add('toast-enter');
+                
+                // Automatycznie ukrywa po 3 sekundach
+                setTimeout(() => {
+                    toast.classList.add('toast-leave');
+                    setTimeout(() => {
+                        toast.classList.add('hidden');
+                        toast.classList.remove('toast-enter', 'toast-leave');
+                    }, 300);
+                }, 3000);
             });
         }
     </script>
