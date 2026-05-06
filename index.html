@@ -51,18 +51,19 @@
             stroke-linejoin: round;
         }
 
-        /* Naprawa przycisku serduszka – usunięcie czerwonego obrysu */
+        /* Naprawa przycisku serduszka – całkowicie neutralne traktowanie */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+            transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
         }
         .favorite-btn:hover {
-            transform: scale(1.08) !important;
+            transform: scale(1.06) !important;
             background-color: rgba(0, 0, 0, 0.5) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-            outline: none !important;
-            border: none !important;
+            color: inherit !important; /* Pozostaje taki sam, bez przymusowego czerwonego koloru */
         }
         .favorite-btn:focus,
         .favorite-btn:active,
@@ -75,11 +76,10 @@
         /* Przyciski w modalu */
         #modalFavBtn {
             transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease !important;
+            border: 1px solid rgba(156, 163, 175, 0.3);
         }
         #modalFavBtn:hover {
-            background-color: #ef4444 !important;
-            color: #ffffff !important;
-            transform: scale(1.08) !important;
+            transform: scale(1.06) !important;
             border-color: transparent !important;
             outline: none !important;
             box-shadow: none !important;
@@ -533,7 +533,7 @@
         <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl overflow-y-auto">
             
             <div class="w-full flex justify-between items-center mb-4">
-                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full text-gray-700 dark:text-gray-300 hover:bg-red-500 hover:text-white transition-all duration-300 focus:outline-none border border-gray-300 dark:border-gray-700" title="Dodaj do ulubionych">
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300 focus:outline-none border border-gray-300 dark:border-gray-700" title="Dodaj do ulubionych">
                     <i class="far fa-heart text-lg"></i>
                 </button>
                 <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card"></h3>
@@ -560,7 +560,7 @@
                 <p id="modalDescriptionText"></p>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-stretch">
+            <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
                 <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
                     <i class="fas fa-info-circle mr-2"></i> Pokaż opis
                 </button>
@@ -757,7 +757,7 @@
             document.getElementById('modalTitle').textContent = current.title;
             document.getElementById('modalDescriptionText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalNewTabBtn').href = current.src;
+            document.getElementById('modalTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
             updateModalHeartButton();
