@@ -51,7 +51,7 @@
             stroke-linejoin: round;
         }
 
-        /* Usunięcie niechcianego tła/obwódki i dodanie płynnej animacji dla przycisku serduszka */
+        /* Naprawa przycisku serduszka – usunięcie czerwonego obrysu */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
@@ -65,24 +65,27 @@
             border: none !important;
         }
         .favorite-btn:focus,
-        .favorite-btn:active {
+        .favorite-btn:active,
+        .favorite-btn:focus-visible {
             outline: none !important;
             box-shadow: none !important;
+            border: none !important;
         }
 
-        /* Naprawa przycisku serduszka w modalu – usunięcie czerwonego obrysu i tła po najechaniu */
+        /* Przyciski w modalu */
         #modalFavBtn {
             transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease !important;
         }
         #modalFavBtn:hover {
-            background-color: #ef4444 !important; /* Czerwone tło */
-            color: #ffffff !important; /* Biała ikona */
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
             transform: scale(1.08) !important;
             border-color: transparent !important;
             outline: none !important;
             box-shadow: none !important;
         }
-        #modalFavBtn:focus {
+        #modalFavBtn:focus,
+        #modalFavBtn:active {
             outline: none !important;
             box-shadow: none !important;
         }
@@ -175,7 +178,7 @@
                 <button onclick="toggleFavorite(event, 'image1.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="0">
+                <div onclick="openModalWithIndex(0)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Moment zdziwienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Moment zdziwienia</h3>
@@ -188,7 +191,7 @@
                 <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="1">
+                <div onclick="openModalWithIndex(1)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Duet" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Duet</h3>
@@ -201,7 +204,7 @@
                 <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="2">
+                <div onclick="openModalWithIndex(2)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Flexing</h3>
@@ -214,7 +217,7 @@
                 <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="3">
+                <div onclick="openModalWithIndex(3)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Akrobata" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Akrobata</h3>
@@ -227,7 +230,7 @@
                 <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="4">
+                <div onclick="openModalWithIndex(4)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Refreshment" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Refreshment</h3>
@@ -240,7 +243,7 @@
                 <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="5">
+                <div onclick="openModalWithIndex(5)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Głębokie skupienie</h3>
@@ -253,7 +256,7 @@
                 <button onclick="toggleFavorite(event, 'image7.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="6">
+                <div onclick="openModalWithIndex(6)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Odświeżenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Odświeżenie</h3>
@@ -266,7 +269,7 @@
                 <button onclick="toggleFavorite(event, 'image8.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="7">
+                <div onclick="openModalWithIndex(7)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Przerwa na sprzęt" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Przerwa na sprzęt</h3>
@@ -279,7 +282,7 @@
                 <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="8">
+                <div onclick="openModalWithIndex(8)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Serce" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce</h3>
@@ -292,7 +295,7 @@
                 <button onclick="toggleFavorite(event, 'image10.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="9">
+                <div onclick="openModalWithIndex(9)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Przyjaciele" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Przyjaciele</h3>
@@ -305,7 +308,7 @@
                 <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="10">
+                <div onclick="openModalWithIndex(10)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Z puszystym przyjacielem" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Z puszystym przyjacielem</h3>
@@ -318,7 +321,7 @@
                 <button onclick="toggleFavorite(event, 'image12.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="11">
+                <div onclick="openModalWithIndex(11)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zbliżenie i zabawa" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Zbliżenie i zabawa</h3>
@@ -331,7 +334,7 @@
                 <button onclick="toggleFavorite(event, 'image13.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="12">
+                <div onclick="openModalWithIndex(12)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Pozdrowienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Pozdrowienia</h3>
@@ -344,7 +347,7 @@
                 <button onclick="toggleFavorite(event, 'image14.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="13">
+                <div onclick="openModalWithIndex(13)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Skupienie</h3>
@@ -357,7 +360,7 @@
                 <button onclick="toggleFavorite(event, 'image15.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="14">
+                <div onclick="openModalWithIndex(14)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Trening</h3>
@@ -370,7 +373,7 @@
                 <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="15">
+                <div onclick="openModalWithIndex(15)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce z pracy</h3>
@@ -383,7 +386,7 @@
                 <button onclick="toggleFavorite(event, 'image17.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="16">
+                <div onclick="openModalWithIndex(16)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Niezadowolenie</h3>
@@ -396,7 +399,7 @@
                 <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="17">
+                <div onclick="openModalWithIndex(17)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Siła i motywacja" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Siła i motywacja</h3>
@@ -409,7 +412,7 @@
                 <button onclick="toggleFavorite(event, 'image19.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="18">
+                <div onclick="openModalWithIndex(18)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Skupienie przed kamerą" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Skupienie przed kamerą</h3>
@@ -422,7 +425,7 @@
                 <button onclick="toggleFavorite(event, 'image20.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="19">
+                <div onclick="openModalWithIndex(19)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Spojrzenie z góry" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Spojrzenie z góry</h3>
@@ -435,7 +438,7 @@
                 <button onclick="toggleFavorite(event, 'image21.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="20">
+                <div onclick="openModalWithIndex(20)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Gest sympatii" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Gest sympatii</h3>
@@ -448,7 +451,7 @@
                 <button onclick="toggleFavorite(event, 'image22.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="21">
+                <div onclick="openModalWithIndex(21)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Transmisja na żywo w kabinie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Transmisja na żywo w kabinie</h3>
@@ -461,7 +464,7 @@
                 <button onclick="toggleFavorite(event, 'image24.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="22">
+                <div onclick="openModalWithIndex(22)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Relaks ze szklanką" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Relaks ze szklanką</h3>
@@ -474,7 +477,7 @@
                 <button onclick="toggleFavorite(event, 'image25.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="23">
+                <div onclick="openModalWithIndex(23)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Stream 25</h3>
@@ -487,7 +490,7 @@
                 <button onclick="toggleFavorite(event, 'image26.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="24">
+                <div onclick="openModalWithIndex(24)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image26.jpg" alt="Chwila wytchnienia" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Chwila wytchnienia</h3>
@@ -500,7 +503,7 @@
                 <button onclick="toggleFavorite(event, 'image27.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
                     <i class="far fa-heart"></i>
                 </button>
-                <div class="w-full text-left h-full block gallery-card-trigger" data-index="25">
+                <div onclick="openModalWithIndex(25)" class="w-full text-left h-full block">
                     <div class="aspect-[4/5] overflow-hidden"><img src="image27.png" alt="Transmisja i Orzeźwienie" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Transmisja i Orzeźwienie</h3>
@@ -553,7 +556,7 @@
                 </button>
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner max-w-[150px] overflow-y-auto overflow-x-hidden">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner overflow-y-auto max-h-[150px]">
                 <p id="modalDescriptionText"></p>
             </div>
 
@@ -587,33 +590,31 @@
                 desc: item.getAttribute('data-desc')
             }));
 
-            // Podłączenie zdarzeń do kliknięcia w kartę (z pominięciem przycisku serduszka)
-            const triggers = document.querySelectorAll('.gallery-card-trigger');
-            triggers.forEach(trigger => {
-                trigger.addEventListener('click', function(event) {
-                    currentIndex = parseInt(this.getAttribute('data-index'), 10) || 0;
-                    updateModal();
-                    document.getElementById('imageModal').classList.remove('hidden');
-                });
-            });
-
-            // Sprawdzamy motyw przy ładowaniu
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
             }
 
-            // Sprawdzamy czy ukryć reklamę
             if (localStorage.getItem('hideJustAndrewAd') === 'true') {
                 const banner = document.getElementById('adBanner');
                 if (banner) banner.classList.add('hidden');
             }
 
-            // Inicjalizacja stanu serduszek w zależności od localStorage
             updateFavoriteButtonsUI();
         });
 
-        // Ukrywanie przycisków reklamy i pokazywanie opcji "Nie wyświetlaj ponownie"
+        function showAllItems() {
+            const cards = document.querySelectorAll('.gallery-card');
+            cards.forEach(card => card.classList.remove('hidden'));
+            document.getElementById('emptyFavoritesNotice').classList.add('hidden');
+        }
+
+        function openModalWithIndex(index) {
+            currentIndex = index;
+            updateModal();
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
         function showConfirmationOptions() {
             document.getElementById('adActionButtons').classList.add('hidden');
             document.getElementById('adConfirmationOptions').classList.remove('hidden');
@@ -630,14 +631,13 @@
             localStorage.setItem('hideJustAndrewAd', 'true');
         }
 
-        // Obsługa Ulubionych
         function getFavorites() {
             const favs = localStorage.getItem('justAndrewFavorites');
             return favs ? JSON.parse(favs) : [];
         }
 
         function toggleFavorite(event, imgPath) {
-            event.stopPropagation(); // Blokuje propagację, aby nie otwierać modala przy dodawaniu do ulubionych
+            event.stopPropagation();
             let favs = getFavorites();
             const index = favs.indexOf(imgPath);
 
@@ -750,12 +750,6 @@
             }
         }
 
-        function showAllItems() {
-            const cards = document.querySelectorAll('.gallery-card');
-            cards.forEach(card => card.classList.remove('hidden'));
-            document.getElementById('emptyFavoritesNotice').classList.add('hidden');
-        }
-
         function updateModal() {
             if (galleryItems.length === 0) return;
             const current = galleryItems[currentIndex];
@@ -763,7 +757,7 @@
             document.getElementById('modalTitle').textContent = current.title;
             document.getElementById('modalDescriptionText').textContent = current.desc;
             document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalTabBtn').href = current.src;
+            document.getElementById('modalNewTabBtn').href = current.src;
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
             updateModalHeartButton();
