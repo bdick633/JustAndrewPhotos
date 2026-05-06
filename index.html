@@ -76,7 +76,7 @@
                     </svg>
                 </a>
 
-                <button onclick="openMcModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none custom-svg-icon w-7 h-7" title="Minecraft SMP Server IP">
+                <button id="mcIconButton" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none custom-svg-icon w-7 h-7" title="Minecraft SMP Server IP">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 20 H90 V90 H10 Z" stroke-width="6"/>
                         <path d="M10 20 L30 35 L50 20 L70 35 L90 20" stroke-width="6" fill="none"/>
@@ -365,7 +365,7 @@
                     <i class="fas fa-download mr-2"></i> Pobierz
                 </a>
                 <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
-                    <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
+                    <i class="fas fa-external-link-alt mr-2"></i> Otwórz
                 </a>
                 <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
                     <i class="fas fa-times mr-2"></i> Zamknij
@@ -446,7 +446,7 @@
             document.getElementById('modalDescriptionText').textContent = description;
             
             document.getElementById('modalDownloadBtn').href = src;
-            document.getElementById('modalNewTabBtn').href = src;
+            document.getElementById('modalTabBtn').href = src;
             
             document.getElementById('descriptionBox').classList.add('hidden');
             document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2.5"></i> Pokaż opis';
@@ -533,16 +533,16 @@
             document.getElementById('mcModal').classList.remove('flex');
         }
 
-        // Generyczna funkcja kopiowania
+        // Kopiowanie danych do schowka
         function copyText(text, entityName) {
             navigator.clipboard.writeText(text).then(() => {
                 showToast(text, entityName);
                 
-                // Zamyka otwarte modale
-                if(!document.getElementById('discordModal').classList.contains('hidden')) {
+                // Zamyka odpowiednio otwarte okno
+                if (!document.getElementById('discordModal').classList.contains('hidden')) {
                     closeDiscordModal();
                 }
-                if(!document.getElementById('mcModal').classList.contains('hidden')) {
+                if (!document.getElementById('mcModal').classList.contains('hidden')) {
                     closeMcModal();
                 }
             });
@@ -552,7 +552,7 @@
             copyText('JustAndrewSMP.aternos.me', 'IP Serwera MC');
         }
 
-        // Toast
+        // Pokaż powiadomienie typu Toast
         function showToast(text, entityName) {
             const toast = document.getElementById('toastNotification');
             const toastTitle = document.getElementById('toastTitle');
@@ -572,6 +572,18 @@
                 }, 300);
             }, 3000);
         }
+
+        // Inicjalizacja nasłuchiwania po załadowaniu strony
+        document.addEventListener('DOMContentLoaded', function() {
+            const mcBtn = document.getElementById('mcIconButton');
+            if (mcBtn) {
+                mcBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openMcModal();
+                });
+            }
+        });
     </script>
 </body>
 </html>
