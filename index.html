@@ -62,13 +62,13 @@
         </div>
     </div>
 
-    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
+    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full relative z-40">
         <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white">JustAndrew</div>
-        <div class="flex items-center space-x-4">
-            <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 transition-all hover:bg-indigo-600 hover:text-white">
+        <div class="flex items-center space-x-5">
+            <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
                 <i class="far fa-heart"></i> <span id="favoritesTabText">Ulubione</span>
             </button>
-            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
+            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
             <div class="hidden lg:flex items-center space-x-4 text-gray-600 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-4">
@@ -115,11 +115,11 @@
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
 
-        <section class="mt-20 p-8 md:p-12 bg-indigo-50 dark:bg-indigo-900/20 rounded-[40px] text-center border-2 border-dashed border-indigo-200 dark:border-indigo-800">
-            <h2 class="text-2xl md:text-3xl font-black text-indigo-900 dark:text-indigo-300 mb-4">Chcesz dodać własne zdjęcie?</h2>
-            <p class="text-indigo-700 dark:text-indigo-400 max-w-xl mx-auto mb-6">Jeśli masz ciekawe zdjęcie ze streamu lub trasy, prześlij je za pomocą formularza poniżej!</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform?usp=header" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30">
-                <i class="fas fa-upload text-xl"></i> Prześlij zdjęcie (Formularz Google)
+        <section class="mt-16 py-8 px-6 bg-gray-100 dark:bg-[#13151b] rounded-3xl text-center border border-gray-200 dark:border-gray-800 max-w-xl mx-auto shadow-inner">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-2">Chcesz dodać własne zdjęcie?</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-5">Jeśli masz ciekawe ujęcie ze streamu lub trasy, prześlij je za pomocą formularza!</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform?usp=header" target="_blank" class="inline-flex items-center gap-2.5 px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-500/20">
+                <i class="fas fa-upload text-base"></i> Prześlij zdjęcie
             </a>
         </section>
     </main>
@@ -303,8 +303,7 @@
         function checkCloseModal(e) { if(e.target.id === 'imageModal') closeImageModal(); }
         function nextImage() { currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
         function prevImage() { currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
-
-        // Funkcje Reklamy
+        
         function showConfirmationOptions() { document.getElementById('adActionButtons').classList.add('hidden'); document.getElementById('adConfirmationOptions').classList.remove('hidden'); }
         function cancelConfirmationOptions() { document.getElementById('adConfirmationOptions').classList.add('hidden'); document.getElementById('adActionButtons').classList.remove('hidden'); }
         function dismissAdPermanently() { document.getElementById('adBanner').remove(); localStorage.setItem('hideJustAndrewAd', 'true'); }
