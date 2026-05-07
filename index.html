@@ -10,330 +10,323 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class',
+        }
     </script>
     <style>
         html.dark body { background-color: #0D0E12; color: #E2E8F0; }
+        html.dark #siteTitle, html.dark #mainHeading { color: #FFFFFF; }
+        html.dark #mainSubtext { color: #94A3B8; }
         html.dark .bg-card, html.dark .bg-modal-content { background-color: #1a1c24; border-color: #1f2937; }
+        
         .gallery-img { transition: transform 0.4s ease-out, filter 0.4s ease; }
         .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
-        .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .favorite-btn { background-color: rgba(107, 114, 128, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.2s ease; }
-        .favorite-btn:hover { filter: brightness(1.2); }
-
-        .category-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em; }
-        
-        .nav-btn { 
-            transition: background-color 0.2s ease, color 0.2s ease; 
-            z-index: 60; 
-            width: 54px; 
-            height: 54px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 50%;
-            cursor: pointer;
+        body, header, footer, main, .bg-card, .bg-modal-content, #siteTitle, #mainHeading, #mainSubtext {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
-        
-        html.light .nav-btn { 
-            background-color: rgba(255, 255, 255, 0.95); 
-            color: #111827; 
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        html.light .nav-btn:hover { background-color: #4f46e5; color: white; }
 
-        html.dark .nav-btn { 
-            background-color: rgba(31, 41, 55, 0.8); 
-            color: white; 
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
+        .favorite-btn {
+            background-color: rgba(107, 114, 128, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.15s ease, background-color 0.15s ease !important;
         }
-        html.dark .nav-btn:hover { background-color: #4f46e5; }
+        .favorite-btn:hover { transform: scale(1.06) !important; background-color: rgba(107, 114, 128, 0.7) !important; }
 
-        .tag-pill { transition: all 0.2s; cursor: pointer; }
-        .tag-pill:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .filter-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
     </style>
 </head>
-<body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
 
     <div id="adBanner" class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-700 dark:to-teal-700 py-3 px-6 shadow-sm border-b border-emerald-400/20">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
             <div class="flex items-center gap-3">
                 <span class="bg-emerald-200 text-emerald-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Reklama</span>
-                <p class="text-white font-medium text-sm">Sprawdź serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span></p>
+                <p class="text-white font-medium text-sm">
+                    Sprawdź nasz serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span> (1.21.1)
+                </p>
             </div>
             <div id="adActionButtons" class="flex items-center gap-4">
-                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition shadow-sm"><i class="fas fa-copy"></i> Kopiuj IP</button>
-                <button onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg"><i class="fas fa-times"></i> Nie interesuje mnie to</button>
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition duration-150 flex items-center gap-1.5 shadow-sm">
+                    <i class="fas fa-copy"></i> Kopiuj IP
+                </button>
+                <button onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg focus:outline-none">
+                    <i class="fas fa-times"></i> <span class="text-xs underline ml-1">Nie interesuje mnie to</span>
+                </button>
             </div>
             <div id="adConfirmationOptions" class="hidden flex items-center gap-4">
                 <span class="text-emerald-200 text-xs">Na pewno?</span>
-                <button onclick="dismissAdPermanently()" class="text-xs bg-red-600 text-white font-bold py-1.5 px-3 rounded-lg">Nie wyświetlaj ponownie</button>
+                <button onclick="dismissAdPermanently()" class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm">Nie wyświetlaj ponownie</button>
                 <button onclick="cancelConfirmationOptions()" class="text-xs bg-white/10 text-white py-1.5 px-3 rounded-lg">Anuluj</button>
             </div>
         </div>
     </div>
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full relative z-40">
-        <span class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white">JustAndrew</span>
-        
+        <span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900">JustAndrew</span>
         <div class="flex items-center space-x-5">
-            <div class="hidden sm:flex items-center space-x-4 border-r border-gray-300 dark:border-gray-700 pr-5 mr-1">
-                <a href="https://tipply.pl/@justandrew" target="_blank" title="Tipply" class="text-gray-500 hover:text-yellow-500 transition-colors"><i class="fas fa-wallet text-xl"></i></a>
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" title="Instagram" class="text-gray-500 hover:text-pink-500 transition-colors"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok" class="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" title="YouTube" class="text-gray-500 hover:text-red-600 transition-colors"><i class="fab fa-youtube text-xl"></i></a>
-                <button onclick="openDiscordModal()" title="Discord" class="text-gray-500 hover:text-indigo-500 transition-colors"><i class="fab fa-discord text-xl"></i></button>
-            </div>
-
-            <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition-all">
+            <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all duration-300">
                 <i class="far fa-heart"></i> <span id="favoritesTabText">Ulubione</span>
             </button>
-            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 transition-all">
+            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:text-indigo-600 transition-all duration-300">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
+            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank"><i class="fab fa-tiktok text-xl"></i></a>
+                <button onclick="openDiscordModal()"><i class="fab fa-discord text-xl"></i></button>
+            </div>
         </div>
     </header>
 
     <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-10">
         <section class="text-center mb-10 max-w-2xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-4">Witaj w moim świecie</h1>
-            <p class="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-6">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
+            <p id="mainSubtext" class="text-gray-600 text-lg mb-6">Przeszukaj galerię po tagach (np. tir, siłownia, kot)</p>
 
             <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
-                <select id="categorySelect" onchange="filterCategory(this.value)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white focus:outline-none shadow-sm cursor-pointer">
-                    <option value="all">Wszystkie kategorie</option>
-                    <option value="Stream">Stream</option>
-                    <option value="Praca">Praca</option>
-                    <option value="Relaks">Relaks</option>
-                </select>
+                <div class="flex flex-wrap justify-center gap-2 bg-white dark:bg-[#1a1c24] p-2 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <button onclick="filterCategory('all', this)" class="filter-btn active px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200">Wszystkie</button>
+                    <button onclick="filterCategory('Stream', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold">Stream</button>
+                    <button onclick="filterCategory('Praca', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold">Praca</button>
+                    <button onclick="filterCategory('Relaks', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold">Relaks</button>
+                </div>
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none dark:text-white">
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj po tagach..." 
+                        class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
                 </div>
             </div>
         </section>
 
-        <div id="emptyFavoritesNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8 shadow-sm">
-            <i class="fas fa-search text-4xl text-indigo-500 mb-4 opacity-50"></i>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Brak wyników</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Spróbuj wpisać inną frazę.</p>
+        <div id="emptyNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8 shadow-sm">
+            <i class="fas fa-search text-4xl text-indigo-500 mb-4"></i>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Nic nie znaleźliśmy</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Spróbuj wpisać inny tag.</p>
         </div>
 
-        <section id="galleryContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
+        <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
+            </section>
 
         <section class="flex flex-col items-center justify-center text-center mt-6 mb-12 p-8 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl shadow-sm max-w-2xl mx-auto">
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Chcesz dodać swoje zdjęcie?</h3>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="py-3.5 px-8 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-500/20">
-                <i class="fas fa-camera-retro mr-3"></i> Prześlij zdjęcie
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="py-3.5 px-8 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition duration-200 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <i class="fas fa-camera-retro mr-3 text-lg"></i> Prześlij zdjęcie
             </a>
         </section>
     </main>
 
-    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/95 backdrop-blur-xl flex items-center justify-center z-50 p-4 sm:p-10 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-5xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-4 sm:p-8 rounded-[2.5rem] border border-gray-300 dark:border-gray-700 shadow-2xl relative overflow-hidden">
-            
-            <div class="w-full flex justify-between items-center mb-5 px-2 relative z-10">
-                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="modal-fav-btn p-3 rounded-full text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+    <footer class="py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
+        &copy; 2026 JustAndrew. Wszelkie prawa zastrzeżone.
+    </footer>
+
+    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
+        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl">
+            <div class="w-full flex justify-between items-center mb-4">
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300">
                     <i class="far fa-heart"></i>
                 </button>
-                <h3 id="modalTitle" class="text-xl font-black text-gray-900 dark:text-white text-center flex-grow truncate px-4"></h3>
-                <button onclick="closeImageModal()" class="p-3 text-gray-500 hover:text-red-500 text-2xl transition-colors">
-                    <i class="fas fa-times"></i>
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white"></h3>
+                <button onclick="closeImageModal()" class="text-gray-500 dark:hover:text-white text-2xl"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="flex items-center justify-between w-full max-h-[50vh] mb-6 gap-4">
+                <button onclick="prevImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 hover:text-white transition duration-200">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <img id="modalImage" src="" class="object-contain max-h-[50vh] rounded-2xl shadow-lg">
+                <button onclick="nextImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 hover:text-white transition duration-200">
+                    <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-
-            <div class="relative w-full flex items-center justify-center mb-6 px-4 sm:px-12 min-h-[300px]">
-                <button onclick="prevImage()" class="absolute left-0 nav-btn transform -translate-x-2 sm:-translate-x-6">
-                    <i class="fas fa-chevron-left text-lg"></i>
-                </button>
-                <img id="modalImage" src="" class="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl transition-opacity duration-200">
-                <button onclick="nextImage()" class="absolute right-0 nav-btn transform translate-x-2 sm:translate-x-6">
-                    <i class="fas fa-chevron-right text-lg"></i>
-                </button>
+            <div id="descriptionBox" class="hidden w-full bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm text-gray-700 dark:text-gray-300">
+                <p id="modalDescriptionText"></p>
             </div>
-
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 mb-6 shadow-inner">
-                <p id="modalDescriptionText" class="text-sm dark:text-gray-300 mb-4"></p>
-                <div id="modalTagsContainer" class="flex flex-wrap gap-2 border-t border-gray-100 dark:border-gray-800 pt-4">
-                </div>
-            </div>
-
-            <div class="flex flex-wrap gap-3 w-full justify-center relative z-10 px-2 pb-2">
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 min-w-[120px] py-3 px-4 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg">
-                    <i class="fas fa-info-circle mr-2"></i> Pokaż opis i tagi
-                </button>
-                <a id="modalDownloadBtn" href="" download class="flex-1 min-w-[120px] py-3 px-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center shadow-lg">
-                    <i class="fas fa-download mr-2"></i> Pobierz
-                </a>
-                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 min-w-[120px] py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center shadow-lg">
-                    <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
-                </a>
+            <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 text-white font-semibold rounded-xl text-sm"><i class="fas fa-info-circle mr-2"></i> Pokaż opis</button>
+                <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 text-white font-semibold rounded-xl text-sm flex items-center justify-center"><i class="fas fa-download mr-2"></i> Pobierz</a>
+                <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 text-white font-semibold rounded-xl text-sm">Zamknij</button>
             </div>
         </div>
-    </div>
-
-    <div id="discordModal" class="fixed inset-0 bg-black/70 backdrop-blur-md items-center justify-center z-[100] p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-2xl flex flex-col items-center text-center">
-            <div class="w-20 h-20 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-xl shadow-[#5865F2]/30"><i class="fab fa-discord"></i></div>
-            <h3 class="text-2xl font-black dark:text-white mb-2">Mój Discord</h3>
-            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-8 tracking-wider">andrewk0x</p>
-            <div class="flex flex-col sm:flex-row gap-4 w-full">
-                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-xl shadow-lg">Kopiuj nazwę</button>
-                <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="flex-1 py-4 bg-gray-200 dark:bg-gray-800 font-bold dark:text-white rounded-xl">Zamknij</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toastNotification" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-2xl shadow-2xl hidden toast-enter border border-white/10">
-        <i class="fas fa-check-circle text-green-400 text-lg"></i>
-        <p class="font-bold tracking-wide">Skopiowano pomyślnie!</p>
     </div>
 
     <script>
+        // BAZA DANYCH ZDJĘĆ
         const photosDatabase = [
-            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: ['zdziwienie', 'memy', 'twarz'], desc: 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.' },
+            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: ['twarz', 'zdziwienie', 'memy'], desc: 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.' },
             { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: ['ekipa', 'gra', 'śmiech'], desc: 'Na zdjęciu widać relację między dwoma postaciami.' },
             { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: ['siłownia', 'biceps', 'forma', 'motywacja'], desc: 'Zdjęcie zrobione podczas treningu.' },
             { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: ['akrobacja', 'energia', 'vibe'], desc: 'Chwila pełna energii i dynamiki.' },
             { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: ['picie', 'odpoczynek', 'luz'], desc: 'Chwila orzeźwienia i relaksu w trakcie dnia.' },
             { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: ['gaming', 'pro', 'setup'], desc: 'Moment, w którym liczy się tylko precyzja i spokój.' },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: ['serce', 'miłość', 'widzowie', 'love'], desc: 'Wyrażenie wdzięczności dla widzów.' },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: ['kot', 'zwierzęta', 'słodkie', 'pieseł'], desc: 'Słodka chwila z pupilem.' },
-            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: ['serce', 'ciężarówka', 'trasa'], desc: 'Pozytywny gest i uśmiech dla wszystkich.' },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: ['siłownia', 'trening', 'forma'], desc: 'Wzrost formy i determinacja.' },
-            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: ['kierowca', 'tir', 'praca', 'polska'], desc: 'Transmisja na żywo z kabiny.' },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: ['chill', 'odpoczynek', 'wakacje'], desc: 'Kadr uchwycony w momencie pełnego odprężenia.' },
-            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: ['picie', 'setup', 'live'], desc: 'Kulisowe ujęcie z transmisji na żywo.' }
+            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: ['picie', 'relaks', 'przerwa'], desc: 'Kolejny moment na relaks i złapanie oddechu.' },
+            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: ['setup', 'technologia', 'kulis'], desc: 'Zdjęcie zrobione w trakcie przygotowań technicznych.' },
+            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: ['serce', 'miłość', 'widzowie', 'gest'], desc: 'Wyrażenie wdzięczności dla widzów.' },
+            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: ['ekipa', 'ludzie', 'spotkanie'], desc: 'Wspólnie spędzony czas.' },
+            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: ['kot', 'zwierzęta', 'słodkie'], desc: 'Słodka chwila z pupilem.' },
+            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: ['uśmiech', 'twarz', 'radość'], desc: 'Radosny moment pełen pozytywnej energii.' },
+            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: ['siema', 'live', 'interakcja'], desc: 'Kadr podczas interakcji z widzami online.' },
+            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: ['praca', 'koncentracja', 'gaming'], desc: 'Pełne zaangażowanie w wykonywane zadanie.' },
+            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: ['siłownia', 'sport', 'forma'], desc: 'Kolejne ujęcie pokazujące pasję.' },
+            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: ['serce', 'ciężarówka', 'tir', 'kierowca'], desc: 'Pozytywny gest i uśmiech dla wszystkich.' },
+            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: ['memy', 'twarz', 'humor'], desc: 'Wyrażenie emocji w zabawny sposób.' },
+            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: ['biceps', 'siła', 'forma'], desc: 'Wzrost formy i determinacja.' },
+            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: ['twarz', 'spojrzenie', 'live'], desc: 'Mężczyzna patrzy bezpośrednio w obiektyw.' },
+            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: ['perspektywa', 'twarz', 'memy'], desc: 'Ujęcie z niskiej perspektywy.' },
+            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: ['serce', 'dłonie', 'miłość'], desc: 'Kształt serca dłońmi.' },
+            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: ['tir', 'kierowca', 'trasa', 'polska'], desc: 'Transmisja na żywo z kabiny.' },
+            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: ['picie', 'chill', 'odpoczynek'], desc: 'Chwila przerwy z napojem.' },
+            { src: 'image25.png', title: 'Deska', cat: 'Praca', tags: ['koniec', 'setup', 'praca'], desc: 'Kadr kończący transmisję.' },
+            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: ['chill', 'odpoczynek', 'wakacje', 'luz'], desc: 'Kadr uchwycony w momencie pełnego odprężenia.' },
+            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: ['live', 'picie', 'woda'], desc: 'Kulisowe ujęcie z transmisji na żywo.' }
         ];
 
-        let filteredItems = [];
-        let currentIndex = 0;
-        let isFavoritesView = false;
         let currentCategory = 'all';
         let searchQuery = '';
+        let currentIndex = 0;
+        let isFavoritesView = false;
+        let filteredPhotos = [...photosDatabase];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if (localStorage.getItem('theme') === 'dark') toggleTheme(true);
-            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner').remove();
-            renderAndFilter();
-        });
-
-        function renderAndFilter() {
-            const container = document.getElementById('galleryContainer');
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
             const favs = getFavorites();
-            container.innerHTML = '';
-            filteredItems = [];
+            gallery.innerHTML = '';
 
-            photosDatabase.forEach((photo) => {
-                const isFav = favs.includes(photo.src);
+            filteredPhotos = photosDatabase.filter(photo => {
                 const matchesCat = currentCategory === 'all' || photo.cat === currentCategory;
-                
-                const cleanQuery = searchQuery.toLowerCase().replace('#', '');
-                const matchesTitle = photo.title.toLowerCase().includes(cleanQuery);
-                const matchesTags = photo.tags && photo.tags.some(t => t.toLowerCase().includes(cleanQuery));
-                
-                const matchesSearch = searchQuery === '' || matchesTitle || matchesTags;
-                const matchesFavView = !isFavoritesView || isFav;
-
-                if (matchesCat && matchesSearch && matchesFavView) {
-                    filteredItems.push(photo);
-                    const index = filteredItems.length - 1;
-                    
-                    const card = document.createElement('div');
-                    card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 shadow-sm gallery-img cursor-pointer";
-                    card.innerHTML = `
-                        <div onclick="openModal(${index})">
-                            <div class=\"aspect-[4/5] overflow-hidden\"><img src=\"${photo.src}\" class=\"w-full h-full object-cover\"></div>
-                            <div class=\"absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end\">
-                                <h3 class=\"text-lg font-bold text-white mb-1\">${photo.title}</h3>
-                                <span class=\"text-[10px] bg-indigo-600/50 text-white px-2 py-0.5 rounded backdrop-blur-md uppercase font-bold w-fit\">${photo.cat}</span>
-                            </div>
-                        </div>
-                        <button onclick=\"toggleFavorite(event, '${photo.src}')\" class=\"absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn\">
-                            <i class=\"${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart text-white'}\"></i>
-                        </button>
-                    `;
-                    container.appendChild(card);
-                }
+                const matchesSearch = photo.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      photo.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                const matchesFav = !isFavoritesView || favs.includes(photo.src);
+                return matchesCat && matchesSearch && matchesFav;
             });
-            document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', filteredItems.length > 0);
+
+            if (filteredPhotos.length === 0) {
+                document.getElementById('emptyNotice').classList.remove('hidden');
+            } else {
+                document.getElementById('emptyNotice').classList.add('hidden');
+                filteredPhotos.forEach((photo, index) => {
+                    const isFav = favs.includes(photo.src);
+                    const card = `
+                        <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 gallery-img cursor-pointer shadow-sm">
+                            <div onclick="openModal(${index})" class="aspect-[4/5] overflow-hidden">
+                                <img src="${photo.src}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                                    <h3 class="text-lg font-bold text-white mb-1">${photo.title}</h3>
+                                    <p class="text-xs text-indigo-300 font-semibold uppercase">${photo.cat}</p>
+                                </div>
+                            </div>
+                            <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full favorite-btn text-white">
+                                <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-200'}"></i>
+                            </button>
+                        </div>`;
+                    gallery.innerHTML += card;
+                });
+            }
+        }
+
+        // --- FUNKCJE OBSŁUGI ---
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGallery();
+        }
+
+        function filterSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderGallery();
+        }
+
+        function toggleFavoritesView() {
+            isFavoritesView = !isFavoritesView;
+            const tabBtn = document.getElementById('favoritesTabBtn');
+            const tabText = document.getElementById('favoritesTabText');
+            
+            if(isFavoritesView) {
+                tabBtn.classList.add('bg-indigo-600', 'text-white');
+                tabText.textContent = "Wszystkie";
+            } else {
+                tabBtn.classList.remove('bg-indigo-600', 'text-white');
+                tabText.textContent = "Ulubione";
+            }
+            renderGallery();
         }
 
         function openModal(index) {
             currentIndex = index;
-            updateModal(false);
+            updateModal();
             document.getElementById('imageModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
         }
 
-        function updateModal(shouldFade = true) {
-            const item = filteredItems[currentIndex];
-            const modalImg = document.getElementById('modalImage');
+        function updateModal() {
+            const photo = filteredPhotos[currentIndex];
+            if (!photo) return;
+            document.getElementById('modalImage').src = photo.src;
+            document.getElementById('modalTitle').textContent = photo.title;
+            document.getElementById('modalDescriptionText').textContent = photo.desc;
+            document.getElementById('modalDownloadBtn').href = photo.src;
             
-            if(shouldFade) {
-                modalImg.style.opacity = '0';
-                setTimeout(() => { modalImg.src = item.src; modalImg.style.opacity = '1'; }, 100);
-            } else { modalImg.src = item.src; }
-
-            document.getElementById('modalTitle').innerText = item.title;
-            document.getElementById('modalDescriptionText').innerText = item.desc;
-            document.getElementById('modalDownloadBtn').href = item.src;
-            document.getElementById('modalNewTabBtn').href = item.src;
-            
-            const tagsContainer = document.getElementById('modalTagsContainer');
-            tagsContainer.innerHTML = '';
-            if(item.tags) {
-                item.tags.forEach(tag => {
-                    const span = document.createElement('span');
-                    span.className = "tag-pill text-xs font-bold bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-lg";
-                    span.innerHTML = `#${tag}`;
-                    span.onclick = () => searchTag(tag);
-                    tagsContainer.appendChild(span);
-                });
-            }
-
-            updateModalHeart();
-            document.getElementById('descriptionBox').classList.add('hidden');
-            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis i tagi';
+            const favs = getFavorites();
+            const modalFavBtn = document.getElementById('modalFavBtn');
+            modalFavBtn.innerHTML = favs.includes(photo.src) ? '<i class="fas fa-heart text-red-500"></i>' : '<i class="far fa-heart"></i>';
         }
 
-        function searchTag(tag) {
-            document.getElementById('searchInput').value = `#${tag}`;
-            searchQuery = `#${tag}`;
-            closeImageModal();
-            renderAndFilter();
+        function toggleFavorite(event, src) {
+            event.stopPropagation();
+            let favs = getFavorites();
+            const idx = favs.indexOf(src);
+            if (idx === -1) favs.push(src); else favs.splice(idx, 1);
+            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+            renderGallery();
         }
 
-        function updateModalHeart() {
-            const isFav = getFavorites().includes(filteredItems[currentIndex].src);
-            document.getElementById('modalFavBtn').innerHTML = `<i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>`;
+        function toggleFavoriteFromModal() {
+            const photo = filteredPhotos[currentIndex];
+            toggleFavorite({ stopPropagation: () => {} }, photo.src);
+            updateModal();
         }
 
-        function nextImage() { if(filteredItems.length <= 1) return; currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
-        function prevImage() { if(filteredItems.length <= 1) return; currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
-        function filterCategory(val) { currentCategory = val; renderAndFilter(); }
-        function filterSearch() { searchQuery = document.getElementById('searchInput').value; renderAndFilter(); }
-        function toggleFavoritesView() { isFavoritesView = !isFavoritesView; document.getElementById('favoritesTabBtn').classList.toggle('bg-indigo-600', isFavoritesView); document.getElementById('favoritesTabBtn').classList.toggle('text-white', isFavoritesView); document.getElementById('favoritesTabText').innerText = isFavoritesView ? "Wszystkie" : "Ulubione"; renderAndFilter(); }
-        function getFavorites() { return JSON.parse(localStorage.getItem('justAndrewFavs') || '[]'); }
-        function toggleFavorite(e, src) { if(e) e.stopPropagation(); let favs = getFavorites(); favs.includes(src) ? favs = favs.filter(f => f !== src) : favs.push(src); localStorage.setItem('justAndrewFavs', JSON.stringify(favs)); if(!document.getElementById('imageModal').classList.contains('hidden')) { updateModalHeart(); renderAndFilter(); } else { renderAndFilter(); } }
-        function toggleFavoriteFromModal() { toggleFavorite(null, filteredItems[currentIndex].src); }
-        function toggleTheme(init = false) { const isDark = document.documentElement.classList.toggle('dark'); document.getElementById('themeIcon').className = isDark ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg'; if(!init) localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
-        function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
-        function copyDirect(txt) { navigator.clipboard.writeText(txt).then(() => { const t = document.getElementById('toastNotification'); t.classList.remove('hidden'); setTimeout(() => t.classList.add('hidden'), 2500); }); }
-        function showConfirmationOptions() { document.getElementById('adActionButtons').classList.add('hidden'); document.getElementById('adConfirmationOptions').classList.remove('hidden'); }
-        function cancelConfirmationOptions() { document.getElementById('adConfirmationOptions').classList.add('hidden'); document.getElementById('adActionButtons').classList.remove('hidden'); }
-        function dismissAdPermanently() { document.getElementById('adBanner').remove(); localStorage.setItem('hideJustAndrewAd', 'true'); }
-        function closeImageModal() { document.getElementById('imageModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
-        function checkCloseModal(e) { if(e.target.id === 'imageModal') closeImageModal(); }
-        function toggleDescription() { const box = document.getElementById('descriptionBox'); const hidden = box.classList.toggle('hidden'); document.getElementById('descButton').innerHTML = hidden ? '<i class="fas fa-info-circle mr-2"></i> Pokaż opis i tagi' : '<i class="fas fa-info-circle mr-2"></i> Ukryj opis'; }
-        document.addEventListener('keydown', (e) => { if (document.getElementById('imageModal').classList.contains('hidden')) return; if (e.key === 'ArrowRight') nextImage(); if (e.key === 'ArrowLeft') prevImage(); if (e.key === 'Escape') closeImageModal(); });
+        function getFavorites() {
+            const favs = localStorage.getItem('justAndrewFavorites');
+            return favs ? JSON.parse(favs) : [];
+        }
+
+        function closeImageModal() { document.getElementById('imageModal').classList.add('hidden'); }
+        function checkCloseModal(event) { if (event.target.id === 'imageModal') closeImageModal(); }
+        function nextImage() { currentIndex = (currentIndex + 1) % filteredPhotos.length; updateModal(); }
+        function prevImage() { currentIndex = (currentIndex - 1 + filteredPhotos.length) % filteredPhotos.length; updateModal(); }
+        function toggleDescription() { document.getElementById('descriptionBox').classList.toggle('hidden'); }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.getElementById('themeIcon').classList.replace(isDark ? 'fa-moon' : 'fa-sun', isDark ? 'fa-sun' : 'fa-moon');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function copyDirect(text) {
+            navigator.clipboard.writeText(text);
+            alert("Skopiowano IP!");
+        }
+
+        function dismissAdPermanently() {
+            document.getElementById('adBanner').classList.add('hidden');
+            localStorage.setItem('hideJustAndrewAd', 'true');
+        }
+
+        function openDiscordModal() { alert("Discord: andrewk0x"); }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem('theme') === 'dark') toggleTheme();
+            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner').classList.add('hidden');
+            renderGallery();
+        });
     </script>
 </body>
 </html>
