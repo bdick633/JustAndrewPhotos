@@ -28,16 +28,13 @@
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
-        /* Płynne przejścia */
         body, header, footer, main, .bg-card, .bg-modal-content, #siteTitle, #mainHeading, #mainSubtext {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         
-        /* Animacja powiadomienia */
         .notification-fade-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Animacja Toast */
         .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-leave { animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -51,9 +48,8 @@
             stroke-linejoin: round;
         }
 
-        /* Przyciski ulubionych – szare, lekko widoczne, neutralne po najechaniu */
         .favorite-btn {
-            background-color: rgba(107, 114, 128, 0.5); /* półprzezroczysty szary */
+            background-color: rgba(107, 114, 128, 0.5); 
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.15s ease, background-color 0.15s ease !important;
@@ -65,36 +61,19 @@
             background-color: rgba(107, 114, 128, 0.7) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
         }
-        .favorite-btn:focus,
-        .favorite-btn:active,
-        .favorite-btn:focus-visible {
-            outline: none !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
 
-        /* Przyciski w modalu */
         #modalFavBtn {
             transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease !important;
             border: 1px solid rgba(156, 163, 175, 0.3);
         }
-        #modalFavBtn:hover {
-            transform: scale(1.06) !important;
-            border-color: transparent !important;
-            outline: none !important;
-            box-shadow: none !important;
-        }
-        #modalFavBtn:focus,
-        #modalFavBtn:active {
-            outline: none !important;
-            box-shadow: none !important;
-        }
 
-        /* Styl dla aktywnego przycisku kategorii */
-        .filter-btn.active {
-            background-color: #4f46e5;
-            color: white;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        /* Styl nowego selecta */
+        .category-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
         }
     </style>
 </head>
@@ -113,7 +92,6 @@
                 <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition duration-150 flex items-center gap-1.5 shadow-sm">
                     <i class="fas fa-copy"></i> Kopiuj IP
                 </button>
-                
                 <button id="adDismissBtn" onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 rounded-lg focus:outline-none" title="Ukryj reklamę">
                     <i class="fas fa-times"></i> <span class="text-xs underline ml-1">Nie interesuje mnie to</span>
                 </button>
@@ -171,11 +149,13 @@
             <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed mb-6">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
 
             <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
-                <div class="flex flex-wrap justify-center gap-2 bg-white dark:bg-[#1a1c24] p-2 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <button onclick="filterCategory('all', this)" class="filter-btn active px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200">Wszystkie</button>
-                    <button onclick="filterCategory('Stream', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Stream</button>
-                    <button onclick="filterCategory('Praca', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Praca</button>
-                    <button onclick="filterCategory('Relaks', this)" class="filter-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Relaks</button>
+                <div class="w-full md:w-auto">
+                    <select onchange="filterCategory(this.value, this)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm transition-all cursor-pointer">
+                        <option value="all">Wszystkie kategorie</option>
+                        <option value="Stream">Stream</option>
+                        <option value="Praca">Praca</option>
+                        <option value="Relaks">Relaks</option>
+                    </select>
                 </div>
 
                 <div class="relative w-full max-w-xs">
@@ -653,17 +633,13 @@
             updateFavoriteButtonsUI();
         });
 
-        // System segregowania i wyszukiwania
         function filterGallery() {
             const cards = document.querySelectorAll('.gallery-card');
-            
             cards.forEach(card => {
                 const category = card.getAttribute('data-category');
                 const title = card.getAttribute('data-title').toLowerCase();
-                
                 const matchesCategory = (currentCategory === 'all' || category === currentCategory);
                 const matchesSearch = title.includes(searchQuery.toLowerCase());
-
                 if (matchesCategory && matchesSearch) {
                     card.classList.remove('hidden');
                 } else {
@@ -672,17 +648,8 @@
             });
         }
 
-        function filterCategory(category, btn) {
+        function filterCategory(category) {
             currentCategory = category;
-            
-            // Wizualna zmiana aktywnych przycisków
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.classList.remove('active', 'bg-indigo-600', 'text-white');
-                b.classList.add('text-gray-600', 'dark:text-gray-400');
-            });
-            btn.classList.add('active', 'bg-indigo-600', 'text-white');
-            btn.classList.remove('text-gray-600', 'dark:text-gray-400');
-
             filterGallery();
         }
 
@@ -692,24 +659,12 @@
         }
 
         function showAllItems() {
-            // Resetuje filtry
             currentCategory = 'all';
             document.getElementById('searchInput').value = '';
             searchQuery = '';
-            
             const cards = document.querySelectorAll('.gallery-card');
             cards.forEach(card => card.classList.remove('hidden'));
             document.getElementById('emptyFavoritesNotice').classList.add('hidden');
-
-            // Reset przycisków kategorii do widoku początkowego
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                if (b.textContent === 'Wszystkie') {
-                    b.classList.add('active', 'bg-indigo-600', 'text-white');
-                } else {
-                    b.classList.remove('active', 'bg-indigo-600', 'text-white');
-                    b.classList.add('text-gray-600', 'dark:text-gray-400');
-                }
-            });
         }
 
         function openModalWithIndex(index) {
@@ -743,47 +698,27 @@
             event.stopPropagation();
             let favs = getFavorites();
             const index = favs.indexOf(imgPath);
-
-            if (index === -1) {
-                favs.push(imgPath);
-            } else {
-                favs.splice(index, 1);
-            }
-
+            if (index === -1) { favs.push(imgPath); } else { favs.splice(index, 1); }
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
             updateFavoriteButtonsUI();
-
-            if (isFavoritesView) {
-                renderFavoritesView();
-            }
+            if (isFavoritesView) renderFavoritesView();
         }
 
         function toggleFavoriteFromModal() {
             const current = galleryItems[currentIndex];
             if (!current) return;
-            
             let favs = getFavorites();
             const index = favs.indexOf(current.src);
-
-            if (index === -1) {
-                favs.push(current.src);
-            } else {
-                favs.splice(index, 1);
-            }
-
+            if (index === -1) { favs.push(current.src); } else { favs.splice(index, 1); }
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
             updateFavoriteButtonsUI();
             updateModalHeartButton();
-
-            if (isFavoritesView) {
-                renderFavoritesView();
-            }
+            if (isFavoritesView) renderFavoritesView();
         }
 
         function updateFavoriteButtonsUI() {
             const favs = getFavorites();
             const cards = document.querySelectorAll('.gallery-card');
-
             cards.forEach(card => {
                 const imgPath = card.getAttribute('data-img');
                 const btn = card.querySelector('.favorite-btn');
@@ -804,7 +739,6 @@
             const modalFavBtn = document.getElementById('modalFavBtn');
             const favs = getFavorites();
             if (!current) return;
-
             if (favs.includes(current.src)) {
                 modalFavBtn.innerHTML = '<i class="fas fa-heart text-red-500 text-lg"></i>';
             } else {
@@ -816,7 +750,6 @@
             isFavoritesView = !isFavoritesView;
             const tabBtn = document.getElementById('favoritesTabBtn');
             const tabText = document.getElementById('favoritesTabText');
-
             if (isFavoritesView) {
                 tabBtn.classList.add('bg-indigo-600', 'text-white');
                 tabBtn.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
@@ -834,28 +767,17 @@
             const favs = getFavorites();
             const cards = document.querySelectorAll('.gallery-card');
             let visibleCount = 0;
-
             cards.forEach(card => {
                 const imgPath = card.getAttribute('data-img');
                 if (favs.includes(imgPath)) {
-                    // Sprawdzamy też czy kategoria jest aktualnie aktywna
                     if (currentCategory === 'all' || card.getAttribute('data-category') === currentCategory) {
                         card.classList.remove('hidden');
                         visibleCount++;
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                } else {
-                    card.classList.add('hidden');
-                }
+                    } else { card.classList.add('hidden'); }
+                } else { card.classList.add('hidden'); }
             });
-
             const notice = document.getElementById('emptyFavoritesNotice');
-            if (visibleCount === 0) {
-                notice.classList.remove('hidden');
-            } else {
-                notice.classList.add('hidden');
-            }
+            if (visibleCount === 0) notice.classList.remove('hidden'); else notice.classList.add('hidden');
         }
 
         function updateModal() {
@@ -871,15 +793,8 @@
             updateModalHeartButton();
         }
 
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % galleryItems.length;
-            updateModal();
-        }
-
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
-            updateModal();
-        }
+        function nextImage() { currentIndex = (currentIndex + 1) % galleryItems.length; updateModal(); }
+        function prevImage() { currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length; updateModal(); }
 
         document.addEventListener('keydown', function(e) {
             if (!document.getElementById('imageModal').classList.contains('hidden')) {
@@ -930,7 +845,6 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
             const toast = document.getElementById('toastNotification');
             toast.classList.remove('hidden');
             setTimeout(() => { toast.classList.add('hidden'); }, 3000);
