@@ -30,7 +30,7 @@
             transition: all 0.15s ease;
         }
 
-        /* Naprawa błędu z uciekającymi przyciskami - modal teraz scrolluje wewnątrz jeśli zdjęcie jest za duże */
+        /* Naprawa błędu z uciekającymi przyciskami */
         #imageModal {
             display: none;
             overflow-y: auto;
@@ -38,18 +38,10 @@
         }
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
 
-        .category-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.2em;
-        }
-
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
     </style>
 </head>
-<body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
+<body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
 
     <div id="adBanner" class="bg-gradient-to-r from-emerald-600 to-teal-600 py-3 px-6 shadow-sm border-b border-emerald-400/20">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
@@ -58,7 +50,7 @@
                 <p class="font-medium text-sm">Sprawdź nasz serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span></p>
             </div>
             <div id="adActionButtons" class="flex items-center gap-4">
-                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 flex items-center gap-1.5 shadow-sm">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 flex items-center gap-1.5 shadow-sm transition">
                     <i class="fas fa-copy"></i> Kopiuj IP
                 </button>
                 <button onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 focus:outline-none">
@@ -68,13 +60,13 @@
             <div id="adConfirmationOptions" class="hidden flex items-center gap-4">
                 <span class="text-emerald-200 text-xs">Na pewno?</span>
                 <button onclick="dismissAdPermanently()" class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg">Nie wyświetlaj ponownie</button>
-                <button onclick="cancelConfirmationOptions()" class="text-xs bg-white/10 text-white py-1.5 px-3 rounded-lg text-xs">Anuluj</button>
+                <button onclick="cancelConfirmationOptions()" class="text-xs bg-white/10 text-white py-1.5 px-3 rounded-lg">Anuluj</button>
             </div>
         </div>
     </div>
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full relative z-40">
-        <div class="flex items-center space-x-3"><span id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white">JustAndrew</span></div>
+        <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white">JustAndrew</div>
         <div class="flex items-center space-x-5">
             <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
                 <i class="far fa-heart"></i> <span id="favoritesTabText">Ulubione</span>
@@ -86,9 +78,9 @@
                 <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-500"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500"><i class="fab fa-facebook-f text-xl"></i></a>
                 <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" class="hover:text-indigo-500"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 block hover:text-indigo-500">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" font-family="Arial, sans-serif" fill="currentColor" stroke="none">Tip</text></svg>
+                <a href="https://www.tiktok.com/@endrjugod666" target="_blank" class="hover:text-indigo-500"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 hover:text-indigo-500">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" fill="currentColor" stroke="none">Tip</text></svg>
                 </a>
                 <button onclick="openDiscordModal()" class="hover:text-indigo-500"><i class="fab fa-discord text-xl"></i></button>
             </div>
@@ -96,10 +88,10 @@
     </header>
 
     <main class="flex-grow px-6 md:px-12 max-w-6xl mx-auto w-full py-6">
-        <section class="text-center mb-10 max-w-2xl mx-auto">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
-            <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
-                <select id="categorySelect" onchange="filterCategory(this.value)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer">
+        <section class="text-center mb-10">
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black mb-4">Galeria Fotografii</h1>
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <select id="categorySelect" onchange="filterCategory(this.value)" class="w-full md:w-64 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none dark:text-white">
                     <option value="all">Wszystkie kategorie</option>
                     <option value="Stream">Stream</option>
                     <option value="Praca">Praca</option>
@@ -107,44 +99,39 @@
                 </select>
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj (np. zakola, piwo, gej)..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj (np. zakola, piwo)..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
                 </div>
             </div>
         </section>
-
-        <div id="emptySearchNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8">
-            <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
-            <h2 class="text-xl font-bold dark:text-white">Nie znaleziono zdjęć</h2>
-        </div>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
     </main>
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50">
-        <div onclick="event.stopPropagation()" class="relative max-w-3xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto">
+        <div onclick="event.stopPropagation()" class="relative max-w-3xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh]">
             <div class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700 dark:text-white"><i class="far fa-heart"></i></button>
-                <h3 id="modalTitle" class="font-bold text-lg dark:text-white"></h3>
+                <h3 id="modalTitle" class="font-bold text-lg dark:text-white text-center flex-grow"></h3>
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
             </div>
             
-            <div class="relative bg-black/5 flex items-center justify-center min-h-[300px]">
+            <div class="relative bg-black/5 flex items-center justify-center min-h-[300px] overflow-hidden">
                 <button onclick="prevImage()" class="absolute left-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-left"></i></button>
-                <img id="modalImage" src="" class="max-w-full max-h-[60vh] object-contain">
+                <img id="modalImage" src="" class="max-w-full max-h-[55vh] object-contain">
                 <button onclick="nextImage()" class="absolute right-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-right"></i></button>
             </div>
 
-            <div class="p-6">
+            <div class="p-6 overflow-y-auto">
                 <div id="descriptionBox" class="hidden mb-4 p-4 bg-gray-50 dark:bg-[#0D0E12] rounded-2xl border border-gray-100 dark:border-gray-700">
                     <p id="modalDescriptionText" class="text-sm text-gray-600 dark:text-gray-300 mb-3"></p>
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
 
-                <div class="flex flex-wrap gap-3">
-                    <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold"><i class="fas fa-info-circle mr-1"></i> Pokaż opis</button>
-                    <a id="modalDownloadBtn" href="" download class="flex-1 py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center"><i class="fas fa-download mr-1"></i> Pobierz</a>
-                    <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center"><i class="fas fa-external-link-alt mr-1"></i> Nowa karta</a>
-                    <button onclick="closeImageModal()" class="flex-1 py-2.5 px-4 bg-gray-500 text-white rounded-xl text-xs font-bold">Zamknij</button>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold"><i class="fas fa-info-circle mr-1"></i> Pokaż opis</button>
+                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center"><i class="fas fa-download mr-1"></i> Pobierz</a>
+                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center"><i class="fas fa-external-link-alt mr-1"></i> Nowa karta</a>
+                    <button onclick="closeImageModal()" class="py-2.5 px-4 bg-gray-500 text-white rounded-xl text-xs font-bold">Zamknij</button>
                 </div>
             </div>
         </div>
@@ -155,27 +142,44 @@
             <i class="fab fa-discord text-5xl text-[#5865F2] mb-4"></i>
             <p class="text-2xl font-black text-indigo-600 mb-6">andrewk0x</p>
             <button onclick="copyDirect('andrewk0x')" class="w-full py-3 bg-[#5865F2] text-white font-bold rounded-xl mb-3">Kopiuj nazwę</button>
-            <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="text-gray-400 text-sm">Zamknij</button>
+            <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="text-gray-400 text-sm font-bold">Zamknij</button>
         </div>
     </div>
 
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3 rounded-2xl shadow-2xl border border-gray-100 hidden">
-        <div class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-[10px]"><i class="fas fa-check"></i></div>
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
         <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
     </div>
 
     <script>
+        // PEŁNA LISTA ZDJĘĆ (27 pozycji)
         const photosData = [
-            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #znajomi', desc: 'Sytuacja w duecie.' },
-            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #biceps #siła', desc: 'Forma musi być.' },
-            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #idiota', desc: 'Mistrz akrobacji.' },
-            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech #alkoholik', desc: 'Zimne orzeźwienie.' },
-            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Mocne skupienie.' },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #gej', desc: 'Dla was.' },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #przyjaciel #dziecko #cute', desc: 'Słodki kotek.' },
-            { src: 'image16.png', title: 'Serce w pracy', cat: 'Praca', tags: '#ciężarówka #cute', desc: 'Pozdrowienia z trasy.' },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#ciężarówka #agresja #złość', desc: 'Nerwy na drodze.' },
-            { src: 'image1.png', title: 'Zdziwienie', cat: 'Stream', tags: '#surprise #face', desc: 'Co się stało?' }
+            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.' },
+            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #znajomi', desc: 'Na zdjęciu widać relację między dwoma postaciami.' },
+            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #biceps #siła', desc: 'Zdjęcie zrobione podczas treningu.' },
+            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #idiota', desc: 'Chwila pełna energii i dynamiki.' },
+            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech #alkoholik', desc: 'Chwila orzeźwienia i relaksu w trakcie dnia.' },
+            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz #skupienie', desc: 'Moment, w którym liczy się tylko precyzja i spokój.' },
+            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill', desc: 'Kolejny moment na relaks i złapanie oddechu.' },
+            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Zdjęcie zrobione w trakcie przygotowań technicznych.' },
+            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #gej #love', desc: 'Wyrażenie wdzięczności dla widzów.' },
+            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party', desc: 'Wspólnie spędzony czas.' },
+            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #przyjaciel #dziecko #cute', desc: 'Słodka chwila z pupilem.' },
+            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Radosny moment pełen pozytywnej energii.' },
+            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello #streamer', desc: 'Kadr podczas interakcji z widzami online.' },
+            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Pełne zaangażowanie w wykonywane zadanie.' },
+            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Kolejne ujęcie pokazujące pasję.' },
+            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #cute #love', desc: 'Pozytywny gest i uśmiech dla wszystkich.' },
+            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Wyrażenie emocji w zabawny sposób.' },
+            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#ciężarówka #agresja #złość', desc: 'Kiedy droga wywołuje czystą agresję.' },
+            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Mężczyzna patrzy bezpośrednio w obiektyw.' },
+            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Ujęcie z niskiej perspektywy.' },
+            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Kształt serca dłońmi.' },
+            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: '#driving #trucker', desc: 'Transmisja na żywo z kabiny.' },
+            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill', desc: 'Chwila przerwy z napojem.' },
+            { src: 'image25.png', title: 'Deska', cat: 'Praca', tags: '#view #truck', desc: 'Kadr kończący transmisję.' },
+            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Kadr uchwycony w momencie pełnego odprężenia.' },
+            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh', desc: 'Kulisowe ujęcie z transmisji na żywo.' }
         ];
 
         let filteredItems = [];
@@ -216,7 +220,6 @@
                     container.appendChild(card);
                 }
             });
-            document.getElementById('emptySearchNotice').classList.toggle('hidden', filteredItems.length > 0);
         }
 
         function openModal(index) {
@@ -260,7 +263,9 @@
         function filterSearch() { searchQuery = document.getElementById('searchInput').value; renderGallery(); }
         function toggleFavoritesView() {
             isFavoritesView = !isFavoritesView;
-            document.getElementById('favoritesTabBtn').classList.toggle('bg-indigo-600', isFavoritesView);
+            const btn = document.getElementById('favoritesTabBtn');
+            btn.classList.toggle('bg-indigo-600', isFavoritesView);
+            btn.classList.toggle('text-white', isFavoritesView);
             document.getElementById('favoritesTabText').textContent = isFavoritesView ? "Wszystkie" : "Ulubione";
             renderGallery();
         }
