@@ -18,7 +18,9 @@
         html.dark body { background-color: #0D0E12; color: #E2E8F0; }
         html.dark #siteTitle, html.dark #mainHeading { color: #FFFFFF; }
         html.dark #mainSubtext { color: #94A3B8; }
-        html.dark .bg-card { background-color: #1a1c24; border-color: #1f2937; }
+        html.dark .bg-card, html.dark .bg-modal-content { background-color: #1a1c24; border-color: #1f2937; }
+        html.dark .text-card { color: #FFFFFF; }
+        html.dark .subtext-card { color: #94A3B8; }
 
         .gallery-img { transition: transform 0.4s ease-out, filter 0.4s ease; }
         .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
@@ -39,8 +41,6 @@
             background-position: right 1rem center;
             background-size: 1.2em;
         }
-
-        .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white" id="siteBody">
@@ -52,7 +52,7 @@
                 <p class="text-white font-medium text-sm">Sprawdź nasz serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded text-emerald-200">JustAndrewSMP.aternos.me</span></p>
             </div>
             <div id="adActionButtons" class="flex items-center gap-4">
-                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 flex items-center gap-1.5 shadow-sm">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 flex items-center gap-1.5 shadow-sm transition">
                     <i class="fas fa-copy"></i> Kopiuj IP
                 </button>
                 <button onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-sm p-1.5 focus:outline-none">
@@ -81,9 +81,6 @@
                 <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500"><i class="fab fa-facebook-f text-xl"></i></a>
                 <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" class="hover:text-indigo-500"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 block hover:text-indigo-500">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" font-family="Arial, sans-serif" fill="currentColor" stroke="none">Tip</text></svg>
-                </a>
                 <button onclick="openDiscordModal()" class="hover:text-indigo-500"><i class="fab fa-discord text-xl"></i></button>
             </div>
         </div>
@@ -93,6 +90,7 @@
         <section class="text-center mb-10 max-w-2xl mx-auto">
             <h1 id="mainHeading" class="text-4xl md:text-6xl font-black text-gray-900 mb-4">Witaj w moim świecie</h1>
             <p id="mainSubtext" class="text-gray-600 text-lg md:text-xl leading-relaxed mb-6">Jestem JustAndrew. Zobacz moje fotografie poniżej.</p>
+
             <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
                 <select id="categorySelect" onchange="filterCategory(this.value)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer">
                     <option value="all">Wszystkie kategorie</option>
@@ -102,28 +100,133 @@
                 </select>
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj zdjęcia..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white">
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj (np. gej, piwo, zakola)..." 
+                        class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
                 </div>
             </div>
         </section>
 
-        <div id="emptySearchNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8">
-            <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Nie znaleziono zdjęć</h2>
-            <p class="text-sm text-gray-500">Spróbuj wpisać inną frazę lub zmień kategorię.</p>
-        </div>
-
-        <div id="emptyFavoritesNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8">
+        <div id="emptyFavoritesNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8 shadow-sm">
             <i class="far fa-heart text-4xl text-indigo-500 mb-4 animate-bounce"></i>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Brak ulubionych</h2>
-            <p class="text-sm text-gray-500">Nie masz jeszcze żadnych polubionych zdjęć.</p>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Brak zdjęć</h2>
+            <p class="text-sm text-gray-500">Spróbuj zmienić filtry lub wyszukiwane hasło.</p>
         </div>
 
-        <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
+        <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
+            
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image2.png" data-title="Duet" data-category="Stream" data-tags="rodzeństwo przyjaciele znajomi" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Duet</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#rodzeństwo #przyjaciele #znajomi</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
 
-        <section class="flex flex-col items-center justify-center text-center mt-6 mb-12 p-8 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl shadow-sm max-w-2xl mx-auto bg-card">
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image3.png" data-title="Flexing" data-category="Stream" data-tags="mięśnie biceps siła" data-desc="Zdjęcie zrobione podczas treningu.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Flexing</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#mięśnie #biceps #siła</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image4.png" data-title="Świeca" data-category="Stream" data-tags="świeca akrobata idiota" data-desc="Chwila pełna energii i dynamiki.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Świeca</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#świeca #akrobata #idiota</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image5.png" data-title="Refreshment" data-category="Stream" data-tags="piwo lech alkoholik" data-desc="Chwila orzeźwienia i relaksu.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Refreshment</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#piwo #lech #alkoholik</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image6.png" data-title="Głębokie skupienie" data-category="Stream" data-tags="zakola twarz" data-desc="Moment, w którym liczy się tylko precyzja.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Głębokie skupienie</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#zakola #twarz</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image9.png" data-title="Serce" data-category="Stream" data-tags="uwu gej" data-desc="Wyrażenie wdzięczności dla widzów.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Serce</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#uwu #gej</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image11.png" data-title="Z puszystym przyjacielem" data-category="Stream" data-tags="kot przyjaciel dziecko cute" data-desc="Słodka chwila z pupilem.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Z puszystym przyjacielem</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#kot #przyjaciel #dziecko #cute</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image16.png" data-title="Serce w pracy" data-category="Praca" data-tags="ciężarówka cute" data-desc="Pozdrowienia z trasy.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Serce w pracy</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#ciężarówka #cute</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image18.png" data-title="Siła i motywacja" data-category="Praca" data-tags="ciężarówka agresja złość" data-desc="Wzrost formy i determinacja.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" class="w-full h-full object-cover"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-lg font-bold text-white mb-1">Siła i motywacja</h3>
+                        <p class="text-[10px] text-indigo-300 font-mono uppercase">#ciężarówka #agresja #złość</p>
+                    </div>
+                </div>
+                <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
+            </div>
+
+        </section>
+
+        <section class="flex flex-col items-center justify-center text-center mt-6 mb-12 p-8 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl shadow-sm max-w-2xl mx-auto">
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Chcesz dodać swoje zdjęcie?</h3>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="w-full sm:w-auto py-3.5 px-8 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition duration-200">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="w-full sm:w-auto py-3.5 px-8 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg transition">
                 <i class="fas fa-camera-retro mr-3"></i> Prześlij zdjęcie
             </a>
         </section>
@@ -132,38 +235,33 @@
     <footer class="py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">&copy; 2026 JustAndrew. Wszelkie prawa zastrzeżone.</footer>
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl overflow-hidden">
+        <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl">
             <div class="w-full flex justify-between items-center mb-4">
-                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700"><i class="far fa-heart text-lg"></i></button>
-                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-center flex-grow"></h3>
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300"><i class="far fa-heart text-lg"></i></button>
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white flex-grow text-center"></h3>
                 <button onclick="closeImageModal()" class="text-gray-500 dark:text-gray-400 text-2xl"><i class="fas fa-times"></i></button>
             </div>
             <div class="flex items-center justify-between w-full max-h-[50vh] mb-6 gap-4">
-                <button onclick="prevImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 hover:text-white transition"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="prevImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 transition"><i class="fas fa-chevron-left"></i></button>
                 <img id="modalImage" src="" class="object-contain max-h-[50vh] rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700">
-                <button onclick="nextImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 hover:text-white transition"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="nextImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full hover:bg-indigo-600 transition"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm text-gray-700 dark:text-gray-300 overflow-y-auto max-h-[150px]">
-                <p id="modalDescriptionText"></p>
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm">
+                <p id="modalDescriptionText" class="text-gray-700 dark:text-gray-300"></p>
             </div>
             <div class="flex flex-wrap gap-3 w-full justify-center">
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 min-w-[120px] py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl text-sm"><i class="fas fa-info-circle mr-2"></i> Pokaż opis</button>
-                <a id="modalDownloadBtn" href="" download class="flex-1 min-w-[120px] py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl text-sm"><i class="fas fa-download mr-2"></i> Pobierz</a>
-                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 min-w-[120px] py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl text-sm"><i class="fas fa-external-link-alt mr-2"></i> Nowa karta</a>
-                <button onclick="closeImageModal()" class="flex-1 min-w-[120px] py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl text-sm"><i class="fas fa-times mr-2"></i> Zamknij</button>
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 min-w-[120px] py-2 px-3 bg-amber-600 text-white font-semibold rounded-xl text-sm"><i class="fas fa-info-circle mr-2"></i> Pokaż opis</button>
+                <a id="modalDownloadBtn" href="" download class="flex-1 min-w-[120px] py-2 px-3 bg-green-600 text-white font-semibold rounded-xl text-center text-sm"><i class="fas fa-download mr-2"></i> Pobierz</a>
+                <button onclick="closeImageModal()" class="flex-1 min-w-[120px] py-2 px-3 bg-gray-600 text-white font-semibold rounded-xl text-sm"><i class="fas fa-times mr-2"></i> Zamknij</button>
             </div>
         </div>
     </div>
 
     <div id="discordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden">
-        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20"><i class="fab fa-discord"></i></div>
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl text-center">
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kontakt Discord</h3>
             <p class="text-3xl font-extrabold text-indigo-600 mb-6">andrewk0x</p>
-            <div class="flex gap-3 w-full">
-                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 bg-[#5865F2] text-white font-semibold rounded-xl">Kopiuj nazwę</button>
-                <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="flex-1 py-3.5 bg-gray-300 dark:bg-gray-700 font-semibold rounded-xl">Zamknij</button>
-            </div>
+            <button onclick="copyDirect('andrewk0x')" class="w-full py-3 bg-[#5865F2] text-white font-semibold rounded-xl">Kopiuj nazwę</button>
         </div>
     </div>
 
@@ -173,133 +271,99 @@
     </div>
 
     <script>
-        const photosData = [
-            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', desc: 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.' },
-            { src: 'image2.png', title: 'Duet', cat: 'Stream', desc: 'Na zdjęciu widać relację między dwoma postaciami.' },
-            { src: 'image3.png', title: 'Flexing', cat: 'Stream', desc: 'Zdjęcie zrobione podczas treningu.' },
-            { src: 'image4.png', title: 'Świeca', cat: 'Stream', desc: 'Chwila pełna energii i dynamiki.' },
-            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', desc: 'Chwila orzeźwienia i relaksu.' },
-            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', desc: 'Moment, w którym liczy się tylko precyzja.' },
-            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', desc: 'Kolejny moment na relaks.' },
-            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', desc: 'Przygotowania techniczne.' },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', desc: 'Wyrażenie wdzięczności dla widzów.' },
-            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', desc: 'Wspólnie spędzony czas.' },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', desc: 'Słodka chwila z pupilem.' },
-            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', desc: 'Radosny moment.' },
-            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', desc: 'Interakcja z widzami.' },
-            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', desc: 'Pełne zaangażowanie.' },
-            { src: 'image15.png', title: 'Trening', cat: 'Stream', desc: 'Kolejne ujęcie pasji.' },
-            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', desc: 'Pozytywny gest.' },
-            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', desc: 'Emocje w pracy.' },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', desc: 'Wzrost formy.' },
-            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', desc: 'Bezpośrednio w obiektyw.' },
-            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', desc: 'Niska perspektywa.' },
-            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', desc: 'Serce dłońmi.' },
-            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', desc: 'Transmisja z kabiny.' },
-            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', desc: 'Chwila przerwy.' },
-            { src: 'image25.png', title: 'Deska', cat: 'Praca', desc: 'Koniec trasy.' },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', desc: 'Pełne odprężenie.' },
-            { src: 'image27.png', title: 'Orzeźwienie', cat: 'Stream', desc: 'Kulisowe ujęcie.' }
-        ];
-
         let filteredItems = [];
         let currentIndex = 0;
         let isFavoritesView = false;
         let currentCategory = 'all';
         let searchQuery = '';
 
-        function renderGallery() {
-            const container = document.getElementById('gallery');
-            const favs = getFavorites();
-            container.innerHTML = '';
+        function filterGallery() {
+            const cards = document.querySelectorAll('.gallery-card');
             filteredItems = [];
-
-            photosData.forEach(photo => {
-                const matchesCat = (currentCategory === 'all' || photo.cat === currentCategory);
-                const matchesSearch = photo.title.toLowerCase().includes(searchQuery.toLowerCase());
-                const isFav = favs.includes(photo.src);
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-category');
+                const title = card.getAttribute('data-title').toLowerCase();
+                const tags = card.getAttribute('data-tags').toLowerCase();
+                const isFav = getFavorites().includes(card.getAttribute('data-img'));
+                
+                const matchesCat = (currentCategory === 'all' || cat === currentCategory);
+                const matchesSearch = title.includes(searchQuery.toLowerCase()) || tags.includes(searchQuery.toLowerCase());
                 const matchesFavs = !isFavoritesView || isFav;
 
                 if (matchesCat && matchesSearch && matchesFavs) {
-                    filteredItems.push(photo);
-                    const index = filteredItems.length - 1;
-                    const card = document.createElement('div');
-                    card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400 shadow-sm duration-300 gallery-img cursor-pointer";
-                    card.innerHTML = `
-                        <div onclick="openModal(${index})">
-                            <div class="aspect-[4/5] overflow-hidden"><img src="${photo.src}" class="w-full h-full object-cover"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
-                                <h3 class="text-lg font-bold text-white mb-1">${photo.title}</h3>
-                                <p class="text-xs text-indigo-300 font-semibold uppercase">${photo.cat}</p>
-                            </div>
-                        </div>
-                        <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn">
-                            <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
-                        </button>`;
-                    container.appendChild(card);
+                    card.classList.remove('hidden');
+                    filteredItems.push({
+                        src: card.getAttribute('data-img'),
+                        title: card.getAttribute('data-title'),
+                        desc: card.getAttribute('data-desc')
+                    });
+                    card.querySelector('.card-click-area').setAttribute('onclick', `openModal(${filteredItems.length - 1})`);
+                } else {
+                    card.classList.add('hidden');
                 }
             });
-
-            document.getElementById('emptySearchNotice').classList.toggle('hidden', filteredItems.length > 0 || isFavoritesView);
-            document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', filteredItems.length > 0 || !isFavoritesView);
+            document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', filteredItems.length > 0);
         }
 
-        function openModal(index) { currentIndex = index; updateModal(); document.getElementById('imageModal').classList.remove('hidden'); }
+        function openModal(idx) { currentIndex = idx; updateModal(); document.getElementById('imageModal').classList.remove('hidden'); }
         function updateModal() {
             const item = filteredItems[currentIndex];
-            if (!item) return;
             document.getElementById('modalImage').src = item.src;
             document.getElementById('modalTitle').textContent = item.title;
             document.getElementById('modalDescriptionText').textContent = item.desc;
             document.getElementById('modalDownloadBtn').href = item.src;
-            document.getElementById('modalNewTabBtn').href = item.src;
             updateModalHeartButton();
         }
 
-        function toggleFavorite(event, imgPath) {
-            if (event) event.stopPropagation();
+        function getFavorites() { return JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]'); }
+        function toggleFavorite(e, img) {
+            e.stopPropagation();
             let favs = getFavorites();
-            const idx = favs.indexOf(imgPath);
-            if (idx === -1) favs.push(imgPath); else favs.splice(idx, 1);
+            const idx = favs.indexOf(img);
+            if (idx === -1) favs.push(img); else favs.splice(idx, 1);
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
-            renderGallery();
+            updateFavoriteButtonsUI();
+            if (isFavoritesView) filterGallery();
         }
 
-        function toggleFavoriteFromModal() { toggleFavorite(null, filteredItems[currentIndex].src); updateModalHeartButton(); }
+        function toggleFavoriteFromModal() { toggleFavorite({stopPropagation:()=>{}}, filteredItems[currentIndex].src); updateModalHeartButton(); }
+        function updateFavoriteButtonsUI() {
+            const favs = getFavorites();
+            document.querySelectorAll('.gallery-card').forEach(card => {
+                const img = card.getAttribute('data-img');
+                card.querySelector('.favorite-btn i').className = favs.includes(img) ? 'fas fa-heart text-red-500' : 'far fa-heart';
+            });
+        }
         function updateModalHeartButton() {
             const isFav = getFavorites().includes(filteredItems[currentIndex].src);
             document.getElementById('modalFavBtn').innerHTML = `<i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'} text-lg"></i>`;
         }
-        function getFavorites() { return JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]'); }
-        function filterCategory(cat) { currentCategory = cat; renderGallery(); }
-        function filterSearch() { searchQuery = document.getElementById('searchInput').value; renderGallery(); }
-        function toggleFavoritesView() {
-            isFavoritesView = !isFavoritesView;
-            document.getElementById('favoritesTabBtn').classList.toggle('bg-indigo-600', isFavoritesView);
-            document.getElementById('favoritesTabBtn').classList.toggle('text-white', isFavoritesView);
+
+        function filterCategory(c) { currentCategory = c; filterGallery(); }
+        function filterSearch() { searchQuery = document.getElementById('searchInput').value; filterGallery(); }
+        function toggleFavoritesView() { 
+            isFavoritesView = !isFavoritesView; 
             document.getElementById('favoritesTabText').textContent = isFavoritesView ? "Wszystkie" : "Ulubione";
-            renderGallery();
+            document.getElementById('favoritesTabBtn').classList.toggle('bg-indigo-600', isFavoritesView);
+            filterGallery(); 
         }
         function toggleTheme() {
             const isDark = document.documentElement.classList.toggle('dark');
-            document.getElementById('themeIcon').classList.replace(isDark ? 'fa-moon' : 'fa-sun', isDark ? 'fa-sun' : 'fa-moon');
+            document.getElementById('themeIcon').className = isDark ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
-        function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
-        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(() => document.getElementById('toastNotification').classList.add('hidden'), 2000); }
-        function showConfirmationOptions() { document.getElementById('adActionButtons').classList.add('hidden'); document.getElementById('adConfirmationOptions').classList.remove('hidden'); }
-        function cancelConfirmationOptions() { document.getElementById('adConfirmationOptions').classList.add('hidden'); document.getElementById('adActionButtons').classList.remove('hidden'); }
-        function dismissAdPermanently() { document.getElementById('adBanner').remove(); localStorage.setItem('hideJustAndrewAd', 'true'); }
+        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
         function closeImageModal() { document.getElementById('imageModal').classList.add('hidden'); }
         function checkCloseModal(e) { if (e.target.id === 'imageModal') closeImageModal(); }
         function toggleDescription() { document.getElementById('descriptionBox').classList.toggle('hidden'); }
         function nextImage() { currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
         function prevImage() { currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
+        function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); }
 
         document.addEventListener("DOMContentLoaded", () => {
-            if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun'); }
-            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner')?.remove();
-            renderGallery();
+            if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun text-lg'; }
+            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner').remove();
+            filterGallery(); updateFavoriteButtonsUI();
         });
     </script>
 </body>
