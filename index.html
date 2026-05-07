@@ -124,21 +124,21 @@
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
 
-            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400 [&>a]:text-gray-600 dark:[&>a]:text-gray-300 hover:[&>a]:text-indigo-600 dark:hover:[&>a]:text-indigo-400">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" title="Instagram"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" title="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" title="YouTube"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" title="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
-                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" title="Steam"><i class="fab fa-steam text-xl"></i></a>
+            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-500"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="https://www.tiktok.com/@endrjugod666?_r=1&_t=ZN-967GapBXcLW" target="_blank" class="hover:text-indigo-500"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500"><i class="fab fa-steam text-xl"></i></a>
                 
-                <a href="https://tipply.pl/@justandrew" target="_blank" title="Wspieraj na Tipply" class="custom-svg-icon w-6 h-6 block text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 block hover:text-indigo-500">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="50" cy="50" r="46"/>
                         <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" font-family="Arial, sans-serif" fill="currentColor" stroke="none">Tip</text>
                     </svg>
                 </a>
                 
-                <button onclick="openDiscordModal()" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none" title="Discord"><i class="fab fa-discord text-xl"></i></button>
+                <button onclick="openDiscordModal()" class="hover:text-indigo-500"><i class="fab fa-discord text-xl"></i></button>
             </div>
         </div>
     </header>
@@ -150,7 +150,7 @@
 
             <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
                 <div class="w-full md:w-auto">
-                    <select onchange="filterCategory(this.value, this)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm transition-all cursor-pointer">
+                    <select id="categorySelect" onchange="filterCategory(this.value)" class="category-select w-full md:w-64 px-5 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm transition-all cursor-pointer">
                         <option value="all">Wszystkie kategorie</option>
                         <option value="Stream">Stream</option>
                         <option value="Praca">Praca</option>
@@ -169,375 +169,321 @@
         <div id="emptyFavoritesNotice" class="hidden text-center p-12 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-200 dark:border-gray-800 max-w-2xl mx-auto mb-8 shadow-sm">
             <i class="far fa-heart text-4xl text-indigo-500 mb-4 animate-bounce"></i>
             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Brak ulubionych zdjęć</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto leading-relaxed">
-                Nie dodałeś jeszcze żadnych zdjęć do ulubionych. Kliknij ikonę serduszka przy dowolnym zdjęciu, aby dodać je do swojej listy!
-            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Nie dodałeś jeszcze żadnych zdjęć do ulubionych w tej kategorii.</p>
         </div>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12">
             
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image1.png" data-title="Moment zdziwienia" data-category="Stream" data-desc="To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.">
-                <div onclick="openModalWithIndex(0)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" alt="Moment zdziwienia" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image1.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Moment zdziwienia</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image1.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image1.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image2.png" data-title="Duet" data-category="Stream" data-desc="Na zdjęciu widać relację między dwoma postaciami.">
-                <div onclick="openModalWithIndex(1)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" alt="Duet" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image2.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Duet</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image2.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image3.png" data-title="Flexing" data-category="Stream" data-desc="Zdjęcie zrobione podczas treningu. Pokazuje zaangażowanie i ciężką pracę.">
-                <div onclick="openModalWithIndex(2)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" alt="Flexing" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image3.png" data-title="Flexing" data-category="Stream" data-desc="Zdjęcie zrobione podczas treningu.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image3.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Flexing</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image3.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image4.png" data-title="Świeca" data-category="Stream" data-desc="Chwila pełna energii i dynamiki.">
-                <div onclick="openModalWithIndex(3)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" alt="Akrobata" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image4.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Świeca</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image4.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image5.png" data-title="Refreshment" data-category="Stream" data-desc="Chwila orzeźwienia i relaksu w trakcie dnia.">
-                <div onclick="openModalWithIndex(4)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" alt="Refreshment" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image5.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Refreshment</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image5.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image6.png" data-title="Głębokie skupienie" data-category="Stream" data-desc="Moment, w którym liczy się tylko precyzja i spokój.">
-                <div onclick="openModalWithIndex(5)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" alt="Głębokie skupienie" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image6.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Głębokie skupienie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image6.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image7.png" data-title="Odświeżenie" data-category="Stream" data-desc="Kolejny moment na relaks i złapanie oddechu.">
-                <div onclick="openModalWithIndex(6)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" alt="Odświeżenie" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image7.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Odświeżenie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image7.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image7.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image8.png" data-title="Przerwa na sprzęt" data-category="Stream" data-desc="Zdjęcie zrobione w trakcie przygotowań i organizacji technicznej.">
-                <div onclick="openModalWithIndex(7)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" alt="Przerwa na sprzęt" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image8.png" data-title="Przerwa na sprzęt" data-category="Stream" data-desc="Zdjęcie zrobione w trakcie przygotowań technicznych.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image8.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Przerwa na sprzęt</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image8.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image8.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image9.png" data-title="Serce" data-category="Stream" data-desc="Wyrażenie wdzięczności i miłości do widzów.">
-                <div onclick="openModalWithIndex(8)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" alt="Serce" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image9.png" data-title="Serce" data-category="Stream" data-desc="Wyrażenie wdzięczności dla widzów.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image9.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image9.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image10.png" data-title="Przyjaciele" data-category="Stream" data-desc="Wspólnie spędzony czas z najbliższymi.">
-                <div onclick="openModalWithIndex(9)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" alt="Przyjaciele" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image10.png" data-title="Przyjaciele" data-category="Stream" data-desc="Wspólnie spędzony czas.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image10.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Przyjaciele</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image10.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image10.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image11.png" data-title="Z puszystym przyjacielem" data-category="Stream" data-desc="Słodka chwila z pupilem.">
-                <div onclick="openModalWithIndex(10)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" alt="Z puszystym przyjacielem" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image11.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Z puszystym przyjacielem</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image11.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image12.png" data-title="Zbliżenie" data-category="Stream" data-desc="Radosny moment pełen pozytywnej energii.">
-                <div onclick="openModalWithIndex(11)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" alt="Zbliżenie i zabawa" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image12.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Zbliżenie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image12.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image12.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image13.png" data-title="Pozdrowienia" data-category="Stream" data-desc="Kadr podczas interakcji z widzami online.">
-                <div onclick="openModalWithIndex(12)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" alt="Pozdrowienia" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image13.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Pozdrowienia</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image13.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image13.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image14.jpg" data-title="Skupienie" data-category="Stream" data-desc="Pełne zaangażowanie w wykonywane zadanie.">
-                <div onclick="openModalWithIndex(13)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" alt="Skupienie" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image14.jpg" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Skupienie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image14.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image14.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image15.png" data-title="Trening" data-category="Stream" data-desc="Kolejne ujęcie pokazujące ciężką pracę i pasję.">
-                <div onclick="openModalWithIndex(14)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" alt="Trening" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image15.png" data-title="Trening" data-category="Stream" data-desc="Kolejne ujęcie pokazujące pasję.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image15.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Trening</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image15.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image15.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image16.png" data-title="Serce z pracy" data-category="Praca" data-desc="Pozytywny gest i uśmiech dla wszystkich.">
-                <div onclick="openModalWithIndex(15)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" alt="Serce z pracy" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image16.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Serce z pracy</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Praca</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image16.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
                  data-img="image17.png" data-title="Niezadowolenie" data-category="Praca" data-desc="Wyrażenie emocji w zabawny sposób.">
-                <div onclick="openModalWithIndex(16)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" alt="Niezadowolenie" class="w-full h-full object-cover"></div>
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image17.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Niezadowolenie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Praca</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image17.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image17.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image18.png" data-title="Siła i motywacja" data-category="Praca" data-desc="Wzrost formy i determinacja w dążeniu do celu.">
-                <div onclick="openModalWithIndex(17)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" alt="Siła i motywacja" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image18.png" data-title="Siła i motywacja" data-category="Praca" data-desc="Wzrost formy i determinacja.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image18.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Siła i motywacja</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Praca</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image18.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image19.png" data-title="Skupienie przed kamerą" data-category="Stream" data-desc="Bardzo bliskie ujęcie twarzy mężczyzny. Jest on ubrany w jasną koszulkę i ma na sobie słuchawki z mikrofonem. Mężczyzna patrzy bezpośrednio w obiektyw z poważnym lub skupionym wyrazem twarzy. W tle widoczne jest wnętrze z oknem dachowym i stojącym drapakiem dla kota.">
-                <div onclick="openModalWithIndex(18)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" alt="Skupienie przed kamerą" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image19.png" data-title="Skupienie przed kamerą" data-category="Stream" data-desc="Mężczyzna patrzy bezpośrednio w obiektyw.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image19.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Skupienie przed kamerą</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image19.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image19.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image20.png" data-title="Spojrzenie z góry" data-category="Stream" data-desc="Ujęcie zrobione z niskiej perspektywy, ukazujące mężczyznę w słuchawkach i jasnej koszulce, który patrzy w dół w stronę obiektywu lub ekranu. W tle widać jasne, skośne okno dachowe, przez które wpada światło, oraz rozwieszoną jasną tkaninę.">
-                <div onclick="openModalWithIndex(19)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" alt="Spojrzenie z góry" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image20.png" data-title="Spojrzenie z góry" data-category="Stream" data-desc="Ujęcie z niskiej perspektywy.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image20.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Spojrzenie z góry</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image20.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image20.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image21.jpg" data-title="Gest sympatii" data-category="Stream" data-desc="Mężczyzna w szarym T-shircie i słuchawkach z mikrofonem siedzi przy biurku, układając dłońmi kształt serca. Z lewej strony kadru widoczna jest jasna część twarzy i włosy innej osoby. W tle za mężczyzną znajdują się jasne drzwi oraz fragment ściany.">
-                <div onclick="openModalWithIndex(20)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" alt="Gest sympatii" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image21.jpg" data-title="Gest sympatii" data-category="Stream" data-desc="Kształt serca dłońmi.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image21.jpg" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Gest sympatii</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image21.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image21.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image22.png" data-title="W ciężarówce" data-category="Praca" data-desc="Zbliżenie na twarz mężczyzny podczas prowadzenia transmisji (streama). Na górze po lewej stronie widać ekran z panelem wsparcia i wpłatami od widzów (TOPKA TOPKA), a na dole pasek postępu zbiórki na Starlinka z podpisem w języku polskim: starlink żeby stremować częściej <3. Mężczyzna jest ubrany w jasną koszulkę i prawdopodobnie znajduje się w kabinie pojazdu lub ciężarówki.">
-                <div onclick="openModalWithIndex(21)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" alt="Transmisja na żywo w kabinie" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image22.png" data-title="W ciężarówce" data-category="Praca" data-desc="Transmisja na żywo z kabiny.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image22.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">W ciężarówce</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Praca</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image22.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image22.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image24.png" data-title="Relaks ze szklanką" data-category="Stream" data-desc="Mężczyzna siedzi przed komputerem w pokoju, ubrany w ciemną koszulkę. Na uszach ma duże czarne słuchawki z mikrofonem. W ręku trzyma szklankę, z której pije napój z pianką (przypominający piwo). W tle widoczne są jasne ściany oraz drzwi z przeszkleniami.">
-                <div onclick="openModalWithIndex(22)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" alt="Relaks ze szklanką" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image24.png" data-title="Relaks ze szklanką" data-category="Stream" data-desc="Chwila przerwy z napojem.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image24.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Relaks ze szklanką</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image24.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image24.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image25.png" data-title="Deska" data-category="Praca" data-desc="Kadr kończący wspaniałą transmisję.">
-                <div onclick="openModalWithIndex(23)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" alt="Stream 25" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image25.png" data-title="Deska" data-category="Praca" data-desc="Kadr kończący transmisję.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image25.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Deska</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Praca</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Praca</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image25.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image25.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image26.jpg" data-title="Chwila wytchnienia" data-category="Relaks" data-desc="Kadr uchwycony w momencie pełnego odprężenia. Delikatne światło i perspektywa budują spokojną atmosferę po długim dniu.">
-                <div onclick="openModalWithIndex(24)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image26.jpg" alt="Chwila wytchnienia" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image26.jpg" data-title="Chwila wytchnienia" data-category="Relaks" data-desc="Kadr uchwycony w momencie pełnego odprężenia.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image26.jpg" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Chwila wytchnienia</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Relaks</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Relaks</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image26.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image26.jpg')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
-            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 dark:hover:border-indigo-500/50 shadow-sm duration-300 gallery-img cursor-pointer bg-card gallery-card" 
-                 data-img="image27.png" data-title="Transmisja i Orzeźwienie" data-category="Stream" data-desc="Kulisowe ujęcie z transmisji na żywo, pokazujące luźny klimat podczas interakcji z widzami. Moment zasłużonej przerwy w trakcie streamowania.">
-                <div onclick="openModalWithIndex(25)" class="w-full text-left h-full block">
-                    <div class="aspect-[4/5] overflow-hidden"><img src="image27.png" alt="Orzeźwienie" class="w-full h-full object-cover"></div>
+            <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 hover:border-indigo-400/80 shadow-sm duration-300 gallery-img cursor-pointer gallery-card" 
+                 data-img="image27.png" data-title="Transmisja i Orzeźwienie" data-category="Stream" data-desc="Kulisowe ujęcie z transmisji na żywo.">
+                <div class="card-click-area">
+                    <div class="aspect-[4/5] overflow-hidden"><img src="image27.png" class="w-full h-full object-cover"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent p-6 flex flex-col justify-end">
                         <h3 class="text-lg font-bold text-white mb-1">Transmisja i Orzeźwienie</h3>
-                        <p class="text-xs text-indigo-300 font-semibold tracking-wider uppercase">Stream</p>
+                        <p class="text-xs text-indigo-300 font-semibold uppercase">Stream</p>
                     </div>
                 </div>
-                <button onclick="toggleFavorite(event, 'image27.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white focus:outline-none favorite-btn shadow-md">
-                    <i class="far fa-heart"></i>
-                </button>
+                <button onclick="toggleFavorite(event, 'image27.png')" class="absolute top-4 right-4 z-20 p-2.5 rounded-full text-white favorite-btn"><i class="far fa-heart"></i></button>
             </div>
 
         </section>
@@ -545,7 +491,7 @@
         <section class="flex flex-col items-center justify-center text-center mt-6 mb-12 p-8 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl shadow-sm max-w-2xl mx-auto bg-card">
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Chcesz dodać swoje zdjęcie?</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed subtext-card">
-                Wyślij nam swoje fotografie poprzez specjalny formularz, a po weryfikacji mogą pojawić się w galerii!
+                Wyślij nam swoje fotografie poprzez specjalny formularz!
             </p>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="w-full sm:w-auto py-3.5 px-8 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition duration-200 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                 <i class="fas fa-camera-retro mr-3 text-lg"></i> Prześlij zdjęcie
@@ -553,7 +499,7 @@
         </section>
     </main>
 
-    <footer id="footerText" class="py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
+    <footer class="py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
         &copy; 2026 JustAndrew. Wszelkie prawa zastrzeżone.
     </footer>
 
@@ -564,14 +510,14 @@
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-2.5 rounded-full text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300 focus:outline-none border border-gray-300 dark:border-gray-700" title="Dodaj do ulubionych">
                     <i class="far fa-heart text-lg"></i>
                 </button>
-                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card"></h3>
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-card text-center flex-grow"></h3>
                 <button onclick="closeImageModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl focus:outline-none">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <div class="flex items-center justify-between w-full max-h-[50vh] mb-6 gap-4">
-                <button onclick="prevImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition duration-200 focus:outline-none">
+                <button onclick="prevImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition duration-200">
                     <i class="fas fa-chevron-left text-lg"></i>
                 </button>
 
@@ -579,73 +525,113 @@
                     <img id="modalImage" src="" alt="Powiększone zdjęcie" class="object-contain max-h-[50vh] rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700">
                 </div>
 
-                <button onclick="nextImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition duration-200 focus:outline-none">
+                <button onclick="nextImage()" class="p-3 bg-gray-300/50 dark:bg-gray-700/50 rounded-full text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition duration-200">
                     <i class="fas fa-chevron-right text-lg"></i>
                 </button>
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner overflow-y-auto max-h-[150px]">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-4 rounded-2xl border border-gray-300 dark:border-gray-700 mb-6 text-sm text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner overflow-y-auto max-h-[150px]">
                 <p id="modalDescriptionText"></p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-center text-sm md:text-base">
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm">
                     <i class="fas fa-info-circle mr-2"></i> Pokaż opis
                 </button>
-                <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <a id="modalDownloadBtn" href="" download class="flex-1 py-2 px-3 bg-green-600 hover:bg-green-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm">
                     <i class="fas fa-download mr-2"></i> Pobierz
                 </a>
-                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm">
                     <i class="fas fa-external-link-alt mr-2"></i> Otwórz w nowej karcie
                 </a>
-                <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm md:text-base">
+                <button onclick="closeImageModal()" class="flex-1 py-2 px-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center text-sm">
                     <i class="fas fa-times mr-2"></i> Zamknij
                 </button>
             </div>
         </div>
     </div>
 
+    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
+        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in">
+            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
+                <i class="fab fa-discord"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Kontakt Discord</h3>
+            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-6 tracking-wide">andrewk0x</p>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl transition-all">Kopiuj nazwę</button>
+                <button onclick="document.getElementById('discordModal').classList.add('hidden');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 font-semibold rounded-xl transition-all">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
+        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
+        <p class="text-xs font-bold">Skopiowano do schowka!</p>
+    </div>
+
     <script>
-        let galleryItems = [];
+        let filteredItems = []; // Przechowuje tylko aktualnie widoczne zdjęcia
         let currentIndex = 0;
         let isFavoritesView = false;
         let currentCategory = 'all';
         let searchQuery = '';
 
         document.addEventListener("DOMContentLoaded", function() {
-            const items = document.querySelectorAll('.gallery-card');
-            galleryItems = Array.from(items).map(item => ({
-                src: item.getAttribute('data-img'),
-                title: item.getAttribute('data-title'),
-                desc: item.getAttribute('data-desc')
-            }));
-
+            // Ustawienie motywu
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
             }
 
+            // Sprawdzenie reklamy
             if (localStorage.getItem('hideJustAndrewAd') === 'true') {
                 const banner = document.getElementById('adBanner');
                 if (banner) banner.classList.add('hidden');
             }
 
+            // Inicjalizacja galerii i filtrowania
+            filterGallery();
             updateFavoriteButtonsUI();
         });
 
+        // GŁÓWNA FUNKCJA FILTRUJĄCA (Naprawia błąd przewijania)
         function filterGallery() {
             const cards = document.querySelectorAll('.gallery-card');
-            cards.forEach(card => {
+            filteredItems = []; // Czyścimy listę dla modala
+
+            cards.forEach((card) => {
                 const category = card.getAttribute('data-category');
                 const title = card.getAttribute('data-title').toLowerCase();
+                const imgPath = card.getAttribute('data-img');
+                const isFav = getFavorites().includes(imgPath);
+
                 const matchesCategory = (currentCategory === 'all' || category === currentCategory);
                 const matchesSearch = title.includes(searchQuery.toLowerCase());
-                if (matchesCategory && matchesSearch) {
+                const matchesFavorites = !isFavoritesView || isFav;
+
+                if (matchesCategory && matchesSearch && matchesFavorites) {
                     card.classList.remove('hidden');
+                    // Dodajemy widoczne zdjęcie do przefiltrowanej listy dla modala
+                    filteredItems.push({
+                        src: imgPath,
+                        title: card.getAttribute('data-title'),
+                        desc: card.getAttribute('data-desc')
+                    });
+
+                    // Aktualizujemy onclick, aby otwierał zdjęcie z nowej przefiltrowanej listy
+                    const clickArea = card.querySelector('.card-click-area');
+                    const newIndex = filteredItems.length - 1;
+                    clickArea.setAttribute('onclick', `openModalWithFilteredIndex(${newIndex})`);
                 } else {
                     card.classList.add('hidden');
                 }
             });
+
+            // Obsługa komunikatu o braku zdjęć
+            const notice = document.getElementById('emptyFavoritesNotice');
+            if (filteredItems.length === 0) notice.classList.remove('hidden'); 
+            else notice.classList.add('hidden');
         }
 
         function filterCategory(category) {
@@ -658,19 +644,129 @@
             filterGallery();
         }
 
-        function showAllItems() {
-            currentCategory = 'all';
-            document.getElementById('searchInput').value = '';
-            searchQuery = '';
-            const cards = document.querySelectorAll('.gallery-card');
-            cards.forEach(card => card.classList.remove('hidden'));
-            document.getElementById('emptyFavoritesNotice').classList.add('hidden');
-        }
-
-        function openModalWithIndex(index) {
+        // OTWIERANIE MODALA
+        function openModalWithFilteredIndex(index) {
             currentIndex = index;
             updateModal();
             document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function updateModal() {
+            if (filteredItems.length === 0) return;
+            const current = filteredItems[currentIndex];
+            document.getElementById('modalImage').src = current.src;
+            document.getElementById('modalTitle').textContent = current.title;
+            document.getElementById('modalDescriptionText').textContent = current.desc;
+            document.getElementById('modalDownloadBtn').href = current.src;
+            document.getElementById('modalNewTabBtn').href = current.src;
+            document.getElementById('descriptionBox').classList.add('hidden');
+            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
+            updateModalHeartButton();
+        }
+
+        function nextImage() {
+            if (filteredItems.length === 0) return;
+            currentIndex = (currentIndex + 1) % filteredItems.length;
+            updateModal();
+        }
+
+        function prevImage() {
+            if (filteredItems.length === 0) return;
+            currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length;
+            updateModal();
+        }
+
+        // ULUBIONE
+        function getFavorites() {
+            const favs = localStorage.getItem('justAndrewFavorites');
+            return favs ? JSON.parse(favs) : [];
+        }
+
+        function toggleFavorite(event, imgPath) {
+            event.stopPropagation();
+            let favs = getFavorites();
+            const idx = favs.indexOf(imgPath);
+            if (idx === -1) favs.push(imgPath); else favs.splice(idx, 1);
+            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+            updateFavoriteButtonsUI();
+            if (isFavoritesView) filterGallery();
+        }
+
+        function toggleFavoriteFromModal() {
+            const current = filteredItems[currentIndex];
+            if (!current) return;
+            let favs = getFavorites();
+            const idx = favs.indexOf(current.src);
+            if (idx === -1) favs.push(current.src); else favs.splice(idx, 1);
+            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+            updateFavoriteButtonsUI();
+            updateModalHeartButton();
+            if (isFavoritesView) filterGallery();
+        }
+
+        function updateFavoriteButtonsUI() {
+            const favs = getFavorites();
+            document.querySelectorAll('.gallery-card').forEach(card => {
+                const imgPath = card.getAttribute('data-img');
+                const btn = card.querySelector('.favorite-btn');
+                if (favs.includes(imgPath)) {
+                    btn.innerHTML = '<i class="fas fa-heart text-red-500"></i>';
+                } else {
+                    btn.innerHTML = '<i class="far fa-heart text-gray-200"></i>';
+                }
+            });
+        }
+
+        function updateModalHeartButton() {
+            const current = filteredItems[currentIndex];
+            const modalFavBtn = document.getElementById('modalFavBtn');
+            if (getFavorites().includes(current.src)) {
+                modalFavBtn.innerHTML = '<i class="fas fa-heart text-red-500 text-lg"></i>';
+            } else {
+                modalFavBtn.innerHTML = '<i class="far fa-heart text-lg text-gray-700 dark:text-gray-300"></i>';
+            }
+        }
+
+        function toggleFavoritesView() {
+            isFavoritesView = !isFavoritesView;
+            const tabBtn = document.getElementById('favoritesTabBtn');
+            const tabText = document.getElementById('favoritesTabText');
+            if (isFavoritesView) {
+                tabBtn.classList.add('bg-indigo-600', 'text-white');
+                tabText.textContent = "Wszystkie";
+            } else {
+                tabBtn.classList.remove('bg-indigo-600', 'text-white');
+                tabText.textContent = "Ulubione";
+            }
+            filterGallery();
+        }
+
+        // RESZTA FUNKCJI (Motyw, Discord, Reklama)
+        function toggleTheme() {
+            const htmlTag = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (htmlTag.classList.contains('dark')) {
+                htmlTag.classList.remove('dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlTag.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function openDiscordModal() {
+            document.getElementById('discordModal').classList.remove('hidden');
+            document.getElementById('discordModal').classList.add('flex');
+        }
+
+        function copyDirect(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toastNotification');
+                toast.classList.remove('hidden');
+                setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+            });
         }
 
         function showConfirmationOptions() {
@@ -684,191 +780,31 @@
         }
 
         function dismissAdPermanently() {
-            const banner = document.getElementById('adBanner');
-            if (banner) banner.classList.add('hidden');
+            document.getElementById('adBanner').classList.add('hidden');
             localStorage.setItem('hideJustAndrewAd', 'true');
         }
 
-        function getFavorites() {
-            const favs = localStorage.getItem('justAndrewFavorites');
-            return favs ? JSON.parse(favs) : [];
-        }
-
-        function toggleFavorite(event, imgPath) {
-            event.stopPropagation();
-            let favs = getFavorites();
-            const index = favs.indexOf(imgPath);
-            if (index === -1) { favs.push(imgPath); } else { favs.splice(index, 1); }
-            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
-            updateFavoriteButtonsUI();
-            if (isFavoritesView) renderFavoritesView();
-        }
-
-        function toggleFavoriteFromModal() {
-            const current = galleryItems[currentIndex];
-            if (!current) return;
-            let favs = getFavorites();
-            const index = favs.indexOf(current.src);
-            if (index === -1) { favs.push(current.src); } else { favs.splice(index, 1); }
-            localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
-            updateFavoriteButtonsUI();
-            updateModalHeartButton();
-            if (isFavoritesView) renderFavoritesView();
-        }
-
-        function updateFavoriteButtonsUI() {
-            const favs = getFavorites();
-            const cards = document.querySelectorAll('.gallery-card');
-            cards.forEach(card => {
-                const imgPath = card.getAttribute('data-img');
-                const btn = card.querySelector('.favorite-btn');
-                if (btn) {
-                    if (favs.includes(imgPath)) {
-                        btn.innerHTML = '<i class="fas fa-heart text-red-500"></i>';
-                        card.classList.add('is-favorite');
-                    } else {
-                        btn.innerHTML = '<i class="far fa-heart text-gray-200 dark:text-gray-300"></i>';
-                        card.classList.remove('is-favorite');
-                    }
-                }
-            });
-        }
-
-        function updateModalHeartButton() {
-            const current = galleryItems[currentIndex];
-            const modalFavBtn = document.getElementById('modalFavBtn');
-            const favs = getFavorites();
-            if (!current) return;
-            if (favs.includes(current.src)) {
-                modalFavBtn.innerHTML = '<i class="fas fa-heart text-red-500 text-lg"></i>';
-            } else {
-                modalFavBtn.innerHTML = '<i class="far fa-heart text-lg text-gray-700 dark:text-gray-300"></i>';
-            }
-        }
-
-        function toggleFavoritesView() {
-            isFavoritesView = !isFavoritesView;
-            const tabBtn = document.getElementById('favoritesTabBtn');
-            const tabText = document.getElementById('favoritesTabText');
-            if (isFavoritesView) {
-                tabBtn.classList.add('bg-indigo-600', 'text-white');
-                tabBtn.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
-                tabText.textContent = "Wszystkie";
-                renderFavoritesView();
-            } else {
-                tabBtn.classList.remove('bg-indigo-600', 'text-white');
-                tabBtn.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
-                tabText.textContent = "Ulubione";
-                showAllItems();
-            }
-        }
-
-        function renderFavoritesView() {
-            const favs = getFavorites();
-            const cards = document.querySelectorAll('.gallery-card');
-            let visibleCount = 0;
-            cards.forEach(card => {
-                const imgPath = card.getAttribute('data-img');
-                if (favs.includes(imgPath)) {
-                    if (currentCategory === 'all' || card.getAttribute('data-category') === currentCategory) {
-                        card.classList.remove('hidden');
-                        visibleCount++;
-                    } else { card.classList.add('hidden'); }
-                } else { card.classList.add('hidden'); }
-            });
-            const notice = document.getElementById('emptyFavoritesNotice');
-            if (visibleCount === 0) notice.classList.remove('hidden'); else notice.classList.add('hidden');
-        }
-
-        function updateModal() {
-            if (galleryItems.length === 0) return;
-            const current = galleryItems[currentIndex];
-            document.getElementById('modalImage').src = current.src;
-            document.getElementById('modalTitle').textContent = current.title;
-            document.getElementById('modalDescriptionText').textContent = current.desc;
-            document.getElementById('modalDownloadBtn').href = current.src;
-            document.getElementById('modalNewTabBtn').href = current.src;
-            document.getElementById('descriptionBox').classList.add('hidden');
-            document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
-            updateModalHeartButton();
-        }
-
-        function nextImage() { currentIndex = (currentIndex + 1) % galleryItems.length; updateModal(); }
-        function prevImage() { currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length; updateModal(); }
-
-        document.addEventListener('keydown', function(e) {
-            if (!document.getElementById('imageModal').classList.contains('hidden')) {
-                if (e.key === 'ArrowLeft') prevImage();
-                else if (e.key === 'ArrowRight') nextImage();
-                else if (e.key === 'Escape') closeImageModal();
-            }
-        });
-
         function closeImageModal() { document.getElementById('imageModal').classList.add('hidden'); }
         function checkCloseModal(event) { if (event.target.id === 'imageModal') closeImageModal(); }
-
         function toggleDescription() {
             const descBox = document.getElementById('descriptionBox');
+            const btn = document.getElementById('descButton');
             if (descBox.classList.contains('hidden')) {
                 descBox.classList.remove('hidden');
-                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Ukryj opis';
+                btn.innerHTML = '<i class="fas fa-info-circle mr-2"></i> Ukryj opis';
             } else {
                 descBox.classList.add('hidden');
-                document.getElementById('descButton').innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
+                btn.innerHTML = '<i class="fas fa-info-circle mr-2"></i> Pokaż opis';
             }
         }
 
-        function toggleTheme() {
-            const htmlTag = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            if (htmlTag.classList.contains('dark')) {
-                htmlTag.classList.remove('dark');
-                htmlTag.classList.add('light');
-                themeIcon.classList.replace('fa-sun', 'fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
-                htmlTag.classList.replace('light', 'dark');
-                themeIcon.classList.replace('fa-moon', 'fa-sun');
-                localStorage.setItem('theme', 'dark');
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('imageModal').classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'Escape') closeImageModal();
             }
-        }
-
-        function openDiscordModal() {
-            document.getElementById('discordModal').classList.remove('hidden');
-            document.getElementById('discordModal').classList.add('flex');
-        }
-
-        function copyDirect(textToCopy) {
-            const el = document.createElement('textarea');
-            el.value = textToCopy;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            const toast = document.getElementById('toastNotification');
-            toast.classList.remove('hidden');
-            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
-        }
+        });
     </script>
-
-    <div id="discordModal" onclick="this.classList.add('hidden'); this.classList.remove('flex');" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 p-6 hidden flex">
-        <div onclick="event.stopPropagation()" class="max-w-md w-full bg-[#F3F4F6] dark:bg-[#1a1c24] p-6 rounded-3xl border border-gray-300 dark:border-gray-700 shadow-2xl flex flex-col items-center text-center notification-fade-in bg-modal-content">
-            <div class="w-16 h-16 bg-[#5865F2] text-white rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-lg shadow-[#5865F2]/20">
-                <i class="fab fa-discord"></i>
-            </div>
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 text-card">Kontakt Discord</h3>
-            <p class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-6 tracking-wide">andrewk0x</p>
-            <div class="flex flex-col sm:flex-row gap-3 w-full">
-                <button onclick="copyDirect('andrewk0x')" class="flex-1 py-3.5 px-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold rounded-xl">Kopiuj nazwę</button>
-                <button onclick="document.getElementById('discordModal').classList.add('hidden');" class="flex-1 py-3.5 px-4 bg-gray-300 dark:bg-gray-700 font-semibold rounded-xl">Zamknij</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
-        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
-        <p class="text-xs font-bold text-card">Skopiowano do schowka!</p>
-    </div>
-
 </body>
 </html>
