@@ -19,25 +19,55 @@
         .gallery-img:hover { transform: scale(1.03); filter: brightness(1.05); }
         .modal-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Toast Notification Style */
         .toast-enter { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Elementy galerii */
         .favorite-btn { background-color: rgba(107, 114, 128, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.2s ease; }
-        /* Usunięto czerwone tło przy najechaniu na serce */
         .favorite-btn:hover { filter: brightness(1.2); }
 
         .category-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em; }
         
-        /* POPRAWIONE STRZAŁKI - BRAK ANIMACJI I NOWY WYGLĄD */
-        .nav-btn { transition: background-color 0.2s; z-index: 60; width: 50px; height: 50px; display: flex; items-center: center; justify-content: center; border-radius: 9999px; }
+        /* POPRAWIONE PRZYCISKI NAWIGACJI - SYMETRYCZNE I DOPASOWANE */
+        .nav-btn { 
+            transition: background-color 0.2s ease, color 0.2s ease; 
+            z-index: 60; 
+            width: 54px; 
+            height: 54px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%;
+            cursor: pointer;
+        }
         
-        /* Ciemny motyw: jasne strzałki na ciemnym tle */
-        html.dark .nav-btn { background-color: rgba(0, 0, 0, 0.6); color: white; }
-        html.dark .nav-btn:hover { background-color: #4f46e5; }
+        /* Motyw Jasny: Ciemna strzałka, białe tło, ładny cień */
+        html.light .nav-btn { 
+            background-color: rgba(255, 255, 255, 0.95); 
+            color: #111827; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        html.light .nav-btn:hover { 
+            background-color: #4f46e5; 
+            color: white; 
+        }
 
-        /* Jasny motyw: ciemne strzałki na białym tle */
-        html.light .nav-btn { background-color: rgba(255, 255, 255, 0.9); color: #111827; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        html.light .nav-btn:hover { background-color: #4f46e5; color: white; }
+        /* Motyw Ciemny: Jasna strzałka, ciemne tło */
+        html.dark .nav-btn { 
+            background-color: rgba(31, 41, 55, 0.8); 
+            color: white; 
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        html.dark .nav-btn:hover { 
+            background-color: #4f46e5; 
+        }
+
+        .modal-fav-btn { transition: all 0.2s; }
+        .modal-fav-btn:hover { transform: scale(1.1); }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-min min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
@@ -116,35 +146,45 @@
         </section>
     </main>
 
-    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/90 backdrop-blur-xl flex items-center justify-center z-50 p-4 sm:p-10 hidden">
+    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/95 backdrop-blur-xl flex items-center justify-center z-50 p-4 sm:p-10 hidden">
         <div onclick="event.stopPropagation()" class="max-w-5xl w-full flex flex-col items-center modal-fade-in bg-[#F3F4F6] dark:bg-[#1a1c24] p-4 sm:p-8 rounded-[2.5rem] border border-gray-300 dark:border-gray-700 shadow-2xl relative overflow-hidden">
             
             <div class="w-full flex justify-between items-center mb-5 px-2 relative z-10">
-                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="p-3 rounded-full text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:filter hover:brightness-125 transition-all"><i class="far fa-heart"></i></button>
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="modal-fav-btn p-3 rounded-full text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                    <i class="far fa-heart"></i>
+                </button>
                 <h3 id="modalTitle" class="text-xl font-black text-gray-900 dark:text-white text-center flex-grow truncate px-4"></h3>
-                <button onclick="closeImageModal()" class="p-3 text-gray-500 hover:text-red-500 text-2xl transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeImageModal()" class="p-3 text-gray-500 hover:text-red-500 text-2xl transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
-            <div class="relative w-full flex items-center justify-center mb-6 px-4 sm:px-12 group min-h-[300px]">
-                <button onclick="prevImage()" class="absolute left-0 nav-btn shadow-xl transform -translate-x-2 sm:-translate-x-6">
-                    <i class="fas fa-chevron-left text-xl"></i>
+            <div class="relative w-full flex items-center justify-center mb-6 px-4 sm:px-12 min-h-[300px]">
+                <button onclick="prevImage()" class="absolute left-0 nav-btn transform -translate-x-2 sm:-translate-x-6">
+                    <i class="fas fa-chevron-left text-lg"></i>
                 </button>
 
                 <img id="modalImage" src="" class="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl">
 
-                <button onclick="nextImage()" class="absolute right-0 nav-btn shadow-xl transform translate-x-2 sm:translate-x-6">
-                    <i class="fas fa-chevron-right text-xl"></i>
+                <button onclick="nextImage()" class="absolute right-0 nav-btn transform translate-x-2 sm:translate-x-6">
+                    <i class="fas fa-chevron-right text-lg"></i>
                 </button>
             </div>
 
-            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-5 rounded-2xl border border-gray-200 dark:border-gray-800 mb-6 text-sm leading-relaxed dark:text-gray-300 shadow-inner">
+            <div id="descriptionBox" class="hidden w-full max-w-2xl bg-white dark:bg-[#0D0E12] p-5 rounded-2xl border border-gray-200 dark:border-gray-800 mb-6 text-sm dark:text-gray-300 shadow-inner">
                 <p id="modalDescriptionText"></p>
             </div>
 
             <div class="flex flex-wrap gap-3 w-full justify-center relative z-10 px-2 pb-2">
-                <button onclick="toggleDescription()" id="descButton" class="flex-1 min-w-[120px] py-3 px-4 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs sm:text-sm transition-transform active:scale-95 shadow-lg"><i class="fas fa-info-circle mr-2"></i> Pokaż opis</button>
-                <a id="modalDownloadBtn" href="" download class="flex-1 min-w-[120px] py-3 px-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center transition-transform active:scale-95 shadow-lg"><i class="fas fa-download mr-2"></i> Pobierz</a>
-                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 min-w-[120px] py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center transition-transform active:scale-95 shadow-lg"><i class="fas fa-external-link-alt mr-2"></i> Karta</a>
+                <button onclick="toggleDescription()" id="descButton" class="flex-1 min-w-[120px] py-3 px-4 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg">
+                    <i class="fas fa-info-circle mr-2"></i> Pokaż opis
+                </button>
+                <a id="modalDownloadBtn" href="" download class="flex-1 min-w-[120px] py-3 px-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center shadow-lg">
+                    <i class="fas fa-download mr-2"></i> Pobierz
+                </a>
+                <a id="modalNewTabBtn" href="" target="_blank" class="flex-1 min-w-[120px] py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center shadow-lg">
+                    <i class="fas fa-external-link-alt mr-2"></i> Karta
+                </a>
             </div>
         </div>
     </div>
