@@ -48,7 +48,17 @@
                 <span class="bg-emerald-200 text-emerald-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Reklama</span>
                 <p>Serwer: <span class="font-mono bg-emerald-800/30 px-2 py-0.5 rounded">JustAndrewSMP.aternos.me</span></p>
             </div>
-            <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition">Kopiuj IP</button>
+            
+            <div id="adActionButtons" class="flex items-center gap-4">
+                <button onclick="copyDirect('JustAndrewSMP.aternos.me')" class="text-xs bg-white text-emerald-900 font-bold py-1.5 px-3 rounded-lg hover:bg-gray-50 transition">Kopiuj IP</button>
+                <button onclick="showConfirmationOptions()" class="text-emerald-200 hover:text-white text-xs underline focus:outline-none">Nie interesuje mnie to</button>
+            </div>
+
+            <div id="adConfirmationOptions" class="hidden flex items-center gap-4">
+                <span class="text-emerald-100 text-xs">Na pewno?</span>
+                <button onclick="dismissAdPermanently()" class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg">Usuń reklamę</button>
+                <button onclick="cancelConfirmationOptions()" class="text-xs bg-white/10 text-white py-1.5 px-3 rounded-lg">Anuluj</button>
+            </div>
         </div>
     </div>
 
@@ -61,7 +71,10 @@
             <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
-            <div class="hidden md:flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+            <div class="hidden lg:flex items-center space-x-4 text-gray-600 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-4">
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="https://www.tiktok.com/@endrjugod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
                 <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" fill="currentColor" stroke="none">Tip</text></svg>
@@ -83,7 +96,7 @@
                 </select>
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj (np. zakola, piwo)..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
                 </div>
             </div>
         </section>
@@ -97,16 +110,16 @@
         <div id="emptyFavoritesNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl border border-gray-100 dark:border-gray-800 mb-12">
             <i class="far fa-heart text-5xl text-red-400 mb-4"></i>
             <h2 class="text-2xl font-bold dark:text-white mb-2">Pusto tutaj</h2>
-            <p class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć. Kliknij serduszko na zdjęciu, aby je tu dodać!</p>
+            <p class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć. Kliknij serduszko na zdjęciu!</p>
         </div>
 
         <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
 
         <section class="mt-20 p-8 md:p-12 bg-indigo-50 dark:bg-indigo-900/20 rounded-[40px] text-center border-2 border-dashed border-indigo-200 dark:border-indigo-800">
             <h2 class="text-2xl md:text-3xl font-black text-indigo-900 dark:text-indigo-300 mb-4">Chcesz dodać własne zdjęcie?</h2>
-            <p class="text-indigo-700 dark:text-indigo-400 max-w-xl mx-auto mb-6">Jeśli masz ciekawe zdjęcie ze streamu lub trasy, którym chcesz się pochwalić w galerii, wyślij je bezpośrednio na moim serwerze Discord!</p>
-            <a href="https://discord.gg/TWOJ-LINK" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30">
-                <i class="fab fa-discord text-xl"></i> Wyślij zdjęcie na Discordzie
+            <p class="text-indigo-700 dark:text-indigo-400 max-w-xl mx-auto mb-6">Jeśli masz ciekawe zdjęcie ze streamu lub trasy, prześlij je za pomocą formularza poniżej!</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform?usp=header" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30">
+                <i class="fas fa-upload text-xl"></i> Prześlij zdjęcie (Formularz Google)
             </a>
         </section>
     </main>
@@ -120,7 +133,7 @@
             <div class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700 dark:text-white"><i class="far fa-heart"></i></button>
                 <h3 id="modalTitle" class="font-bold text-lg dark:text-white text-center flex-grow truncate px-4"></h3>
-                <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+                <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
             
             <div class="relative bg-black/5 flex items-center justify-center min-h-[300px] overflow-hidden">
@@ -161,32 +174,32 @@
 
     <script>
         const photosData = [
-            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'To ujęcie zostało zrobione w zupełnie niespodziewanym momencie.' },
-            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #znajomi', desc: 'Na zdjęciu widać relację między dwoma postaciami.' },
-            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #biceps #siła', desc: 'Zdjęcie zrobione podczas treningu.' },
-            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #idiota', desc: 'Chwila pełna energii i dynamiki.' },
-            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech #alkoholik', desc: 'Chwila orzeźwienia i relaksu w trakcie dnia.' },
-            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz #skupienie', desc: 'Moment, w którym liczy się tylko precyzja i spokój.' },
-            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill', desc: 'Kolejny moment na relaks i złapanie oddechu.' },
-            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Zdjęcie zrobione w trakcie przygotowań technicznych.' },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #gej #love', desc: 'Wyrażenie wdzięczności dla widzów.' },
-            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party', desc: 'Wspólnie spędzony czas.' },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #przyjaciel #dziecko #cute', desc: 'Słodka chwila z pupilem.' },
-            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Radosny moment pełen pozytywnej energii.' },
-            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello #streamer', desc: 'Kadr podczas interakcji z widzami online.' },
-            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Pełne zaangażowanie w wykonywane zadanie.' },
-            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Kolejne ujęcie pokazujące pasję.' },
-            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #cute #love', desc: 'Pozytywny gest i uśmiech dla wszystkich.' },
-            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Wyrażenie emocji w zabawny sposób.' },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#ciężarówka #agresja #złość', desc: 'Kiedy droga wywołuje czystą agresję.' },
-            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Mężczyzna patrzy bezpośrednio w obiektyw.' },
-            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Ujęcie z niskiej perspektywy.' },
-            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Kształt serca dłońmi.' },
-            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: '#driving #trucker', desc: 'Transmisja na żywo z kabiny.' },
-            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill', desc: 'Chwila przerwy z napojem.' },
-            { src: 'image25.png', title: 'Deska', cat: 'Praca', tags: '#view #truck', desc: 'Kadr kończący transmisję.' },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Kadr uchwycony w momencie pełnego odprężenia.' },
-            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh', desc: 'Kulisowe ujęcie z transmisji na żywo.' }
+            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'Niespodziewany moment na streamie.' },
+            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele', desc: 'Relacja między postaciami.' },
+            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #siła', desc: 'Pokaz formy.' },
+            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata', desc: 'Akrobacje na żywo.' },
+            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech', desc: 'Zasłużona przerwa.' },
+            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Pełna precyzja.' },
+            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill', desc: 'Chwila oddechu.' },
+            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Kulisowe ujęcia.' },
+            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #love', desc: 'Dla widzów.' },
+            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party', desc: 'Wspólny czas.' },
+            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #cute', desc: 'Mój pupil.' },
+            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Uśmiech!' },
+            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello', desc: 'Interakcja z czatem.' },
+            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Praca wre.' },
+            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Pasja do sportu.' },
+            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #love', desc: 'Z trasy.' },
+            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Zabawne emocje.' },
+            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#agresja #złość', desc: 'Kiedy droga męczy.' },
+            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Poważny kadr.' },
+            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.' },
+            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.' },
+            { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.' },
+            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill', desc: 'Przerwa na napój.' },
+            { src: 'image25.png', title: 'Deska', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.' },
+            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.' },
+            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh', desc: 'Kulisowy kadr.' }
         ];
 
         let filteredItems = [];
@@ -228,7 +241,6 @@
                 }
             });
 
-            // Logika komunikatów pustej listy
             const hasResults = filteredItems.length > 0;
             document.getElementById('emptySearchNotice').classList.toggle('hidden', hasResults || isFavoritesView);
             document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', hasResults || !isFavoritesView);
@@ -292,8 +304,14 @@
         function nextImage() { currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
         function prevImage() { currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
 
+        // Funkcje Reklamy
+        function showConfirmationOptions() { document.getElementById('adActionButtons').classList.add('hidden'); document.getElementById('adConfirmationOptions').classList.remove('hidden'); }
+        function cancelConfirmationOptions() { document.getElementById('adConfirmationOptions').classList.add('hidden'); document.getElementById('adActionButtons').classList.remove('hidden'); }
+        function dismissAdPermanently() { document.getElementById('adBanner').remove(); localStorage.setItem('hideJustAndrewAd', 'true'); }
+
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
+            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner')?.remove();
             renderGallery();
         });
     </script>
