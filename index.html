@@ -23,7 +23,6 @@
         .modal-fade-in { animation: fadeIn 0.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
-        /* Poprawiona strzałka w Select - wyrównana do boku */
         .custom-select {
             appearance: none;
             -webkit-appearance: none;
@@ -108,27 +107,7 @@
             </div>
         </section>
 
-        <div id="emptySearchNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl mb-12">
-            <i class="fas fa-search-minus text-5xl text-gray-300 mb-4"></i>
-            <h2 class="text-2xl font-bold dark:text-white mb-2">Brak wyników</h2>
-            <p class="text-gray-500">Nie znaleźliśmy zdjęcia pasującego do wyszukiwania.</p>
-        </div>
-
-        <div id="emptyFavoritesNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl mb-12">
-            <i class="far fa-heart text-5xl text-red-400 mb-4"></i>
-            <h2 class="text-2xl font-bold dark:text-white mb-2">Pusto tutaj</h2>
-            <p class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć.</p>
-        </div>
-
-        <section id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></section>
-
-        <section class="mt-16 py-8 px-6 bg-gray-100 dark:bg-[#13151b] rounded-3xl text-center border border-gray-200 dark:border-gray-800 max-w-xl mx-auto shadow-inner">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-2">Chcesz dodać własne zdjęcie?</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-5">Jeśli masz ciekawe ujęcie, prześlij je za pomocą formularza!</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform?usp=header" target="_blank" class="inline-flex items-center gap-2.5 px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md">
-                <i class="fas fa-upload text-base"></i> Prześlij zdjęcie
-            </a>
-        </section>
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
     </main>
 
     <footer class="py-10 text-center text-xs text-gray-400 font-medium">
@@ -153,45 +132,30 @@
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold transition"><i class="fas fa-info-circle mr-1"></i> Pokaż opis</button>
-                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-download mr-1"></i> Pobierz</a>
-                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-external-link-alt mr-1"></i> Otwórz</a>
+                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold transition">Pokaż opis</button>
+                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition">Pobierz</a>
+                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition">Otwórz</a>
                     <button onclick="closeImageModal()" class="py-2.5 px-4 bg-gray-500 text-white rounded-xl text-xs font-bold transition">Zamknij</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="discordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
-        <div onclick="event.stopPropagation()" class="max-w-xs w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl text-center shadow-2xl">
-            <i class="fab fa-discord text-5xl text-[#5865F2] mb-4"></i>
-            <p class="text-2xl font-black text-indigo-600 mb-6">andrewk0x</p>
-            <button onclick="copyDirect('andrewk0x')" class="w-full py-3 bg-[#5865F2] text-white font-bold rounded-xl mb-3 hover:bg-[#4752c4] transition">Kopiuj nazwę</button>
-            <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="text-gray-400 text-sm font-bold">Zamknij</button>
-        </div>
-    </div>
-
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
-        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
-        <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
-    </div>
-
     <script>
         const photosData = [
-            // ZMODYFIKOWANE NOWE ZDJĘCIA
-            { src: 'image28.png', title: 'Nocna trasa - essa', cat: 'Stream', tags: '#cwel #v', desc: 'Uchwycony kadr z nocnego nadawania, kiedy klimat wchodzi najmocniej.' },
+            { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.' },
             { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.' },
             { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.' },
             { src: 'image31.png', title: 'aaaaa', cat: 'Stream', tags: '#fun #funny #moment', desc: 'Chwila zapomnienia przy intensywnym grzebaniu w buzi.' },
-            
-            // STARE ZDJĘCIA
+            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh #piwo #lech', desc: 'Kulisowy kadr.' },
+            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill #piwo', desc: 'Przerwa na napój.' },
+            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill #piwo #żubr', desc: 'Chwila oddechu.' },
             { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'Niespodziewany moment na streamie.' },
             { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele', desc: 'Relacja między postaciami.' },
             { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #siła', desc: 'Pokaz formy.' },
             { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata', desc: 'Akrobacje na żywo.' },
             { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech', desc: 'Zasłużona przerwa.' },
             { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Pełna precyzja.' },
-            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill', desc: 'Chwila oddechu.' },
             { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Kulisowe ujęcia.' },
             { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #love', desc: 'Dla widzów.' },
             { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party', desc: 'Wspólny czas.' },
@@ -207,10 +171,8 @@
             { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.' },
             { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.' },
             { src: 'image22.png', title: 'W ciężarówce', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.' },
-            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill', desc: 'Przerwa na napój.' },
             { src: 'image25.png', title: 'Deska', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.' },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.' },
-            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh', desc: 'Kulisowy kadr.' }
+            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.' }
         ];
 
         let filteredItems = [];
@@ -239,9 +201,6 @@
                     container.appendChild(card);
                 }
             });
-            const hasResults = filteredItems.length > 0;
-            document.getElementById('emptySearchNotice').classList.toggle('hidden', hasResults || isFavoritesView);
-            document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', hasResults || !isFavoritesView);
         }
 
         function openModal(index) { currentIndex = index; updateModal(); document.getElementById('imageModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
@@ -260,7 +219,7 @@
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
-            document.getElementById('descButton').innerHTML = isHidden ? '<i class=\"fas fa-info-circle mr-1\"></i> Pokaż opis' : '<i class=\"fas fa-info-circle mr-1\"></i> Ukryj opis';
+            document.getElementById('descButton').textContent = isHidden ? 'Pokaż opis' : 'Ukryj opis';
         }
         function toggleFavorite(e, src) {
             if(e) e.stopPropagation();
@@ -286,18 +245,12 @@
             document.getElementById('themeIcon').className = dark ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('theme', dark ? 'dark' : 'light');
         }
-        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
-        function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         function checkCloseModal(e) { if(e.target.id === 'imageModal') closeImageModal(); }
         function nextImage() { currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
         function prevImage() { currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
-        function showConfirmationOptions() { document.getElementById('adActionButtons').classList.add('hidden'); document.getElementById('adConfirmationOptions').classList.remove('hidden'); }
-        function cancelConfirmationOptions() { document.getElementById('adConfirmationOptions').classList.add('hidden'); document.getElementById('adActionButtons').classList.remove('hidden'); }
-        function dismissAdPermanently() { document.getElementById('adBanner').remove(); localStorage.setItem('hideJustAndrewAd', 'true'); }
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
-            if (localStorage.getItem('hideJustAndrewAd') === 'true') document.getElementById('adBanner')?.remove();
             renderGallery();
         });
     </script>
