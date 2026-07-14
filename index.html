@@ -249,6 +249,9 @@
 
     <script>
         const photosData = [
+            { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!' },
+            { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.' },
+            { src: 'image35.png', title: 'Celebracja wbicia 10LVL', cat: 'Stream', tags: '#10lvl #siła #biceps #win #awans', desc: 'Radość po udanej akcji, wbiciu upragnionego 10 poziomu i pokazanie muskułów do kamery. Czysta, streamerska duma!' },
             { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.' },
             { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.' },
             { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.' },
@@ -308,7 +311,7 @@
                     const idx = filteredItems.length - 1;
                     const card = document.createElement('div');
                     card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
-                    card.innerHTML = `<div onclick=\"openModal(${idx})\"><img src=\"${photo.src}\" class=\"w-full h-80 object-cover\"><div class=\"absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end\"><h3 class=\"text-white font-bold\">${photo.title}</h3><p class=\"text-indigo-400 text-[10px] uppercase font-bold\">${photo.cat}</p></div></div><button onclick=\"toggleFavorite(event, '${photo.src}')\" class=\"absolute top-4 right-4 p-2.5 rounded-full text-white favorite-btn\"><i class=\"${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}\"></i></button>`;
+                    card.innerHTML = `<div onclick="openModal(${idx})"><img src="${photo.src}" class="w-full h-80 object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end"><h3 class="text-white font-bold">${photo.title}</h3><p class="text-indigo-400 text-[10px] uppercase font-bold">${photo.cat}</p></div></div><button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 p-2.5 rounded-full text-white favorite-btn"><i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i></button>`;
                     container.appendChild(card);
                 }
             });
@@ -395,7 +398,7 @@
             document.getElementById('modalDownloadBtn').href = item.src;
             document.getElementById('modalNewTabBtn').href = item.src;
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
-            document.getElementById('modalFavBtn').innerHTML = `<i class=\"${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}\"></i>`;
+            document.getElementById('modalFavBtn').innerHTML = `<i class="fas fa-heart text-red-500"></i>`;
         }
 
         function closeImageModal() { 
@@ -407,7 +410,7 @@
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
-            document.getElementById('descButton').innerHTML = isHidden ? '<i class=\"fas fa-info-circle mr-1\"></i> Pokaż opis' : '<i class=\"fas fa-info-circle mr-1\"></i> Ukryj opis';
+            document.getElementById('descButton').innerHTML = isHidden ? '<i class="fas fa-info-circle mr-1"></i> Pokaż opis' : '<i class="fas fa-info-circle mr-1"></i> Ukryj opis';
         }
 
         function toggleFavorite(e, src) {
