@@ -50,13 +50,20 @@
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
-    <!-- Naprawiona ścieżka do lokalnego pliku dźwiękowego AWP -->
+    <!-- Ścieżka do lokalnego pliku dźwiękowego AWP -->
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
-        <!-- Interaktywne logo wyzwalające strzał z AWP -->
-        <div id="siteTitle" onclick="playEasterEgg()" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
-            JustAndrew
+        <div class="flex items-center gap-4">
+            <!-- Interaktywne logo wyzwalające strzał z AWP -->
+            <div id="siteTitle" onclick="playEasterEgg()" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
+                JustAndrew
+            </div>
+            <!-- Licznik strzałów z AWP -->
+            <div id="awpCounterContainer" class="bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 shadow-sm border border-indigo-200/50 dark:border-indigo-900/30">
+                <i class="fas fa-crosshairs animate-pulse"></i>
+                <span>Strzały: <span id="awpCount">0</span></span>
+            </div>
         </div>
         <div class="flex items-center space-x-5">
             <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
@@ -114,6 +121,31 @@
         </div>
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
+
+        <!-- SEKCJA STATYSTYK STRONY -->
+        <section class="mt-12 mb-16 max-w-6xl mx-auto">
+            <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Statystyki Galerii</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Statystyka 1: Zdjęcia -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-3xl mb-2"><i class="fas fa-images"></i></div>
+                    <div id="statTotalPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Zdjęć w galerii</div>
+                </div>
+                <!-- Statystyka 2: Polubione -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
+                    <div class="text-red-500 text-3xl mb-2"><i class="fas fa-heart"></i></div>
+                    <div id="statFavPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje ulubione</div>
+                </div>
+                <!-- Statystyka 3: Oddane strzały -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
+                    <div class="text-amber-500 text-3xl mb-2"><i class="fas fa-crosshairs"></i></div>
+                    <div id="statTotalShots" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Oddane strzały z AWP</div>
+                </div>
+            </div>
+        </section>
 
         <!-- SEKCJA FORMULARZY I ZGŁOSZEŃ -->
         <section class="mt-16 max-w-6xl mx-auto">
@@ -300,28 +332,59 @@
         let bannerHasShownThisSession = false;
         let imagesViewed = 0; 
 
-        // Naprawiona i zabezpieczona funkcja odtwarzania strzału AWP
+        // Pobieranie początkowego licznika strzałów z localStorage
+        let awpShots = parseInt(localStorage.getItem('awpShotsCount') || '0');
+
+        // Funkcja odtwarzania strzału z AWP z obsługą licznika i statystyk
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             if (sound) {
-                // Reset do początku, aby móc strzelać seriami
                 sound.currentTime = 0; 
                 
-                // Próba odtworzenia z uwzględnieniem restrykcji przeglądarek
-                sound.play().catch(error => {
+                sound.play().then(() => {
+                    // Dodanie strzału po udanym odtworzeniu dźwięku
+                    incrementAwpCounter();
+                }).catch(error => {
                     console.error("Przeglądarka zablokowała audio. Kliknij najpierw dowolne miejsce na stronie, a potem w logo!", error);
                     
-                    // Wznowienie kontekstu audio jako koło ratunkowe
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     if (audioCtx.state === 'suspended') {
                         audioCtx.resume().then(() => {
-                            sound.play().catch(e => console.error("Nadal zablokowane przez przeglądarkę:", e));
+                            sound.play().then(() => {
+                                incrementAwpCounter();
+                            }).catch(e => console.error("Nadal zablokowane przez przeglądarkę:", e));
                         });
                     }
                 });
             } else {
                 console.error("Nie znaleziono elementu audio o ID 'awpSound'!");
             }
+        }
+
+        // Zwiększenie i zapisanie licznika strzałów
+        function incrementAwpCounter() {
+            awpShots++;
+            localStorage.setItem('awpShotsCount', awpShots);
+            updateAwpCounterUI();
+        }
+
+        // Aktualizacja UI licznika i statystyk strzałów
+        function updateAwpCounterUI() {
+            document.getElementById('awpCount').textContent = awpShots;
+            document.getElementById('statTotalShots').textContent = awpShots;
+        }
+
+        // Aktualizacja wszystkich ogólnych statystyk na stronie
+        function updateStatsUI() {
+            // 1. Łączna liczba zdjęć
+            document.getElementById('statTotalPhotos').textContent = photosData.length;
+
+            // 2. Liczba ulubionych zdjęć
+            const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
+            document.getElementById('statFavPhotos').textContent = favs.length;
+
+            // 3. Licznik strzałów z AWP
+            document.getElementById('statTotalShots').textContent = awpShots;
         }
 
         function renderGallery() {
@@ -363,6 +426,9 @@
             } else {
                 document.getElementById('emptyFavoritesNotice').classList.add('hidden');
             }
+
+            // Każdorazowo aktualizuj statystyki przy renderowaniu galerii (np. po zmianie ulubionych)
+            updateStatsUI();
         }
 
         function tryShowTipplyBanner() {
@@ -434,7 +500,6 @@
                 : `<i class="far fa-heart"></i>`;
         }
 
-        // Dodano playEasterEgg() przy zamykaniu/nawigacji, aby pobudzić interakcję audio (opcjonalnie)
         function closeImageModal() { 
             document.getElementById('imageModal').classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
@@ -523,6 +588,11 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
+            
+            // Wczytanie początkowych wartości liczników
+            updateAwpCounterUI();
+            updateStatsUI();
+            
             renderGallery();
 
             setTimeout(() => {
