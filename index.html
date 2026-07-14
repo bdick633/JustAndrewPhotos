@@ -65,7 +65,6 @@
                 <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="https://www.tiktok.com/@endrjugod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
                 
-                <!-- TUTAJ JEST ZWYKŁA, PROSTA, NIEZAWODNA LITERKA K -->
                 <a href="https://kick.com/andrewgod666" target="_blank" class="hover:text-indigo-500 transition flex items-center justify-center font-black text-[22px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
                     K
                 </a>
@@ -125,7 +124,6 @@
     <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY -->
     <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
         
-        <!-- STAN DOMYŚLNY BANERA -->
         <div id="bannerContentDefault" class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-3.5 w-full sm:w-auto">
                 <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
@@ -137,7 +135,6 @@
                 </div>
             </div>
             <div class="flex items-center gap-3 w-full sm:w-auto justify-end shrink-0">
-                <!-- TUTAJ ZOSTAŁ DODANY ONCLICK DO "WESPRZYJ" -->
                 <a href="https://tipply.pl/@justandrew" onclick="supportClicked()" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-black rounded-xl transition-all shadow-md shadow-emerald-600/20 uppercase tracking-wider">
                     Wesprzyj
                 </a>
@@ -147,7 +144,6 @@
             </div>
         </div>
 
-        <!-- STAN POTWIERDZENIA "CZY NA PEWNO?" -->
         <div id="bannerContentConfirm" class="hidden flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-3.5 w-full sm:w-auto">
                 <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center text-red-500 dark:text-red-400 shrink-0">
@@ -251,7 +247,10 @@
         let isFavoritesView = false;
         let currentCategory = 'all';
         let searchQuery = '';
+        
+        // ZMIENNE DO BANERU
         let bannerHasShownThisSession = false;
+        let imagesViewed = 0; // Licznik obejrzanych zdjęć
 
         function renderGallery() {
             const container = document.getElementById('gallery');
@@ -278,16 +277,13 @@
             document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', hasResults || !isFavoritesView);
         }
 
-        // --- LOSOWE WYŚWIETLANIE BANNERU ---
+        // WYŚWIETLENIE BANNERU
         function tryShowTipplyBanner() {
             const isClosedForever = localStorage.getItem('tipplyBannerClosed');
             if (isClosedForever) return;
             if (bannerHasShownThisSession) return;
 
-            const chance = Math.random();
-            if (chance < 0.25) {
-                showTipplyBanner();
-            }
+            showTipplyBanner();
         }
 
         function showTipplyBanner() {
@@ -319,7 +315,6 @@
         // UKRYCIE REKLAMY NA STAŁE PO KLIKNIĘCIU "WESPRZYJ"
         function supportClicked() {
             localStorage.setItem('tipplyBannerClosed', 'true');
-            // Natychmiast chowa baner z ekranu z ładnym efektem
             const banner = document.getElementById('tipplyBanner');
             banner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
             banner.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
@@ -330,7 +325,12 @@
             updateModal(); 
             document.getElementById('imageModal').classList.add('active'); 
             document.body.style.overflow = 'hidden'; 
-            tryShowTipplyBanner(); 
+            
+            // Zwiększ licznik obejrzanych zdjęć
+            imagesViewed++;
+            if (imagesViewed >= 5) {
+                tryShowTipplyBanner();
+            }
         }
 
         function updateModal() {
@@ -387,17 +387,32 @@
         function nextImage() { 
             currentIndex = (currentIndex + 1) % filteredItems.length; 
             updateModal(); 
-            tryShowTipplyBanner();
+            
+            // Każde kliknięcie "Następne" również zalicza się jako obejrzenie zdjęcia
+            imagesViewed++;
+            if (imagesViewed >= 5) {
+                tryShowTipplyBanner();
+            }
         }
         function prevImage() { 
             currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; 
             updateModal(); 
-            tryShowTipplyBanner();
+            
+            // Każde kliknięcie "Poprzednie" również zalicza się jako obejrzenie zdjęcia
+            imagesViewed++;
+            if (imagesViewed >= 5) {
+                tryShowTipplyBanner();
+            }
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             renderGallery();
+
+            // OPÓŹNIENIE CZASOWE: Wyświetl baner po 15 sekundach spędzonych na stronie
+            setTimeout(() => {
+                tryShowTipplyBanner();
+            }, 15000); // 15000 milisekund = 15 sekund
         });
     </script>
 </body>
