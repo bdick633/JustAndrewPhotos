@@ -50,11 +50,11 @@
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
-    <!-- Ukryty odtwarzacz audio z dźwiękiem AWP do Easter Egga -->
-    <audio id="awpSound" src="https://www.myinstants.com/media/sounds/csgo-awp-14800.mp3" preload="auto"></audio>
+    <!-- Naprawiona ścieżka do lokalnego pliku dźwiękowego AWP -->
+    <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
-        <!-- Logo z dodanym efektem kliknięcia i aktywacją dźwięku -->
+        <!-- Interaktywne logo wyzwalające strzał z AWP -->
         <div id="siteTitle" onclick="playEasterEgg()" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
             JustAndrew
         </div>
@@ -300,14 +300,27 @@
         let bannerHasShownThisSession = false;
         let imagesViewed = 0; 
 
-        // Funkcja Easter Egga - odtwarzanie dźwięku strzału AWP
+        // Naprawiona i zabezpieczona funkcja odtwarzania strzału AWP
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             if (sound) {
-                sound.currentTime = 0; // Przewiń na start, żeby można było klikać wielokrotnie pod rząd
-                sound.play().catch(e => {
-                    console.log("Interakcja z przeglądarką zablokowała audio. Kliknij najpierw cokolwiek na stronie.");
+                // Reset do początku, aby móc strzelać seriami
+                sound.currentTime = 0; 
+                
+                // Próba odtworzenia z uwzględnieniem restrykcji przeglądarek
+                sound.play().catch(error => {
+                    console.error("Przeglądarka zablokowała audio. Kliknij najpierw dowolne miejsce na stronie, a potem w logo!", error);
+                    
+                    // Wznowienie kontekstu audio jako koło ratunkowe
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume().then(() => {
+                            sound.play().catch(e => console.error("Nadal zablokowane przez przeglądarkę:", e));
+                        });
+                    }
                 });
+            } else {
+                console.error("Nie znaleziono elementu audio o ID 'awpSound'!");
             }
         }
 
@@ -421,6 +434,7 @@
                 : `<i class="far fa-heart"></i>`;
         }
 
+        // Dodano playEasterEgg() przy zamykaniu/nawigacji, aby pobudzić interakcję audio (opcjonalnie)
         function closeImageModal() { 
             document.getElementById('imageModal').classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
