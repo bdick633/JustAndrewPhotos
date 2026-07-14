@@ -122,7 +122,7 @@
         &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
     </footer>
 
-    <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY Z DWOMA STANAMI (ZWYKŁY / POTWIERDZENIE) -->
+    <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY Z NOWYMI, SPERSONALIZOWANYMI TEKSTAMI POTWIERDZENIA -->
     <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
         
         <!-- STAN DOMYŚLNY BANERA -->
@@ -146,15 +146,15 @@
             </div>
         </div>
 
-        <!-- STAN POTWIERDZENIA "CZY NA PEWNO?" -->
+        <!-- STAN POTWIERDZENIA "CZY NA PEWNO?" Z NOWYMI TEKSTAMI -->
         <div id="bannerContentConfirm" class="hidden flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-3.5 w-full sm:w-auto">
                 <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center text-red-500 dark:text-red-400 shrink-0">
                     <i class="fas fa-question text-base"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-black text-gray-900 dark:text-white">Na pewno ukryć to ogłoszenie?</p>
-                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Wiadomość już nigdy więcej nie pojawi się na tym urządzeniu.</p>
+                    <p class="text-xs font-black text-gray-900 dark:text-white">Jesteś pewien?</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Łukaszowi będzie smutno 😥</p>
                 </div>
             </div>
             <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0">
@@ -296,21 +296,18 @@
             bannerHasShownThisSession = true;
         }
 
-        // 1. Zmiana wyglądu na pytanie potwierdzające
         function promptCloseTipplyBanner() {
             document.getElementById('bannerContentDefault').classList.add('hidden');
             document.getElementById('bannerContentConfirm').classList.remove('hidden');
             document.getElementById('bannerContentConfirm').classList.add('flex');
         }
 
-        // 2. Anulowanie (powrót do pierwotnego stanu)
         function cancelCloseTipplyBanner() {
             document.getElementById('bannerContentConfirm').classList.add('hidden');
             document.getElementById('bannerContentConfirm').classList.remove('flex');
             document.getElementById('bannerContentDefault').classList.remove('hidden');
         }
 
-        // 3. Ostateczne ukrycie na stałe
         function confirmCloseTipplyBanner() {
             const banner = document.getElementById('tipplyBanner');
             banner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
@@ -338,7 +335,13 @@
             document.getElementById('modalFavBtn').innerHTML = `<i class=\"${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}\"></i>`;
         }
 
-        function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        // Przywrócenie domyślnego stanu baneru po zamknięciu modala, gdyby ktoś kliknął X i zostawił otwarte potwierdzenie
+        function closeImageModal() { 
+            document.getElementById('imageModal').classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+            cancelCloseTipplyBanner(); 
+        }
+
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
