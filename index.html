@@ -122,22 +122,22 @@
         &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
     </footer>
 
-    <!-- WYSKAKUJĄCA REKLAMA / PROMO BANNER TIPPLY -->
-    <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-md w-[92%] bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 px-5 py-4 rounded-2xl shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-950 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
-                <i class="fas fa-donate text-xl"></i>
+    <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY (SZCZERY TEKST) -->
+    <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-lg w-[92%] bg-white/90 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-4 rounded-2xl shadow-[0_20px_50px_rgba(99,102,241,0.15)] flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
+        <div class="flex items-center gap-3.5 w-full sm:w-auto">
+            <div class="w-11 h-11 rounded-full bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                <i class="fas fa-heart text-xl animate-pulse"></i>
             </div>
             <div>
-                <p class="text-xs font-bold text-gray-900 dark:text-white">Podoba Ci się galeria?</p>
-                <p class="text-[11px] text-gray-500 dark:text-gray-400">Możesz rzucić tipa i wesprzeć moją twórczość!</p>
+                <p class="text-xs font-black text-gray-900 dark:text-white">Podoba Ci się to, co robię?</p>
+                <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶</p>
             </div>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
-            <a href="https://tipply.pl/@justandrew" target="_blank" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold rounded-lg transition-all">
+        <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0">
+            <a href="https://tipply.pl/@justandrew" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-black rounded-xl transition-all shadow-md shadow-indigo-600/25">
                 Wesprzyj
             </a>
-            <button onclick="closeTipplyBanner()" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-all">
+            <button onclick="closeTipplyBanner()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-500 dark:hover:text-red-400 transition-all">
                 <i class="fas fa-times text-sm"></i>
             </button>
         </div>
@@ -224,6 +224,7 @@
         let isFavoritesView = false;
         let currentCategory = 'all';
         let searchQuery = '';
+        let bannerHasShownThisSession = false; // Zapobiega ciągłemu spamowaniu, jeśli użytkownik nie kliknął X, tylko dalej klika zdjęcia
 
         function renderGallery() {
             const container = document.getElementById('gallery');
@@ -250,28 +251,47 @@
             document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', hasResults || !isFavoritesView);
         }
 
-        // LOGIKA BANNERU TIPPLY (Zamykanie i zapis w pamięci)
-        function checkTipplyBanner() {
-            const isClosed = localStorage.getItem('tipplyBannerClosed');
-            if (!isClosed) {
-                const banner = document.getElementById('tipplyBanner');
-                // Małe opóźnienie przed pojawieniem się (2 sekundy), żeby wyglądało naturalnie
-                setTimeout(() => {
-                    banner.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
-                    banner.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
-                }, 2000);
+        // --- LOSOWE WYSWIETLANIE BANNERU PODCZAS OGLĄDANIA ZDJĘĆ ---
+        function tryShowTipplyBanner() {
+            const isClosedForever = localStorage.getItem('tipplyBannerClosed');
+            
+            // Jeśli użytkownik już kiedyś zamknął baner iksem - nigdy więcej go nie męczymy
+            if (isClosedForever) return;
+
+            // Jeśli baner już się wyświetla na ekranie lub pokazał się w tej sesji, pomijamy losowanie
+            if (bannerHasShownThisSession) return;
+
+            // 25% szansy na pokazanie reklamy przy akcji (otwarcie/zmiana zdjęcia)
+            const chance = Math.random();
+            if (chance < 0.25) {
+                showTipplyBanner();
             }
+        }
+
+        function showTipplyBanner() {
+            const banner = document.getElementById('tipplyBanner');
+            banner.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
+            banner.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            bannerHasShownThisSession = true;
         }
 
         function closeTipplyBanner() {
             const banner = document.getElementById('tipplyBanner');
             banner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
-            banner.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
-            // Zapisz na stałe w przeglądarce, że reklama została zamknięta
+            banner.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+            // Zapisujemy na stałe w przeglądarce, żeby już nigdy się nie pojawił
             localStorage.setItem('tipplyBannerClosed', 'true');
         }
 
-        function openModal(index) { currentIndex = index; updateModal(); document.getElementById('imageModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        // Wywołujemy losowanie baneru przy otwarciu okna ze zdjęciem
+        function openModal(index) { 
+            currentIndex = index; 
+            updateModal(); 
+            document.getElementById('imageModal').classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+            tryShowTipplyBanner(); 
+        }
+
         function updateModal() {
             const item = filteredItems[currentIndex];
             document.getElementById('modalImage').src = item.src;
@@ -283,6 +303,7 @@
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
             document.getElementById('modalFavBtn').innerHTML = `<i class=\"${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}\"></i>`;
         }
+
         function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
@@ -316,14 +337,22 @@
         function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
         function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         function checkCloseModal(e) { if(e.target.id === 'imageModal') closeImageModal(); }
-        function nextImage() { currentIndex = (currentIndex + 1) % filteredItems.length; updateModal(); }
-        function prevImage() { currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; updateModal(); }
+        
+        // Wywołujemy losowanie baneru również przy przełączaniu zdjęć strzałkami!
+        function nextImage() { 
+            currentIndex = (currentIndex + 1) % filteredItems.length; 
+            updateModal(); 
+            tryShowTipplyBanner();
+        }
+        function prevImage() { 
+            currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; 
+            updateModal(); 
+            tryShowTipplyBanner();
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             renderGallery();
-            // Sprawdzenie i ewentualne pokazanie reklamy Tipply
-            checkTipplyBanner();
         });
     </script>
 </body>
