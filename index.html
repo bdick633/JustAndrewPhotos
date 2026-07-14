@@ -122,25 +122,51 @@
         &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
     </footer>
 
-    <!-- ODCHUDZONY, DOPASOWANY SZEROKOŚCIĄ (MAX-W-3XL) BANNER Z ZIELONYM PRZYCISKIEM -->
-    <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
-        <div class="flex items-center gap-3.5 w-full sm:w-auto">
-            <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
-                <i class="fas fa-heart text-lg animate-pulse"></i>
+    <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY Z DWOMA STANAMI (ZWYKŁY / POTWIERDZENIE) -->
+    <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
+        
+        <!-- STAN DOMYŚLNY BANERA -->
+        <div id="bannerContentDefault" class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+            <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <i class="fas fa-heart text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-gray-900 dark:text-white">Podoba Ci się to, co robię?</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶</p>
+                </div>
             </div>
-            <div>
-                <p class="text-xs font-black text-gray-900 dark:text-white">Podoba Ci się to, co robię?</p>
-                <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶</p>
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-end shrink-0">
+                <a href="https://tipply.pl/@justandrew" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-black rounded-xl transition-all shadow-md shadow-emerald-600/20 uppercase tracking-wider">
+                    Wesprzyj
+                </a>
+                <button onclick="promptCloseTipplyBanner()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-500 dark:hover:text-red-400 transition-all">
+                    <i class="fas fa-times text-base"></i>
+                </button>
             </div>
         </div>
-        <div class="flex items-center gap-3 w-full sm:w-auto justify-end shrink-0">
-            <a href="https://tipply.pl/@justandrew" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-black rounded-xl transition-all shadow-md shadow-emerald-600/20 uppercase tracking-wider">
-                Wesprzyj
-            </a>
-            <button onclick="closeTipplyBanner()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-500 dark:hover:text-red-400 transition-all font-semibold text-xs">
-                Nie pokazuj ponownie
-            </button>
+
+        <!-- STAN POTWIERDZENIA "CZY NA PEWNO?" -->
+        <div id="bannerContentConfirm" class="hidden flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+            <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center text-red-500 dark:text-red-400 shrink-0">
+                    <i class="fas fa-question text-base"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-gray-900 dark:text-white">Na pewno ukryć to ogłoszenie?</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Wiadomość już nigdy więcej nie pojawi się na tym urządzeniu.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0">
+                <button onclick="confirmCloseTipplyBanner()" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-[11px] font-black rounded-xl transition-all shadow-md">
+                    Tak, ukryj
+                </button>
+                <button onclick="cancelCloseTipplyBanner()" class="px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-[11px] font-black rounded-xl transition-all">
+                    Anuluj
+                </button>
+            </div>
         </div>
+
     </div>
 
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50">
@@ -270,7 +296,22 @@
             bannerHasShownThisSession = true;
         }
 
-        function closeTipplyBanner() {
+        // 1. Zmiana wyglądu na pytanie potwierdzające
+        function promptCloseTipplyBanner() {
+            document.getElementById('bannerContentDefault').classList.add('hidden');
+            document.getElementById('bannerContentConfirm').classList.remove('hidden');
+            document.getElementById('bannerContentConfirm').classList.add('flex');
+        }
+
+        // 2. Anulowanie (powrót do pierwotnego stanu)
+        function cancelCloseTipplyBanner() {
+            document.getElementById('bannerContentConfirm').classList.add('hidden');
+            document.getElementById('bannerContentConfirm').classList.remove('flex');
+            document.getElementById('bannerContentDefault').classList.remove('hidden');
+        }
+
+        // 3. Ostateczne ukrycie na stałe
+        function confirmCloseTipplyBanner() {
             const banner = document.getElementById('tipplyBanner');
             banner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
             banner.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
