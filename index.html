@@ -397,8 +397,12 @@
             document.getElementById('modalTags').textContent = item.tags;
             document.getElementById('modalDownloadBtn').href = item.src;
             document.getElementById('modalNewTabBtn').href = item.src;
+            
+            // POPRAWIONE: Ikonka serca dostosowuje się do statusu polubienia zdjęcia
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
-            document.getElementById('modalFavBtn').innerHTML = `<i class="fas fa-heart text-red-500"></i>`;
+            document.getElementById('modalFavBtn').innerHTML = isFav 
+                ? `<i class="fas fa-heart text-red-500"></i>` 
+                : `<i class="far fa-heart"></i>`;
         }
 
         function closeImageModal() { 
