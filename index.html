@@ -46,6 +46,29 @@
         #imageModal { display: none; overflow-y: auto; padding: 20px 10px; }
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Stylizacja płynnego przejścia obrazów w kinie */
+        .cinema-transition {
+            transition: opacity 0.6s ease-in-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cinema-fade-out {
+            opacity: 0;
+            transform: scale(0.97);
+        }
+        .cinema-fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Pasek postępu trybu kinowego */
+        #cinemaProgressBar {
+            transition: width 4s linear;
+        }
+
+        /* Klasa ukrywająca kursor myszy przy bezczynności w kinie */
+        .hide-cursor {
+            cursor: none !important;
+        }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
@@ -136,7 +159,7 @@
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
                     <div class="text-red-500 text-3xl mb-2"><i class="fas fa-heart"></i></div>
                     <div id="statFavPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje ulubione</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Your Favorites</div>
                 </div>
                 <!-- Statystyka 3: Oddane strzały -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
@@ -245,30 +268,54 @@
 
     </div>
 
-    <!-- MODAL ZDJĘCIA (Z TRYBEM KINOWYM) -->
-    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50">
-        <div onclick="event.stopPropagation()" class="relative max-w-3xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[90vh]">
-            <div class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
+    <!-- MODAL ZDJĘCIA (Z ULTRA-KINOWYM TRYBEM PREMIUM) -->
+    <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 transition-all duration-500">
+        
+        <!-- TŁO DYNAMICZNEGO AMBILIGHT (BLUR GRY CYFROWEJ) -->
+        <div id="cinemaAmbilight" class="absolute inset-0 bg-cover bg-center filter blur-[100px] opacity-25 scale-110 pointer-events-none transition-all duration-1000 z-0"></div>
+
+        <!-- RAMKA MODALA (KONTENER SEANSU KINOWEGO) -->
+        <div onclick="event.stopPropagation()" id="modalContainer" class="relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] modal-fade-in flex flex-col mx-auto max-h-[95vh] z-10 transition-all duration-500">
+            
+            <!-- GÓRNY PASEK KONTROLNY (UKRYWANY W TRYBIE KINA) -->
+            <div id="modalHeader" class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800/80 transition-all duration-500">
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700 dark:text-white transition-colors duration-200"><i class="far fa-heart"></i></button>
                 <h3 id="modalTitle" class="font-bold text-lg dark:text-white text-center flex-grow truncate px-4"></h3>
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
-            <div class="relative bg-black/5 flex items-center justify-center min-h-[300px] overflow-hidden">
-                <button onclick="prevImageManual()" class="absolute left-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-left"></i></button>
-                <img id="modalImage" src="" class="max-w-full max-h-[50vh] object-contain">
-                <button onclick="nextImageManual()" class="absolute right-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-right"></i></button>
+
+            <!-- EKRAN PROJEKCYJNY (CENTRALNA CZĘŚĆ) -->
+            <div class="relative bg-black/40 flex items-center justify-center min-h-[350px] md:min-h-[500px] overflow-hidden">
+                
+                <!-- Strzałka lewo -->
+                <button id="modalArrowLeft" onclick="prevImageManual()" class="absolute left-4 z-20 w-12 h-12 rounded-full bg-black/50 text-white hover:bg-indigo-600 border border-white/10 flex items-center justify-center backdrop-blur-md transition-all duration-300 opacity-100"><i class="fas fa-chevron-left text-lg"></i></button>
+                
+                <!-- Główny obraz z kinowym przejściem -->
+                <img id="modalImage" src="" class="max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain z-10 cinema-transition cinema-fade-in rounded-lg shadow-lg">
+                
+                <!-- Strzałka prawo -->
+                <button id="modalArrowRight" onclick="nextImageManual()" class="absolute right-4 z-20 w-12 h-12 rounded-full bg-black/50 text-white hover:bg-indigo-600 border border-white/10 flex items-center justify-center backdrop-blur-md transition-all duration-300 opacity-100"><i class="fas fa-chevron-right text-lg"></i></button>
+
+                <!-- KINOWY PASEK POSTĘPU (WIZUALNY CZAS DO KOLEJNEGO SLAJDU) -->
+                <div id="progressBarContainer" class="absolute bottom-0 left-0 w-full h-[3px] bg-white/10 z-20 opacity-0 transition-opacity duration-500">
+                    <div id="cinemaProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-rose-500 w-0"></div>
+                </div>
             </div>
-            <div class="p-6 overflow-y-auto">
+
+            <!-- PANEL INFORMACYJNY I DOLNE AKCJE (UKRYWANE W TRYBIE KINA) -->
+            <div id="modalFooter" class="p-6 overflow-y-auto transition-all duration-500">
                 <div id="descriptionBox" class="hidden mb-4 p-4 bg-gray-50 dark:bg-[#0D0E12] rounded-2xl border border-gray-100 dark:border-gray-700">
                     <p id="modalDescriptionText" class="text-sm text-gray-600 dark:text-gray-300 mb-3"></p>
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> Pokaż opis</button>
-                    <!-- PRZYCISK TRYBU KINOWEGO -->
-                    <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    
+                    <!-- PRZYCISK TRYBU KINOWEGO (Z NOWĄ PRECYZYJNĄ REAKCJĄ) -->
+                    <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
                         <i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText">Tryb kinowy</span>
                     </button>
+                    
                     <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> Pobierz</a>
                     <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> Otwórz</a>
                 </div>
@@ -337,52 +384,47 @@
         let bannerHasShownThisSession = false;
         let imagesViewed = 0; 
 
-        // Zmienne obsługujące Tryb Kinowy
+        // Zmienne obsługujące Prawdziwy Tryb Kinowy Premium
         let slideshowInterval = null;
-        const SLIDESHOW_SPEED = 4000; // Czas zmiany zdjęcia (4 sekundy)
+        let progressTimeout = null;
+        const SLIDESHOW_SPEED = 4000; 
+        let isCinemaActive = false;
+        let idleMouseTimer = null;
 
         // Pobieranie początkowego licznika strzałów z localStorage
         let awpShots = parseInt(localStorage.getItem('awpShotsCount') || '0');
 
-        // Funkcja odtwarzania strzału z AWP z obsługą licznika i statystyk
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             if (sound) {
                 sound.currentTime = 0; 
-                
                 sound.play().then(() => {
                     incrementAwpCounter();
                 }).catch(error => {
-                    console.error("Przeglądarka zablokowała audio. Kliknij najpierw dowolne miejsce na stronie, a potem w logo!", error);
-                    
+                    console.error("Blokada audio. Kliknij najpierw stronę!", error);
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     if (audioCtx.state === 'suspended') {
                         audioCtx.resume().then(() => {
                             sound.play().then(() => {
                                 incrementAwpCounter();
-                            }).catch(e => console.error("Nadal zablokowane przez przeglądarkę:", e));
+                            });
                         });
                     }
                 });
-            } else {
-                console.error("Nie znaleziono elementu audio o ID 'awpSound'!");
             }
         }
 
-        // Zwiększenie i zapisanie licznika strzałów
         function incrementAwpCounter() {
             awpShots++;
             localStorage.setItem('awpShotsCount', awpShots);
             updateAwpCounterUI();
         }
 
-        // Aktualizacja UI licznika i statystyk strzałów
         function updateAwpCounterUI() {
             document.getElementById('awpCount').textContent = awpShots;
             document.getElementById('statTotalShots').textContent = awpShots;
         }
 
-        // Aktualizacja wszystkich ogólnych statystyk na stronie
         function updateStatsUI() {
             document.getElementById('statTotalPhotos').textContent = photosData.length;
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
@@ -418,14 +460,8 @@
             if (isFavoritesView && !hasResults) {
                 const emptyFavsNotice = document.getElementById('emptyFavoritesNotice');
                 const emptyFavsText = document.getElementById('emptyFavoritesText');
-                
                 emptyFavsNotice.classList.remove('hidden');
-                
-                if (favs.length > 0) {
-                    emptyFavsText.textContent = "Nie masz jeszcze żadnych ulubionych zdjęć w tej kategorii.";
-                } else {
-                    emptyFavsText.textContent = "Nie masz jeszcze żadnych ulubionych zdjęć.";
-                }
+                emptyFavsText.textContent = favs.length > 0 ? "Nie masz jeszcze żadnych ulubionych zdjęć w tej kategorii." : "Nie masz jeszcze żadnych ulubionych zdjęć.";
             } else {
                 document.getElementById('emptyFavoritesNotice').classList.add('hidden');
             }
@@ -435,9 +471,7 @@
 
         function tryShowTipplyBanner() {
             const isClosedForever = localStorage.getItem('tipplyBannerClosed');
-            if (isClosedForever) return;
-            if (bannerHasShownThisSession) return;
-
+            if (isClosedForever || bannerHasShownThisSession) return;
             showTipplyBanner();
         }
 
@@ -486,32 +520,53 @@
             }
         }
 
+        // Aktualizacja zawartości modalu z asynchronicznym, aksamitnym wejściem grafiki
         function updateModal() {
             const item = filteredItems[currentIndex];
             if (!item) return;
-            document.getElementById('modalImage').src = item.src;
-            document.getElementById('modalTitle').textContent = item.title;
-            document.getElementById('modalDescriptionText').textContent = item.desc;
-            document.getElementById('modalTags').textContent = item.tags;
-            document.getElementById('modalDownloadBtn').href = item.src;
-            document.getElementById('modalNewTabBtn').href = item.src;
-            
-            const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
-            document.getElementById('modalFavBtn').innerHTML = isFav 
-                ? `<i class="fas fa-heart text-red-500"></i>` 
-                : `<i class="far fa-heart"></i>`;
+
+            const modalImg = document.getElementById('modalImage');
+            const ambilight = document.getElementById('cinemaAmbilight');
+
+            // 1. Rozpoczęcie animacji ściemnienia / ucieczki starego obrazka
+            modalImg.classList.remove('cinema-fade-in');
+            modalImg.classList.add('cinema-fade-out');
+
+            setTimeout(() => {
+                // 2. Podmiana grafiki i tła Ambilight
+                modalImg.src = item.src;
+                ambilight.style.backgroundImage = `url('${item.src}')`;
+
+                document.getElementById('modalTitle').textContent = item.title;
+                document.getElementById('modalDescriptionText').textContent = item.desc;
+                document.getElementById('modalTags').textContent = item.tags;
+                document.getElementById('modalDownloadBtn').href = item.src;
+                document.getElementById('modalNewTabBtn').href = item.src;
+                
+                const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
+                document.getElementById('modalFavBtn').innerHTML = isFav 
+                    ? `<i class="fas fa-heart text-red-500"></i>` 
+                    : `<i class="far fa-heart"></i>`;
+
+                // 3. Rozświetlenie i lekki zoom nowego obrazu
+                setTimeout(() => {
+                    modalImg.classList.remove('cinema-fade-out');
+                    modalImg.classList.add('cinema-fade-in');
+                }, 50);
+
+            }, 250); // Czas trwania ściemnienia
         }
 
         function closeImageModal() { 
-            stopSlideshow(); // Zatrzymanie trybu kinowego przy zamknięciu
+            stopSlideshow(); 
             document.getElementById('imageModal').classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
             cancelCloseTipplyBanner(); 
         }
 
-        // --- OBSŁUGA TRYBU KINOWEGO (SLIDESHOW) ---
+        // --- APERITIF: REWOLUCYJNY KINOWY TRYB PREMIUM ---
         function toggleSlideshow() {
-            if (slideshowInterval) {
+            if (isCinemaActive) {
                 stopSlideshow();
             } else {
                 startSlideshow();
@@ -519,41 +574,114 @@
         }
 
         function startSlideshow() {
-            if (slideshowInterval) return;
+            isCinemaActive = true;
             
-            // Zmiana wyglądu przycisku na tryb aktywny (Zielony z ikonką pauzy)
+            // Konfiguracja wyglądu przycisku
             const btn = document.getElementById('slideshowBtn');
             btn.classList.remove('bg-amber-600', 'hover:bg-amber-700');
-            btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-            document.getElementById('slideshowIcon').className = "fas fa-pause";
-            document.getElementById('slideshowText').textContent = "Zatrzymaj pokaz";
+            btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+            document.getElementById('slideshowIcon').className = "fas fa-video-slash";
+            document.getElementById('slideshowText').textContent = "Wyjdź z kina";
+
+            // WYGASZENIE INTERFEJSU MODALA (Zostaje samo kino)
+            document.getElementById('modalHeader').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('modalFooter').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('modalContainer').classList.remove('bg-white', 'dark:bg-[#1a1c24]');
+            document.getElementById('modalContainer').classList.add('bg-transparent', 'shadow-none');
+
+            // Pokazanie paska postępu seansu
+            document.getElementById('progressBarContainer').classList.remove('opacity-0');
+            document.getElementById('progressBarContainer').classList.add('opacity-100');
+
+            // Inicjalizacja nasłuchu ruchu myszą do ukrywania interfejsu (Auto-dimming)
+            document.getElementById('imageModal').addEventListener('mousemove', handleCinemaMouseMove);
+            triggerProgressBar();
 
             slideshowInterval = setInterval(() => {
                 nextImage();
+                triggerProgressBar();
             }, SLIDESHOW_SPEED);
         }
 
         function stopSlideshow() {
-            if (!slideshowInterval) return;
-            
+            if (!isCinemaActive) return;
+            isCinemaActive = false;
+
             clearInterval(slideshowInterval);
             slideshowInterval = null;
+            clearTimeout(progressTimeout);
 
-            // Przywrócenie pierwotnego wyglądu przycisku (Pomarańczowy z ikonką play)
+            // Przywrócenie pierwotnego przycisku
             const btn = document.getElementById('slideshowBtn');
-            btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+            btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
             btn.classList.add('bg-amber-600', 'hover:bg-amber-700');
             document.getElementById('slideshowIcon').className = "fas fa-play";
             document.getElementById('slideshowText').textContent = "Tryb kinowy";
+
+            // PRZYWRÓCENIE INTERFEJSU MODALA
+            document.getElementById('modalHeader').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('modalFooter').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('modalContainer').classList.remove('bg-transparent', 'shadow-none');
+            document.getElementById('modalContainer').classList.add('bg-white', 'dark:bg-[#1a1c24]');
+
+            // Ukrycie paska postępu
+            document.getElementById('progressBarContainer').classList.remove('opacity-100');
+            document.getElementById('progressBarContainer').classList.add('opacity-0');
+            document.getElementById('cinemaProgressBar').style.transition = 'none';
+            document.getElementById('cinemaProgressBar').style.width = '0%';
+
+            // Usuń event czujnika ruchu myszy i przywróć kursor
+            document.getElementById('imageModal').removeEventListener('mousemove', handleCinemaMouseMove);
+            document.getElementById('imageModal').classList.remove('hide-cursor');
+            showCinemaControls();
+            
+            clearTimeout(idleMouseTimer);
         }
 
-        // Ręczne kliknięcie przycisku "Następne" wyłącza pokaz slajdów, by dać kontrolę użytkownikowi
+        // Funkcja obsługi paska postępu (Progress bar)
+        function triggerProgressBar() {
+            const bar = document.getElementById('cinemaProgressBar');
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            
+            // Wymuszenie reflow w przeglądarce, aby zresetować animację paska
+            void bar.offsetWidth; 
+
+            bar.style.transition = 'width 4s linear';
+            bar.style.width = '100%';
+        }
+
+        // Detekcja ruchu myszą w celu ukrycia kursoru i przycisków w kinie
+        function handleCinemaMouseMove() {
+            if (!isCinemaActive) return;
+
+            showCinemaControls();
+            document.getElementById('imageModal').classList.remove('hide-cursor');
+            
+            clearTimeout(idleMouseTimer);
+            idleMouseTimer = setTimeout(() => {
+                if (isCinemaActive) {
+                    hideCinemaControls();
+                    document.getElementById('imageModal').classList.add('hide-cursor');
+                }
+            }, 2000); // 2 sekundy bezczynności = całkowite zgaszenie
+        }
+
+        function hideCinemaControls() {
+            document.getElementById('modalArrowLeft').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('modalArrowRight').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function showCinemaControls() {
+            document.getElementById('modalArrowLeft').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('modalArrowRight').classList.remove('opacity-0', 'pointer-events-none');
+        }
+
         function nextImageManual() {
             stopSlideshow();
             nextImage();
         }
 
-        // Ręczne kliknięcie przycisku "Poprzednie" wyłącza pokaz slajdów
         function prevImageManual() {
             stopSlideshow();
             prevImage();
