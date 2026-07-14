@@ -73,6 +73,7 @@
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" fill="currentColor" stroke="none">Tip</text></svg>
                 </a>
                 <button onclick="openDiscordModal()" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
+                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
             </div>
         </div>
     </header>
@@ -223,11 +224,10 @@
                     <p id="modalDescriptionText" class="text-sm text-gray-600 dark:text-gray-300 mb-3"></p>
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold transition"><i class="fas fa-info-circle mr-1"></i> Pokaż opis</button>
                     <a id="modalDownloadBtn" href="" download class="py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-download mr-1"></i> Pobierz</a>
                     <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-external-link-alt mr-1"></i> Otwórz</a>
-                    <button onclick="closeImageModal()" class="py-2.5 px-4 bg-gray-500 text-white rounded-xl text-xs font-bold transition">Zamknij</button>
                 </div>
             </div>
         </div>
