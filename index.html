@@ -245,6 +245,7 @@
 
     </div>
 
+    <!-- MODAL ZDJĘCIA (Z TRYBEM KINOWYM) -->
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50">
         <div onclick="event.stopPropagation()" class="relative max-w-3xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[90vh]">
             <div class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
@@ -253,19 +254,23 @@
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
             <div class="relative bg-black/5 flex items-center justify-center min-h-[300px] overflow-hidden">
-                <button onclick="prevImage()" class="absolute left-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="prevImageManual()" class="absolute left-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-left"></i></button>
                 <img id="modalImage" src="" class="max-w-full max-h-[50vh] object-contain">
-                <button onclick="nextImage()" class="absolute right-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="nextImageManual()" class="absolute right-4 z-10 w-10 h-10 rounded-full bg-black/30 text-white hover:bg-indigo-600 transition"><i class="fas fa-chevron-right"></i></button>
             </div>
             <div class="p-6 overflow-y-auto">
                 <div id="descriptionBox" class="hidden mb-4 p-4 bg-gray-50 dark:bg-[#0D0E12] rounded-2xl border border-gray-100 dark:border-gray-700">
                     <p id="modalDescriptionText" class="text-sm text-gray-600 dark:text-gray-300 mb-3"></p>
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-4 bg-amber-500 text-white rounded-xl text-xs font-bold transition"><i class="fas fa-info-circle mr-1"></i> Pokaż opis</button>
-                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-4 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-download mr-1"></i> Pobierz</a>
-                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-4 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center transition"><i class="fas fa-external-link-alt mr-1"></i> Otwórz</a>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> Pokaż opis</button>
+                    <!-- PRZYCISK TRYBU KINOWEGO -->
+                    <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                        <i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText">Tryb kinowy</span>
+                    </button>
+                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> Pobierz</a>
+                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> Otwórz</a>
                 </div>
             </div>
         </div>
@@ -332,6 +337,10 @@
         let bannerHasShownThisSession = false;
         let imagesViewed = 0; 
 
+        // Zmienne obsługujące Tryb Kinowy
+        let slideshowInterval = null;
+        const SLIDESHOW_SPEED = 4000; // Czas zmiany zdjęcia (4 sekundy)
+
         // Pobieranie początkowego licznika strzałów z localStorage
         let awpShots = parseInt(localStorage.getItem('awpShotsCount') || '0');
 
@@ -342,7 +351,6 @@
                 sound.currentTime = 0; 
                 
                 sound.play().then(() => {
-                    // Dodanie strzału po udanym odtworzeniu dźwięku
                     incrementAwpCounter();
                 }).catch(error => {
                     console.error("Przeglądarka zablokowała audio. Kliknij najpierw dowolne miejsce na stronie, a potem w logo!", error);
@@ -376,14 +384,9 @@
 
         // Aktualizacja wszystkich ogólnych statystyk na stronie
         function updateStatsUI() {
-            // 1. Łączna liczba zdjęć
             document.getElementById('statTotalPhotos').textContent = photosData.length;
-
-            // 2. Liczba ulubionych zdjęć
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             document.getElementById('statFavPhotos').textContent = favs.length;
-
-            // 3. Licznik strzałów z AWP
             document.getElementById('statTotalShots').textContent = awpShots;
         }
 
@@ -427,7 +430,6 @@
                 document.getElementById('emptyFavoritesNotice').classList.add('hidden');
             }
 
-            // Każdorazowo aktualizuj statystyki przy renderowaniu galerii (np. po zmianie ulubionych)
             updateStatsUI();
         }
 
@@ -501,15 +503,66 @@
         }
 
         function closeImageModal() { 
+            stopSlideshow(); // Zatrzymanie trybu kinowego przy zamknięciu
             document.getElementById('imageModal').classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
             cancelCloseTipplyBanner(); 
         }
 
+        // --- OBSŁUGA TRYBU KINOWEGO (SLIDESHOW) ---
+        function toggleSlideshow() {
+            if (slideshowInterval) {
+                stopSlideshow();
+            } else {
+                startSlideshow();
+            }
+        }
+
+        function startSlideshow() {
+            if (slideshowInterval) return;
+            
+            // Zmiana wyglądu przycisku na tryb aktywny (Zielony z ikonką pauzy)
+            const btn = document.getElementById('slideshowBtn');
+            btn.classList.remove('bg-amber-600', 'hover:bg-amber-700');
+            btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            document.getElementById('slideshowIcon').className = "fas fa-pause";
+            document.getElementById('slideshowText').textContent = "Zatrzymaj pokaz";
+
+            slideshowInterval = setInterval(() => {
+                nextImage();
+            }, SLIDESHOW_SPEED);
+        }
+
+        function stopSlideshow() {
+            if (!slideshowInterval) return;
+            
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+
+            // Przywrócenie pierwotnego wyglądu przycisku (Pomarańczowy z ikonką play)
+            const btn = document.getElementById('slideshowBtn');
+            btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+            btn.classList.add('bg-amber-600', 'hover:bg-amber-700');
+            document.getElementById('slideshowIcon').className = "fas fa-play";
+            document.getElementById('slideshowText').textContent = "Tryb kinowy";
+        }
+
+        // Ręczne kliknięcie przycisku "Następne" wyłącza pokaz slajdów, by dać kontrolę użytkownikowi
+        function nextImageManual() {
+            stopSlideshow();
+            nextImage();
+        }
+
+        // Ręczne kliknięcie przycisku "Poprzednie" wyłącza pokaz slajdów
+        function prevImageManual() {
+            stopSlideshow();
+            prevImage();
+        }
+
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
-            document.getElementById('descButton').innerHTML = isHidden ? '<i class="fas fa-info-circle mr-1"></i> Pokaż opis' : '<i class="fas fa-info-circle mr-1"></i> Ukryj opis';
+            document.getElementById('descButton').innerHTML = isHidden ? '<i class="fas fa-info-circle"></i> Pokaż opis' : '<i class="fas fa-info-circle"></i> Ukryj opis';
         }
 
         function toggleFavorite(e, src) {
@@ -589,7 +642,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             
-            // Wczytanie początkowych wartości liczników
             updateAwpCounterUI();
             updateStatsUI();
             
