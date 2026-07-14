@@ -103,7 +103,7 @@
         <div id="emptyFavoritesNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl mb-12">
             <i class="far fa-heart text-5xl text-red-400 mb-4"></i>
             <h2 class="text-2xl font-bold dark:text-white mb-2">Pusto tutaj</h2>
-            <p class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć.</p>
+            <p id="emptyFavoritesText" class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć.</p>
         </div>
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
@@ -248,15 +248,15 @@
         let currentCategory = 'all';
         let searchQuery = '';
         
-        // ZMIENNE DO BANERU
         let bannerHasShownThisSession = false;
-        let imagesViewed = 0; // Licznik obejrzanych zdjęć
+        let imagesViewed = 0; 
 
         function renderGallery() {
             const container = document.getElementById('gallery');
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             container.innerHTML = '';
             filteredItems = [];
+            
             photosData.forEach(photo => {
                 const matchesCat = (currentCategory === 'all' || photo.cat === currentCategory);
                 const s = searchQuery.toLowerCase();
@@ -272,12 +272,28 @@
                     container.appendChild(card);
                 }
             });
+            
             const hasResults = filteredItems.length > 0;
             document.getElementById('emptySearchNotice').classList.toggle('hidden', hasResults || isFavoritesView);
-            document.getElementById('emptyFavoritesNotice').classList.toggle('hidden', hasResults || !isFavoritesView);
+            
+            // DYNAMICZNY TEKST DLA ULUBIONYCH
+            if (isFavoritesView && !hasResults) {
+                const emptyFavsNotice = document.getElementById('emptyFavoritesNotice');
+                const emptyFavsText = document.getElementById('emptyFavoritesText');
+                
+                emptyFavsNotice.classList.remove('hidden');
+                
+                // Jeśli użytkownik ma cokolwiek w ulubionych, ale aktualna kategoria jest pusta
+                if (favs.length > 0) {
+                    emptyFavsText.textContent = "Nie masz jeszcze żadnych ulubionych zdjęć w tej kategorii.";
+                } else {
+                    emptyFavsText.textContent = "Nie masz jeszcze żadnych ulubionych zdjęć.";
+                }
+            } else {
+                document.getElementById('emptyFavoritesNotice').classList.add('hidden');
+            }
         }
 
-        // WYŚWIETLENIE BANNERU
         function tryShowTipplyBanner() {
             const isClosedForever = localStorage.getItem('tipplyBannerClosed');
             if (isClosedForever) return;
@@ -312,7 +328,6 @@
             localStorage.setItem('tipplyBannerClosed', 'true');
         }
 
-        // UKRYCIE REKLAMY NA STAŁE PO KLIKNIĘCIU "WESPRZYJ"
         function supportClicked() {
             localStorage.setItem('tipplyBannerClosed', 'true');
             const banner = document.getElementById('tipplyBanner');
@@ -326,7 +341,6 @@
             document.getElementById('imageModal').classList.add('active'); 
             document.body.style.overflow = 'hidden'; 
             
-            // Zwiększ licznik obejrzanych zdjęć
             imagesViewed++;
             if (imagesViewed >= 5) {
                 tryShowTipplyBanner();
@@ -388,7 +402,6 @@
             currentIndex = (currentIndex + 1) % filteredItems.length; 
             updateModal(); 
             
-            // Każde kliknięcie "Następne" również zalicza się jako obejrzenie zdjęcia
             imagesViewed++;
             if (imagesViewed >= 5) {
                 tryShowTipplyBanner();
@@ -398,7 +411,6 @@
             currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; 
             updateModal(); 
             
-            // Każde kliknięcie "Poprzednie" również zalicza się jako obejrzenie zdjęcia
             imagesViewed++;
             if (imagesViewed >= 5) {
                 tryShowTipplyBanner();
@@ -409,10 +421,9 @@
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             renderGallery();
 
-            // OPÓŹNIENIE CZASOWE: Wyświetl baner po 15 sekundach spędzonych na stronie
             setTimeout(() => {
                 tryShowTipplyBanner();
-            }, 15000); // 15000 milisekund = 15 sekund
+            }, 15000); 
         });
     </script>
 </body>
