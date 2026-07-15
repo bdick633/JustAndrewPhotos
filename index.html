@@ -226,7 +226,7 @@
             <div id="rankingPlayers" class="hidden">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xs text-gray-500 font-semibold"><span data-i18n="your_nick">Twój nick:</span> <strong id="playerNickDisplay" class="text-indigo-500">brak</strong></span>
-                    <button onclick="changeNickPrompt()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i><span data-i18n="change_nick">Zmień nick</span></button>
+                    <button onclick="openNickModal()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i><span data-i18n="change_nick">Zmień nick</span></button>
                 </div>
                 <div class="overflow-hidden">
                     <table class="w-full text-left text-sm">
@@ -385,6 +385,25 @@
         </div>
     </div>
 
+    <!-- MODAL DO ZMIANY NICKU (NOWY, STYLOWY MODAL ZAMIAST SYSTEMOWEGO PROMPTA) -->
+    <div id="nickModal" onclick="closeNickModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6 transition-all duration-300">
+        <div onclick="event.stopPropagation()" class="max-w-sm w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl text-center shadow-2xl modal-fade-in">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto mb-4">
+                <i class="fas fa-user-edit text-xl"></i>
+            </div>
+            <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2" data-i18n="nick_prompt">Wpisz swój nowy nick do klikania:</h3>
+            
+            <p class="text-xs text-indigo-500 font-bold mb-4" id="nickLimitDisplay">Pozostałe zmiany: 3/3</p>
+
+            <input type="text" id="nickModalInput" maxlength="15" class="w-full px-4 py-3 bg-gray-50 dark:bg-[#0D0E12] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-sm mb-4 text-center font-bold">
+            
+            <div class="flex gap-3">
+                <button onclick="closeNickModal()" class="w-1/2 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-i18n="close_btn">Zamknij</button>
+                <button onclick="saveNickFromModal()" id="saveNickBtn" class="w-1/2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-indigo-600/20">Zapisz</button>
+            </div>
+        </div>
+    </div>
+
     <!-- POWIADOMIENIE TOAST (ZAKTUALIZOWANE - PIĘKNIEJSZE I DWU-MOTYWOWE) -->
     <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] items-center gap-3 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md px-5 py-4 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.6)] border border-gray-100 dark:border-gray-800/80 transition-all duration-300 transform translate-y-4 opacity-0 hidden max-w-sm">
         <div id="toastIconContainer" class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200">
@@ -452,7 +471,7 @@
                 nick_changed: "Nick pomyślnie zmieniony!",
                 nick_taken: "Ten nick jest już zajęty! Wybierz inny.",
                 nick_limit_reached: "Osiągnąłeś już limit 3 zmian nicku!",
-                nick_cooldown: "Zmieniałeś nick zbyt szybko! Odczekaj chwilę.",
+                nick_cooldown: "Odczekaj chwile przed ponowną zmianą nicku.",
                 copied: "Skopiowano!",
                 tipply_title: "Podoba Ci się to, co robię?",
                 tipply_desc: "Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶",
@@ -521,7 +540,7 @@
                 nick_changed: "Nickname successfully changed!",
                 nick_taken: "This nickname is already taken! Choose another one.",
                 nick_limit_reached: "You have reached the limit of 3 nickname changes!",
-                nick_cooldown: "You changed your nickname too quickly! Please wait a moment.",
+                nick_cooldown: "Please wait a moment before changing your nickname again.",
                 copied: "Copied!",
                 tipply_title: "Do you like what I do?",
                 tipply_desc: "Your support helps me develop the channel and create more content. Thanks a lot! 🫶",
@@ -590,7 +609,7 @@
                 nick_changed: "Nickname erfolgreich geändert!",
                 nick_taken: "Dieser Nickname ist bereits vergeben! Wähle einen anderen.",
                 nick_limit_reached: "Du hast das Limit von 3 Nickname-Änderungen erreicht!",
-                nick_cooldown: "Du hast deinen Nicknamen zu schnell geändert! Bitte warte einen Moment.",
+                nick_cooldown: "Bitte warte einen Moment, bevor du deinen Nicknamen erneut änderst.",
                 copied: "Kopiert!",
                 tipply_title: "Gefällt dir, was ich tue?",
                 tipply_desc: "Deine Unterstützung hilft mir, den Kanal zu entwickeln und mehr Inhalte zu erstellen. Vielen Dank! 🫶",
@@ -659,7 +678,7 @@
                 nick_changed: "Никнейм успешно изменен!",
                 nick_taken: "Этот никнейм уже занят! Выберите другой.",
                 nick_limit_reached: "Вы достигли лимита в 3 изменения никнейма!",
-                nick_cooldown: "Вы слишком быстро меняли никнейм! Пожалуйста, подождите немного.",
+                nick_cooldown: "Пожалуйста, подождите немного перед следующей сменой ника.",
                 copied: "Скопировано!",
                 tipply_title: "Нравится то, что я делаю?",
                 tipply_desc: "Ваша поддержка помогает мне развивать канал и создавать больше контента. Спасибо! 🫶",
@@ -910,8 +929,49 @@
             });
         });
 
-        // WERYFIKACJA NICKU: OGRANICZENIE DO 3 ZMIAN + COOLDOWN (30 SEKUND)
-        window.changeNickPrompt = async function() {
+        // ODTWARZANIE STANU MODALA NICKU
+        window.openNickModal = function() {
+            const modal = document.getElementById('nickModal');
+            const input = document.getElementById('nickModalInput');
+            const limitDisplay = document.getElementById('nickLimitDisplay');
+            const saveBtn = document.getElementById('saveNickBtn');
+            
+            let nickChanges = parseInt(localStorage.getItem('justAndrewNickChanges') || '0');
+            let remaining = Math.max(0, 3 - nickChanges);
+
+            // Aktualizacja opisu pozostałych zmian
+            if (window.currentLang === 'pl') {
+                limitDisplay.textContent = `Pozostałe zmiany: ${remaining}/3`;
+            } else {
+                limitDisplay.textContent = `Changes left: ${remaining}/3`;
+            }
+
+            input.value = userNick;
+            
+            // Blokada przycisku jeśli osiągnięto limit
+            if (remaining <= 0) {
+                saveBtn.disabled = true;
+                saveBtn.className = "w-1/2 py-3 bg-gray-300 dark:bg-gray-700 text-gray-400 text-xs font-bold rounded-xl cursor-not-allowed";
+            } else {
+                saveBtn.disabled = false;
+                saveBtn.className = "w-1/2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-indigo-600/20";
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeNickModal = function() {
+            const modal = document.getElementById('nickModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // ZAPISYWANIE NICKU Z MODALA (Z INTEGRACJĄ LIMITÓW I WALIDACJI)
+        window.saveNickFromModal = async function() {
+            const input = document.getElementById('nickModalInput');
+            const newNick = input.value;
+            
             let nickChanges = parseInt(localStorage.getItem('justAndrewNickChanges') || '0');
             let lastChangeTime = parseInt(localStorage.getItem('justAndrewLastNickChangeTime') || '0');
             const now = Date.now();
@@ -919,23 +979,27 @@
             // 1. Sprawdzenie limitu zmian (max 3)
             if (nickChanges >= 3) {
                 showToast(window.translations[window.currentLang].nick_limit_reached, 'error');
+                closeNickModal();
                 return;
             }
 
             // 2. Sprawdzenie cooldownu (30 sekund)
             if (now - lastChangeTime < 30000) {
                 showToast(window.translations[window.currentLang].nick_cooldown, 'warning');
+                closeNickModal();
                 return;
             }
 
-            const newNick = prompt(window.translations[window.currentLang].nick_prompt, userNick);
             if (newNick && newNick.trim() !== "") {
                 const cleanNick = newNick.trim().substring(0, 15);
                 const safeOldKey = userNick.replace(/[.#$\[\]]/g, '_');
                 const safeNewKey = cleanNick.replace(/[.#$\[\]]/g, '_');
 
                 // Zabezpieczenie przed ponownym zatwierdzeniem własnego, niezmienionego nicku
-                if (safeOldKey === safeNewKey) return;
+                if (safeOldKey === safeNewKey) {
+                    closeNickModal();
+                    return;
+                }
 
                 try {
                     // Sprawdzamy czy nowy nick jest już zajęty
@@ -943,8 +1007,8 @@
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
-                        alert(window.translations[window.currentLang].nick_taken);
-                        return; // Blokujemy operację
+                        showToast(window.translations[window.currentLang].nick_taken, 'error');
+                        return; // Nie zamykamy okienka, dajemy szansę poprawić
                     }
 
                     // Jeśli nick jest wolny, migrujemy stare dane na nową nazwę
@@ -972,6 +1036,7 @@
                 localStorage.setItem('justAndrewLastNickChangeTime', now);
 
                 showToast(window.translations[window.currentLang].nick_changed, 'success');
+                closeNickModal();
             }
         };
 
@@ -1507,6 +1572,12 @@
                     } else {
                         closeImageModal();
                     }
+                }
+                
+                // Zamykanie modala nicku klawiszem ESC
+                const nickModal = document.getElementById('nickModal');
+                if (!nickModal.classList.contains('hidden')) {
+                    closeNickModal();
                 }
             }
         });
