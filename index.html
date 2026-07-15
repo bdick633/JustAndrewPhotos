@@ -70,6 +70,22 @@
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
 
+        /* Ikona FACEIT w tym samym stylu co pozostałe ikonki - kolor podąża za currentColor i podświetla się na hover */
+        .faceit-icon {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            -webkit-mask-image: url('unnamed.png');
+            mask-image: url('unnamed.png');
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+        }
+
         #cinemaProgressBar {
             transition: width 4s linear;
         }
@@ -155,8 +171,8 @@
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
                 
                 <!-- FACEIT LINK -->
-                <a href="https://www.faceit.com/pl/players/EndrjuGOD" target="_blank" class="hover:text-indigo-500 transition flex items-center justify-center select-none" style="width: 20px; height: 20px; margin-top: -2px;">
-                    <img src="unnamed.png" alt="FACEIT" class="w-full h-full object-contain">
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD" target="_blank" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center select-none" style="width: 20px; height: 20px; margin-top: -2px;">
+                    <span class="faceit-icon"></span>
                 </a>
             </div>
         </div>
@@ -1198,81 +1214,281 @@
 
     <script>
         const photosData = [
-            // INTEGRACJA NOWYCH FOTEK Z DECYZJĄ O KATEGORII I DŁUGIM OPISIE
             { 
-                src: 'image35.png', 
-                title: 'Celebracja wbicia 10LVL', 
-                cat: 'Stream', 
-                tags: '#10lvl #siła #biceps #win #awans #faceit', 
-                desc: 'Niezapomniana, pełna czystych emocji chwila radości po zaciętej walce na serwerach Faceit! Wbicie upragnionego 10 poziomu zwieńczone dumnym pokazem muskułów i bicepsa wprost do kamery. Prawdziwa streamerska duma i dowód na to, że ciężki trening w Counter-Strike przynosi upragnione owoce.', 
-                globalLikes: 0 
+                src: 'image35.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Celebracja wbicia 10LVL', en: 'Hitting Level 10 Celebration', de: 'Feier zum Erreichen von Level 10', ru: 'Праздник по случаю 10 уровня' },
+                tags: { pl: '#10lvl #siła #biceps #win #awans #faceit', en: '#10lvl #strength #biceps #win #rankup #faceit', de: '#10lvl #kraft #bizeps #sieg #aufstieg #faceit', ru: '#10lvl #сила #бицепс #победа #повышение #faceit' },
+                desc: { 
+                    pl: 'Niezapomniana, pełna czystych emocji chwila radości po zaciętej walce na serwerach Faceit! Wbicie upragnionego 10 poziomu zwieńczone dumnym pokazem muskułów i bicepsa wprost do kamery. Prawdziwa streamerska duma i dowód na to, że ciężki trening w Counter-Strike przynosi upragnione owoce.',
+                    en: 'An unforgettable, pure moment of joy after a fierce battle on the Faceit servers! Reaching the coveted level 10, capped off with a proud flex of muscle and biceps straight into the camera. Real streamer pride and proof that hard training in Counter-Strike pays off.',
+                    de: 'Ein unvergesslicher Moment purer Freude nach einem harten Kampf auf den Faceit-Servern! Das Erreichen des ersehnten Level 10, gekrönt von einem stolzen Muskel- und Bizeps-Flex direkt in die Kamera. Echter Streamer-Stolz und der Beweis, dass hartes Training in Counter-Strike sich auszahlt.',
+                    ru: 'Незабываемый момент искренней радости после напряжённой битвы на серверах Faceit! Достижение долгожданного 10 уровня, увенчанное гордым показом мышц и бицепса прямо в камеру. Настоящая стримерская гордость и доказательство того, что упорные тренировки в Counter-Strike приносят плоды.'
+                }
             },
             { 
-                src: 'image36.png', 
-                title: 'Trasa pod kontrolą', 
-                cat: 'Praca', 
-                tags: '#trucker #trasa #kabina #pulpit #work', 
-                desc: 'Spojrzenie z perspektywy mojego mobilnego biura podczas przemierzania kolejnych kilometrów europejskich autostrad. Za oknem dynamicznie zmieniający się krajobraz, a na desce rozdzielczej widoczne wsparcie od moich najwspanialszych widzów. Praca kierowcy to nie tylko zawód, ale prawdziwy styl życia pełen wolności.', 
-                globalLikes: 0 
+                src: 'image36.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Trasa pod kontrolą', en: 'Road Under Control', de: 'Strecke unter Kontrolle', ru: 'Дорога под контролем' },
+                tags: { pl: '#trucker #trasa #kabina #pulpit #work', en: '#trucker #route #cabin #dashboard #work', de: '#trucker #strecke #kabine #armaturenbrett #work', ru: '#дальнобойщик #маршрут #кабина #панель #работа' },
+                desc: {
+                    pl: 'Spojrzenie z perspektywy mojego mobilnego biura podczas przemierzania kolejnych kilometrów europejskich autostrad. Za oknem dynamicznie zmieniający się krajobraz, a na desce rozdzielczej widoczne wsparcie od moich najwspanialszych widzów. Praca kierowcy to nie tylko zawód, ale prawdziwy styl życia pełen wolności.',
+                    en: 'A view from my mobile office while covering another stretch of European highways. Outside the window the landscape keeps changing, and on the dashboard you can see the support from my amazing viewers. Being a truck driver isn\'t just a job — it\'s a way of life full of freedom.',
+                    de: 'Der Blick aus meinem mobilen Büro, während ich weitere Kilometer europäischer Autobahnen zurücklege. Vor dem Fenster wechselt ständig die Landschaft, und auf dem Armaturenbrett ist die Unterstützung meiner großartigen Zuschauer zu sehen. Der Beruf des Fernfahrers ist nicht nur ein Job, sondern ein echter Lebensstil voller Freiheit.',
+                    ru: 'Взгляд из моего мобильного офиса во время очередных километров европейских автомагистралей. За окном постоянно меняющийся пейзаж, а на панели приборов видна поддержка от моих замечательных зрителей. Работа дальнобойщика — это не просто профессия, а настоящий образ жизни, полный свободы.'
+                }
             },
             { 
-                src: 'image37.png', 
-                title: 'Strefa Pełnego Skupienia', 
-                cat: 'Stream', 
-                tags: '#gaming #gpro #focus #live #gameplay', 
-                desc: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W moich niezawodnych słuchawkach Logitech G Pro X nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.', 
-                globalLikes: 0 
+                src: 'image37.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Strefa Pełnego Skupienia', en: 'Full Focus Zone', de: 'Zone voller Konzentration', ru: 'Зона полной концентрации' },
+                tags: { pl: '#gaming #gpro #focus #live #gameplay', en: '#gaming #gpro #focus #live #gameplay', de: '#gaming #gpro #focus #live #gameplay', ru: '#gaming #gpro #фокус #live #геймплей' },
+                desc: {
+                    pl: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W moich niezawodnych słuchawkach Logitech G Pro X nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.',
+                    en: 'Moments when every millisecond counts and all ambient sound is completely cut off. In my trusty Logitech G Pro X headset, I\'m listening for enemy footsteps on de_mirage. Eyes locked on the monitor screen — it can only mean one thing: a spectacular round is coming.',
+                    de: 'Momente, in denen jede Millisekunde zählt und jedes Umgebungsgeräusch komplett ausgeblendet wird. In meinem zuverlässigen Logitech G Pro X-Headset lausche ich den Schritten des Gegners auf de_mirage. Der Blick starr auf den Bildschirm gerichtet, kündigt nur eines an — eine spektakuläre Runde steht bevor.',
+                    ru: 'Моменты, когда важна каждая миллисекунда, а все посторонние звуки полностью отсекаются. В своих надёжных наушниках Logitech G Pro X я вслушиваюсь в шаги противника на карте de_mirage. Взгляд, прикованный к экрану монитора, предвещает только одно — впереди зрелищный раунд.'
+                }
             },
             { 
-                src: 'image38.png', 
-                title: 'Zwycięski Uśmiech', 
-                cat: 'Stream', 
-                tags: '#smile #happy #clutch #live #community', 
-                desc: 'Ten moment, kiedy clutch 1v3 kończy się rozbrojeniem bomby w ostatniej sekundzie! Szeroki, szczery uśmiech na twarzy i chwila luźnej interakcji z czatem to najlepsza nagroda za zaangażowanie na streamie. Nic tak nie buduje klimatu transmisji jak wspólne świętowanie małych i dużych sukcesów z Wami.', 
-                globalLikes: 0 
+                src: 'image38.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Zwycięski Uśmiech', en: 'Winning Smile', de: 'Siegerlächeln', ru: 'Победная улыбка' },
+                tags: { pl: '#smile #happy #clutch #live #community', en: '#smile #happy #clutch #live #community', de: '#smile #happy #clutch #live #community', ru: '#улыбка #счастье #клатч #live #community' },
+                desc: {
+                    pl: 'Ten moment, kiedy clutch 1v3 kończy się rozbrojeniem bomby w ostatniej sekundzie! Szeroki, szczery uśmiech na twarzy i chwila luźnej interakcji z czatem to najlepsza nagroda za zaangażowanie na streamie. Nic tak nie buduje klimatu transmisji jak wspólne świętowanie małych i dużych sukcesów z Wami.',
+                    en: 'That moment when a 1v3 clutch ends with defusing the bomb in the last second! A wide, genuine smile and a moment of relaxed chat interaction are the best reward for engaging with the stream. Nothing builds the vibe of a broadcast like celebrating small and big wins together with you.',
+                    de: 'Dieser Moment, wenn ein 1v3-Clutch mit der Entschärfung der Bombe in der letzten Sekunde endet! Ein breites, echtes Lächeln und ein Moment lockerer Interaktion mit dem Chat sind die beste Belohnung für das Engagement im Stream. Nichts schafft eine bessere Stimmung im Stream, als gemeinsam mit euch kleine und große Erfolge zu feiern.',
+                    ru: 'Тот момент, когда клатч один против трёх заканчивается разминированием бомбы на последней секунде! Широкая искренняя улыбка и момент непринуждённого общения с чатом — лучшая награда за вовлечённость в стрим. Ничто так не создаёт атмосферу трансляции, как совместное празднование маленьких и больших побед вместе с вами.'
+                }
             },
             { 
-                src: 'image39.png', 
-                title: 'Interakcja z Czatem na Żywo', 
-                cat: 'Stream', 
-                tags: '#chat #live #talk #chill #backstage', 
-                desc: 'Transmisja na żywo to przede wszystkim Wy — Wasze komentarze, żarty i nieustające wsparcie. Na tym ujęciu widać moment aktywnego czytania czatu, analizowania Waszych podpowiedzi oraz odpowiadania na nurtujące pytania. Każdy stream to nowa, niepowtarzalna historia pisana wspólnie z całą społecznością.', 
-                globalLikes: 0 
+                src: 'image39.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Interakcja z Czatem na Żywo', en: 'Live Chat Interaction', de: 'Live-Chat-Interaktion', ru: 'Общение с чатом в прямом эфире' },
+                tags: { pl: '#chat #live #talk #chill #backstage', en: '#chat #live #talk #chill #backstage', de: '#chat #live #talk #chill #backstage', ru: '#чат #live #общение #chill #backstage' },
+                desc: {
+                    pl: 'Transmisja na żywo to przede wszystkim Wy — Wasze komentarze, żarty i nieustające wsparcie. Na tym ujęciu widać moment aktywnego czytania czatu, analizowania Waszych podpowiedzi oraz odpowiadania na nurtujące pytania. Każdy stream to nowa, niepowtarzalna historia pisana wspólnie z całą społecznością.',
+                    en: 'A live broadcast is, above all, about you — your comments, jokes, and constant support. This shot captures a moment of actively reading chat, considering your suggestions, and answering burning questions. Every stream is a new, one-of-a-kind story written together with the whole community.',
+                    de: 'Ein Livestream lebt vor allem von euch — euren Kommentaren, Witzen und eurer ständigen Unterstützung. Dieses Bild zeigt einen Moment, in dem ich aktiv den Chat lese, eure Vorschläge berücksichtige und brennende Fragen beantworte. Jeder Stream ist eine neue, einzigartige Geschichte, die gemeinsam mit der ganzen Community geschrieben wird.',
+                    ru: 'Прямой эфир — это прежде всего вы: ваши комментарии, шутки и постоянная поддержка. На этом кадре запечатлён момент активного чтения чата, обдумывания ваших предложений и ответов на волнующие вопросы. Каждый стрим — это новая, неповторимая история, написанная вместе со всем сообществом.'
+                }
             },
-            { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!', globalLikes: 0 },
-            { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.', globalLikes: 0 },
-            { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.', globalLikes: 0 },
-            { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.', globalLikes: 0 },
-            { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', globalLikes: 0 },
-            { src: 'image31.png', title: 'Czeski klimat', cat: 'Stream', tags: '#piwo #Žatecký', desc: 'Degustacja legendarnego chmielu prosto z Czech.', globalLikes: 0 },
-            { src: 'image32.png', title: 'Streamowe orzeźwienie', cat: 'Stream', tags: '#piwo #live', desc: 'Nic tak nie poprawia jakości streama jak zimne piwko.', globalLikes: 0 },
-            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh #piwo #lech', desc: 'Kulisowy kadr.', globalLikes: 0 },
-            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill #piwo', desc: 'Przerwa na napój.', globalLikes: 0 },
-            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill #piwo #żubr', desc: 'Chwila oddechu.', globalLikes: 0 },
-            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'Niespodziewany moment na streamie.', globalLikes: 0 },
-            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #ola', desc: 'Relacja między postaciami.', globalLikes: 0 },
-            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #siła #ola', desc: 'Pokaz formy.', globalLikes: 0 },
-            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #ola', desc: 'Akrobacje na żywo.', globalLikes: 0 },
-            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech', desc: 'Zasłużona przerwa.', globalLikes: 0 },
-            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Pełna precyzja.', globalLikes: 0 },
-            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Kulisowe ujęcia.', globalLikes: 0 },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #love', desc: 'Dla widzów.', globalLikes: 0 },
-            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party #ola', desc: 'Wspólny czas.', globalLikes: 0 },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #cute', desc: 'Mój pupil.', globalLikes: 0 },
-            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Uśmiech!', globalLikes: 0 },
-            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello', desc: 'Interakcja z czatem.', globalLikes: 0 },
-            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Praca wre.', globalLikes: 0 },
-            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Pasja do sportu.', globalLikes: 0 },
-            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #love', desc: 'Z trasy.', globalLikes: 0 },
-            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Zabawne emocje.', globalLikes: 0 },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#agresja #złość', desc: 'Kiedy droga męczy.', globalLikes: 0 },
-            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Poważny kadr.', globalLikes: 0 },
-            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.', globalLikes: 0 },
-            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.', globalLikes: 0 },
-            { src: 'image22.png', title: 'W trase', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.', globalLikes: 0 },
-            { src: 'image25.png', title: 'Pulpit sterowniczy', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.', globalLikes: 0 },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.', globalLikes: 0 }
+            { 
+                src: 'image33.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Potężne Ziewnięcie', en: 'Mighty Yawn', de: 'Gewaltiges Gähnen', ru: 'Мощный зевок' },
+                tags: { pl: '#lodzik #lód #kurwa #wieczór', en: '#lodzik #ice #kurwa #evening', de: '#lodzik #eis #kurwa #abend', ru: '#lodzik #лёд #kurwa #вечер' },
+                desc: {
+                    pl: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!',
+                    en: 'A classic moment of exhaustion during a many-hours-long broadcast. Emotions reach their peak, and the yawn practically twists my eyes shut!',
+                    de: 'Ein klassischer Moment der Erschöpfung während einer stundenlangen Übertragung. Die Emotionen erreichen ihren Höhepunkt, und das Gähnen verdreht förmlich die Augen!',
+                    ru: 'Классический момент усталости во время многочасовой трансляции. Эмоции достигают предела, а зевок буквально выворачивает глаза!'
+                }
+            },
+            { 
+                src: 'image34.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Zbliżenie Kontrolowane', en: 'Controlled Close-up', de: 'Kontrollierte Nahaufnahme', ru: 'Контролируемый крупный план' },
+                tags: { pl: '#zoom #twarz #blisko #emocje', en: '#zoom #face #close #emotions', de: '#zoom #gesicht #nah #emotionen', ru: '#zoom #лицо #близко #эмоции' },
+                desc: {
+                    pl: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.',
+                    en: 'The moment when you get decisively too close to the camera lens to tell viewers something extremely important. The face says it all.',
+                    de: 'Der Moment, in dem man entschlossen viel zu nah an die Kameralinse herangeht, um den Zuschauern etwas äußerst Wichtiges mitzuteilen. Der Gesichtsausdruck spricht Bände.',
+                    ru: 'Момент, когда ты решительно подходишь слишком близко к объективу камеры, чтобы сообщить зрителям что-то крайне важное. Выражение лица говорит само за себя.'
+                }
+            },
+            { 
+                src: 'image28.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'essa', en: 'essa', de: 'essa', ru: 'essa' },
+                tags: { pl: '#cwel #v #pozdro', en: '#cwel #v #greetings', de: '#cwel #v #grüße', ru: '#cwel #v #привет' },
+                desc: {
+                    pl: 'Just Andrew pozdrawia swoich widzów pięknym gestem.',
+                    en: 'Just Andrew greets his viewers with a beautiful gesture.',
+                    de: 'Just Andrew grüßt seine Zuschauer mit einer wunderschönen Geste.',
+                    ru: 'Джаст Эндрю приветствует своих зрителей красивым жестом.'
+                }
+            },
+            { 
+                src: 'image29.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Wnętrze maszyny', en: 'Inside the Machine', de: 'Inneres der Maschine', ru: 'Внутри машины' },
+                tags: { pl: '#ciężarówka', en: '#truck', de: '#lkw', ru: '#грузовик' },
+                desc: { pl: 'Moje mobilne biuro.', en: 'My mobile office.', de: 'Mein mobiles Büro.', ru: 'Мой мобильный офис.' }
+            },
+            { 
+                src: 'image30.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Chillera w domu', en: 'Chilling at Home', de: 'Chillen zu Hause', ru: 'Расслабон дома' },
+                tags: { pl: '#twarz', en: '#face', de: '#gesicht', ru: '#лицо' },
+                desc: { pl: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', en: 'Relaxing in the comfort of home after a hard day.', de: 'Entspannung in den eigenen vier Wänden nach einem harten Tag.', ru: 'Отдых в домашнем уюте после тяжёлого дня.' }
+            },
+            { 
+                src: 'image31.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Czeski klimat', en: 'Czech Vibes', de: 'Tschechisches Flair', ru: 'Чешская атмосфера' },
+                tags: { pl: '#piwo #Žatecký', en: '#beer #Žatecký', de: '#bier #Žatecký', ru: '#пиво #Žatecký' },
+                desc: { pl: 'Degustacja legendarnego chmielu prosto z Czech.', en: 'Tasting legendary hops straight from Czechia.', de: 'Verkostung des legendären Hopfens direkt aus Tschechien.', ru: 'Дегустация легендарного хмеля прямиком из Чехии.' }
+            },
+            { 
+                src: 'image32.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Streamowe orzeźwienie', en: 'Stream Refreshment', de: 'Stream-Erfrischung', ru: 'Стримовое освежение' },
+                tags: { pl: '#piwo #live', en: '#beer #live', de: '#bier #live', ru: '#пиво #live' },
+                desc: { pl: 'Nic tak nie poprawia jakości streama jak zimne piwko.', en: 'Nothing improves stream quality like a cold beer.', de: 'Nichts verbessert die Stream-Qualität so sehr wie ein kaltes Bier.', ru: 'Ничто так не улучшает качество стрима, как холодное пиво.' }
+            },
+            { 
+                src: 'image27.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Transmisja i Orzeźwienie', en: 'Broadcast and Refreshment', de: 'Übertragung und Erfrischung', ru: 'Трансляция и освежение' },
+                tags: { pl: '#live #refresh #piwo #lech', en: '#live #refresh #beer #lech', de: '#live #refresh #bier #lech', ru: '#live #refresh #пиво #lech' },
+                desc: { pl: 'Kulisowy kadr.', en: 'A behind-the-scenes shot.', de: 'Ein Blick hinter die Kulissen.', ru: 'Кадр за кулисами.' }
+            },
+            { 
+                src: 'image24.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Relaks ze szklanką', en: 'Relaxing with a Glass', de: 'Entspannung mit einem Glas', ru: 'Расслабон со стаканом' },
+                tags: { pl: '#drink #chill #piwo', en: '#drink #chill #beer', de: '#drink #chill #bier', ru: '#drink #chill #пиво' },
+                desc: { pl: 'Przerwa na napój.', en: 'A drink break.', de: 'Eine Trinkpause.', ru: 'Перерыв на напиток.' }
+            },
+            { 
+                src: 'image7.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Odświeżenie', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение' },
+                tags: { pl: '#relaks #chill #piwo #żubr', en: '#relax #chill #beer #żubr', de: '#relax #chill #bier #żubr', ru: '#relax #chill #пиво #żubr' },
+                desc: { pl: 'Chwila oddechu.', en: 'A moment to catch your breath.', de: 'Ein Moment zum Durchatmen.', ru: 'Момент, чтобы перевести дыхание.' }
+            },
+            { 
+                src: 'image1.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Moment zdziwienia', en: 'Moment of Surprise', de: 'Moment der Überraschung', ru: 'Момент удивления' },
+                tags: { pl: '#surprise #face #fun', en: '#surprise #face #fun', de: '#surprise #face #fun', ru: '#surprise #face #fun' },
+                desc: { pl: 'Niespodziewany moment na streamie.', en: 'An unexpected moment on stream.', de: 'Ein unerwarteter Moment im Stream.', ru: 'Неожиданный момент на стриме.' }
+            },
+            { 
+                src: 'image2.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Duet', en: 'Duo', de: 'Duo', ru: 'Дуэт' },
+                tags: { pl: '#rodzeństwo #przyjaciele #ola', en: '#siblings #friends #ola', de: '#geschwister #freunde #ola', ru: '#братьяисёстры #друзья #ola' },
+                desc: { pl: 'Relacja między postaciami.', en: 'The relationship between the two of them.', de: 'Die Beziehung zwischen den beiden.', ru: 'Отношения между персонажами.' }
+            },
+            { 
+                src: 'image3.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Flexing', en: 'Flexing', de: 'Flexing', ru: 'Флексинг' },
+                tags: { pl: '#mięśnie #siła #ola', en: '#muscles #strength #ola', de: '#muskeln #kraft #ola', ru: '#мышцы #сила #ola' },
+                desc: { pl: 'Pokaz formy.', en: 'Showing off the gains.', de: 'Zurschaustellung der Form.', ru: 'Демонстрация формы.' }
+            },
+            { 
+                src: 'image4.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Świeca', en: 'Candle Pose', de: 'Kerzenstand', ru: 'Свечка' },
+                tags: { pl: '#świeca #akrobata #ola', en: '#candle #acrobat #ola', de: '#kerze #akrobat #ola', ru: '#свечка #акробат #ola' },
+                desc: { pl: 'Akrobacje na żywo.', en: 'Live acrobatics.', de: 'Akrobatik live.', ru: 'Акробатика в прямом эфире.' }
+            },
+            { 
+                src: 'image5.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Refreshment', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение' },
+                tags: { pl: '#piwo #lech', en: '#beer #lech', de: '#bier #lech', ru: '#пиво #lech' },
+                desc: { pl: 'Zasłużona przerwa.', en: 'A well-deserved break.', de: 'Eine wohlverdiente Pause.', ru: 'Заслуженный перерыв.' }
+            },
+            { 
+                src: 'image6.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Głębokie skupienie', en: 'Deep Focus', de: 'Tiefe Konzentration', ru: 'Глубокая концентрация' },
+                tags: { pl: '#zakola #twarz', en: '#zakola #face', de: '#zakola #gesicht', ru: '#zakola #лицо' },
+                desc: { pl: 'Pełna precyzja.', en: 'Full precision.', de: 'Volle Präzision.', ru: 'Полная точность.' }
+            },
+            { 
+                src: 'image8.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Przerwa na sprzęt', en: 'Gear Break', de: 'Ausrüstungspause', ru: 'Перерыв на технику' },
+                tags: { pl: '#setup #tech', en: '#setup #tech', de: '#setup #tech', ru: '#setup #tech' },
+                desc: { pl: 'Kulisowe ujęcia.', en: 'Behind-the-scenes shots.', de: 'Blicke hinter die Kulissen.', ru: 'Закулисные кадры.' }
+            },
+            { 
+                src: 'image9.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Serce', en: 'Heart', de: 'Herz', ru: 'Сердечко' },
+                tags: { pl: '#uwu #love', en: '#uwu #love', de: '#uwu #love', ru: '#uwu #love' },
+                desc: { pl: 'Dla widzów.', en: 'For the viewers.', de: 'Für die Zuschauer.', ru: 'Для зрителей.' }
+            },
+            { 
+                src: 'image10.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Przyjaciele', en: 'Friends', de: 'Freunde', ru: 'Друзья' },
+                tags: { pl: '#friends #party #ola', en: '#friends #party #ola', de: '#friends #party #ola', ru: '#friends #party #ola' },
+                desc: { pl: 'Wspólny czas.', en: 'Time together.', de: 'Gemeinsame Zeit.', ru: 'Время вместе.' }
+            },
+            { 
+                src: 'image11.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Z puszystym przyjacielem', en: 'With a Fluffy Friend', de: 'Mit einem flauschigen Freund', ru: 'С пушистым другом' },
+                tags: { pl: '#kot #cute', en: '#cat #cute', de: '#katze #cute', ru: '#кот #cute' },
+                desc: { pl: 'Mój pupil.', en: 'My pet.', de: 'Mein Haustier.', ru: 'Мой питомец.' }
+            },
+            { 
+                src: 'image12.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Zbliżenie', en: 'Close-up', de: 'Nahaufnahme', ru: 'Крупный план' },
+                tags: { pl: '#face #zoom', en: '#face #zoom', de: '#face #zoom', ru: '#face #zoom' },
+                desc: { pl: 'Uśmiech!', en: 'Smile!', de: 'Lächeln!', ru: 'Улыбка!' }
+            },
+            { 
+                src: 'image13.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Pozdrowienia', en: 'Greetings', de: 'Grüße', ru: 'Приветствие' },
+                tags: { pl: '#hello', en: '#hello', de: '#hello', ru: '#hello' },
+                desc: { pl: 'Interakcja z czatem.', en: 'Chat interaction.', de: 'Interaktion mit dem Chat.', ru: 'Общение с чатом.' }
+            },
+            { 
+                src: 'image14.jpg', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Skupienie', en: 'Focus', de: 'Konzentration', ru: 'Концентрация' },
+                tags: { pl: '#focus #work', en: '#focus #work', de: '#focus #work', ru: '#focus #work' },
+                desc: { pl: 'Praca wre.', en: 'Work is in full swing.', de: 'Die Arbeit läuft auf Hochtouren.', ru: 'Работа кипит.' }
+            },
+            { 
+                src: 'image15.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Trening', en: 'Training', de: 'Training', ru: 'Тренировка' },
+                tags: { pl: '#gym #power', en: '#gym #power', de: '#gym #power', ru: '#gym #power' },
+                desc: { pl: 'Pasja do sportu.', en: 'A passion for sports.', de: 'Leidenschaft für Sport.', ru: 'Страсть к спорту.' }
+            },
+            { 
+                src: 'image16.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Serce z pracy', en: 'Heart from the Road', de: 'Herz von der Arbeit', ru: 'Сердце с работы' },
+                tags: { pl: '#ciężarówka #love', en: '#truck #love', de: '#lkw #love', ru: '#грузовик #love' },
+                desc: { pl: 'Z trasy.', en: 'From the road.', de: 'Von der Strecke.', ru: 'С маршрута.' }
+            },
+            { 
+                src: 'image17.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Niezadowolenie', en: 'Displeasure', de: 'Unzufriedenheit', ru: 'Недовольство' },
+                tags: { pl: '#angry #funny', en: '#angry #funny', de: '#angry #funny', ru: '#angry #funny' },
+                desc: { pl: 'Zabawne emocje.', en: 'Funny emotions.', de: 'Lustige Emotionen.', ru: 'Забавные эмоции.' }
+            },
+            { 
+                src: 'image18.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Siła i motywacja', en: 'Strength and Motivation', de: 'Kraft und Motivation', ru: 'Сила и мотивация' },
+                tags: { pl: '#agresja #złość', en: '#aggression #anger', de: '#aggression #wut', ru: '#агрессия #злость' },
+                desc: { pl: 'Kiedy droga męczy.', en: 'When the road wears you out.', de: 'Wenn die Strecke ermüdet.', ru: 'Когда дорога утомляет.' }
+            },
+            { 
+                src: 'image19.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Skupienie przed kamerą', en: 'Focus in Front of the Camera', de: 'Konzentration vor der Kamera', ru: 'Концентрация перед камерой' },
+                tags: { pl: '#look #eye', en: '#look #eye', de: '#look #eye', ru: '#look #eye' },
+                desc: { pl: 'Poważny kadr.', en: 'A serious shot.', de: 'Eine ernste Aufnahme.', ru: 'Серьёзный кадр.' }
+            },
+            { 
+                src: 'image20.png', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Spojrzenie z góry', en: 'View from Above', de: 'Blick von oben', ru: 'Взгляд сверху' },
+                tags: { pl: '#pov #perspective', en: '#pov #perspective', de: '#pov #perspective', ru: '#pov #perspective' },
+                desc: { pl: 'Inna perspektywa.', en: 'A different perspective.', de: 'Eine andere Perspektive.', ru: 'Другой ракурс.' }
+            },
+            { 
+                src: 'image21.jpg', cat: 'Stream', globalLikes: 0,
+                title: { pl: 'Gest sympatii', en: 'Friendly Gesture', de: 'Freundliche Geste', ru: 'Дружеский жест' },
+                tags: { pl: '#heart #hands', en: '#heart #hands', de: '#heart #hands', ru: '#heart #hands' },
+                desc: { pl: 'Uwu dłońmi.', en: 'Uwu with the hands.', de: 'Uwu mit den Händen.', ru: 'Уву руками.' }
+            },
+            { 
+                src: 'image22.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'W trase', en: 'On the Road', de: 'Auf der Strecke', ru: 'В рейсе' },
+                tags: { pl: '#driving #trucker', en: '#driving #trucker', de: '#driving #trucker', ru: '#driving #trucker' },
+                desc: { pl: 'Live z kabiny.', en: 'Live from the cabin.', de: 'Live aus der Kabine.', ru: 'Live из кабины.' }
+            },
+            { 
+                src: 'image25.png', cat: 'Praca', globalLikes: 0,
+                title: { pl: 'Pulpit sterowniczy', en: 'Dashboard', de: 'Armaturenbrett', ru: 'Панель управления' },
+                tags: { pl: '#view #truck', en: '#view #truck', de: '#view #truck', ru: '#view #truck' },
+                desc: { pl: 'Koniec trasy.', en: 'End of the route.', de: 'Ende der Strecke.', ru: 'Конец маршрута.' }
+            },
+            { 
+                src: 'image26.jpg', cat: 'Relaks', globalLikes: 0,
+                title: { pl: 'Chwila wytchnienia', en: 'A Moment of Rest', de: 'Ein Moment der Ruhe', ru: 'Момент отдыха' },
+                tags: { pl: '#chill #rest', en: '#chill #rest', de: '#chill #rest', ru: '#chill #rest' },
+                desc: { pl: 'Odprężenie.', en: 'Relaxation.', de: 'Entspannung.', ru: 'Расслабление.' }
+            }
         ];
+
+        function getPhotoText(photo, field) {
+            const lang = window.currentLang || 'pl';
+            return (photo[field] && (photo[field][lang] || photo[field]['pl'])) || '';
+        }
+
 
         window.photosData = photosData;
 
@@ -1329,6 +1545,10 @@
             }
 
             renderGallery();
+
+            if (document.getElementById('imageModal').classList.contains('active')) {
+                updateModal();
+            }
         }
 
         function updateStatsUI() {
@@ -1366,7 +1586,9 @@
             photosData.forEach(photo => {
                 const matchesCat = (currentCategory === 'all' || photo.cat === currentCategory);
                 const s = searchQuery.toLowerCase();
-                const matchesSearch = photo.title.toLowerCase().includes(s) || photo.tags.toLowerCase().includes(s);
+                const photoTitle = getPhotoText(photo, 'title');
+                const photoTags = getPhotoText(photo, 'tags');
+                const matchesSearch = photoTitle.toLowerCase().includes(s) || photoTags.toLowerCase().includes(s);
                 const isFav = favs.includes(photo.src);
                 const matchesFavs = !isFavoritesView || isFav;
                 
@@ -1393,12 +1615,13 @@
                 card.setAttribute('data-src', photo.src);
 
                 const translatedCat = window.translations[window.currentLang]["cat_" + photo.cat.toLowerCase()] || photo.cat;
+                const translatedTitle = getPhotoText(photo, 'title');
                 
                 card.innerHTML = `
                     <div onclick="openModal(${idx})">
                         <img src="${photo.src}" class="w-full h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end">
-                            <h3 class="text-white font-bold">${photo.title}</h3>
+                            <h3 class="text-white font-bold">${translatedTitle}</h3>
                             <p class="text-indigo-400 text-[10px] uppercase font-bold">${translatedCat}</p>
                         </div>
                     </div>
@@ -1502,9 +1725,9 @@
             const item = filteredItems[currentIndex];
             if (!item) return;
             document.getElementById('modalImage').src = item.src;
-            document.getElementById('modalTitle').textContent = item.title;
-            document.getElementById('modalDescriptionText').textContent = item.desc;
-            document.getElementById('modalTags').textContent = item.tags;
+            document.getElementById('modalTitle').textContent = getPhotoText(item, 'title');
+            document.getElementById('modalDescriptionText').textContent = getPhotoText(item, 'desc');
+            document.getElementById('modalTags').textContent = getPhotoText(item, 'tags');
             document.getElementById('modalDownloadBtn').href = item.src;
             document.getElementById('modalNewTabBtn').href = item.src;
             
