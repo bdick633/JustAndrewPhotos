@@ -37,7 +37,6 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23818cf8' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
         }
 
-        /* STYLIZACJA PRZYCISKU POLUBIENIA W GALERII */
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.5) !important; 
             backdrop-filter: blur(4px);
@@ -64,7 +63,7 @@
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
             <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
-                JustAndrew
+                just andrew
             </div>
             
             <div id="awpCounterContainer" class="flex items-center gap-2 bg-white dark:bg-gray-800/80 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700/60 text-xs font-bold shadow-sm text-gray-700 dark:text-gray-300">
@@ -103,20 +102,17 @@
         <section class="text-center mb-10">
             <h1 id="mainHeading" class="text-4xl md:text-6xl font-black mb-4">Galeria Fotografii</h1>
             <div class="flex flex-col md:flex-row gap-3 justify-center items-center">
-                <!-- Filtr kategorii -->
                 <select id="categorySelect" onchange="filterCategory(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
                     <option value="all">Wszystkie kategorie</option>
                     <option value="Stream">Stream</option>
                     <option value="Praca">Praca</option>
                     <option value="Relaks">Relaks</option>
                 </select>
-                <!-- Filtr sortowania - BEZ SERDUSZEK -->
                 <select id="sortSelect" onchange="filterSort(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
                     <option value="default">Domyślna kolejność</option>
                     <option value="popular">Najpopularniejsze</option>
                     <option value="unpopular">Najmniej popularne</option>
                 </select>
-                <!-- Szukajka -->
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                     <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-sm">
@@ -138,7 +134,8 @@
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
 
-        <section class="mt-12 mb-16 max-w-6xl mx-auto">
+        <!-- STATYSTYKI -->
+        <section class="mt-12 mb-8 max-w-6xl mx-auto">
             <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Statystyki Galerii</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
@@ -164,6 +161,63 @@
             </div>
         </section>
 
+        <!-- SEKCJA RANKINGÓW (TABELA KRAJÓW I GRACZY) -->
+        <section class="mt-8 mb-16 max-w-2xl mx-auto bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-sm">
+            <div class="flex justify-center border-b border-gray-200 dark:border-gray-800 mb-6">
+                <button onclick="switchRankingTab('countries')" id="tabBtnCountries" class="px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none">
+                    <i class="fas fa-globe-americas mr-2"></i>Ranking Krajów
+                </button>
+                <button onclick="switchRankingTab('players')" id="tabBtnPlayers" class="px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none">
+                    <i class="fas fa-crown mr-2"></i>Top Gracze
+                </button>
+            </div>
+
+            <!-- Tab: Kraje -->
+            <div id="rankingCountries" class="block">
+                <div class="overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
+                                <th class="pb-2 pl-2">Poz.</th>
+                                <th class="pb-2">Kraj</th>
+                                <th class="pb-2 text-right pr-2">Kliknięcia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="countriesTableBody">
+                            <tr>
+                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> Ładowanie danych...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Gracze -->
+            <div id="rankingPlayers" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs text-gray-500 font-semibold">Twój nick: <strong id="playerNickDisplay" class="text-indigo-500">brak</strong></span>
+                    <button onclick="changeNickPrompt()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i>Zmień nick</button>
+                </div>
+                <div class="overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
+                                <th class="pb-2 pl-2">Poz.</th>
+                                <th class="pb-2">Gracz</th>
+                                <th class="pb-2 text-right pr-2">Kliknięcia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="playersTableBody">
+                            <tr>
+                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> Ładowanie danych...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- WSPÓŁTWORZENIE STRONY -->
         <section class="mt-16 max-w-6xl mx-auto">
             <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Wspólnie twórzmy tę stronę!</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -213,8 +267,8 @@
         &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
     </footer>
 
+    <!-- TIPPLY BANNER -->
     <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
-        
         <div id="bannerContentDefault" class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-3.5 w-full sm:w-auto">
                 <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
@@ -234,7 +288,6 @@
                 </button>
             </div>
         </div>
-
         <div id="bannerContentConfirm" class="hidden flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-3.5 w-full sm:w-auto">
                 <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center text-red-500 dark:text-red-400 shrink-0">
@@ -254,22 +307,17 @@
                 </button>
             </div>
         </div>
-
     </div>
 
     <!-- MODAL ZDJĘCIA -->
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/80 dark:bg-[#0D0E12]/95 backdrop-blur-md z-50 transition-all duration-300">
-        
         <button id="cinemaExitBtn" onclick="stopSlideshow()" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 bg-black/70 hover:bg-red-600 text-white rounded-full text-xs font-bold tracking-wider uppercase transition-all shadow-2xl border border-white/10 flex items-center gap-2">
             <i class="fas fa-stop"></i> Zakończ seans (ESC)
         </button>
-
         <div id="cinemaProgressContainer" class="hidden fixed bottom-0 left-0 w-full h-[4px] bg-black/20 dark:bg-white/10 z-[60]">
             <div id="cinemaProgressBar" class="h-full bg-indigo-500 dark:bg-indigo-400 w-0"></div>
         </div>
-
         <div onclick="event.stopPropagation()" id="modalContainer" class="relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh] transition-all duration-300">
-            
             <div id="modalHeader" class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800/80">
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-xs font-bold text-gray-800 dark:text-white transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent">
                     <i class="far fa-heart"></i> <span id="modalFavCount">0</span>
@@ -277,13 +325,11 @@
                 <h3 id="modalTitle" class="font-bold text-lg dark:text-white text-center flex-grow truncate px-4"></h3>
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
-
             <div id="modalImageContainer" class="relative bg-black/10 flex items-center justify-center min-h-[350px] md:min-h-[500px] transition-all duration-300">
                 <button id="modalArrowLeft" onclick="prevImage()" class="absolute left-4 z-10 w-12 h-12 rounded-full bg-black/40 text-white hover:bg-indigo-600 flex items-center justify-center backdrop-blur-sm transition-all"><i class="fas fa-chevron-left text-lg"></i></button>
                 <img id="modalImage" src="" class="max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300">
                 <button id="modalArrowRight" onclick="nextImage()" class="absolute right-4 z-10 w-12 h-12 rounded-full bg-black/40 text-white hover:bg-indigo-600 flex items-center justify-center backdrop-blur-sm transition-all"><i class="fas fa-chevron-right text-lg"></i></button>
             </div>
-
             <div id="modalFooter" class="p-6 overflow-y-auto">
                 <div id="descriptionBox" class="hidden mb-4 p-4 bg-gray-50 dark:bg-[#0D0E12] rounded-2xl border border-gray-100 dark:border-gray-700">
                     <p id="modalDescriptionText" class="text-sm text-gray-600 dark:text-gray-300 mb-3"></p>
@@ -291,9 +337,7 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> Pokaż opis</button>
-                    
                     <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText">Tryb kinowy</span></button>
-                    
                     <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> Pobierz</a>
                     <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> Otwórz</a>
                 </div>
@@ -301,6 +345,7 @@
         </div>
     </div>
 
+    <!-- MODAL DISCORD -->
     <div id="discordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
         <div onclick="event.stopPropagation()" class="max-w-xs w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl text-center shadow-2xl">
             <i class="fab fa-discord text-5xl text-[#5865F2] mb-4"></i>
@@ -310,15 +355,16 @@
         </div>
     </div>
 
+    <!-- POWIADOMIENIE TOAST -->
     <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
         <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
-        <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
+        <p id="toastText" class="text-xs font-bold dark:text-white">Skopiowano!</p>
     </div>
 
-    <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE[cite: 3] -->
+    <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, runTransaction, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
@@ -329,6 +375,58 @@
         
         const clicksRef = ref(db, 'clicks');
         const likesRef = ref(db, 'likes');
+        const countriesRef = ref(db, 'countries');
+        const playersRef = ref(db, 'players');
+
+        let userCountryCode = "Unknown";
+        let userCountryName = "Nieznany";
+        let userNick = localStorage.getItem('justAndrewUserNick') || "";
+
+        // Tłumaczenia kodów krajów i flagi
+        const countryNames = {
+            "PL": { name: "Polska", flag: "🇵🇱" },
+            "US": { name: "Stany Zjednoczone", flag: "🇺🇸" },
+            "DE": { name: "Niemcy", flag: "🇩🇪" },
+            "GB": { name: "Wielka Brytania", flag: "🇬🇧" },
+            "FR": { name: "Francja", flag: "🇫🇷" },
+            "CZ": { name: "Czechy", flag: "🇨🇿" },
+            "SK": { name: "Słowacja", flag: "🇸🇰" },
+            "UA": { name: "Ukraina", flag: "🇺🇦" },
+            "NL": { name: "Holandia", flag: "🇳🇱" },
+            "IE": { name: "Irlandia", flag: "🇮🇪" },
+            "NO": { name: "Norwegia", flag: "🇳🇴" },
+            "DK": { name: "Dania", flag: "🇩🇰" },
+            "SE": { name: "Szwecja", flag: "🇸🇪" },
+            "ES": { name: "Hiszpania", flag: "🇪🇸" },
+            "IT": { name: "Włochy", flag: "🇮🇹" },
+            "Unknown": { name: "Kosmos", flag: "👽" }
+        };
+
+        // Pobranie kraju użytkownika
+        async function fetchUserCountry() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.country_code) {
+                        userCountryCode = data.country_code;
+                        userCountryName = data.country_name;
+                    }
+                }
+            } catch (error) {
+                console.error("Błąd pobierania IP/kraju:", error);
+            }
+        }
+
+        // Inicjalizacja Nicku gracza
+        function initNick() {
+            if (!userNick) {
+                const randomId = Math.floor(1000 + Math.random() * 9000);
+                userNick = "Klikacz_" + randomId;
+                localStorage.setItem('justAndrewUserNick', userNick);
+            }
+            document.getElementById('playerNickDisplay').textContent = userNick;
+        }
 
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
@@ -359,7 +457,21 @@
         }
 
         function incrementGlobalCounter() {
+            // 1. Główne kliknięcia
             runTransaction(clicksRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+
+            // 2. Kliknięcia na kraje
+            const countryDbRef = ref(db, `countries/${userCountryCode}`);
+            runTransaction(countryDbRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+
+            // 3. Kliknięcia na graczy (tylko bezpieczne znaki w kluczu Firebase)
+            const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
+            const playerDbRef = ref(db, `players/${safeNickKey}`);
+            runTransaction(playerDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
         }
@@ -374,25 +486,125 @@
             });
         }
 
+        // --- OBSŁUGA STRUKTURY RANKINGÓW ---
         onValue(clicksRef, (snapshot) => {
             const data = snapshot.val() || 0;
-            const awpCountEl = document.getElementById('awpCount');
-            if (awpCountEl) awpCountEl.textContent = data;
             document.getElementById('statTotalShots').textContent = data;
         });
 
-        // Pobieranie na żywo polubień pod zdjęciami z Firebase i aktualizacja tablicy w locie[cite: 3]
+        // Nasłuchiwanie zmian w krajach
+        onValue(countriesRef, (snapshot) => {
+            const countriesData = snapshot.val() || {};
+            const tableBody = document.getElementById('countriesTableBody');
+            tableBody.innerHTML = '';
+
+            const sortedCountries = Object.keys(countriesData)
+                .map(code => ({
+                    code: code,
+                    clicks: countriesData[code]
+                }))
+                .sort((a, b) => b.clicks - a.clicks);
+
+            if (sortedCountries.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">Brak kliknięć</td></tr>`;
+                return;
+            }
+
+            sortedCountries.forEach((item, index) => {
+                const info = countryNames[item.code] || { name: item.code, flag: "🏳️" };
+                const row = document.createElement('tr');
+                row.className = "border-b border-gray-100 dark:border-gray-800/60 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors";
+                row.innerHTML = `
+                    <td class="py-3 pl-2 font-bold text-gray-500">${index + 1}.</td>
+                    <td class="py-3 font-semibold dark:text-white">${info.flag} <span class="ml-1">${info.name}</span></td>
+                    <td class="py-3 text-right pr-2 font-black text-indigo-600 dark:text-indigo-400">${item.clicks.toLocaleString()}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        });
+
+        // Nasłuchiwanie zmian w graczach (Top 10)
+        onValue(playersRef, (snapshot) => {
+            const playersData = snapshot.val() || {};
+            const tableBody = document.getElementById('playersTableBody');
+            tableBody.innerHTML = '';
+
+            const sortedPlayers = Object.keys(playersData)
+                .map(nick => ({
+                    nick: nick,
+                    clicks: playersData[nick]
+                }))
+                .sort((a, b) => b.clicks - a.clicks)
+                .slice(0, 10); // Pokazuj tylko Top 10
+
+            if (sortedPlayers.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">Brak graczy w rankingu</td></tr>`;
+                return;
+            }
+
+            sortedPlayers.forEach((item, index) => {
+                const isMe = item.nick === userNick;
+                const row = document.createElement('tr');
+                row.className = `border-b border-gray-100 dark:border-gray-800/60 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors ${isMe ? 'bg-indigo-50/50 dark:bg-indigo-950/20' : ''}`;
+                row.innerHTML = `
+                    <td class="py-3 pl-2 font-bold text-gray-500">${index + 1}.</td>
+                    <td class="py-3 font-semibold dark:text-white flex items-center gap-1.5">
+                        <span>${item.nick}</span>
+                        ${isMe ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-black uppercase">Ja</span>' : ''}
+                    </td>
+                    <td class="py-3 text-right pr-2 font-black text-indigo-600 dark:text-indigo-400">${item.clicks.toLocaleString()}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        });
+
+        // Funkcja zmiany Nicku na życzenie
+        window.changeNickPrompt = async function() {
+            const newNick = prompt("Wpisz swój nowy nick do klikania:", userNick);
+            if (newNick && newNick.trim() !== "") {
+                const cleanNick = newNick.trim().substring(0, 15); // Maksymalnie 15 znaków
+                const safeOldKey = userNick.replace(/[.#$\[\]]/g, '_');
+                const safeNewKey = cleanNick.replace(/[.#$\[\]]/g, '_');
+
+                // Przepisz dotychczasowe kliknięcia na nowy nick
+                try {
+                    const oldNickRef = ref(db, `players/${safeOldKey}`);
+                    const snap = await get(oldNickRef);
+                    const currentClicks = snap.val() || 0;
+
+                    if (currentClicks > 0) {
+                        // Zapisz do nowej lokalizacji
+                        await set(ref(db, `players/${safeNewKey}`), currentClicks);
+                        // Skasuj starą
+                        await set(oldNickRef, null);
+                    }
+                } catch(e) {
+                    console.error("Błąd migracji nicku:", e);
+                }
+
+                userNick = cleanNick;
+                localStorage.setItem('justAndrewUserNick', userNick);
+                document.getElementById('playerNickDisplay').textContent = userNick;
+                
+                showToast("Nick pomyślnie zmieniony!");
+            }
+        };
+
+        // Funkcja do pokazywania małego okienka Toast
+        function showToast(text) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastText').textContent = text;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
         onValue(likesRef, (snapshot) => {
             const data = snapshot.val() || {};
-            
             window.photosData.forEach(photo => {
                 const dbKey = photo.src.replace('.', '_');
                 photo.globalLikes = data[dbKey] || 0;
             });
-
-            // PRZEBUDOWA UKŁADU GALERII NA PODSTAWIE CZYSTEJ AKTUALIZACJI Z BAZY DANYCH BEZ ZMIANY KOLEJNOŚCI[cite: 3]
             window.updateLikesInDOMOnly();
-            
             if (document.getElementById('imageModal').classList.contains('active')) {
                 window.updateModal();
             }
@@ -402,10 +614,13 @@
         window.incrementGlobalLike = incrementGlobalLike;
         document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
             document.getElementById('localCount').textContent = savedLocalClicks;
             document.getElementById('statLocalShots').textContent = savedLocalClicks;
+            
+            initNick();
+            await fetchUserCountry();
         });
     </script>
 
@@ -468,7 +683,26 @@
             document.getElementById('statFavPhotos').textContent = favs.length;
         }
 
-        // GENEROWANIE GALERII - Wywoływane tylko gdy filtry/sortowanie rzeczywiście ulegają zmianie
+        // PRZEŁĄCZANIE ZAKŁADEK RANKINGÓW
+        function switchRankingTab(tab) {
+            const btnCountries = document.getElementById('tabBtnCountries');
+            const btnPlayers = document.getElementById('tabBtnPlayers');
+            const divCountries = document.getElementById('rankingCountries');
+            const divPlayers = document.getElementById('rankingPlayers');
+
+            if (tab === 'countries') {
+                btnCountries.className = "px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none";
+                btnPlayers.className = "px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none";
+                divCountries.classList.remove('hidden');
+                divPlayers.classList.add('hidden');
+            } else {
+                btnPlayers.className = "px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none";
+                btnCountries.className = "px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none";
+                divPlayers.classList.remove('hidden');
+                divCountries.classList.add('hidden');
+            }
+        }
+
         function renderGallery() {
             const container = document.getElementById('gallery');
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
@@ -503,7 +737,7 @@
                 const likesCount = photo.globalLikes || 0;
                 const card = document.createElement('div');
                 card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
-                card.setAttribute('data-src', photo.src); // Identyfikator karty do aktualizacji w locie
+                card.setAttribute('data-src', photo.src);
                 
                 card.innerHTML = `
                     <div onclick="openModal(${idx})">
@@ -536,7 +770,6 @@
             updateStatsUI();
         }
 
-        // NOWA FUNKCJA: Aktualizuje tylko ikonę serca i liczbę bez przebudowywania kolejności kart (zapobiega "uciekaniu" zdjęcia)
         function updateLikesInDOMOnly() {
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             
@@ -745,7 +978,6 @@
                 closeImageModal();
             }
 
-            // UWAGA: Wywołujemy tylko selektywną aktualizację DOM, aby nie przebudowywać układu siatki i uniknąć przeskakiwania zdjęć!
             if (isFavoritesView) {
                 renderGallery(); 
             } else {
@@ -783,7 +1015,7 @@
             localStorage.setItem('theme', dark ? 'dark' : 'light');
         }
 
-        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
+        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); document.getElementById('toastText').textContent = "Skopiowano!"; setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
         function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         
         function checkCloseModal(e) { 
@@ -830,9 +1062,9 @@
             }
         });
 
-        // Wyrzucenie oddzielnej funkcji na globalny zakres bazy danych, aby Firebase mógł z niej korzystać na bieżąco
         window.updateLikesInDOMOnly = updateLikesInDOMOnly;
         window.renderGallery = renderGallery;
+        window.switchRankingTab = switchRankingTab;
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
