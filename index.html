@@ -64,7 +64,7 @@
             <div id="siteTitle" onclick="playEasterEgg()" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
                 JustAndrew
             </div>
-            <!-- Licznik strzałów z AWP -->
+            <!-- Licznik strzałów z AWP (Globalny) -->
             <div id="awpCounterContainer" class="bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 shadow-sm border border-indigo-200/50 dark:border-indigo-900/30">
                 <i class="fas fa-crosshairs animate-pulse"></i>
                 <span>Strzały: <span id="awpCount">0</span></span>
@@ -143,11 +143,11 @@
                     <div id="statFavPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
                     <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Your Favorites</div>
                 </div>
-                <!-- Statystyka 3: Oddane strzały -->
+                <!-- Statystyka 3: Oddane strzały (Globalne) -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
                     <div class="text-amber-500 text-3xl mb-2"><i class="fas fa-crosshairs"></i></div>
                     <div id="statTotalShots" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Oddane strzały z AWP</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Oddane strzały z AWP (Globalnie)</div>
                 </div>
             </div>
         </section>
@@ -310,6 +310,81 @@
         <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
     </div>
 
+    <!-- INICJALIZACJA FIREBASE (MODUŁY ES6) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // ==========================================
+        // UTWÓRZ TUTAJ SWOJĄ KONFIGURACJĘ FIREBASE
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "TWÓJ_API_KEY",
+            authDomain: "TWÓJ_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://TWÓJ_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "TWÓJ_PROJECT_ID",
+            storageBucket: "TWÓJ_PROJECT_ID.appspot.com",
+            messagingSenderId: "TWÓJ_SENDER_ID",
+            appId: "TWÓJ_APP_ID"
+        };
+
+        // Inicjalizacja Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const clickRef = ref(db, 'justAndrew_clicks');
+
+        // Referencje do elementów DOM
+        const awpCountElement = document.getElementById('awpCount');
+        const statTotalShotsElement = document.getElementById('statTotalShots');
+
+        // Zmienna lokalna na aktualną liczbę kliknięć (zabezpieczenie przed opóźnieniami)
+        let globalShots = 0;
+
+        // Nasłuchiwanie zmian w bazie danych Firebase (aktualizacje live na ekranie)
+        onValue(clickRef, (snapshot) => {
+            const data = snapshot.val();
+            globalShots = data !== null ? parseInt(data) : 0;
+            updateAwpCounterUI(globalShots);
+        });
+
+        // Funkcja bezpiecznej inkrementacji liczby kliknięć przy użyciu transakcji (Firebase Transaction)
+        function incrementGlobalClicks() {
+            runTransaction(clickRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            }).catch((error) => {
+                console.error("Błąd zapisu transakcji w Firebase:", error);
+            });
+        }
+
+        // Aktualizacja interfejsu
+        function updateAwpCounterUI(val) {
+            if (awpCountElement) awpCountElement.textContent = val;
+            if (statTotalShotsElement) statTotalShotsElement.textContent = val;
+        }
+
+        // Funkcja strzału z AWP z synchronizacją w Firebase
+        window.playEasterEgg = function() {
+            const sound = document.getElementById('awpSound');
+            if (sound) {
+                sound.currentTime = 0; 
+                sound.play().then(() => {
+                    incrementGlobalClicks();
+                }).catch(error => {
+                    console.error("Blokada audio. Kliknij najpierw stronę!", error);
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume().then(() => {
+                            sound.play().then(() => {
+                                incrementGlobalClicks();
+                            });
+                        });
+                    }
+                });
+            }
+        };
+    </script>
+
+    <!-- TRADYCYJNY SKRYPT JS STRONY -->
     <script>
         const photosData = [
             { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!' },
@@ -361,45 +436,10 @@
         let slideshowInterval = null;
         let isCinemaActive = false;
 
-        // Pobieranie początkowego licznika strzałów z localStorage
-        let awpShots = parseInt(localStorage.getItem('awpShotsCount') || '0');
-
-        function playEasterEgg() {
-            const sound = document.getElementById('awpSound');
-            if (sound) {
-                sound.currentTime = 0; 
-                sound.play().then(() => {
-                    incrementAwpCounter();
-                }).catch(error => {
-                    console.error("Blokada audio. Kliknij najpierw stronę!", error);
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume().then(() => {
-                            sound.play().then(() => {
-                                incrementAwpCounter();
-                            });
-                        });
-                    }
-                });
-            }
-        }
-
-        function incrementAwpCounter() {
-            awpShots++;
-            localStorage.setItem('awpShotsCount', awpShots);
-            updateAwpCounterUI();
-        }
-
-        function updateAwpCounterUI() {
-            document.getElementById('awpCount').textContent = awpShots;
-            document.getElementById('statTotalShots').textContent = awpShots;
-        }
-
         function updateStatsUI() {
             document.getElementById('statTotalPhotos').textContent = photosData.length;
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             document.getElementById('statFavPhotos').textContent = favs.length;
-            document.getElementById('statTotalShots').textContent = awpShots;
         }
 
         function renderGallery() {
@@ -452,6 +492,7 @@
             bannerHasShownThisSession = true;
         }
 
+        // Banner i Modal Actions
         function promptCloseTipplyBanner() {
             document.getElementById('bannerContentDefault').classList.add('hidden');
             document.getElementById('bannerContentConfirm').classList.remove('hidden');
@@ -525,31 +566,24 @@
         function startSlideshow() {
             isCinemaActive = true;
 
-            // Ukrycie reszty interfejsu modalu (zostaje samo wyśrodkowane zdjęcie)
             document.getElementById('modalHeader').classList.add('hidden');
             document.getElementById('modalFooter').classList.add('hidden');
             document.getElementById('modalArrowLeft').classList.add('hidden');
             document.getElementById('modalArrowRight').classList.add('hidden');
 
-            // Nadanie kontenerowi modalu pełnego przezroczystego tła (żeby pokazać tło pod spodem)
             const modalContainer = document.getElementById('modalContainer');
             modalContainer.className = "relative w-full h-screen bg-transparent shadow-none flex items-center justify-center mx-auto";
             
-            // Dopasowanie rozmiarów zdjęcia w kinie, aby wypełniało ładnie ekran
             const modalImg = document.getElementById('modalImage');
             modalImg.className = "max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.6)] transition-all duration-300";
 
-            // Usunięcie tła z wewnętrznego kontenera zdjęcia
             document.getElementById('modalImageContainer').className = "relative bg-transparent flex items-center justify-center w-full h-full";
 
-            // Pokazanie przycisku wyjścia i paska postępu
             document.getElementById('cinemaExitBtn').classList.remove('hidden');
             document.getElementById('cinemaProgressContainer').classList.remove('hidden');
 
-            // Odpalenie paska postępu
             resetAndStartProgressBar();
 
-            // Uruchomienie automatycznej zmiany slajdu co 4 sekundy
             slideshowInterval = setInterval(() => {
                 nextImage();
                 resetAndStartProgressBar();
@@ -560,32 +594,25 @@
             if (!isCinemaActive) return;
             isCinemaActive = false;
 
-            // Zatrzymanie interwału
             clearInterval(slideshowInterval);
             slideshowInterval = null;
 
-            // Przywrócenie normalnego interfejsu modalu
             document.getElementById('modalHeader').classList.remove('hidden');
             document.getElementById('modalFooter').classList.remove('hidden');
             document.getElementById('modalArrowLeft').classList.remove('hidden');
             document.getElementById('modalArrowRight').classList.remove('hidden');
 
-            // Przywrócenie pierwotnych stylów kontenera modalu
             const modalContainer = document.getElementById('modalContainer');
             modalContainer.className = "relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh]";
 
-            // Przywrócenie domyślnych stylów zdjęcia
             const modalImg = document.getElementById('modalImage');
             modalImg.className = "max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300";
 
-            // Przywrócenie tła kontenera zdjęcia
             document.getElementById('modalImageContainer').className = "relative bg-black/10 flex items-center justify-center min-h-[350px] md:min-h-[500px]";
 
-            // Ukrycie przycisku wyjścia i paska postępu
             document.getElementById('cinemaExitBtn').classList.add('hidden');
             document.getElementById('cinemaProgressContainer').classList.add('hidden');
 
-            // Zresetowanie szerokości paska postępu
             const bar = document.getElementById('cinemaProgressBar');
             bar.style.transition = 'none';
             bar.style.width = '0%';
@@ -596,7 +623,6 @@
             bar.style.transition = 'none';
             bar.style.width = '0%';
             
-            // Wymuszenie reflow w przeglądarce, by zresetować animację
             void bar.offsetWidth;
 
             bar.style.transition = 'width 4s linear';
@@ -661,7 +687,6 @@
         function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
         function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         
-        // Kliknięcie w tło zamyka modal (lub wyłącza kino, jeśli jest aktywne)
         function checkCloseModal(e) { 
             if(e.target.id === 'imageModal') {
                 if (isCinemaActive) {
@@ -693,7 +718,6 @@
             }
         }
 
-        // Obsługa klawisza ESC (zamknięcie modalu lub wyjście z kina)
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const modal = document.getElementById('imageModal');
@@ -710,9 +734,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             
-            updateAwpCounterUI();
             updateStatsUI();
-            
             renderGallery();
 
             setTimeout(() => {
