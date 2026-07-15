@@ -58,16 +58,21 @@
     <!-- Ścieżka do lokalnego pliku dźwiękowego AWP -->
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
 
-    <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
-        <div class="flex items-center gap-4">
-            <!-- Interaktywne logo wyzwalające strzał z AWP oraz globalny licznik kliknięć -->
+    <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+            <!-- Interaktywne logo wyzwalające strzał z AWP oraz globalny i lokalny licznik kliknięć -->
             <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
                 JustAndrew
             </div>
-            <!-- Licznik strzałów z AWP (Globalny z bazy danych) -->
-            <div id="awpCounterContainer" class="bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 shadow-sm border border-indigo-200/50 dark:border-indigo-900/30">
-                <i class="fas fa-crosshairs animate-pulse"></i>
-                <span>Kliknięcia: <span id="awpCount">0</span></span>
+            
+            <!-- NOWOCZESNY ROZDZIELONY LICZNIK (PROFESJONALNY WYGLĄD) -->
+            <div id="awpCounterContainer" class="flex items-center gap-2 bg-white dark:bg-gray-800/80 p-1.5 rounded-2xl border border-gray-200 dark:border-gray-700/60 text-xs font-bold shadow-sm">
+                <span class="bg-indigo-600 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
+                    <i class="fas fa-user text-[10px]"></i> Twoje: <span id="localCount" class="font-black">0</span>
+                </span>
+                <span class="text-gray-600 dark:text-gray-300 px-2 py-1 flex items-center gap-1.5">
+                    <i class="fas fa-globe text-[10px] text-indigo-500 animate-pulse"></i> Globalne: <span id="awpCount" class="font-black text-indigo-600 dark:text-indigo-400">0</span>
+                </span>
             </div>
         </div>
         <div class="flex items-center space-x-5">
@@ -127,27 +132,33 @@
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
 
-        <!-- SEKCJA STATYSTYK STRONY -->
+        <!-- ZMODYFIKOWANA SEKCJA STATYSTYK STRONY (4 KOLUMNY, SCHLUDNA) -->
         <section class="mt-12 mb-16 max-w-6xl mx-auto">
             <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Statystyki Galerii</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- Statystyka 1: Zdjęcia -->
-                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
-                    <div class="text-indigo-600 dark:text-indigo-400 text-3xl mb-2"><i class="fas fa-images"></i></div>
-                    <div id="statTotalPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Zdjęć w galerii</div>
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-2xl mb-2"><i class="fas fa-images"></i></div>
+                    <div id="statTotalPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Zdjęć w galerii</div>
                 </div>
-                <!-- Statystyka 2: Polubione -->
-                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
-                    <div class="text-red-500 text-3xl mb-2"><i class="fas fa-heart"></i></div>
-                    <div id="statFavPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje Ulubione</div>
+                <!-- Statystyka 2: Polubione (ZMIENIONA NAZWA) -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
+                    <div class="text-red-500 text-2xl mb-2"><i class="fas fa-heart"></i></div>
+                    <div id="statFavPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Polubionych zdjęć</div>
                 </div>
-                <!-- Statystyka 3: Wspólny licznik kliknięć -->
-                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
-                    <div class="text-amber-500 text-3xl mb-2"><i class="fas fa-crosshairs"></i></div>
-                    <div id="statTotalShots" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Wspólne kliknięcia</div>
+                <!-- Statystyka 3: Twoje własne kliknięcia (NOWE) -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
+                    <div class="text-indigo-500 text-2xl mb-2"><i class="fas fa-user"></i></div>
+                    <div id="statLocalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje kliknięcia</div>
+                </div>
+                <!-- Statystyka 4: Wspólny licznik kliknięć -->
+                <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
+                    <div class="text-amber-500 text-2xl mb-2"><i class="fas fa-globe animate-pulse"></i></div>
+                    <div id="statTotalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Wspólne kliknięcia</div>
                 </div>
             </div>
         </section>
@@ -253,12 +264,12 @@
     <!-- MODAL ZDJĘCIA (Z DOSTOSOWANYM TRYBEM KINOWYM) -->
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/80 dark:bg-[#0D0E12]/95 backdrop-blur-md z-50 transition-all duration-300">
         
-        <!-- PRZYCISK WYJŚCIA Z KINA (Pokazuje się tylko w trybie kinowym) -->
+        <!-- PRZYCISK WYJŚCIA Z KINA -->
         <button id="cinemaExitBtn" onclick="stopSlideshow()" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 bg-black/70 hover:bg-red-600 text-white rounded-full text-xs font-bold tracking-wider uppercase transition-all shadow-2xl border border-white/10 flex items-center gap-2">
             <i class="fas fa-stop"></i> Zakończ seans (ESC)
         </button>
 
-        <!-- KINOWY PASEK POSTĘPU (Na samym dole ekranu) -->
+        <!-- KINOWY PASEK POSTĘPU -->
         <div id="cinemaProgressContainer" class="hidden fixed bottom-0 left-0 w-full h-[4px] bg-black/20 dark:bg-white/10 z-[60]">
             <div id="cinemaProgressBar" class="h-full bg-indigo-500 dark:bg-indigo-400 w-0"></div>
         </div>
@@ -271,7 +282,7 @@
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
 
-            <!-- OKNO PROJEKCYJNE (Zmienia wymiary po wejściu do Kina) -->
+            <!-- OKNO PROJEKCYJNE -->
             <div id="modalImageContainer" class="relative bg-black/10 flex items-center justify-center min-h-[350px] md:min-h-[500px] transition-all duration-300">
                 <button id="modalArrowLeft" onclick="prevImage()" class="absolute left-4 z-10 w-12 h-12 rounded-full bg-black/40 text-white hover:bg-indigo-600 flex items-center justify-center backdrop-blur-sm transition-all"><i class="fas fa-chevron-left text-lg"></i></button>
                 <img id="modalImage" src="" class="max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300">
@@ -315,26 +326,33 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfiguracja Twojego projektu Firebase
         const firebaseConfig = {
             databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
-        // Inicjalizacja Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const clicksRef = ref(db, 'clicks');
 
-        // Funkcja do odtwarzania dźwięku i wysyłania kliknięcia do Firebase
+        // Funkcja do odtwarzania dźwięku, zliczania kliknięć lokalnych oraz wysyłania kliknięcia do Firebase
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
+            
+            // 1. Zwiększenie licznika lokalnego w localStorage
+            let localClicks = parseInt(localStorage.getItem('justAndrewLocalClicks') || '0');
+            localClicks++;
+            localStorage.setItem('justAndrewLocalClicks', localClicks);
+            
+            // Aktualizacja UI lokalnego licznika natychmiast
+            document.getElementById('localCount').textContent = localClicks;
+            document.getElementById('statLocalShots').textContent = localClicks;
+
             if (sound) {
                 sound.currentTime = 0; 
                 sound.play().then(() => {
                     incrementGlobalCounter();
                 }).catch(error => {
-                    console.error("Blokada audio. Interakcja z dokumentem wymagana.", error);
-                    // Próba odtworzenia po aktywacji kontekstu audio
+                    console.error("Blokada audio.", error);
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     if (audioCtx.state === 'suspended') {
                         audioCtx.resume().then(() => {
@@ -347,26 +365,27 @@
             }
         }
 
-        // Zwiększanie licznika w Firebase w sposób bezpieczny dla wielu użytkowników naraz (Transakcja)
         function incrementGlobalCounter() {
             runTransaction(clicksRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
         }
 
-        // Nasłuchiwanie zmian w bazie danych w czasie rzeczywistym
         onValue(clicksRef, (snapshot) => {
             const data = snapshot.val() || 0;
-            // Aktualizacja elementów interfejsu użytkownika
             document.getElementById('awpCount').textContent = data;
             document.getElementById('statTotalShots').textContent = data;
         });
 
-        // Udostępnienie funkcji globalnie, aby kod HTML z atrybutami zdarzeń mógł z niej korzystać
         window.playEasterEgg = playEasterEgg;
-        
-        // Podpięcie kliknięcia pod napis "JustAndrew"
         document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
+
+        // Załaduj zapisany licznik lokalny przy wejściu na stronę
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
+            document.getElementById('localCount').textContent = savedLocalClicks;
+            document.getElementById('statLocalShots').textContent = savedLocalClicks;
+        });
     </script>
 
     <script>
@@ -416,7 +435,6 @@
         let bannerHasShownThisSession = false;
         let imagesViewed = 0; 
 
-        // Zmienne Trybu Kinowego
         let slideshowInterval = null;
         let isCinemaActive = false;
 
@@ -537,7 +555,6 @@
             cancelCloseTipplyBanner(); 
         }
 
-        // --- OBSŁUGA NOWEGO TRYBU KINOWEGO ---
         function toggleSlideshow() {
             if (isCinemaActive) {
                 stopSlideshow();
