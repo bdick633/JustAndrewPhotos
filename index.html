@@ -68,13 +68,21 @@
             
             <div id="awpCounterContainer" class="flex items-center gap-2 bg-white dark:bg-gray-800/80 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700/60 text-xs font-bold shadow-sm text-gray-700 dark:text-gray-300">
                 <i class="fas fa-mouse text-indigo-500"></i> 
-                <span>Kliknięcia:</span> 
+                <span data-i18n="clicks_label">Kliknięcia:</span> 
                 <span id="localCount" class="font-black text-indigo-600 dark:text-indigo-400">0</span>
             </div>
         </div>
-        <div class="flex items-center space-x-5">
+        <div class="flex items-center space-x-3.5">
+            <!-- Selektor Języka -->
+            <select id="langSelect" onchange="changeLanguage(this.value)" class="px-2.5 py-2 rounded-xl text-xs font-black bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-none outline-none cursor-pointer hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+                <option value="pl">🇵🇱 PL</option>
+                <option value="en">🇬🇧 EN</option>
+                <option value="de">🇩🇪 DE</option>
+                <option value="ru">🇷🇺 RU</option>
+            </select>
+
             <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
-                <i class="far fa-heart"></i> <span id="favoritesTabText">Ulubione</span>
+                <i class="far fa-heart"></i> <span id="favoritesTabText" data-i18n="favorites_tab">Ulubione</span>
             </button>
             <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
@@ -100,7 +108,7 @@
 
     <main class="flex-grow px-6 max-w-6xl mx-auto w-full py-6">
         <section class="text-center mb-10">
-            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black mb-4">Galeria Fotografii</h1>
+            <h1 id="mainHeading" class="text-4xl md:text-6xl font-black mb-4" data-i18n="gallery_title">Galeria Fotografii</h1>
             <div class="flex flex-col md:flex-row gap-3 justify-center items-center">
                 <select id="categorySelect" onchange="filterCategory(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
                     <option value="all">Wszystkie kategorie</option>
@@ -122,53 +130,53 @@
 
         <div id="emptySearchNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl mb-12">
             <i class="fas fa-search-minus text-5xl text-gray-300 mb-4"></i>
-            <h2 class="text-2xl font-bold dark:text-white mb-2">Brak wyników</h2>
-            <p class="text-gray-500">Nie znaleźliśmy zdjęcia pasującego do wyszukiwania.</p>
+            <h2 class="text-2xl font-bold dark:text-white mb-2" data-i18n="empty_search_title">Brak wyników</h2>
+            <p class="text-gray-500" data-i18n="empty_search_desc">Nie znaleźliśmy zdjęcia pasującego do wyszukiwania.</p>
         </div>
 
         <div id="emptyFavoritesNotice" class="hidden text-center p-16 bg-white dark:bg-[#1a1c24] rounded-3xl mb-12">
             <i class="far fa-heart text-5xl text-red-400 mb-4"></i>
-            <h2 class="text-2xl font-bold dark:text-white mb-2">Pusto tutaj</h2>
-            <p id="emptyFavoritesText" class="text-gray-500">Nie masz jeszcze żadnych ulubionych zdjęć.</p>
+            <h2 class="text-2xl font-bold dark:text-white mb-2" data-i18n="empty_favs_title">Pusto tutaj</h2>
+            <p id="emptyFavoritesText" class="text-gray-500" data-i18n="empty_favs_desc">Nie masz jeszcze żadnych ulubionych zdjęć.</p>
         </div>
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
 
         <!-- STATYSTYKI -->
         <section class="mt-12 mb-8 max-w-6xl mx-auto">
-            <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Statystyki Galerii</h2>
+            <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white" data-i18n="stats_title">Statystyki Galerii</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-indigo-600 dark:text-indigo-400 text-2xl mb-2"><i class="fas fa-images"></i></div>
                     <div id="statTotalPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Zdjęć w galerii</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider" data-i18n="stat_photos">Zdjęć w galerii</div>
                 </div>
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-red-500 text-2xl mb-2"><i class="fas fa-heart"></i></div>
                     <div id="statFavPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Polubionych zdjęć</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider" data-i18n="stat_liked">Polubionych zdjęć</div>
                 </div>
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-indigo-500 text-2xl mb-2"><i class="fas fa-user"></i></div>
                     <div id="statLocalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje kliknięcia</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider" data-i18n="stat_your_clicks">Twoje kliknięcia</div>
                 </div>
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-amber-500 text-2xl mb-2"><i class="fas fa-globe animate-pulse"></i></div>
                     <div id="statTotalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Wspólne kliknięcia</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider" data-i18n="stat_total_clicks">Wspólne kliknięcia</div>
                 </div>
             </div>
         </section>
 
-        <!-- SEKCJA RANKINGÓW (TABELA KRAJÓW I GRACZY) -->
+        <!-- SEKCJA RANKINGÓW -->
         <section class="mt-8 mb-16 max-w-2xl mx-auto bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-sm">
             <div class="flex justify-center border-b border-gray-200 dark:border-gray-800 mb-6">
                 <button onclick="switchRankingTab('countries')" id="tabBtnCountries" class="px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none">
-                    <i class="fas fa-globe-americas mr-2"></i>Ranking Krajów
+                    <i class="fas fa-globe-americas mr-2"></i><span data-i18n="rank_countries">Ranking Krajów</span>
                 </button>
                 <button onclick="switchRankingTab('players')" id="tabBtnPlayers" class="px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none">
-                    <i class="fas fa-crown mr-2"></i>Top Gracze
+                    <i class="fas fa-crown mr-2"></i><span data-i18n="rank_players">Top Gracze</span>
                 </button>
             </div>
 
@@ -178,14 +186,14 @@
                     <table class="w-full text-left text-sm">
                         <thead>
                             <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
-                                <th class="pb-2 pl-2">Poz.</th>
-                                <th class="pb-2">Kraj</th>
-                                <th class="pb-2 text-right pr-2">Kliknięcia</th>
+                                <th class="pb-2 pl-2" data-i18n="pos_col">Poz.</th>
+                                <th class="pb-2" data-i18n="country_col">Kraj</th>
+                                <th class="pb-2 text-right pr-2" data-i18n="clicks_col">Kliknięcia</th>
                             </tr>
                         </thead>
                         <tbody id="countriesTableBody">
                             <tr>
-                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> Ładowanie danych...</td>
+                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> <span data-i18n="loading_data">Ładowanie danych...</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -195,21 +203,21 @@
             <!-- Tab: Gracze -->
             <div id="rankingPlayers" class="hidden">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="text-xs text-gray-500 font-semibold">Twój nick: <strong id="playerNickDisplay" class="text-indigo-500">brak</strong></span>
-                    <button onclick="changeNickPrompt()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i>Zmień nick</button>
+                    <span class="text-xs text-gray-500 font-semibold"><span data-i18n="your_nick">Twój nick:</span> <strong id="playerNickDisplay" class="text-indigo-500">brak</strong></span>
+                    <button onclick="changeNickPrompt()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i><span data-i18n="change_nick">Zmień nick</span></button>
                 </div>
                 <div class="overflow-hidden">
                     <table class="w-full text-left text-sm">
                         <thead>
                             <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
-                                <th class="pb-2 pl-2">Poz.</th>
-                                <th class="pb-2">Gracz</th>
-                                <th class="pb-2 text-right pr-2">Kliknięcia</th>
+                                <th class="pb-2 pl-2" data-i18n="pos_col">Poz.</th>
+                                <th class="pb-2" data-i18n="player_col">Gracz</th>
+                                <th class="pb-2 text-right pr-2" data-i18n="clicks_col">Kliknięcia</th>
                             </tr>
                         </thead>
                         <tbody id="playersTableBody">
                             <tr>
-                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> Ładowanie danych...</td>
+                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> <span data-i18n="loading_data">Ładowanie danych...</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -219,18 +227,18 @@
 
         <!-- WSPÓŁTWORZENIE STRONY -->
         <section class="mt-16 max-w-6xl mx-auto">
-            <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Wspólnie twórzmy tę stronę!</h2>
+            <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white" data-i18n="co_create_title">Wspólnie twórzmy tę stronę!</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-3xl text-center shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto mb-4">
                             <i class="fas fa-camera text-xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Prześlij zdjęcie</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="send_photo_title">Prześlij zdjęcie</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="send_photo_desc">Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!</p>
                     </div>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all">
-                        <i class="fas fa-upload"></i> Wyślij fotkę
+                        <i class="fas fa-upload"></i> <span data-i18n="send_photo_btn">Wyślij fotkę</span>
                     </a>
                 </div>
 
@@ -239,11 +247,11 @@
                         <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center text-amber-500 dark:text-amber-400 mx-auto mb-4">
                             <i class="fas fa-star text-xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Oceń stronę</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">Twoja opinia jest dla mnie niezwykle ważna.</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="rate_title">Oceń stronę</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="rate_desc">Twoja opinia jest dla mnie niezwykle ważna.</p>
                     </div>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMr11dGn0sSJLXr4B1wY2Y0nMaYLweEhQ2axjeiKngKygwPA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-amber-500 hover:bg-amber-650 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #d97706;">
-                        <i class="fas fa-pen"></i> Zostaw opinię
+                        <i class="fas fa-pen"></i> <span data-i18n="rate_btn">Zostaw opinię</span>
                     </a>
                 </div>
 
@@ -252,11 +260,11 @@
                         <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-rose-500 dark:text-rose-400 mx-auto mb-4">
                             <i class="fas fa-bug text-xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Zgłoś błąd</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">Coś nie działa tak, jak powinno? Zauważyłeś literówkę? Daj nam znać, a szybko to naprawimy!</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="bug_title">Zgłoś błąd</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="bug_desc">Coś nie działa tak, jak powinno? Zauważyłeś literówkę? Daj nam znać, a szybko to naprawimy!</p>
                     </div>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLScmoRiTIVNG68PgkmjVCDA7ASGOTq0T-3P_HAz7AKo89phomA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-750 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #e11d48;">
-                        <i class="fas fa-exclamation-triangle"></i> Zgłoś problem
+                        <i class="fas fa-exclamation-triangle"></i> <span data-i18n="bug_btn">Zgłoś problem</span>
                     </a>
                 </div>
             </div>
@@ -264,7 +272,7 @@
     </main>
 
     <footer class="py-10 text-center text-xs text-gray-400 font-medium">
-        &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
+        &copy; 2026 JustAndrew. <span data-i18n="all_rights">Wszystkie prawa zastrzeżone.</span>
     </footer>
 
     <!-- TIPPLY BANNER -->
@@ -275,12 +283,12 @@
                     <i class="fas fa-heart text-lg animate-pulse"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-black text-gray-900 dark:text-white">Podoba Ci się to, co robię?</p>
-                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶</p>
+                    <p class="text-xs font-black text-gray-900 dark:text-white" data-i18n="tipply_title">Podoba Ci się to, co robię?</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="tipply_desc">Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶</p>
                 </div>
             </div>
             <div class="flex items-center gap-3 w-full sm:w-auto justify-end shrink-0">
-                <a href="https://tipply.pl/@justandrew" onclick="supportClicked()" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-black rounded-xl transition-all shadow-md shadow-emerald-600/20 uppercase tracking-wider">
+                <a href="https://tipply.pl/@justandrew" onclick="supportClicked()" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-black rounded-xl transition-all shadow-md shadow-emerald-600/20 uppercase tracking-wider" data-i18n="tipply_btn">
                     Wesprzyj
                 </a>
                 <button onclick="promptCloseTipplyBanner()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-500 dark:hover:text-red-400 transition-all">
@@ -294,15 +302,15 @@
                     <i class="fas fa-question text-base"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-black text-gray-900 dark:text-white">Jesteś pewien?</p>
-                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">Łukaszowi będzie smutno 😥</p>
+                    <p class="text-xs font-black text-gray-900 dark:text-white" data-i18n="tipply_sure">Jesteś pewien?</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="tipply_sad">Łukaszowi będzie smutno 😥</p>
                 </div>
             </div>
             <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0">
-                <button onclick="confirmCloseTipplyBanner()" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-[11px] font-black rounded-xl transition-all shadow-md">
+                <button onclick="confirmCloseTipplyBanner()" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-[11px] font-black rounded-xl transition-all shadow-md" data-i18n="tipply_hide">
                     Tak, ukryj
                 </button>
-                <button onclick="cancelCloseTipplyBanner()" class="px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-[11px] font-black rounded-xl transition-all">
+                <button onclick="cancelCloseTipplyBanner()" class="px-4 py-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-[11px] font-black rounded-xl transition-all" data-i18n="tipply_cancel">
                     Anuluj
                 </button>
             </div>
@@ -312,7 +320,7 @@
     <!-- MODAL ZDJĘCIA -->
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/80 dark:bg-[#0D0E12]/95 backdrop-blur-md z-50 transition-all duration-300">
         <button id="cinemaExitBtn" onclick="stopSlideshow()" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 bg-black/70 hover:bg-red-600 text-white rounded-full text-xs font-bold tracking-wider uppercase transition-all shadow-2xl border border-white/10 flex items-center gap-2">
-            <i class="fas fa-stop"></i> Zakończ seans (ESC)
+            <i class="fas fa-stop"></i> <span data-i18n="cinema_exit">Zakończ seans (ESC)</span>
         </button>
         <div id="cinemaProgressContainer" class="hidden fixed bottom-0 left-0 w-full h-[4px] bg-black/20 dark:bg-white/10 z-[60]">
             <div id="cinemaProgressBar" class="h-full bg-indigo-500 dark:bg-indigo-400 w-0"></div>
@@ -336,10 +344,10 @@
                     <div id="modalTags" class="text-[11px] font-mono text-indigo-500 font-bold tracking-wider"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> Pokaż opis</button>
-                    <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText">Tryb kinowy</span></button>
-                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> Pobierz</a>
-                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> Otwórz</a>
+                    <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> <span data-i18n="show_desc">Pokaż opis</span></button>
+                    <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText" data-i18n="cinema_mode">Tryb kinowy</span></button>
+                    <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> <span data-i18n="download_btn">Pobierz</span></a>
+                    <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> <span data-i18n="open_btn">Otwórz</span></a>
                 </div>
             </div>
         </div>
@@ -350,16 +358,288 @@
         <div onclick="event.stopPropagation()" class="max-w-xs w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl text-center shadow-2xl">
             <i class="fab fa-discord text-5xl text-[#5865F2] mb-4"></i>
             <p class="text-2xl font-black text-indigo-600 mb-6">andrewk0x</p>
-            <button onclick="copyDirect('andrewk0x')" class="w-full py-3 bg-[#5865F2] text-white font-bold rounded-xl mb-3 hover:bg-[#4752c4] transition">Kopiuj nazwę</button>
-            <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="text-gray-400 text-sm font-bold">Zamknij</button>
+            <button onclick="copyDirect('andrewk0x')" class="w-full py-3 bg-[#5865F2] text-white font-bold rounded-xl mb-3 hover:bg-[#4752c4] transition" data-i18n="copy_name">Kopiuj nazwę</button>
+            <button onclick="document.getElementById('discordModal').classList.add('hidden')" class="text-gray-400 text-sm font-bold" data-i18n="close_btn">Zamknij</button>
         </div>
     </div>
 
     <!-- POWIADOMIENIE TOAST -->
     <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
         <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
-        <p id="toastText" class="text-xs font-bold dark:text-white">Skopiowano!</p>
+        <p id="toastText" class="text-xs font-bold dark:text-white" data-i18n="copied">Skopiowano!</p>
     </div>
+
+    <!-- SŁOWNIK JĘZYKÓW (ZMIENNE GLOBALNE) -->
+    <script>
+        window.translations = {
+            pl: {
+                clicks_label: "Kliknięcia:",
+                favorites_tab: "Ulubione",
+                all_tab: "Wszystkie",
+                gallery_title: "Galeria Fotografii",
+                all_cats: "Wszystkie kategorie",
+                cat_stream: "Stream",
+                cat_praca: "Praca",
+                cat_relaks: "Relaks",
+                sort_default: "Domyślna kolejność",
+                sort_popular: "Najpopularniejsze",
+                sort_unpopular: "Najmniej popularne",
+                search_placeholder: "Szukaj...",
+                empty_search_title: "Brak wyników",
+                empty_search_desc: "Nie znaleźliśmy zdjęcia pasującego do wyszukiwania.",
+                empty_favs_title: "Pusto tutaj",
+                empty_favs_desc: "Nie masz jeszcze żadnych ulubionych zdjęć.",
+                empty_favs_cat_desc: "Nie masz jeszcze żadnych ulubionych zdjęć w tej kategorii.",
+                stats_title: "Statystyki Galerii",
+                stat_photos: "Zdjęć w galerii",
+                stat_liked: "Polubionych zdjęć",
+                stat_your_clicks: "Twoje kliknięcia",
+                stat_total_clicks: "Wspólne kliknięcia",
+                rank_countries: "Ranking Krajów",
+                rank_players: "Top Gracze",
+                your_nick: "Twój nick:",
+                no_nick: "brak",
+                change_nick: "Zmień nick",
+                pos_col: "Poz.",
+                country_col: "Kraj",
+                player_col: "Gracz",
+                clicks_col: "Kliknięcia",
+                loading_data: "Ładowanie danych...",
+                no_clicks: "Brak kliknięć",
+                no_players: "Brak graczy w rankingu",
+                co_create_title: "Wspólnie twórzmy tę stronę!",
+                send_photo_title: "Prześlij zdjęcie",
+                send_photo_desc: "Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!",
+                send_photo_btn: "Wyślij fotkę",
+                rate_title: "Oceń stronę",
+                rate_desc: "Twoja opinia jest dla mnie niezwykle ważna.",
+                rate_btn: "Zostaw opinię",
+                bug_title: "Zgłoś błąd",
+                bug_desc: "Coś nie działa tak, jak powinno? Zauważyłeś literówkę? Daj nam znać, a szybko to naprawimy!",
+                bug_btn: "Zgłoś problem",
+                all_rights: "Wszystkie prawa zastrzeżone.",
+                cinema_exit: "Zakończ seans (ESC)",
+                show_desc: "Pokaż opis",
+                hide_desc: "Ukryj opis",
+                cinema_mode: "Tryb kinowy",
+                download_btn: "Pobierz",
+                open_btn: "Otwórz",
+                nick_prompt: "Wpisz swój nowy nick do klikania:",
+                nick_changed: "Nick pomyślnie zmieniony!",
+                copied: "Skopiowano!",
+                tipply_title: "Podoba Ci się to, co robię?",
+                tipply_desc: "Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶",
+                tipply_btn: "Wesprzyj",
+                tipply_sure: "Jesteś pewien?",
+                tipply_sad: "Łukaszowi będzie smutno 😥",
+                tipply_hide: "Tak, ukryj",
+                tipply_cancel: "Anuluj",
+                copy_name: "Kopiuj nazwę",
+                close_btn: "Zamknij",
+                me_badge: "Ja"
+            },
+            en: {
+                clicks_label: "Clicks:",
+                favorites_tab: "Favorites",
+                all_tab: "All",
+                gallery_title: "Photo Gallery",
+                all_cats: "All categories",
+                cat_stream: "Stream",
+                cat_praca: "Work",
+                cat_relaks: "Relax",
+                sort_default: "Default order",
+                sort_popular: "Most popular",
+                sort_unpopular: "Least popular",
+                search_placeholder: "Search...",
+                empty_search_title: "No results",
+                empty_search_desc: "We couldn't find any photos matching your search.",
+                empty_favs_title: "Empty here",
+                empty_favs_desc: "You don't have any favorite photos yet.",
+                empty_favs_cat_desc: "You don't have any favorite photos in this category yet.",
+                stats_title: "Gallery Statistics",
+                stat_photos: "Photos in gallery",
+                stat_liked: "Liked photos",
+                stat_your_clicks: "Your clicks",
+                stat_total_clicks: "Total clicks",
+                rank_countries: "Country Ranking",
+                rank_players: "Top Players",
+                your_nick: "Your nickname:",
+                no_nick: "none",
+                change_nick: "Change nick",
+                pos_col: "Pos.",
+                country_col: "Country",
+                player_col: "Player",
+                clicks_col: "Clicks",
+                loading_data: "Loading data...",
+                no_clicks: "No clicks yet",
+                no_players: "No players in ranking",
+                co_create_title: "Let's build this page together!",
+                send_photo_title: "Submit a photo",
+                send_photo_desc: "Got a cool shot from the stream or route? Share it with our community!",
+                send_photo_btn: "Send photo",
+                rate_title: "Rate the page",
+                rate_desc: "Your opinion is extremely important to me.",
+                rate_btn: "Leave feedback",
+                bug_title: "Report a bug",
+                bug_desc: "Something not working? Noticed a typo? Let us know, we'll fix it quickly!",
+                bug_btn: "Report issue",
+                all_rights: "All rights reserved.",
+                cinema_exit: "End cinema mode (ESC)",
+                show_desc: "Show description",
+                hide_desc: "Hide description",
+                cinema_mode: "Cinema mode",
+                download_btn: "Download",
+                open_btn: "Open",
+                nick_prompt: "Enter your new clicker nickname:",
+                nick_changed: "Nickname successfully changed!",
+                copied: "Copied!",
+                tipply_title: "Do you like what I do?",
+                tipply_desc: "Your support helps me develop the channel and create more content. Thanks a lot! 🫶",
+                tipply_btn: "Support",
+                tipply_sure: "Are you sure?",
+                tipply_sad: "Łukasz will be sad 😥",
+                tipply_hide: "Yes, hide",
+                tipply_cancel: "Cancel",
+                copy_name: "Copy name",
+                close_btn: "Close",
+                me_badge: "Me"
+            },
+            de: {
+                clicks_label: "Klicks:",
+                favorites_tab: "Favoriten",
+                all_tab: "Alle",
+                gallery_title: "Fotogalerie",
+                all_cats: "Alle Kategorien",
+                cat_stream: "Stream",
+                cat_praca: "Arbeit",
+                cat_relaks: "Entspannung",
+                sort_default: "Standardreihenfolge",
+                sort_popular: "Beliebteste",
+                sort_unpopular: "Unbeliebteste",
+                search_placeholder: "Suchen...",
+                empty_search_title: "Keine Ergebnisse",
+                empty_search_desc: "Wir konnten keine passenden Fotos für Ihre Suche finden.",
+                empty_favs_title: "Gähnende Leere",
+                empty_favs_desc: "Du hast noch keine Lieblingsfotos.",
+                empty_favs_cat_desc: "Du hast noch keine Lieblingsfotos in dieser Kategorie.",
+                stats_title: "Galeriestatistiken",
+                stat_photos: "Fotos in der Galerie",
+                stat_liked: "Gefallene Fotos",
+                stat_your_clicks: "Deine Klicks",
+                stat_total_clicks: "Gemeinsame Klicks",
+                rank_countries: "Länder-Ranking",
+                rank_players: "Top-Spieler",
+                your_nick: "Dein Nickname:",
+                no_nick: "keine",
+                change_nick: "Nick ändern",
+                pos_col: "Pos.",
+                country_col: "Land",
+                player_col: "Spieler",
+                clicks_col: "Klicks",
+                loading_data: "Daten werden geladen...",
+                no_clicks: "Keine Klicks",
+                no_players: "Keine Spieler im Ranking",
+                co_create_title: "Lasst uns diese Seite zusammen gestalten!",
+                send_photo_title: "Foto senden",
+                send_photo_desc: "Hast du einen coolen Schnappschuss vom Stream oder der Route? Teile ihn mit uns!",
+                send_photo_btn: "Foto senden",
+                rate_title: "Seite bewerten",
+                rate_desc: "Deine Meinung ist mir extrem wichtig.",
+                rate_btn: "Feedback hinterlassen",
+                bug_title: "Fehler melden",
+                bug_desc: "Etwas funktioniert nicht? Tippfehler bemerkt? Sag uns Bescheid, wir beheben es schnell!",
+                bug_btn: "Problem melden",
+                all_rights: "Alle Rechte vorbehalten.",
+                cinema_exit: "Kinomodus beenden (ESC)",
+                show_desc: "Beschreibung anzeigen",
+                hide_desc: "Beschreibung ausblenden",
+                cinema_mode: "Kinomodus",
+                download_btn: "Herunterladen",
+                open_btn: "Öffnen",
+                nick_prompt: "Gib deinen neuen Klicker-Nicknamen ein:",
+                nick_changed: "Nickname erfolgreich geändert!",
+                copied: "Kopiert!",
+                tipply_title: "Gefällt dir, was ich tue?",
+                tipply_desc: "Deine Unterstützung hilft mir, den Kanal zu entwickeln und mehr Inhalte zu erstellen. Vielen Dank! 🫶",
+                tipply_btn: "Unterstützen",
+                tipply_sure: "Bist du sicher?",
+                tipply_sad: "Łukasz wird traurig sein 😥",
+                tipply_hide: "Ja, ausblenden",
+                tipply_cancel: "Abbrechen",
+                copy_name: "Name kopieren",
+                close_btn: "Schließen",
+                me_badge: "Ich"
+            },
+            ru: {
+                clicks_label: "Клики:",
+                favorites_tab: "Избранное",
+                all_tab: "Все",
+                gallery_title: "Фотогалерея",
+                all_cats: "Все категории",
+                cat_stream: "Стрим",
+                cat_praca: "Работа",
+                cat_relaks: "Отдых",
+                sort_default: "По умолчанию",
+                sort_popular: "Самые популярные",
+                sort_unpopular: "Наименее популярные",
+                search_placeholder: "Поиск...",
+                empty_search_title: "Нет результатов",
+                empty_search_desc: "Мы не нашли фотографий по вашему запросу.",
+                empty_favs_title: "Здесь пусто",
+                empty_favs_desc: "У вас еще нет любимых фотографий.",
+                empty_favs_cat_desc: "У вас еще нет любимых фотографий в этой категории.",
+                stats_title: "Статистика галереи",
+                stat_photos: "Фото в галерее",
+                stat_liked: "Понравившиеся фото",
+                stat_your_clicks: "Ваши клики",
+                stat_total_clicks: "Всего кликов",
+                rank_countries: "Рейтинг стран",
+                rank_players: "Лучшие игроки",
+                your_nick: "Ваш никнейм:",
+                no_nick: "нет",
+                change_nick: "Изменить ник",
+                pos_col: "Поз.",
+                country_col: "Страна",
+                player_col: "Игрок",
+                clicks_col: "Клики",
+                loading_data: "Загрузка данных...",
+                no_clicks: "Нет кликов",
+                no_players: "Нет игроков в рейтинге",
+                co_create_title: "Давайте создавать этот сайт вместе!",
+                send_photo_title: "Отправить фото",
+                send_photo_desc: "Есть классный кадр со стрима или поездки? Поделись им с нашим сообществом!",
+                send_photo_btn: "Отправить фото",
+                rate_title: "Оценить сайт",
+                rate_desc: "Ваше мнение очень важно для меня.",
+                rate_btn: "Оставить отзыв",
+                bug_title: "Сообщить об ошибке",
+                bug_desc: "Что-то не работает? Заметили опечатку? Дайте знать, мы быстро исправим!",
+                bug_btn: "Сообщить о проблеме",
+                all_rights: "Все права защищены.",
+                cinema_exit: "Выйти из кинотеатра (ESC)",
+                show_desc: "Показать описание",
+                hide_desc: "Скрыть описание",
+                cinema_mode: "Режим кинотеатра",
+                download_btn: "Скачать",
+                open_btn: "Открыть",
+                nick_prompt: "Введите свой новый никнейм:",
+                nick_changed: "Никнейм успешно изменен!",
+                copied: "Скопировано!",
+                tipply_title: "Нравится то, что я делаю?",
+                tipply_desc: "Ваша поддержка помогает мне развивать канал и создавать больше контента. Спасибо! 🫶",
+                tipply_btn: "Поддержать",
+                tipply_sure: "Вы уверены?",
+                tipply_sad: "Лукашу будет грустно 😥",
+                tipply_hide: "Да, скрыть",
+                tipply_cancel: "Отмена",
+                copy_name: "Копировать имя",
+                close_btn: "Закрыть",
+                me_badge: "Я"
+            }
+        };
+
+        window.currentLang = localStorage.getItem('justAndrewLang') || 'pl';
+    </script>
 
     <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE -->
     <script type="module">
@@ -457,18 +737,15 @@
         }
 
         function incrementGlobalCounter() {
-            // 1. Główne kliknięcia
             runTransaction(clicksRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
-            // 2. Kliknięcia na kraje
             const countryDbRef = ref(db, `countries/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
-            // 3. Kliknięcia na graczy (tylko bezpieczne znaki w kluczu Firebase)
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
             const playerDbRef = ref(db, `players/${safeNickKey}`);
             runTransaction(playerDbRef, (currentValue) => {
@@ -486,7 +763,7 @@
             });
         }
 
-        // --- OBSŁUGA STRUKTURY RANKINGÓW ---
+        // Główne kliknięcia
         onValue(clicksRef, (snapshot) => {
             const data = snapshot.val() || 0;
             document.getElementById('statTotalShots').textContent = data;
@@ -506,7 +783,7 @@
                 .sort((a, b) => b.clicks - a.clicks);
 
             if (sortedCountries.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">Brak kliknięć</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">${window.translations[window.currentLang].no_clicks}</td></tr>`;
                 return;
             }
 
@@ -535,10 +812,10 @@
                     clicks: playersData[nick]
                 }))
                 .sort((a, b) => b.clicks - a.clicks)
-                .slice(0, 10); // Pokazuj tylko Top 10
+                .slice(0, 10);
 
             if (sortedPlayers.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">Brak graczy w rankingu</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">${window.translations[window.currentLang].no_players}</td></tr>`;
                 return;
             }
 
@@ -550,7 +827,7 @@
                     <td class="py-3 pl-2 font-bold text-gray-500">${index + 1}.</td>
                     <td class="py-3 font-semibold dark:text-white flex items-center gap-1.5">
                         <span>${item.nick}</span>
-                        ${isMe ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-black uppercase">Ja</span>' : ''}
+                        ${isMe ? `<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-black uppercase">${window.translations[window.currentLang].me_badge}</span>` : ''}
                     </td>
                     <td class="py-3 text-right pr-2 font-black text-indigo-600 dark:text-indigo-400">${item.clicks.toLocaleString()}</td>
                 `;
@@ -558,24 +835,21 @@
             });
         });
 
-        // Funkcja zmiany Nicku na życzenie
+        // Zmiana nicku
         window.changeNickPrompt = async function() {
-            const newNick = prompt("Wpisz swój nowy nick do klikania:", userNick);
+            const newNick = prompt(window.translations[window.currentLang].nick_prompt, userNick);
             if (newNick && newNick.trim() !== "") {
-                const cleanNick = newNick.trim().substring(0, 15); // Maksymalnie 15 znaków
+                const cleanNick = newNick.trim().substring(0, 15);
                 const safeOldKey = userNick.replace(/[.#$\[\]]/g, '_');
                 const safeNewKey = cleanNick.replace(/[.#$\[\]]/g, '_');
 
-                // Przepisz dotychczasowe kliknięcia na nowy nick
                 try {
                     const oldNickRef = ref(db, `players/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentClicks = snap.val() || 0;
 
                     if (currentClicks > 0) {
-                        // Zapisz do nowej lokalizacji
                         await set(ref(db, `players/${safeNewKey}`), currentClicks);
-                        // Skasuj starą
                         await set(oldNickRef, null);
                     }
                 } catch(e) {
@@ -586,11 +860,10 @@
                 localStorage.setItem('justAndrewUserNick', userNick);
                 document.getElementById('playerNickDisplay').textContent = userNick;
                 
-                showToast("Nick pomyślnie zmieniony!");
+                showToast(window.translations[window.currentLang].nick_changed);
             }
         };
 
-        // Funkcja do pokazywania małego okienka Toast
         function showToast(text) {
             const toast = document.getElementById('toastNotification');
             document.getElementById('toastText').textContent = text;
@@ -615,6 +888,13 @@
         document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
 
         document.addEventListener("DOMContentLoaded", async () => {
+            // "Click Epoch v3" - hard-resetuje stare lokalne kliknięcia każdemu, kto wejdzie na nową wersję strony
+            const epochKey = "justAndrewReset_v3";
+            if (localStorage.getItem(epochKey) !== "true") {
+                localStorage.setItem('justAndrewLocalClicks', '0');
+                localStorage.setItem(epochKey, "true");
+            }
+
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
             document.getElementById('localCount').textContent = savedLocalClicks;
             document.getElementById('statLocalShots').textContent = savedLocalClicks;
@@ -677,13 +957,48 @@
         let slideshowInterval = null;
         let isCinemaActive = false;
 
+        // --- OBSŁUGA JĘZYKÓW (DYNAMICZNA) ---
+        function changeLanguage(lang) {
+            window.currentLang = lang;
+            localStorage.setItem('justAndrewLang', lang);
+            document.getElementById('langSelect').value = lang;
+
+            // Tłumaczenie statycznych elementów za pomocą data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (window.translations[lang] && window.translations[lang][key]) {
+                    el.textContent = window.translations[lang][key];
+                }
+            });
+
+            // Tłumaczenie placeholderów i opcji formularzy
+            document.getElementById('searchInput').placeholder = window.translations[lang].search_placeholder;
+            
+            const catSelect = document.getElementById('categorySelect');
+            catSelect.options[0].text = window.translations[lang].all_cats;
+            catSelect.options[1].text = window.translations[lang].cat_stream;
+            catSelect.options[2].text = window.translations[lang].cat_praca;
+            catSelect.options[3].text = window.translations[lang].cat_relaks;
+
+            const sortSelect = document.getElementById('sortSelect');
+            sortSelect.options[0].text = window.translations[lang].sort_default;
+            sortSelect.options[1].text = window.translations[lang].sort_popular;
+            sortSelect.options[2].text = window.translations[lang].sort_unpopular;
+
+            // Zaktualizuj widok ulubionych/wszystkich na przycisku
+            const favBtnText = document.getElementById('favoritesTabText');
+            favBtnText.textContent = isFavoritesView ? window.translations[lang].all_tab : window.translations[lang].favorites_tab;
+
+            // Odśwież galerię, aby zaktualizować nazwy kategorii na kafelkach
+            renderGallery();
+        }
+
         function updateStatsUI() {
             document.getElementById('statTotalPhotos').textContent = photosData.length;
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             document.getElementById('statFavPhotos').textContent = favs.length;
         }
 
-        // PRZEŁĄCZANIE ZAKŁADEK RANKINGÓW
         function switchRankingTab(tab) {
             const btnCountries = document.getElementById('tabBtnCountries');
             const btnPlayers = document.getElementById('tabBtnPlayers');
@@ -738,13 +1053,16 @@
                 const card = document.createElement('div');
                 card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
                 card.setAttribute('data-src', photo.src);
+
+                // Tłumaczenie kategorii pod obrazkiem
+                const translatedCat = window.translations[window.currentLang]["cat_" + photo.cat.toLowerCase()] || photo.cat;
                 
                 card.innerHTML = `
                     <div onclick="openModal(${idx})">
                         <img src="${photo.src}" class="w-full h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end">
                             <h3 class="text-white font-bold">${photo.title}</h3>
-                            <p class="text-indigo-400 text-[10px] uppercase font-bold">${photo.cat}</p>
+                            <p class="text-indigo-400 text-[10px] uppercase font-bold">${translatedCat}</p>
                         </div>
                     </div>
                     <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 py-2 px-3.5 rounded-full text-white favorite-btn flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all text-xs font-black shadow-lg">
@@ -762,7 +1080,7 @@
                 const emptyFavsNotice = document.getElementById('emptyFavoritesNotice');
                 const emptyFavsText = document.getElementById('emptyFavoritesText');
                 emptyFavsNotice.classList.remove('hidden');
-                emptyFavsText.textContent = favs.length > 0 ? "Nie masz jeszcze żadnych ulubionych zdjęć w tej kategorii." : "Nie masz jeszcze żadnych ulubionych zdjęć.";
+                emptyFavsText.textContent = favs.length > 0 ? window.translations[window.currentLang].empty_favs_cat_desc : window.translations[window.currentLang].empty_favs_desc;
             } else {
                 document.getElementById('emptyFavoritesNotice').classList.add('hidden');
             }
@@ -952,7 +1270,9 @@
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
-            document.getElementById('descButton').innerHTML = isHidden ? '<i class="fas fa-info-circle"></i> Pokaż opis' : '<i class="fas fa-info-circle"></i> Ukryj opis';
+            document.getElementById('descButton').innerHTML = isHidden 
+                ? `<i class="fas fa-info-circle"></i> ${window.translations[window.currentLang].show_desc}` 
+                : `<i class="fas fa-info-circle"></i> ${window.translations[window.currentLang].hide_desc}`;
         }
 
         function toggleFavorite(e, src) {
@@ -1003,7 +1323,7 @@
             isFavoritesView = !isFavoritesView;
             const btn = document.getElementById('favoritesTabBtn');
             btn.classList.toggle('bg-indigo-600', isFavoritesView); btn.classList.toggle('text-white', isFavoritesView);
-            document.getElementById('favoritesTabText').textContent = isFavoritesView ? "Wszystkie" : "Ulubione";
+            document.getElementById('favoritesTabText').textContent = isFavoritesView ? window.translations[window.currentLang].all_tab : window.translations[window.currentLang].favorites_tab;
             renderGallery();
         }
 
@@ -1015,7 +1335,12 @@
             localStorage.setItem('theme', dark ? 'dark' : 'light');
         }
 
-        function copyDirect(t) { navigator.clipboard.writeText(t); document.getElementById('toastNotification').classList.remove('hidden'); document.getElementById('toastText').textContent = "Skopiowano!"; setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); }
+        function copyDirect(t) { 
+            navigator.clipboard.writeText(t); 
+            document.getElementById('toastNotification').classList.remove('hidden'); 
+            document.getElementById('toastText').textContent = window.translations[window.currentLang].copied; 
+            setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); 
+        }
         function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         
         function checkCloseModal(e) { 
@@ -1065,10 +1390,14 @@
         window.updateLikesInDOMOnly = updateLikesInDOMOnly;
         window.renderGallery = renderGallery;
         window.switchRankingTab = switchRankingTab;
+        window.changeLanguage = changeLanguage;
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
             
+            // Inicjalizacja wybranego wcześniej języka
+            changeLanguage(window.currentLang);
+
             updateStatsUI();
             renderGallery();
 
