@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="pl" class="light">
+<htm<!DOCTYPE html>
+l lang="pl" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,22 +69,6 @@
         #imageModal { display: none; overflow-y: auto; padding: 20px 10px; }
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
-
-        /* Ikona FACEIT w tym samym stylu co pozostałe ikonki - kolor podąża za currentColor i podświetla się na hover */
-        .faceit-icon {
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-            background-color: currentColor;
-            -webkit-mask-image: url('unnamed.png');
-            mask-image: url('unnamed.png');
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-            -webkit-mask-size: contain;
-            mask-size: contain;
-        }
 
         #cinemaProgressBar {
             transition: width 4s linear;
@@ -171,8 +155,8 @@
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
                 
                 <!-- FACEIT LINK -->
-                <a href="https://www.faceit.com/pl/players/EndrjuGOD" target="_blank" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center select-none" style="width: 20px; height: 20px; margin-top: -2px;">
-                    <span class="faceit-icon"></span>
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" aria-label="FACEIT" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="21" y="21" width="58" height="58" rx="8" transform="rotate(45 50 50)"/><text x="50%" y="54%" text-anchor="middle" dy=".32em" font-size="32" font-weight="900" fill="currentColor" stroke="none" font-family="sans-serif">F</text></svg>
                 </a>
             </div>
         </div>
@@ -449,7 +433,7 @@
             
             <div class="flex gap-3">
                 <button onclick="closeNickModal()" class="w-1/2 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-i18n="close_btn">Zamknij</button>
-                <button onclick="saveNickFromModal()" id="saveNickBtn" class="w-1/2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-indigo-600/20">Zapisz</button>
+                <button onclick="saveNickFromModal()" id="saveNickBtn" class="w-1/2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-indigo-600/20" data-i18n="save_btn">Zapisz</button>
             </div>
         </div>
     </div>
@@ -532,6 +516,8 @@
                 tipply_cancel: "Anuluj",
                 copy_name: "Kopiuj nazwę",
                 close_btn: "Zamknij",
+                save_btn: "Zapisz",
+                changes_left: "Pozostałe zmiany",
                 me_badge: "Ja"
             },
             en: {
@@ -601,6 +587,8 @@
                 tipply_cancel: "Cancel",
                 copy_name: "Copy name",
                 close_btn: "Close",
+                save_btn: "Save",
+                changes_left: "Changes left",
                 me_badge: "Me"
             },
             de: {
@@ -670,6 +658,8 @@
                 tipply_cancel: "Abbrechen",
                 copy_name: "Name kopieren",
                 close_btn: "Schließen",
+                save_btn: "Speichern",
+                changes_left: "Verbleibende Änderungen",
                 me_badge: "Ich"
             },
             ru: {
@@ -739,6 +729,8 @@
                 tipply_cancel: "Отмена",
                 copy_name: "Копировать имя",
                 close_btn: "Закрыть",
+                save_btn: "Сохранить",
+                changes_left: "Осталось изменений",
                 me_badge: "Я"
             }
         };
@@ -1038,11 +1030,8 @@
             let remaining = Math.max(0, 3 - nickChanges);
 
             // Aktualizacja opisu pozostałych zmian
-            if (window.currentLang === 'pl') {
-                limitDisplay.textContent = `Pozostałe zmiany: ${remaining}/3`;
-            } else {
-                limitDisplay.textContent = `Changes left: ${remaining}/3`;
-            }
+            const changesLeftLabel = (window.translations[window.currentLang] && window.translations[window.currentLang].changes_left) || window.translations.pl.changes_left;
+            limitDisplay.textContent = `${changesLeftLabel}: ${remaining}/3`;
 
             input.value = userNick;
             
