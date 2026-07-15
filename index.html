@@ -74,7 +74,7 @@
         </div>
         <div class="flex items-center space-x-3.5">
             <!-- Selektor Języka -->
-            <select id="langSelect" onchange="changeLanguage(this.value)" class="px-2.5 py-2 rounded-xl text-xs font-black bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-none outline-none cursor-pointer hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+            <select id="langSelect" onchange="changeLanguage(this.value)" class="px-2.5 py-2 rounded-xl text-xs font-black bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-none outline-none cursor-pointer hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-650 transition-all shadow-sm">
                 <option value="pl">🇵🇱 PL</option>
                 <option value="en">🇬🇧 EN</option>
                 <option value="de">🇩🇪 DE</option>
@@ -653,33 +653,48 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        const clicksRef = ref(db, 'clicks');
-        const likesRef = ref(db, 'likes');
-        const countriesRef = ref(db, 'countries');
-        const playersRef = ref(db, 'players');
+        // Zmiana gałęzi na wersję v2 (czyszczenie i pełna kompatybilność)
+        const clicksRef = ref(db, 'clicks_v2');
+        const likesRef = ref(db, 'likes_v2');
+        const countriesRef = ref(db, 'countries_v2');
+        const playersRef = ref(db, 'players_v2');
 
         let userCountryCode = "Unknown";
         let userCountryName = "Nieznany";
         let userNick = localStorage.getItem('justAndrewUserNick') || "";
 
-        // Tłumaczenia kodów krajów i flagi
-        const countryNames = {
-            "PL": { name: "Polska", flag: "🇵🇱" },
-            "US": { name: "Stany Zjednoczone", flag: "🇺🇸" },
-            "DE": { name: "Niemcy", flag: "🇩🇪" },
-            "GB": { name: "Wielka Brytania", flag: "🇬🇧" },
-            "FR": { name: "Francja", flag: "🇫🇷" },
-            "CZ": { name: "Czechy", flag: "🇨🇿" },
-            "SK": { name: "Słowacja", flag: "🇸🇰" },
-            "UA": { name: "Ukraina", flag: "🇺🇦" },
-            "NL": { name: "Holandia", flag: "🇳🇱" },
-            "IE": { name: "Irlandia", flag: "🇮🇪" },
-            "NO": { name: "Norwegia", flag: "🇳🇴" },
-            "DK": { name: "Dania", flag: "🇩🇰" },
-            "SE": { name: "Szwecja", flag: "🇸🇪" },
-            "ES": { name: "Hiszpania", flag: "🇪🇸" },
-            "IT": { name: "Włochy", flag: "🇮🇹" },
-            "Unknown": { name: "Kosmos", flag: "👽" }
+        // Słownik nazw krajów przetłumaczony na różne języki
+        const countryLocalizations = {
+            pl: {
+                "PL": "Polska", "US": "Stany Zjednoczone", "DE": "Niemcy", "GB": "Wielka Brytania",
+                "FR": "Francja", "CZ": "Czechy", "SK": "Słowacja", "UA": "Ukraina", "NL": "Holandia",
+                "IE": "Irlandia", "NO": "Norwegia", "DK": "Dania", "SE": "Szwecja", "ES": "Hiszpania",
+                "IT": "Włochy", "Unknown": "Kosmos"
+            },
+            en: {
+                "PL": "Poland", "US": "United States", "DE": "Germany", "GB": "United Kingdom",
+                "FR": "France", "CZ": "Czechia", "SK": "Slovakia", "UA": "Ukraine", "NL": "Netherlands",
+                "IE": "Ireland", "NO": "Norway", "DK": "Denmark", "SE": "Sweden", "ES": "Spain",
+                "IT": "Italy", "Unknown": "Outer Space"
+            },
+            de: {
+                "PL": "Polen", "US": "Vereinigte Staaten", "DE": "Deutschland", "GB": "Vereinigtes Königreich",
+                "FR": "Frankreich", "CZ": "Tschechien", "SK": "Slowakei", "UA": "Ukraine", "NL": "Niederlande",
+                "IE": "Irland", "NO": "Norwegen", "DK": "Dänemark", "SE": "Schweden", "ES": "Spanien",
+                "IT": "Italien", "Unknown": "Weltall"
+            },
+            ru: {
+                "PL": "Польша", "US": "США", "DE": "Германия", "GB": "Великобритания",
+                "FR": "Франция", "CZ": "Чехия", "SK": "Словакия", "UA": "Украина", "NL": "Нидерланды",
+                "IE": "Ирландия", "NO": "Норвегия", "DK": "Дания", "SE": "Швеция", "ES": "Испания",
+                "IT": "Италия", "Unknown": "Космос"
+            }
+        };
+
+        const countryFlags = {
+            "PL": "🇵🇱", "US": "🇺🇸", "DE": "🇩🇪", "GB": "🇬🇧", "FR": "🇫🇷", "CZ": "🇨🇿",
+            "SK": "🇸🇰", "UA": "🇺🇦", "NL": "🇳🇱", "IE": "🇮🇪", "NO": "🇳🇴", "DK": "🇩🇰",
+            "SE": "🇸🇪", "ES": "🇪🇸", "IT": "🇮🇹", "Unknown": "👽"
         };
 
         // Pobranie kraju użytkownika
@@ -741,13 +756,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v2/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v2/${safeNickKey}`);
             runTransaction(playerDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
@@ -755,7 +770,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v2/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -769,10 +784,10 @@
             document.getElementById('statTotalShots').textContent = data;
         });
 
-        // Nasłuchiwanie zmian w krajach
-        onValue(countriesRef, (snapshot) => {
-            const countriesData = snapshot.val() || {};
+        // Nasłuchiwanie zmian w krajach z dynamicznym tłumaczeniem na aktualny język strony
+        function renderCountriesRanking(countriesData) {
             const tableBody = document.getElementById('countriesTableBody');
+            if (!tableBody) return;
             tableBody.innerHTML = '';
 
             const sortedCountries = Object.keys(countriesData)
@@ -788,16 +803,27 @@
             }
 
             sortedCountries.forEach((item, index) => {
-                const info = countryNames[item.code] || { name: item.code, flag: "🏳️" };
+                const flag = countryFlags[item.code] || "🏳️";
+                const activeLang = window.currentLang;
+                const countryName = (countryLocalizations[activeLang] && countryLocalizations[activeLang][item.code]) 
+                                    || (countryLocalizations['en'][item.code]) 
+                                    || item.code;
+
                 const row = document.createElement('tr');
                 row.className = "border-b border-gray-100 dark:border-gray-800/60 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors";
                 row.innerHTML = `
                     <td class="py-3 pl-2 font-bold text-gray-500">${index + 1}.</td>
-                    <td class="py-3 font-semibold dark:text-white">${info.flag} <span class="ml-1">${info.name}</span></td>
+                    <td class="py-3 font-semibold dark:text-white">${flag} <span class="ml-1">${countryName}</span></td>
                     <td class="py-3 text-right pr-2 font-black text-indigo-600 dark:text-indigo-400">${item.clicks.toLocaleString()}</td>
                 `;
                 tableBody.appendChild(row);
             });
+        }
+
+        let latestCountriesData = {};
+        onValue(countriesRef, (snapshot) => {
+            latestCountriesData = snapshot.val() || {};
+            renderCountriesRanking(latestCountriesData);
         });
 
         // Nasłuchiwanie zmian w graczach (Top 10)
@@ -844,12 +870,12 @@
                 const safeNewKey = cleanNick.replace(/[.#$\[\]]/g, '_');
 
                 try {
-                    const oldNickRef = ref(db, `players/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v2/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentClicks = snap.val() || 0;
 
                     if (currentClicks > 0) {
-                        await set(ref(db, `players/${safeNewKey}`), currentClicks);
+                        await set(ref(db, `players_v2/${safeNewKey}`), currentClicks);
                         await set(oldNickRef, null);
                     }
                 } catch(e) {
@@ -887,9 +913,14 @@
         window.incrementGlobalLike = incrementGlobalLike;
         document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
 
+        // Wywołanie renderowania tabeli po zmianie języka
+        window.updateCountriesOnLangChange = function() {
+            renderCountriesRanking(latestCountriesData);
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
-            // "Click Epoch v3" - hard-resetuje stare lokalne kliknięcia każdemu, kto wejdzie na nową wersję strony
-            const epochKey = "justAndrewReset_v3";
+            // "Click Epoch v4" - hard-resetuje stare lokalne kliknięcia każdemu, kto wejdzie na nową wersję strony
+            const epochKey = "justAndrewReset_v4";
             if (localStorage.getItem(epochKey) !== "true") {
                 localStorage.setItem('justAndrewLocalClicks', '0');
                 localStorage.setItem(epochKey, "true");
@@ -988,6 +1019,11 @@
             // Zaktualizuj widok ulubionych/wszystkich na przycisku
             const favBtnText = document.getElementById('favoritesTabText');
             favBtnText.textContent = isFavoritesView ? window.translations[lang].all_tab : window.translations[lang].favorites_tab;
+
+            // Odśwież tabelę krajów z nowymi tłumaczeniami nazw
+            if (window.updateCountriesOnLangChange) {
+                window.updateCountriesOnLangChange();
+            }
 
             // Odśwież galerię, aby zaktualizować nazwy kategorii na kafelkach
             renderGallery();
@@ -1193,78 +1229,50 @@
             cancelCloseTipplyBanner(); 
         }
 
-        function toggleSlideshow() {
-            if (isCinemaActive) {
-                stopSlideshow();
-            } else {
-                startSlideshow();
-            }
-        }
-
+        // ... reszta funkcji modalowych i obsługi karuzeli pozostaje bez zmian ...
+        function toggleSlideshow() { if (isCinemaActive) { stopSlideshow(); } else { startSlideshow(); } }
         function startSlideshow() {
             isCinemaActive = true;
-
             document.getElementById('modalHeader').classList.add('hidden');
             document.getElementById('modalFooter').classList.add('hidden');
             document.getElementById('modalArrowLeft').classList.add('hidden');
             document.getElementById('modalArrowRight').classList.add('hidden');
-
             const modalContainer = document.getElementById('modalContainer');
             modalContainer.className = "relative w-full h-screen bg-transparent shadow-none flex items-center justify-center mx-auto";
-            
             const modalImg = document.getElementById('modalImage');
             modalImg.className = "max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.6)] transition-all duration-300";
-
             document.getElementById('modalImageContainer').className = "relative bg-transparent flex items-center justify-center w-full h-full";
-
             document.getElementById('cinemaExitBtn').classList.remove('hidden');
             document.getElementById('cinemaProgressContainer').classList.remove('hidden');
-
             resetAndStartProgressBar();
-
-            slideshowInterval = setInterval(() => {
-                nextImage();
-                resetAndStartProgressBar();
-            }, 4000);
+            slideshowInterval = setInterval(() => { nextImage(); resetAndStartProgressBar(); }, 4000);
         }
 
         function stopSlideshow() {
             if (!isCinemaActive) return;
             isCinemaActive = false;
-
             clearInterval(slideshowInterval);
             slideshowInterval = null;
-
             document.getElementById('modalHeader').classList.remove('hidden');
             document.getElementById('modalFooter').classList.remove('hidden');
             document.getElementById('modalArrowLeft').classList.remove('hidden');
             document.getElementById('modalArrowRight').classList.remove('hidden');
-
             const modalContainer = document.getElementById('modalContainer');
             modalContainer.className = "relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh]";
-
             const modalImg = document.getElementById('modalImage');
             modalImg.className = "max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300";
-
             document.getElementById('modalImageContainer').className = "relative bg-black/10 flex items-center justify-center min-h-[350px] md:min-h-[500px]";
-
             document.getElementById('cinemaExitBtn').classList.add('hidden');
             document.getElementById('cinemaProgressContainer').classList.add('hidden');
-
             const bar = document.getElementById('cinemaProgressBar');
-            bar.style.transition = 'none';
-            bar.style.width = '0%';
+            bar.style.transition = 'none'; bar.style.width = '0%';
         }
 
         function resetAndStartProgressBar() {
             const bar = document.getElementById('cinemaProgressBar');
-            bar.style.transition = 'none';
-            bar.style.width = '0%';
-            
+            bar.style.transition = 'none'; bar.style.width = '0%';
             void bar.offsetWidth;
-
-            bar.style.transition = 'width 4s linear';
-            bar.style.width = '100%';
+            bar.style.transition = 'width 4s linear'; bar.style.width = '100%';
         }
 
         function toggleDescription() {
