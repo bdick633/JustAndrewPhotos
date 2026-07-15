@@ -385,10 +385,12 @@
         </div>
     </div>
 
-    <!-- POWIADOMIENIE TOAST -->
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] flex items-center gap-3 bg-white dark:bg-[#1a1c24] px-5 py-3.5 rounded-2xl shadow-2xl border border-gray-200 hidden">
-        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fas fa-check"></i></div>
-        <p id="toastText" class="text-xs font-bold dark:text-white" data-i18n="copied">Skopiowano!</p>
+    <!-- POWIADOMIENIE TOAST (ZAKTUALIZOWANE - PIĘKNIEJSZE I DWU-MOTYWOWE) -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] items-center gap-3 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md px-5 py-4 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.6)] border border-gray-100 dark:border-gray-800/80 transition-all duration-300 transform translate-y-4 opacity-0 hidden max-w-sm">
+        <div id="toastIconContainer" class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200">
+            <i id="toastIcon" class="fas fa-check"></i>
+        </div>
+        <p id="toastText" class="text-xs font-black dark:text-white leading-relaxed" data-i18n="copied">Skopiowano!</p>
     </div>
 
     <!-- SŁOWNIK JĘZYKÓW (ZMIENNE GLOBALNE) -->
@@ -449,6 +451,8 @@
                 nick_prompt: "Wpisz swój nowy nick do klikania:",
                 nick_changed: "Nick pomyślnie zmieniony!",
                 nick_taken: "Ten nick jest już zajęty! Wybierz inny.",
+                nick_limit_reached: "Osiągnąłeś już limit 3 zmian nicku!",
+                nick_cooldown: "Zmieniałeś nick zbyt szybko! Odczekaj chwilę.",
                 copied: "Skopiowano!",
                 tipply_title: "Podoba Ci się to, co robię?",
                 tipply_desc: "Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶",
@@ -516,6 +520,8 @@
                 nick_prompt: "Enter your new clicker nickname:",
                 nick_changed: "Nickname successfully changed!",
                 nick_taken: "This nickname is already taken! Choose another one.",
+                nick_limit_reached: "You have reached the limit of 3 nickname changes!",
+                nick_cooldown: "You changed your nickname too quickly! Please wait a moment.",
                 copied: "Copied!",
                 tipply_title: "Do you like what I do?",
                 tipply_desc: "Your support helps me develop the channel and create more content. Thanks a lot! 🫶",
@@ -583,6 +589,8 @@
                 nick_prompt: "Gib deinen neuen Klicker-Nicknamen ein:",
                 nick_changed: "Nickname erfolgreich geändert!",
                 nick_taken: "Dieser Nickname ist bereits vergeben! Wähle einen anderen.",
+                nick_limit_reached: "Du hast das Limit von 3 Nickname-Änderungen erreicht!",
+                nick_cooldown: "Du hast deinen Nicknamen zu schnell geändert! Bitte warte einen Moment.",
                 copied: "Kopiert!",
                 tipply_title: "Gefällt dir, was ich tue?",
                 tipply_desc: "Deine Unterstützung hilft mir, den Kanal zu entwickeln und mehr Inhalte zu erstellen. Vielen Dank! 🫶",
@@ -650,6 +658,8 @@
                 nick_prompt: "Введите свой новый никнейм:",
                 nick_changed: "Никнейм успешно изменен!",
                 nick_taken: "Этот никнейм уже занят! Выберите другой.",
+                nick_limit_reached: "Вы достигли лимита в 3 изменения никнейма!",
+                nick_cooldown: "Вы слишком быстро меняли никнейм! Пожалуйста, подождите немного.",
                 copied: "Скопировано!",
                 tipply_title: "Нравится то, что я делаю?",
                 tipply_desc: "Ваша поддержка помогает мне развивать канал и создавать больше контента. Спасибо! 🫶",
@@ -679,10 +689,11 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        const clicksRef = ref(db, 'clicks_v2');
-        const likesRef = ref(db, 'likes_v2');
-        const countriesRef = ref(db, 'countries_v2');
-        const playersRef = ref(db, 'players_v2');
+        // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
+        const clicksRef = ref(db, 'clicks_v3');
+        const likesRef = ref(db, 'likes_v3');
+        const countriesRef = ref(db, 'countries_v3');
+        const playersRef = ref(db, 'players_v3');
 
         let userCountryCode = "Unknown";
         let userCountryName = "Nieznany";
@@ -772,13 +783,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v2/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v3/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v2/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v3/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -793,7 +804,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v2/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v3/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -899,8 +910,24 @@
             });
         });
 
-        // Blokada powtarzania nicków z pełną weryfikacją w Firebase przed zapisem
+        // WERYFIKACJA NICKU: OGRANICZENIE DO 3 ZMIAN + COOLDOWN (30 SEKUND)
         window.changeNickPrompt = async function() {
+            let nickChanges = parseInt(localStorage.getItem('justAndrewNickChanges') || '0');
+            let lastChangeTime = parseInt(localStorage.getItem('justAndrewLastNickChangeTime') || '0');
+            const now = Date.now();
+
+            // 1. Sprawdzenie limitu zmian (max 3)
+            if (nickChanges >= 3) {
+                showToast(window.translations[window.currentLang].nick_limit_reached, 'error');
+                return;
+            }
+
+            // 2. Sprawdzenie cooldownu (30 sekund)
+            if (now - lastChangeTime < 30000) {
+                showToast(window.translations[window.currentLang].nick_cooldown, 'warning');
+                return;
+            }
+
             const newNick = prompt(window.translations[window.currentLang].nick_prompt, userNick);
             if (newNick && newNick.trim() !== "") {
                 const cleanNick = newNick.trim().substring(0, 15);
@@ -912,7 +939,7 @@
 
                 try {
                     // Sprawdzamy czy nowy nick jest już zajęty
-                    const newNickRef = ref(db, `players_v2/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v3/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -921,7 +948,7 @@
                     }
 
                     // Jeśli nick jest wolny, migrujemy stare dane na nową nazwę
-                    const oldNickRef = ref(db, `players_v2/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v3/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -940,15 +967,49 @@
                 localStorage.setItem('justAndrewUserNick', userNick);
                 document.getElementById('playerNickDisplay').textContent = userNick;
                 
-                showToast(window.translations[window.currentLang].nick_changed);
+                // Zapisujemy metryki limitu i czasu
+                localStorage.setItem('justAndrewNickChanges', nickChanges + 1);
+                localStorage.setItem('justAndrewLastNickChangeTime', now);
+
+                showToast(window.translations[window.currentLang].nick_changed, 'success');
             }
         };
 
-        function showToast(text) {
+        // ZAKTUALIZOWANA, ULEPSZONA FUNKCJA TOASTA
+        function showToast(text, type = 'success') {
             const toast = document.getElementById('toastNotification');
-            document.getElementById('toastText').textContent = text;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 2500);
+            const toastIconContainer = document.getElementById('toastIconContainer');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastText = document.getElementById('toastText');
+            
+            toastText.textContent = text;
+            
+            // Konfiguracja kolorystyki i ikonki na podstawie typu
+            toastIconContainer.className = "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200";
+            
+            if (type === 'success') {
+                toastIconContainer.classList.add('bg-green-100', 'dark:bg-green-950/40', 'text-green-600', 'dark:text-green-400');
+                toastIcon.className = "fas fa-check";
+            } else if (type === 'warning') {
+                toastIconContainer.classList.add('bg-amber-100', 'dark:bg-amber-950/40', 'text-amber-600', 'dark:text-amber-400');
+                toastIcon.className = "fas fa-exclamation-triangle";
+            } else if (type === 'error') {
+                toastIconContainer.classList.add('bg-red-100', 'dark:bg-red-950/40', 'text-red-600', 'dark:text-red-400');
+                toastIcon.className = "fas fa-times-circle";
+            }
+            
+            // Pokazywanie Toasta z animacją
+            toast.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+            toast.classList.add('flex', 'opacity-100', 'translate-y-0');
+            
+            // Ukrywanie po 3 sekundach
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                    toast.classList.remove('flex');
+                }, 300);
+            }, 3000);
         }
 
         onValue(likesRef, (snapshot) => {
@@ -971,10 +1032,15 @@
             renderCountriesRanking(latestCountriesData);
         }
 
+        window.showToast = showToast;
+
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v4";
+            // KLUCZ RESETU NA V5 - AUTOMATYCZNIE RESETUJE KLIKNIĘCIA KAŻDEGO GRACZA NA STRONIE
+            const epochKey = "justAndrewReset_v5";
             if (localStorage.getItem(epochKey) !== "true") {
                 localStorage.setItem('justAndrewLocalClicks', '0');
+                localStorage.setItem('justAndrewNickChanges', '0'); // resetujemy też limit zmian dla nowej wersji
+                localStorage.setItem('justAndrewLastNickChangeTime', '0');
                 localStorage.setItem(epochKey, "true");
             }
 
@@ -1397,9 +1463,7 @@
 
         function copyDirect(t) { 
             navigator.clipboard.writeText(t); 
-            document.getElementById('toastNotification').classList.remove('hidden'); 
-            document.getElementById('toastText').textContent = window.translations[window.currentLang].copied; 
-            setTimeout(()=>document.getElementById('toastNotification').classList.add('hidden'), 2000); 
+            window.showToast(window.translations[window.currentLang].copied, 'success'); 
         }
         function openDiscordModal() { document.getElementById('discordModal').classList.remove('hidden'); document.getElementById('discordModal').classList.add('flex'); }
         
