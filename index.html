@@ -124,6 +124,11 @@
                 </a>
                 <button onclick="openDiscordModal()" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
+                
+                <!-- FACEIT LINK -->
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD" target="_blank" class="hover:text-[#FF5500] transition flex items-center justify-center font-black text-[18px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                </a>
             </div>
         </div>
     </header>
@@ -385,7 +390,7 @@
         </div>
     </div>
 
-    <!-- MODAL DO ZMIANY NICKU (NOWY, STYLOWY MODAL ZAMIAST SYSTEMOWEGO PROMPTA) -->
+    <!-- MODAL DO ZMIANY NICKU -->
     <div id="nickModal" onclick="closeNickModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6 transition-all duration-300">
         <div onclick="event.stopPropagation()" class="max-w-sm w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl text-center shadow-2xl modal-fade-in">
             <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto mb-4">
@@ -404,7 +409,7 @@
         </div>
     </div>
 
-    <!-- POWIADOMIENIE TOAST (ZAKTUALIZOWANE - PIĘKNIEJSZE I DWU-MOTYWOWE) -->
+    <!-- POWIADOMIENIE TOAST -->
     <div id="toastNotification" class="fixed bottom-5 right-5 z-[100] items-center gap-3 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md px-5 py-4 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.6)] border border-gray-100 dark:border-gray-800/80 transition-all duration-300 transform translate-y-4 opacity-0 hidden max-w-sm">
         <div id="toastIconContainer" class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200">
             <i id="toastIcon" class="fas fa-check"></i>
@@ -412,7 +417,7 @@
         <p id="toastText" class="text-xs font-black dark:text-white leading-relaxed" data-i18n="copied">Skopiowano!</p>
     </div>
 
-    <!-- SŁOWNIK JĘZYKÓW (ZMIENNE GLOBALNE) -->
+    <!-- SŁOWNIK JĘZYKÓW -->
     <script>
         window.translations = {
             pl: {
@@ -967,7 +972,7 @@
             modal.classList.remove('flex');
         };
 
-        // ZAPISYWANIE NICKU Z MODALA (Z INTEGRACJĄ LIMITÓW I WALIDACJI)
+        // ZAPISYWANIE NICKU Z MODALA (Z INTEGRACJĄ LIMITÓW I ZAPOBIEGANIEM DUPLIKACJI)
         window.saveNickFromModal = async function() {
             const input = document.getElementById('nickModalInput');
             const newNick = input.value;
@@ -1002,16 +1007,17 @@
                 }
 
                 try {
-                    // Sprawdzamy czy nowy nick jest już zajęty
+                    // Weryfikacja unikalności nicku w bazie danych Firebase
                     const newNickRef = ref(db, `players_v3/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
+                        // Jeśli nick istnieje w bazie i ma przypisane kliknięcia, rzucamy błąd i blokujemy zmianę
                         showToast(window.translations[window.currentLang].nick_taken, 'error');
-                        return; // Nie zamykamy okienka, dajemy szansę poprawić
+                        return; // Nie zamykamy okienka modalnego, dajemy graczowi szansę wpisania czegoś innego!
                     }
 
-                    // Jeśli nick jest wolny, migrujemy stare dane na nową nazwę
+                    // Jeśli nick jest w pełni wolny, migrujemy dane
                     const oldNickRef = ref(db, `players_v3/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
@@ -1040,7 +1046,6 @@
             }
         };
 
-        // ZAKTUALIZOWANA, ULEPSZONA FUNKCJA TOASTA
         function showToast(text, type = 'success') {
             const toast = document.getElementById('toastNotification');
             const toastIconContainer = document.getElementById('toastIconContainer');
@@ -1049,7 +1054,6 @@
             
             toastText.textContent = text;
             
-            // Konfiguracja kolorystyki i ikonki na podstawie typu
             toastIconContainer.className = "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200";
             
             if (type === 'success') {
@@ -1063,11 +1067,9 @@
                 toastIcon.className = "fas fa-times-circle";
             }
             
-            // Pokazywanie Toasta z animacją
             toast.classList.remove('hidden', 'opacity-0', 'translate-y-4');
             toast.classList.add('flex', 'opacity-100', 'translate-y-0');
             
-            // Ukrywanie po 3 sekundach
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-4');
                 setTimeout(() => {
@@ -1100,11 +1102,10 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            // KLUCZ RESETU NA V5 - AUTOMATYCZNIE RESETUJE KLIKNIĘCIA KAŻDEGO GRACZA NA STRONIE
             const epochKey = "justAndrewReset_v5";
             if (localStorage.getItem(epochKey) !== "true") {
                 localStorage.setItem('justAndrewLocalClicks', '0');
-                localStorage.setItem('justAndrewNickChanges', '0'); // resetujemy też limit zmian dla nowej wersji
+                localStorage.setItem('justAndrewNickChanges', '0');
                 localStorage.setItem('justAndrewLastNickChangeTime', '0');
                 localStorage.setItem(epochKey, "true");
             }
@@ -1120,9 +1121,49 @@
 
     <script>
         const photosData = [
+            // INTEGRACJA NOWYCH FOTEK Z DECYZJĄ O KATEGORII I DŁUGIM OPISIE
+            { 
+                src: 'image35.png', 
+                title: 'Celebracja wbicia 10LVL', 
+                cat: 'Stream', 
+                tags: '#10lvl #siła #biceps #win #awans #faceit', 
+                desc: 'Niezapomniana, pełna czystych emocji chwila radości po zaciętej walce na serwerach Faceit! Wbicie upragnionego 10 poziomu zwieńczone dumnym pokazem muskułów i bicepsa wprost do kamery. Prawdziwa streamerska duma i dowód na to, że ciężki trening w Counter-Strike przynosi upragnione owoce.', 
+                globalLikes: 0 
+            },
+            { 
+                src: 'image36.jpg', 
+                title: 'Trasa pod kontrolą', 
+                cat: 'Praca', 
+                tags: '#trucker #trasa #kabina #pulpit #work', 
+                desc: 'Spojrzenie z perspektywy mojego mobilnego biura podczas przemierzania kolejnych kilometrów europejskich autostrad. Za oknem dynamicznie zmieniający się krajobraz, a na desce rozdzielczej widoczne wsparcie od moich najwspanialszych widzów. Praca kierowcy to nie tylko zawód, ale prawdziwy styl życia pełen wolności.', 
+                globalLikes: 0 
+            },
+            { 
+                src: 'image37.png', 
+                title: 'Strefa Pełnego Skupienia', 
+                cat: 'Stream', 
+                tags: '#gaming #gpro #focus #live #gameplay', 
+                desc: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W moich niezawodnych słuchawkach Logitech G Pro X nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.', 
+                globalLikes: 0 
+            },
+            { 
+                src: 'image38.png', 
+                title: 'Zwycięski Uśmiech', 
+                cat: 'Stream', 
+                tags: '#smile #happy #clutch #live #community', 
+                desc: 'Ten moment, kiedy clutch 1v3 kończy się rozbrojeniem bomby w ostatniej sekundzie! Szeroki, szczery uśmiech na twarzy i chwila luźnej interakcji z czatem to najlepsza nagroda za zaangażowanie na streamie. Nic tak nie buduje klimatu transmisji jak wspólne świętowanie małych i dużych sukcesów z Wami.', 
+                globalLikes: 0 
+            },
+            { 
+                src: 'image39.png', 
+                title: 'Interakcja z Czatem na Żywo', 
+                cat: 'Stream', 
+                tags: '#chat #live #talk #chill #backstage', 
+                desc: 'Transmisja na żywo to przede wszystkim Wy — Wasze komentarze, żarty i nieustające wsparcie. Na tym ujęciu widać moment aktywnego czytania czatu, analizowania Waszych podpowiedzi oraz odpowiadania na nurtujące pytania. Każdy stream to nowa, niepowtarzalna historia pisana wspólnie z całą społecznością.', 
+                globalLikes: 0 
+            },
             { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!', globalLikes: 0 },
             { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.', globalLikes: 0 },
-            { src: 'image35.png', title: 'Celebracja wbicia 10LVL', cat: 'Stream', tags: '#10lvl #siła #biceps #win #awans', desc: 'Radość po udanej akcji, wbiciu upragnionego 10 poziomu i pokazanie muskułów do kamery. Czysta, streamerska duma!', globalLikes: 0 },
             { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.', globalLikes: 0 },
             { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.', globalLikes: 0 },
             { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', globalLikes: 0 },
@@ -1176,7 +1217,6 @@
             localStorage.setItem('justAndrewLang', lang);
             document.getElementById('langSelect').value = lang;
 
-            // Zmiana małej ikonki flagi obok selektora na podstawie wybranej opcji
             const currentLangFlag = document.getElementById('currentLangFlag');
             if (lang === 'en') {
                 currentLangFlag.className = 'fi fi-gb rounded-sm shadow-sm scale-110';
@@ -1574,7 +1614,6 @@
                     }
                 }
                 
-                // Zamykanie modala nicku klawiszem ESC
                 const nickModal = document.getElementById('nickModal');
                 if (!nickModal.classList.contains('hidden')) {
                     closeNickModal();
