@@ -42,7 +42,7 @@
             background-color: rgba(0, 0, 0, 0.5) !important; 
             backdrop-filter: blur(4px);
             transition: all 0.2s ease;
-            border: 1px solid transparent; /* Brak czerwonej obwódki */
+            border: 1px solid transparent;
         }
         .favorite-btn:hover {
             background-color: rgba(0, 0, 0, 0.7) !important;
@@ -67,7 +67,6 @@
                 JustAndrew
             </div>
             
-            <!-- ODŚWIEŻONY, ELEGANCKI LICZNIK KLIKNIĘĆ (SPÓJNY Z SZABLONEM) -->
             <div id="awpCounterContainer" class="flex items-center gap-2 bg-white dark:bg-gray-800/80 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700/60 text-xs font-bold shadow-sm text-gray-700 dark:text-gray-300">
                 <i class="fas fa-mouse text-indigo-500"></i> 
                 <span>Kliknięcia:</span> 
@@ -111,11 +110,11 @@
                     <option value="Praca">Praca</option>
                     <option value="Relaks">Relaks</option>
                 </select>
-                <!-- Filtr sortowania -->
+                <!-- Filtr sortowania - BEZ SERDUSZEK -->
                 <select id="sortSelect" onchange="filterSort(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
                     <option value="default">Domyślna kolejność</option>
-                    <option value="popular">Najpopularniejsze ❤️</option>
-                    <option value="unpopular">Najmniej popularne 🤍</option>
+                    <option value="popular">Najpopularniejsze</option>
+                    <option value="unpopular">Najmniej popularne</option>
                 </select>
                 <!-- Szukajka -->
                 <div class="relative w-full max-w-xs">
@@ -272,7 +271,6 @@
         <div onclick="event.stopPropagation()" id="modalContainer" class="relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh] transition-all duration-300">
             
             <div id="modalHeader" class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800/80">
-                <!-- POPRAWKA: Przycisk w modalu z przezroczystym tłem i brakiem czerwonej obwódki na start -->
                 <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-xs font-bold text-gray-800 dark:text-white transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent">
                     <i class="far fa-heart"></i> <span id="modalFavCount">0</span>
                 </button>
@@ -317,7 +315,7 @@
         <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
     </div>
 
-    <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE -->
+    <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE[cite: 3] -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -332,7 +330,6 @@
         const clicksRef = ref(db, 'clicks');
         const likesRef = ref(db, 'likes');
 
-        // Funkcja do odtwarzania dźwięku, zliczania kliknięć lokalnych oraz wysyłania kliknięcia do Firebase[cite: 3]
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             
@@ -367,7 +364,6 @@
             });
         }
 
-        // GLOBALNA SYNCHRONIZACJA POLUBIEŃ (SERDUSZEK) W FIREBASE[cite: 3]
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
             const photoLikeRef = ref(db, `likes/${dbKey}`);
@@ -378,7 +374,6 @@
             });
         }
 
-        // Pobieranie globalnych kliknięć głównego licznika
         onValue(clicksRef, (snapshot) => {
             const data = snapshot.val() || 0;
             const awpCountEl = document.getElementById('awpCount');
@@ -395,8 +390,9 @@
                 photo.globalLikes = data[dbKey] || 0;
             });
 
-            // Odświeżenie galerii oraz modalu, aby pokazać nowe wartości na żywo[cite: 3]
-            window.renderGallery();
+            // PRZEBUDOWA UKŁADU GALERII NA PODSTAWIE CZYSTEJ AKTUALIZACJI Z BAZY DANYCH BEZ ZMIANY KOLEJNOŚCI[cite: 3]
+            window.updateLikesInDOMOnly();
+            
             if (document.getElementById('imageModal').classList.contains('active')) {
                 window.updateModal();
             }
@@ -414,7 +410,6 @@
     </script>
 
     <script>
-        // Tablica ze zdjęciami[cite: 3]
         const photosData = [
             { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!', globalLikes: 0 },
             { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.', globalLikes: 0 },
@@ -473,6 +468,7 @@
             document.getElementById('statFavPhotos').textContent = favs.length;
         }
 
+        // GENEROWANIE GALERII - Wywoływane tylko gdy filtry/sortowanie rzeczywiście ulegają zmianie
         function renderGallery() {
             const container = document.getElementById('gallery');
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
@@ -507,9 +503,8 @@
                 const likesCount = photo.globalLikes || 0;
                 const card = document.createElement('div');
                 card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
+                card.setAttribute('data-src', photo.src); // Identyfikator karty do aktualizacji w locie
                 
-                // POPRAWKA: Przycisk używa .favorite-btn (przezroczyste tło, brak czerwonej obwódki). 
-                // Tylko serce (<i class="text-red-500">) barwi się na czerwono po polubieniu.
                 card.innerHTML = `
                     <div onclick="openModal(${idx})">
                         <img src="${photo.src}" class="w-full h-80 object-cover">
@@ -520,7 +515,7 @@
                     </div>
                     <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 py-2 px-3.5 rounded-full text-white favorite-btn flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all text-xs font-black shadow-lg">
                         <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
-                        <span class="text-white font-black">${likesCount}</span>
+                        <span class="text-white font-black hover-count-label">${likesCount}</span>
                     </button>
                 `;
                 container.appendChild(card);
@@ -538,6 +533,29 @@
                 document.getElementById('emptyFavoritesNotice').classList.add('hidden');
             }
 
+            updateStatsUI();
+        }
+
+        // NOWA FUNKCJA: Aktualizuje tylko ikonę serca i liczbę bez przebudowywania kolejności kart (zapobiega "uciekaniu" zdjęcia)
+        function updateLikesInDOMOnly() {
+            const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
+            
+            filteredItems.forEach(photo => {
+                const card = document.querySelector(`[data-src="${photo.src}"]`);
+                if (card) {
+                    const isFav = favs.includes(photo.src);
+                    const likesCount = photo.globalLikes || 0;
+                    
+                    const btn = card.querySelector('.favorite-btn');
+                    if (btn) {
+                        btn.innerHTML = `
+                            <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
+                            <span class="text-white font-black hover-count-label">${likesCount}</span>
+                        `;
+                    }
+                }
+            });
+            
             updateStatsUI();
         }
 
@@ -592,7 +610,6 @@
             }
         }
 
-        // POPRAWKA: Przycisk w podglądzie modalu. Kolor ramki/tekstu barwi się wyłącznie przy polubieniu (na czerwono), tło zostaje przezroczyste (bg-transparent).
         function updateModal() {
             const item = filteredItems[currentIndex];
             if (!item) return;
@@ -728,7 +745,12 @@
                 closeImageModal();
             }
 
-            renderGallery();
+            // UWAGA: Wywołujemy tylko selektywną aktualizację DOM, aby nie przebudowywać układu siatki i uniknąć przeskakiwania zdjęć!
+            if (isFavoritesView) {
+                renderGallery(); 
+            } else {
+                updateLikesInDOMOnly();
+            }
             
             if(document.getElementById('imageModal').classList.contains('active')) {
                 updateModal();
@@ -807,6 +829,10 @@
                 }
             }
         });
+
+        // Wyrzucenie oddzielnej funkcji na globalny zakres bazy danych, aby Firebase mógł z niej korzystać na bieżąco
+        window.updateLikesInDOMOnly = updateLikesInDOMOnly;
+        window.renderGallery = renderGallery;
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeIcon').className = 'fas fa-sun'; }
