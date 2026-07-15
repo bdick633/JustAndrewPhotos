@@ -60,14 +60,14 @@
 
     <header class="py-8 px-6 md:px-12 flex justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex items-center gap-4">
-            <!-- Interaktywne logo wyzwalające strzał z AWP -->
-            <div id="siteTitle" onclick="playEasterEgg()" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
+            <!-- Interaktywne logo wyzwalające strzał z AWP oraz globalny licznik kliknięć -->
+            <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
                 JustAndrew
             </div>
-            <!-- Licznik strzałów z AWP (Globalny) -->
+            <!-- Licznik strzałów z AWP (Globalny z bazy danych) -->
             <div id="awpCounterContainer" class="bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 shadow-sm border border-indigo-200/50 dark:border-indigo-900/30">
                 <i class="fas fa-crosshairs animate-pulse"></i>
-                <span>Strzały: <span id="awpCount">0</span></span>
+                <span>Kliknięcia: <span id="awpCount">0</span></span>
             </div>
         </div>
         <div class="flex items-center space-x-5">
@@ -141,13 +141,13 @@
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
                     <div class="text-red-500 text-3xl mb-2"><i class="fas fa-heart"></i></div>
                     <div id="statFavPhotos" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Your Favorites</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje Ulubione</div>
                 </div>
-                <!-- Statystyka 3: Oddane strzały (Globalne) -->
+                <!-- Statystyka 3: Wspólny licznik kliknięć -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-2xl text-center shadow-sm">
                     <div class="text-amber-500 text-3xl mb-2"><i class="fas fa-crosshairs"></i></div>
                     <div id="statTotalShots" class="text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Oddane strzały z AWP (Globalnie)</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Wspólne kliknięcia</div>
                 </div>
             </div>
         </section>
@@ -310,81 +310,65 @@
         <p class="text-xs font-bold dark:text-white">Skopiowano!</p>
     </div>
 
-    <!-- INICJALIZACJA FIREBASE (MODUŁY ES6) -->
+    <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // ==========================================
-        // UTWÓRZ TUTAJ SWOJĄ KONFIGURACJĘ FIREBASE
-        // ==========================================
+        // Konfiguracja Twojego projektu Firebase
         const firebaseConfig = {
-            apiKey: "TWÓJ_API_KEY",
-            authDomain: "TWÓJ_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://TWÓJ_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "TWÓJ_PROJECT_ID",
-            storageBucket: "TWÓJ_PROJECT_ID.appspot.com",
-            messagingSenderId: "TWÓJ_SENDER_ID",
-            appId: "TWÓJ_APP_ID"
+            databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
         // Inicjalizacja Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const clickRef = ref(db, 'justAndrew_clicks');
+        const clicksRef = ref(db, 'clicks');
 
-        // Referencje do elementów DOM
-        const awpCountElement = document.getElementById('awpCount');
-        const statTotalShotsElement = document.getElementById('statTotalShots');
-
-        // Zmienna lokalna na aktualną liczbę kliknięć (zabezpieczenie przed opóźnieniami)
-        let globalShots = 0;
-
-        // Nasłuchiwanie zmian w bazie danych Firebase (aktualizacje live na ekranie)
-        onValue(clickRef, (snapshot) => {
-            const data = snapshot.val();
-            globalShots = data !== null ? parseInt(data) : 0;
-            updateAwpCounterUI(globalShots);
-        });
-
-        // Funkcja bezpiecznej inkrementacji liczby kliknięć przy użyciu transakcji (Firebase Transaction)
-        function incrementGlobalClicks() {
-            runTransaction(clickRef, (currentValue) => {
-                return (currentValue || 0) + 1;
-            }).catch((error) => {
-                console.error("Błąd zapisu transakcji w Firebase:", error);
-            });
-        }
-
-        // Aktualizacja interfejsu
-        function updateAwpCounterUI(val) {
-            if (awpCountElement) awpCountElement.textContent = val;
-            if (statTotalShotsElement) statTotalShotsElement.textContent = val;
-        }
-
-        // Funkcja strzału z AWP z synchronizacją w Firebase
-        window.playEasterEgg = function() {
+        // Funkcja do odtwarzania dźwięku i wysyłania kliknięcia do Firebase
+        function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             if (sound) {
                 sound.currentTime = 0; 
                 sound.play().then(() => {
-                    incrementGlobalClicks();
+                    incrementGlobalCounter();
                 }).catch(error => {
-                    console.error("Blokada audio. Kliknij najpierw stronę!", error);
+                    console.error("Blokada audio. Interakcja z dokumentem wymagana.", error);
+                    // Próba odtworzenia po aktywacji kontekstu audio
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     if (audioCtx.state === 'suspended') {
                         audioCtx.resume().then(() => {
                             sound.play().then(() => {
-                                incrementGlobalClicks();
+                                incrementGlobalCounter();
                             });
                         });
                     }
                 });
             }
-        };
+        }
+
+        // Zwiększanie licznika w Firebase w sposób bezpieczny dla wielu użytkowników naraz (Transakcja)
+        function incrementGlobalCounter() {
+            runTransaction(clicksRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+        }
+
+        // Nasłuchiwanie zmian w bazie danych w czasie rzeczywistym
+        onValue(clicksRef, (snapshot) => {
+            const data = snapshot.val() || 0;
+            // Aktualizacja elementów interfejsu użytkownika
+            document.getElementById('awpCount').textContent = data;
+            document.getElementById('statTotalShots').textContent = data;
+        });
+
+        // Udostępnienie funkcji globalnie, aby kod HTML z atrybutami zdarzeń mógł z niej korzystać
+        window.playEasterEgg = playEasterEgg;
+        
+        // Podpięcie kliknięcia pod napis "JustAndrew"
+        document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
     </script>
 
-    <!-- TRADYCYJNY SKRYPT JS STRONY -->
     <script>
         const photosData = [
             { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!' },
@@ -418,7 +402,7 @@
             { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Poważny kadr.' },
             { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.' },
             { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.' },
-            { src: 'image22.png', title: 'W trasie', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.' },
+            { src: 'image22.png', title: 'W trase', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.' },
             { src: 'image25.png', title: 'Pulpit sterowniczy', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.' },
             { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.' }
         ];
@@ -492,7 +476,6 @@
             bannerHasShownThisSession = true;
         }
 
-        // Banner i Modal Actions
         function promptCloseTipplyBanner() {
             document.getElementById('bannerContentDefault').classList.add('hidden');
             document.getElementById('bannerContentConfirm').classList.remove('hidden');
