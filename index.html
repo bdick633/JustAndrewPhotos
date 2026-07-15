@@ -29,16 +29,16 @@
             -moz-appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 1.25rem center;
-            background-size: 1.1rem;
-            padding-right: 3.5rem !important;
+            background-position: right 1.1rem center;
+            background-size: 1rem;
+            padding-right: 3rem !important;
         }
         html.dark .custom-select {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23818cf8' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
         }
 
         .favorite-btn {
-            background-color: rgba(0, 0, 0, 0.3); 
+            background-color: rgba(0, 0, 0, 0.5); 
             backdrop-filter: blur(4px);
             transition: all 0.2s ease;
         }
@@ -47,7 +47,6 @@
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* Style dla nowego paska postępu w Trybie Kinowym */
         #cinemaProgressBar {
             transition: width 4s linear;
         }
@@ -55,17 +54,14 @@
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
-    <!-- Ścieżka do lokalnego pliku dźwiękowego AWP -->
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
-            <!-- Interaktywne logo wyzwalające strzał z AWP oraz globalny i lokalny licznik kliknięć -->
             <div id="siteTitle" class="font-extrabold text-2xl tracking-tight text-gray-900 dark:text-white cursor-pointer select-none active:scale-95 transition-transform duration-100 hover:text-indigo-600 dark:hover:text-indigo-400">
                 JustAndrew
             </div>
             
-            <!-- NOWOCZESNY ROZDZIELONY LICZNIK (PROFESJONALNY WYGLĄD) -->
             <div id="awpCounterContainer" class="flex items-center gap-2 bg-white dark:bg-gray-800/80 p-1.5 rounded-2xl border border-gray-200 dark:border-gray-700/60 text-xs font-bold shadow-sm">
                 <span class="bg-indigo-600 text-white px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
                     <i class="fas fa-user text-[10px]"></i> Twoje: <span id="localCount" class="font-black">0</span>
@@ -104,16 +100,24 @@
     <main class="flex-grow px-6 max-w-6xl mx-auto w-full py-6">
         <section class="text-center mb-10">
             <h1 id="mainHeading" class="text-4xl md:text-6xl font-black mb-4">Galeria Fotografii</h1>
-            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <select id="categorySelect" onchange="filterCategory(this.value)" class="custom-select w-full md:w-64 px-5 py-3.5 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
+            <div class="flex flex-col md:flex-row gap-3 justify-center items-center">
+                <!-- Filtr kategorii -->
+                <select id="categorySelect" onchange="filterCategory(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
                     <option value="all">Wszystkie kategorie</option>
                     <option value="Stream">Stream</option>
                     <option value="Praca">Praca</option>
                     <option value="Relaks">Relaks</option>
                 </select>
+                <!-- NOWOŚĆ: Filtr sortowania (Od najpopularniejszych itp.) -->
+                <select id="sortSelect" onchange="filterSort(this.value)" class="custom-select w-full md:w-48 px-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white cursor-pointer shadow-sm">
+                    <option value="default">Domyślna kolejność</option>
+                    <option value="popular">Najpopularniejsze ❤️</option>
+                    <option value="unpopular">Najmniej popularne 🤍</option>
+                </select>
+                <!-- Szukajka -->
                 <div class="relative w-full max-w-xs">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj..." class="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-sm">
+                    <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Szukaj..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-sm">
                 </div>
             </div>
         </section>
@@ -132,29 +136,24 @@
 
         <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-12"></div>
 
-        <!-- ZMODYFIKOWANA SEKCJA STATYSTYK STRONY (4 KOLUMNY, SCHLUDNA) -->
         <section class="mt-12 mb-16 max-w-6xl mx-auto">
             <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Statystyki Galerii</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Statystyka 1: Zdjęcia -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-indigo-600 dark:text-indigo-400 text-2xl mb-2"><i class="fas fa-images"></i></div>
                     <div id="statTotalPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
                     <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Zdjęć w galerii</div>
                 </div>
-                <!-- Statystyka 2: Polubione (ZMIENIONA NAZWA) -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-red-500 text-2xl mb-2"><i class="fas fa-heart"></i></div>
                     <div id="statFavPhotos" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
                     <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Polubionych zdjęć</div>
                 </div>
-                <!-- Statystyka 3: Twoje własne kliknięcia (NOWE) -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-indigo-500 text-2xl mb-2"><i class="fas fa-user"></i></div>
                     <div id="statLocalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
                     <div class="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Twoje kliknięcia</div>
                 </div>
-                <!-- Statystyka 4: Wspólny licznik kliknięć -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-5 rounded-2xl text-center shadow-sm">
                     <div class="text-amber-500 text-2xl mb-2"><i class="fas fa-globe animate-pulse"></i></div>
                     <div id="statTotalShots" class="text-2xl md:text-3xl font-black text-gray-950 dark:text-white mb-1">0</div>
@@ -163,11 +162,9 @@
             </div>
         </section>
 
-        <!-- SEKCJA FORMULARZY I ZGŁOSZEŃ -->
         <section class="mt-16 max-w-6xl mx-auto">
             <h2 class="text-2xl font-black text-center mb-8 text-gray-900 dark:text-white">Wspólnie twórzmy tę stronę!</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- KARTA 1: Dodaj zdjęcie -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-3xl text-center shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto mb-4">
@@ -181,7 +178,6 @@
                     </a>
                 </div>
 
-                <!-- KARTA 2: Oceń stronę -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-3xl text-center shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center text-amber-500 dark:text-amber-400 mx-auto mb-4">
@@ -195,7 +191,6 @@
                     </a>
                 </div>
 
-                <!-- KARTA 3: Zgłoś błąd -->
                 <div class="bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 p-6 rounded-3xl text-center shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-rose-500 dark:text-rose-400 mx-auto mb-4">
@@ -216,7 +211,6 @@
         &copy; 2026 JustAndrew. Wszystkie prawa zastrzeżone.
     </footer>
 
-    <!-- ESTETYCZNY, MATOWY BANNER PROMOCYJNY -->
     <div id="tipplyBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] max-w-3xl w-[92%] bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md border border-gray-200 dark:border-gray-800/80 px-5 py-3.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 transform translate-y-28 opacity-0 pointer-events-none">
         
         <div id="bannerContentDefault" class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
@@ -261,15 +255,13 @@
 
     </div>
 
-    <!-- MODAL ZDJĘCIA (Z DOSTOSOWANYM TRYBEM KINOWYM) -->
+    <!-- MODAL ZDJĘCIA -->
     <div id="imageModal" onclick="checkCloseModal(event)" class="fixed inset-0 bg-black/80 dark:bg-[#0D0E12]/95 backdrop-blur-md z-50 transition-all duration-300">
         
-        <!-- PRZYCISK WYJŚCIA Z KINA -->
         <button id="cinemaExitBtn" onclick="stopSlideshow()" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 bg-black/70 hover:bg-red-600 text-white rounded-full text-xs font-bold tracking-wider uppercase transition-all shadow-2xl border border-white/10 flex items-center gap-2">
             <i class="fas fa-stop"></i> Zakończ seans (ESC)
         </button>
 
-        <!-- KINOWY PASEK POSTĘPU -->
         <div id="cinemaProgressContainer" class="hidden fixed bottom-0 left-0 w-full h-[4px] bg-black/20 dark:bg-white/10 z-[60]">
             <div id="cinemaProgressBar" class="h-full bg-indigo-500 dark:bg-indigo-400 w-0"></div>
         </div>
@@ -277,12 +269,14 @@
         <div onclick="event.stopPropagation()" id="modalContainer" class="relative max-w-4xl w-full bg-white dark:bg-[#1a1c24] my-auto rounded-3xl overflow-hidden shadow-2xl modal-fade-in flex flex-col mx-auto max-h-[95vh] transition-all duration-300">
             
             <div id="modalHeader" class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800/80">
-                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700 dark:text-white transition-colors duration-200"><i class="far fa-heart"></i></button>
+                <!-- Serduszko w modalu z dynamicznym licznikiem globalnym -->
+                <button id="modalFavBtn" onclick="toggleFavoriteFromModal()" class="px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-xs font-bold dark:text-white transition-colors duration-200 hover:bg-red-500 hover:text-white">
+                    <i class="far fa-heart"></i> <span id="modalFavCount">0</span>
+                </button>
                 <h3 id="modalTitle" class="font-bold text-lg dark:text-white text-center flex-grow truncate px-4"></h3>
                 <button onclick="closeImageModal()" class="w-10 h-10 text-gray-400 hover:text-red-500 text-xl transition"><i class="fas fa-times"></i></button>
             </div>
 
-            <!-- OKNO PROJEKCYJNE -->
             <div id="modalImageContainer" class="relative bg-black/10 flex items-center justify-center min-h-[350px] md:min-h-[500px] transition-all duration-300">
                 <button id="modalArrowLeft" onclick="prevImage()" class="absolute left-4 z-10 w-12 h-12 rounded-full bg-black/40 text-white hover:bg-indigo-600 flex items-center justify-center backdrop-blur-sm transition-all"><i class="fas fa-chevron-left text-lg"></i></button>
                 <img id="modalImage" src="" class="max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300">
@@ -297,7 +291,6 @@
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     <button onclick="toggleDescription()" id="descButton" class="py-2.5 px-3 bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i class="fas fa-info-circle"></i> Pokaż opis</button>
                     
-                    <!-- PRZYCISK WEJŚCIA W KINO -->
                     <button onclick="toggleSlideshow()" id="slideshowBtn" class="py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"><i id="slideshowIcon" class="fas fa-play"></i> <span id="slideshowText">Tryb kinowy</span></button>
                     
                     <a id="modalDownloadBtn" href="" download class="py-2.5 px-3 bg-green-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-download"></i> Pobierz</a>
@@ -332,18 +325,18 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        
         const clicksRef = ref(db, 'clicks');
+        const likesRef = ref(db, 'likes');
 
-        // Funkcja do odtwarzania dźwięku, zliczania kliknięć lokalnych oraz wysyłania kliknięcia do Firebase
+        // Funkcja do odtwarzania dźwięku, zliczania kliknięć lokalnych oraz wysyłania kliknięcia do Firebase[cite: 3]
         function playEasterEgg() {
             const sound = document.getElementById('awpSound');
             
-            // 1. Zwiększenie licznika lokalnego w localStorage
             let localClicks = parseInt(localStorage.getItem('justAndrewLocalClicks') || '0');
             localClicks++;
             localStorage.setItem('justAndrewLocalClicks', localClicks);
             
-            // Aktualizacja UI lokalnego licznika natychmiast
             document.getElementById('localCount').textContent = localClicks;
             document.getElementById('statLocalShots').textContent = localClicks;
 
@@ -371,16 +364,45 @@
             });
         }
 
+        // GLOBALNA SYNCHRONIZACJA POLUBIEŃ (SERDUSZEK) W FIREBASE[cite: 3]
+        function incrementGlobalLike(photoSrc, isAdding) {
+            // Zamieniamy np. 'image33.png' na 'image33_png', bo Firebase nie lubi kropek w kluczach[cite: 3]
+            const dbKey = photoSrc.replace('.', '_');
+            const photoLikeRef = ref(db, `likes/${dbKey}`);
+
+            runTransaction(photoLikeRef, (currentValue) => {
+                let val = currentValue || 0;
+                return isAdding ? val + 1 : Math.max(0, val - 1);
+            });
+        }
+
+        // Pobieranie globalnych kliknięć głównego licznika
         onValue(clicksRef, (snapshot) => {
             const data = snapshot.val() || 0;
             document.getElementById('awpCount').textContent = data;
             document.getElementById('statTotalShots').textContent = data;
         });
 
+        // Pobieranie na żywo polubień pod zdjęciami z Firebase i aktualizacja tablicy w locie[cite: 3]
+        onValue(likesRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            
+            window.photosData.forEach(photo => {
+                const dbKey = photo.src.replace('.', '_');
+                photo.globalLikes = data[dbKey] || 0;
+            });
+
+            // Odświeżenie galerii oraz modalu, aby pokazać nowe wartości na żywo[cite: 3]
+            window.renderGallery();
+            if (document.getElementById('imageModal').classList.contains('active')) {
+                window.updateModal();
+            }
+        });
+
         window.playEasterEgg = playEasterEgg;
+        window.incrementGlobalLike = incrementGlobalLike;
         document.getElementById('siteTitle').addEventListener('click', playEasterEgg);
 
-        // Załaduj zapisany licznik lokalny przy wejściu na stronę
         document.addEventListener("DOMContentLoaded", () => {
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
             document.getElementById('localCount').textContent = savedLocalClicks;
@@ -389,47 +411,51 @@
     </script>
 
     <script>
+        // Tablica ze zdjęciami (dodane pole globalLikes, które będzie nadpisywane przez Firebase)[cite: 3]
         const photosData = [
-            { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!' },
-            { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.' },
-            { src: 'image35.png', title: 'Celebracja wbicia 10LVL', cat: 'Stream', tags: '#10lvl #siła #biceps #win #awans', desc: 'Radość po udanej akcji, wbiciu upragnionego 10 poziomu i pokazanie muskułów do kamery. Czysta, streamerska duma!' },
-            { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.' },
-            { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.' },
-            { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.' },
-            { src: 'image31.png', title: 'Czeski klimat', cat: 'Stream', tags: '#piwo #Žatecký', desc: 'Degustacja legendarnego chmielu prosto z Czech.' },
-            { src: 'image32.png', title: 'Streamowe orzeźwienie', cat: 'Stream', tags: '#piwo #live', desc: 'Nic tak nie poprawia jakości streama jak zimne piwko.' },
-            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh #piwo #lech', desc: 'Kulisowy kadr.' },
-            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill #piwo', desc: 'Przerwa na napój.' },
-            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill #piwo #żubr', desc: 'Chwila oddechu.' },
-            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'Niespodziewany moment na streamie.' },
-            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #ola', desc: 'Relacja między postaciami.' },
-            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #siła #ola', desc: 'Pokaz formy.' },
-            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #ola', desc: 'Akrobacje na żywo.' },
-            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech', desc: 'Zasłużona przerwa.' },
-            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Pełna precyzja.' },
-            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Kulisowe ujęcia.' },
-            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #love', desc: 'Dla widzów.' },
-            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party #ola', desc: 'Wspólny czas.' },
-            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #cute', desc: 'Mój pupil.' },
-            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Uśmiech!' },
-            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello', desc: 'Interakcja z czatem.' },
-            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Praca wre.' },
-            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Pasja do sportu.' },
-            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #love', desc: 'Z trasy.' },
-            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Zabawne emocje.' },
-            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#agresja #złość', desc: 'Kiedy droga męczy.' },
-            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Poważny kadr.' },
-            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.' },
-            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.' },
-            { src: 'image22.png', title: 'W trase', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.' },
-            { src: 'image25.png', title: 'Pulpit sterowniczy', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.' },
-            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.' }
+            { src: 'image33.png', title: 'Potężne Ziewnięcie', cat: 'Stream', tags: '#lodzik #lód #kurwa #wieczór', desc: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!', globalLikes: 0 },
+            { src: 'image34.png', title: 'Zbliżenie Kontrolowane', cat: 'Stream', tags: '#zoom #twarz #blisko #emocje', desc: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.', globalLikes: 0 },
+            { src: 'image35.png', title: 'Celebracja wbicia 10LVL', cat: 'Stream', tags: '#10lvl #siła #biceps #win #awans', desc: 'Radość po udanej akcji, wbiciu upragnionego 10 poziomu i pokazanie muskułów do kamery. Czysta, streamerska duma!', globalLikes: 0 },
+            { src: 'image28.png', title: 'essa', cat: 'Stream', tags: '#cwel #v #pozdro', desc: 'Just Andrew pozdrawia swoich widzów pięknym gestem.', globalLikes: 0 },
+            { src: 'image29.png', title: 'Wnętrze maszyny', cat: 'Praca', tags: '#ciężarówka', desc: 'Moje mobilne biuro.', globalLikes: 0 },
+            { src: 'image30.png', title: 'Chillera w domu', cat: 'Stream', tags: '#twarz', desc: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', globalLikes: 0 },
+            { src: 'image31.png', title: 'Czeski klimat', cat: 'Stream', tags: '#piwo #Žatecký', desc: 'Degustacja legendarnego chmielu prosto z Czech.', globalLikes: 0 },
+            { src: 'image32.png', title: 'Streamowe orzeźwienie', cat: 'Stream', tags: '#piwo #live', desc: 'Nic tak nie poprawia jakości streama jak zimne piwko.', globalLikes: 0 },
+            { src: 'image27.png', title: 'Transmisja i Orzeźwienie', cat: 'Stream', tags: '#live #refresh #piwo #lech', desc: 'Kulisowy kadr.', globalLikes: 0 },
+            { src: 'image24.png', title: 'Relaks ze szklanką', cat: 'Stream', tags: '#drink #chill #piwo', desc: 'Przerwa na napój.', globalLikes: 0 },
+            { src: 'image7.png', title: 'Odświeżenie', cat: 'Stream', tags: '#relaks #chill #piwo #żubr', desc: 'Chwila oddechu.', globalLikes: 0 },
+            { src: 'image1.png', title: 'Moment zdziwienia', cat: 'Stream', tags: '#surprise #face #fun', desc: 'Niespodziewany moment na streamie.', globalLikes: 0 },
+            { src: 'image2.png', title: 'Duet', cat: 'Stream', tags: '#rodzeństwo #przyjaciele #ola', desc: 'Relacja między postaciami.', globalLikes: 0 },
+            { src: 'image3.png', title: 'Flexing', cat: 'Stream', tags: '#mięśnie #siła #ola', desc: 'Pokaz formy.', globalLikes: 0 },
+            { src: 'image4.png', title: 'Świeca', cat: 'Stream', tags: '#świeca #akrobata #ola', desc: 'Akrobacje na żywo.', globalLikes: 0 },
+            { src: 'image5.png', title: 'Refreshment', cat: 'Stream', tags: '#piwo #lech', desc: 'Zasłużona przerwa.', globalLikes: 0 },
+            { src: 'image6.png', title: 'Głębokie skupienie', cat: 'Stream', tags: '#zakola #twarz', desc: 'Pełna precyzja.', globalLikes: 0 },
+            { src: 'image8.png', title: 'Przerwa na sprzęt', cat: 'Stream', tags: '#setup #tech', desc: 'Kulisowe ujęcia.', globalLikes: 0 },
+            { src: 'image9.png', title: 'Serce', cat: 'Stream', tags: '#uwu #love', desc: 'Dla widzów.', globalLikes: 0 },
+            { src: 'image10.png', title: 'Przyjaciele', cat: 'Stream', tags: '#friends #party #ola', desc: 'Wspólny czas.', globalLikes: 0 },
+            { src: 'image11.png', title: 'Z puszystym przyjacielem', cat: 'Stream', tags: '#kot #cute', desc: 'Mój pupil.', globalLikes: 0 },
+            { src: 'image12.png', title: 'Zbliżenie', cat: 'Stream', tags: '#face #zoom', desc: 'Uśmiech!', globalLikes: 0 },
+            { src: 'image13.png', title: 'Pozdrowienia', cat: 'Stream', tags: '#hello', desc: 'Interakcja z czatem.', globalLikes: 0 },
+            { src: 'image14.jpg', title: 'Skupienie', cat: 'Stream', tags: '#focus #work', desc: 'Praca wre.', globalLikes: 0 },
+            { src: 'image15.png', title: 'Trening', cat: 'Stream', tags: '#gym #power', desc: 'Pasja do sportu.', globalLikes: 0 },
+            { src: 'image16.png', title: 'Serce z pracy', cat: 'Praca', tags: '#ciężarówka #love', desc: 'Z trasy.', globalLikes: 0 },
+            { src: 'image17.png', title: 'Niezadowolenie', cat: 'Praca', tags: '#angry #funny', desc: 'Zabawne emocje.', globalLikes: 0 },
+            { src: 'image18.png', title: 'Siła i motywacja', cat: 'Praca', tags: '#agresja #złość', desc: 'Kiedy droga męczy.', globalLikes: 0 },
+            { src: 'image19.png', title: 'Skupienie przed kamerą', cat: 'Stream', tags: '#look #eye', desc: 'Poważny kadr.', globalLikes: 0 },
+            { src: 'image20.png', title: 'Spojrzenie z góry', cat: 'Stream', tags: '#pov #perspective', desc: 'Inna perspektywa.', globalLikes: 0 },
+            { src: 'image21.jpg', title: 'Gest sympatii', cat: 'Stream', tags: '#heart #hands', desc: 'Uwu dłońmi.', globalLikes: 0 },
+            { src: 'image22.png', title: 'W trase', cat: 'Praca', tags: '#driving #trucker', desc: 'Live z kabiny.', globalLikes: 0 },
+            { src: 'image25.png', title: 'Pulpit sterowniczy', cat: 'Praca', tags: '#view #truck', desc: 'Koniec trasy.', globalLikes: 0 },
+            { src: 'image26.jpg', title: 'Chwila wytchnienia', cat: 'Relaks', tags: '#chill #rest', desc: 'Odprężenie.', globalLikes: 0 }
         ];
+
+        window.photosData = photosData;
 
         let filteredItems = [];
         let currentIndex = 0;
         let isFavoritesView = false;
         let currentCategory = 'all';
+        let currentSort = 'default';
         let searchQuery = '';
         
         let bannerHasShownThisSession = false;
@@ -448,22 +474,56 @@
             const container = document.getElementById('gallery');
             const favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             container.innerHTML = '';
-            filteredItems = [];
             
+            let tempItems = [];
+            
+            // 1. Najpierw filtrujemy kategorie, wyszukiwanie i ulubione
             photosData.forEach(photo => {
                 const matchesCat = (currentCategory === 'all' || photo.cat === currentCategory);
                 const s = searchQuery.toLowerCase();
                 const matchesSearch = photo.title.toLowerCase().includes(s) || photo.tags.toLowerCase().includes(s);
                 const isFav = favs.includes(photo.src);
                 const matchesFavs = !isFavoritesView || isFav;
+                
                 if (matchesCat && matchesSearch && matchesFavs) {
-                    filteredItems.push(photo);
-                    const idx = filteredItems.length - 1;
-                    const card = document.createElement('div');
-                    card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
-                    card.innerHTML = `<div onclick="openModal(${idx})"><img src="${photo.src}" class="w-full h-80 object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end"><h3 class="text-white font-bold">${photo.title}</h3><p class="text-indigo-400 text-[10px] uppercase font-bold">${photo.cat}</p></div></div><button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 p-2.5 rounded-full text-white favorite-btn"><i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i></button>`;
-                    container.appendChild(card);
+                    tempItems.push(photo);
                 }
+            });
+
+            // 2. NOWOŚĆ: Sortowanie elementów na podstawie wybranej opcji
+            if (currentSort === 'popular') {
+                tempItems.sort((a, b) => (b.globalLikes || 0) - (a.globalLikes || 0));
+            } else if (currentSort === 'unpopular') {
+                tempItems.sort((a, b) => (a.globalLikes || 0) - (b.globalLikes || 0));
+            } else {
+                // Jeśli 'default', przywracamy naturalną kolejność z oryginalnej tablicy photosData
+                tempItems.sort((a, b) => photosData.indexOf(a) - photosData.indexOf(b));
+            }
+
+            filteredItems = tempItems;
+            
+            // 3. Renderowanie wygenerowanej i posortowanej listy
+            filteredItems.forEach((photo, idx) => {
+                const isFav = favs.includes(photo.src);
+                const likesCount = photo.globalLikes || 0;
+                const card = document.createElement('div');
+                card.className = "group relative overflow-hidden rounded-2xl bg-white dark:bg-[#1a1c24] shadow-sm gallery-img cursor-pointer";
+                
+                card.innerHTML = `
+                    <div onclick="openModal(${idx})">
+                        <img src="${photo.src}" class="w-full h-80 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end">
+                            <h3 class="text-white font-bold">${photo.title}</h3>
+                            <p class="text-indigo-400 text-[10px] uppercase font-bold">${photo.cat}</p>
+                        </div>
+                    </div>
+                    <!-- Zaktualizowany przycisk polubienia ze wspólnym licznikiem obok serduszka -->
+                    <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 py-2 px-3.5 rounded-full text-white favorite-btn flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all text-xs font-black shadow-lg">
+                        <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
+                        <span class="text-white font-black">${likesCount}</span>
+                    </button>
+                `;
+                container.appendChild(card);
             });
             
             const hasResults = filteredItems.length > 0;
@@ -542,10 +602,20 @@
             document.getElementById('modalDownloadBtn').href = item.src;
             document.getElementById('modalNewTabBtn').href = item.src;
             
+            // Pobieramy aktualne polubienia i status
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
+            const likesCount = item.globalLikes || 0;
+            
+            document.getElementById('modalFavCount').textContent = likesCount;
             document.getElementById('modalFavBtn').innerHTML = isFav 
-                ? `<i class="fas fa-heart text-red-500"></i>` 
-                : `<i class="far fa-heart"></i>`;
+                ? `<i class="fas fa-heart text-red-500"></i> <span id="modalFavCount">${likesCount}</span>` 
+                : `<i class="far fa-heart"></i> <span id="modalFavCount">${likesCount}</span>`;
+            
+            if (isFav) {
+                document.getElementById('modalFavBtn').className = "px-4 h-10 rounded-full flex items-center gap-2 border border-red-500 bg-red-500 text-white text-xs font-bold transition-colors duration-200";
+            } else {
+                document.getElementById('modalFavBtn').className = "px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-xs font-bold dark:text-white transition-colors duration-200 hover:bg-red-500 hover:text-white";
+            }
         }
 
         function closeImageModal() { 
@@ -639,18 +709,23 @@
             if(e) e.stopPropagation();
             let favs = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
             const i = favs.indexOf(src);
-            let removed = false;
+            let isAdding = false;
 
             if(i === -1) {
                 favs.push(src);
+                isAdding = true;
             } else {
                 favs.splice(i,1);
-                removed = true;
             }
 
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
             
-            if (removed && isFavoritesView) {
+            // Wywołujemy funkcję Firebase, aby dodać lub odjąć polubienie na serwerze[cite: 3]
+            if (window.incrementGlobalLike) {
+                window.incrementGlobalLike(src, isAdding);
+            }
+
+            if (!isAdding && isFavoritesView) {
                 closeImageModal();
             }
 
@@ -668,6 +743,7 @@
         }
 
         function filterCategory(c) { currentCategory = c; renderGallery(); }
+        function filterSort(s) { currentSort = s; renderGallery(); } // Funkcja obsługi sortowania
         function filterSearch() { searchQuery = document.getElementById('searchInput').value; renderGallery(); }
         
         function toggleFavoritesView() {
