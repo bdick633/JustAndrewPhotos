@@ -429,7 +429,7 @@
 
     <!-- MODAL ODZNAKI -->
     <div id="badgesModal" onclick="closeBadgesModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
-        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto">
+        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto overscroll-contain">
             <div class="flex items-center gap-3 mb-1">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-md">
                     <i class="fas fa-award text-lg"></i>
@@ -1170,11 +1170,15 @@
             renderBadgesModal();
             document.getElementById('badgesModal').classList.remove('hidden');
             document.getElementById('badgesModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeBadgesModal() {
             document.getElementById('badgesModal').classList.add('hidden');
             document.getElementById('badgesModal').classList.remove('flex');
+            if (!document.getElementById('imageModal').classList.contains('active')) {
+                document.body.style.overflow = 'auto';
+            }
         }
 
         window.trackIconClick = trackIconClick;
@@ -1619,11 +1623,19 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v5";
+            const epochKey = "justAndrewReset_v6";
             if (localStorage.getItem(epochKey) !== "true") {
                 localStorage.setItem('justAndrewLocalClicks', '0');
                 localStorage.setItem('justAndrewNickChanges', '0');
                 localStorage.setItem('justAndrewLastNickChangeTime', '0');
+                localStorage.removeItem('justAndrewUnlockedBadges');
+                localStorage.removeItem('justAndrewClickedIcons');
+                localStorage.removeItem('justAndrewVisitedLangs');
+                localStorage.removeItem('justAndrewTotalLikesEver');
+                // Odtwarzamy zbiór "polubionych na zawsze" zdjęć na podstawie aktualnych ulubionych,
+                // żeby nikt nie stracił postępu za zdjęcia, które już ma polubione.
+                const favsAtReset = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
+                localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(favsAtReset));
                 localStorage.setItem(epochKey, "true");
             }
 
@@ -2287,10 +2299,12 @@
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
 
             if (isAdding) {
-                let totalLikesEver = parseInt(localStorage.getItem('justAndrewTotalLikesEver') || '0');
-                totalLikesEver++;
-                localStorage.setItem('justAndrewTotalLikesEver', totalLikesEver);
-                window.checkLikeBadges(totalLikesEver);
+                let everLiked = JSON.parse(localStorage.getItem('justAndrewEverLikedPhotos') || '[]');
+                if (!everLiked.includes(src)) {
+                    everLiked.push(src);
+                    localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(everLiked));
+                    window.checkLikeBadges(everLiked.length);
+                }
             }
             
             if (window.incrementGlobalLike) {
