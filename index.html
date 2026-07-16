@@ -562,6 +562,7 @@
                 badges_modal_title: "Twoje osiągnięcia",
                 badges_progress_label: "Twój postęp",
                 badges_avg_completion: "Średnio odblokowało",
+                badge_pct_tooltip: "Odblokowało {pct}% wszystkich graczy",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
                 badge_unlocked_prefix: "Nowe osiągnięcie!",
                 badge_locked: "Zablokowane",
@@ -672,6 +673,7 @@
                 badges_modal_title: "Your Achievements",
                 badges_progress_label: "Your progress",
                 badges_avg_completion: "Average unlocked",
+                badge_pct_tooltip: "Unlocked by {pct}% of all players",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
                 badge_unlocked_prefix: "New achievement!",
                 badge_locked: "Locked",
@@ -782,6 +784,7 @@
                 badges_modal_title: "Deine Erfolge",
                 badges_progress_label: "Dein Fortschritt",
                 badges_avg_completion: "Durchschnittlich freigeschaltet",
+                badge_pct_tooltip: "Von {pct}% aller Spieler freigeschaltet",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
                 badge_unlocked_prefix: "Neuer Erfolg!",
                 badge_locked: "Gesperrt",
@@ -892,6 +895,7 @@
                 badges_modal_title: "Твои достижения",
                 badges_progress_label: "Твой прогресс",
                 badges_avg_completion: "В среднем разблокировано",
+                badge_pct_tooltip: "Разблокировано у {pct}% всех игроков",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
                 badge_unlocked_prefix: "Новое достижение!",
                 badge_locked: "Заблокировано",
@@ -946,13 +950,14 @@
         
         // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
-        const clicksRef = ref(db, 'clicks_v3');
-        const likesRef = ref(db, 'likes_v3');
-        const countriesRef = ref(db, 'countries_v4');
-        const playersRef = ref(db, 'players_v4');
+        // PEŁNY RESET WSZYSTKIEGO (kliknięcia, polubienia, topki, odznaki, licznik odwiedzających): ZMIANA NA _v5 / _v2
+        const clicksRef = ref(db, 'clicks_v4');
+        const likesRef = ref(db, 'likes_v4');
+        const countriesRef = ref(db, 'countries_v5');
+        const playersRef = ref(db, 'players_v5');
         // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
-        const badgeStatsRef = ref(db, 'badge_stats_v1');
-        const visitorsRef = ref(db, 'total_visitors_v1');
+        const badgeStatsRef = ref(db, 'badge_stats_v2');
+        const visitorsRef = ref(db, 'total_visitors_v2');
 
         // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
         // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
@@ -1079,7 +1084,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
-            runTransaction(ref(db, `badge_stats_v1/${id}`), (cur) => (cur || 0) + 1);
+            runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1141,13 +1146,35 @@
             }, soundMeta.duration);
         }
 
+        // Zwraca średni procent graczy, którzy odblokowali daną odznakę (0-100), albo null,
+        // jeśli statystyki jeszcze nie zostały wczytane z bazy.
+        function getBadgeUnlockPct(id) {
+            if (!totalVisitorsCount) return null;
+            const count = badgeStatsData[id] || 0;
+            return Math.min(100, (count / totalVisitorsCount) * 100);
+        }
+
         function renderBadgeTile(def, unlocked, t) {
             const isUnlocked = unlocked.includes(def.id);
             const name = isUnlocked ? getBadgeName(def.id) : t.badge_locked;
             const desc = isUnlocked ? getBadgeDesc(def) : '';
             const style = getRarityStyle(def.rarity);
+
+            const pct = getBadgeUnlockPct(def.id);
+            let pctBadge = '';
+            if (pct !== null) {
+                const pctLabel = pct > 0 && pct < 0.1 ? '<0.1%' : `${pct.toFixed(pct < 10 ? 1 : 0)}%`;
+                const pctTooltip = (t.badge_pct_tooltip || '').replace('{pct}', pct.toFixed(1));
+                pctBadge = `
+                    <span title="${pctTooltip}" class="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-[9px] font-black text-gray-500 dark:text-gray-400 cursor-help">
+                        <i class="fas fa-users text-[8px]"></i>${pctLabel}
+                    </span>
+                `;
+            }
+
             return `
-                <div class="flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                <div class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                    ${pctBadge}
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
                         <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
                     </div>
@@ -1204,13 +1231,22 @@
             el.textContent = `${t.badges_avg_completion}: ${avg.toFixed(1)}%`;
         }
 
+        function refreshBadgeTilesIfOpen() {
+            const modal = document.getElementById('badgesModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                renderBadgesModal();
+            }
+        }
+
         onValue(badgeStatsRef, (snapshot) => {
             badgeStatsData = snapshot.val() || {};
             updateBadgesProgressDisplay();
+            refreshBadgeTilesIfOpen();
         });
         onValue(visitorsRef, (snapshot) => {
             totalVisitorsCount = snapshot.val() || 0;
             updateBadgesProgressDisplay();
+            refreshBadgeTilesIfOpen();
         });
 
         function openBadgesModal() {
@@ -1380,13 +1416,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v4/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v5/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v4/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v5/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -1401,7 +1437,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v3/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v4/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -1576,7 +1612,7 @@
 
                 try {
                     // Weryfikacja unikalności nicku w bazie danych Firebase
-                    const newNickRef = ref(db, `players_v4/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v5/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -1586,7 +1622,7 @@
                     }
 
                     // Jeśli nick jest w pełni wolny, migrujemy dane
-                    const oldNickRef = ref(db, `players_v4/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v5/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -1670,8 +1706,9 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v6";
+            const epochKey = "justAndrewReset_v7";
             if (localStorage.getItem(epochKey) !== "true") {
+                // PEŁNY RESET: każdy zaczyna od zera - kliknięcia, nick, odznaki, polubienia/ulubione i licznik odwiedzin.
                 localStorage.setItem('justAndrewLocalClicks', '0');
                 localStorage.setItem('justAndrewNickChanges', '0');
                 localStorage.setItem('justAndrewLastNickChangeTime', '0');
@@ -1679,10 +1716,10 @@
                 localStorage.removeItem('justAndrewClickedIcons');
                 localStorage.removeItem('justAndrewVisitedLangs');
                 localStorage.removeItem('justAndrewTotalLikesEver');
-                // Odtwarzamy zbiór "polubionych na zawsze" zdjęć na podstawie aktualnych ulubionych,
-                // żeby nikt nie stracił postępu za zdjęcia, które już ma polubione.
-                const favsAtReset = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
-                localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(favsAtReset));
+                localStorage.removeItem('justAndrewFavorites');
+                localStorage.removeItem('justAndrewEverLikedPhotos');
+                localStorage.removeItem('justAndrewUserNick');
+                localStorage.removeItem('justAndrewVisitorCounted');
                 localStorage.setItem(epochKey, "true");
             }
 
@@ -1706,12 +1743,12 @@
                 localStorage.setItem('justAndrewVisitorCounted', 'true');
             }
 
-            if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v1') !== 'true') {
+            if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
                 alreadyUnlocked.forEach(id => {
-                    runTransaction(ref(db, `badge_stats_v1/${id}`), (cur) => (cur || 0) + 1);
+                    runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
                 });
-                localStorage.setItem('justAndrewBadgeStatsBackfilled_v1', 'true');
+                localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
 
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
