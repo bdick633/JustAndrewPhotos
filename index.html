@@ -1,5 +1,5 @@
-<htm<!DOCTYPE html>
-l lang="pl" class="light">
+<!DOCTYPE html>
+<html lang="pl" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +70,17 @@ l lang="pl" class="light">
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
 
+        .faceit-icon {
+            -webkit-mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/faceit.svg");
+            mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/faceit.svg");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+        }
+
         #cinemaProgressBar {
             transition: width 4s linear;
         }
@@ -90,7 +101,7 @@ l lang="pl" class="light">
                 opacity: 1;
             }
             100% {
-                transform: translate(-50%, -120px) scale(1.6);
+                transform: translate(-50%, -140px) scale(1.5);
                 opacity: 0;
             }
         }
@@ -100,13 +111,17 @@ l lang="pl" class="light">
             user-select: none;
             z-index: 100;
             font-family: sans-serif;
-            animation: floatUp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            animation: floatUp 1.1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
         }
     </style>
 </head>
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
+    <audio id="achSoundMinecraft" src="./minecraft-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundSteam" src="./steam-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundSteamDeck" src="./steam-deck-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundMinecraftRare" src="./minecraft-rare-achievement.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -135,28 +150,31 @@ l lang="pl" class="light">
             <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
                 <i class="far fa-heart"></i> <span id="favoritesTabText" data-i18n="favorites_tab">Ulubione</span>
             </button>
+            <button onclick="openBadgesModal()" id="badgesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
+                <i class="fas fa-award"></i> <span data-i18n="badges_button">Odznaki</span>
+            </button>
             <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
             <div class="hidden lg:flex items-center space-x-4 text-gray-600 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-4">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank" onclick="trackIconClick('instagram')" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" onclick="trackIconClick('facebook')" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank" onclick="trackIconClick('youtube')" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="https://www.tiktok.com/@endrjugod666" target="_blank" onclick="trackIconClick('tiktok')" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
                 
-                <a href="https://kick.com/andrewgod666" target="_blank" class="hover:text-indigo-500 transition flex items-center justify-center font-black text-[22px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
+                <a href="https://kick.com/andrewgod666" target="_blank" onclick="trackIconClick('kick')" class="hover:text-indigo-500 transition flex items-center justify-center font-black text-[22px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
                     K
                 </a>
 
-                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
+                <a href="https://tipply.pl/@justandrew" target="_blank" onclick="trackIconClick('tipply')" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" fill="currentColor" stroke="none">Tip</text></svg>
                 </a>
-                <button onclick="openDiscordModal()" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
-                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
+                <button onclick="openDiscordModal(); trackIconClick('discord')" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
+                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" onclick="trackIconClick('steam')" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
                 
                 <!-- FACEIT LINK -->
-                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" aria-label="FACEIT" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="21" y="21" width="58" height="58" rx="8" transform="rotate(45 50 50)"/><text x="50%" y="54%" text-anchor="middle" dy=".32em" font-size="32" font-weight="900" fill="currentColor" stroke="none" font-family="sans-serif">F</text></svg>
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" onclick="trackIconClick('faceit')" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center">
+                    <span class="faceit-icon block w-5 h-5 bg-current"></span>
                 </a>
             </div>
         </div>
@@ -228,36 +246,16 @@ l lang="pl" class="light">
         <!-- SEKCJA RANKINGÓW -->
         <section class="mt-8 mb-16 max-w-2xl mx-auto bg-white dark:bg-[#1a1c24] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-sm">
             <div class="flex justify-center border-b border-gray-200 dark:border-gray-800 mb-6">
-                <button onclick="switchRankingTab('countries')" id="tabBtnCountries" class="px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none">
-                    <i class="fas fa-globe-americas mr-2"></i><span data-i18n="rank_countries">Ranking Krajów</span>
-                </button>
-                <button onclick="switchRankingTab('players')" id="tabBtnPlayers" class="px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none">
+                <button onclick="switchRankingTab('players')" id="tabBtnPlayers" class="px-6 py-3 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 transition-all focus:outline-none">
                     <i class="fas fa-crown mr-2"></i><span data-i18n="rank_players">Top Gracze</span>
                 </button>
-            </div>
-
-            <!-- Tab: Kraje -->
-            <div id="rankingCountries" class="block">
-                <div class="overflow-hidden">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
-                                <th class="pb-2 pl-2" data-i18n="pos_col">Poz.</th>
-                                <th class="pb-2" data-i18n="country_col">Kraj</th>
-                                <th class="pb-2 text-right pr-2" data-i18n="clicks_col">Kliknięcia</th>
-                            </tr>
-                        </thead>
-                        <tbody id="countriesTableBody">
-                            <tr>
-                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> <span data-i18n="loading_data">Ładowanie danych...</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <button onclick="switchRankingTab('countries')" id="tabBtnCountries" class="px-6 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all focus:outline-none">
+                    <i class="fas fa-globe-americas mr-2"></i><span data-i18n="rank_countries">Ranking Krajów</span>
+                </button>
             </div>
 
             <!-- Tab: Gracze -->
-            <div id="rankingPlayers" class="hidden">
+            <div id="rankingPlayers" class="block">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xs text-gray-500 font-semibold"><span data-i18n="your_nick">Twój nick:</span> <strong id="playerNickDisplay" class="text-indigo-500">brak</strong></span>
                     <button onclick="openNickModal()" class="text-xs text-indigo-500 hover:text-indigo-600 font-bold transition"><i class="fas fa-edit mr-1"></i><span data-i18n="change_nick">Zmień nick</span></button>
@@ -279,6 +277,26 @@ l lang="pl" class="light">
                     </table>
                 </div>
             </div>
+
+            <!-- Tab: Kraje -->
+            <div id="rankingCountries" class="hidden">
+                <div class="overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-800/80 pb-3">
+                                <th class="pb-2 pl-2" data-i18n="pos_col">Poz.</th>
+                                <th class="pb-2" data-i18n="country_col">Kraj</th>
+                                <th class="pb-2 text-right pr-2" data-i18n="clicks_col">Kliknięcia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="countriesTableBody">
+                            <tr>
+                                <td colspan="3" class="text-center py-8 text-gray-500"><i class="fas fa-spinner animate-spin mr-2"></i> <span data-i18n="loading_data">Ładowanie danych...</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- WSPÓŁTWORZENIE STRONY -->
@@ -293,7 +311,7 @@ l lang="pl" class="light">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="send_photo_title">Prześlij zdjęcie</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="send_photo_desc">Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" onclick="window.unlockBadge('send_photo')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all">
                         <i class="fas fa-upload"></i> <span data-i18n="send_photo_btn">Wyślij fotkę</span>
                     </a>
                 </div>
@@ -306,7 +324,7 @@ l lang="pl" class="light">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="rate_title">Oceń stronę</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="rate_desc">Twoja opinia jest dla mnie niezwykle ważna.</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMr11dGn0sSJLXr4B1wY2Y0nMaYLweEhQ2axjeiKngKygwPA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-amber-500 hover:bg-amber-650 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #d97706;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMr11dGn0sSJLXr4B1wY2Y0nMaYLweEhQ2axjeiKngKygwPA/viewform?usp=publish-editor" target="_blank" onclick="window.unlockBadge('rate_site')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-amber-500 hover:bg-amber-650 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #d97706;">
                         <i class="fas fa-pen"></i> <span data-i18n="rate_btn">Zostaw opinię</span>
                     </a>
                 </div>
@@ -319,7 +337,7 @@ l lang="pl" class="light">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="bug_title">Zgłoś błąd</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="bug_desc">Coś nie działa tak, jak powinno? Zauważyłeś literówkę? Daj nam znać, a szybko to naprawimy!</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScmoRiTIVNG68PgkmjVCDA7ASGOTq0T-3P_HAz7AKo89phomA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-750 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #e11d48;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScmoRiTIVNG68PgkmjVCDA7ASGOTq0T-3P_HAz7AKo89phomA/viewform?usp=publish-editor" target="_blank" onclick="window.unlockBadge('report_bug')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-750 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #e11d48;">
                         <i class="fas fa-exclamation-triangle"></i> <span data-i18n="bug_btn">Zgłoś problem</span>
                     </a>
                 </div>
@@ -406,6 +424,26 @@ l lang="pl" class="light">
                     <a id="modalNewTabBtn" href="" target="_blank" class="py-2.5 px-3 bg-indigo-600 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"><i class="fas fa-external-link-alt"></i> <span data-i18n="open_btn">Otwórz</span></a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL ODZNAKI -->
+    <div id="badgesModal" onclick="closeBadgesModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
+        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto overscroll-contain">
+            <div class="flex items-center gap-3 mb-1">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                    <i class="fas fa-award text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white" data-i18n="badges_modal_title">Twoje odznaki</h3>
+                </div>
+                <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div id="badgesProgressBar" class="flex items-center justify-between mb-4 mt-2 text-[11px] sm:text-xs">
+                <span class="font-bold text-gray-600 dark:text-gray-300"><span data-i18n="badges_progress_label">Twój postęp</span>: <span id="badgesLocalCount">0/0</span></span>
+                <span id="badgesAvgCompletion" class="text-gray-400 dark:text-gray-500"></span>
+            </div>
+            <div id="badgesGrid" class="flex flex-col gap-5 mt-1"></div>
         </div>
     </div>
 
@@ -518,7 +556,47 @@ l lang="pl" class="light">
                 close_btn: "Zamknij",
                 save_btn: "Zapisz",
                 changes_left: "Pozostałe zmiany",
-                me_badge: "Ja"
+                me_badge: "Ja",
+                unknown_country: "Kosmos",
+                badges_button: "Osiągnięcia",
+                badges_modal_title: "Twoje osiągnięcia",
+                badges_progress_label: "Twój postęp",
+                badges_avg_completion: "Średnio odblokowało",
+                badge_pct_tooltip: "Odblokowało {pct}% wszystkich graczy",
+                badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
+                badge_unlocked_prefix: "Nowe osiągnięcie!",
+                badge_locked: "Zablokowane",
+                badge_group_shots: "Strzały",
+                badge_group_likes: "Polubienia",
+                badge_group_special: "Specjalne",
+                badge_desc_shots: "Oddaj {n} strzałów",
+                badge_desc_shots_1: "Oddaj swój pierwszy strzał",
+                badge_desc_likes: "Polub {n} zdjęć",
+                badge_desc_likes_1: "Polub swoje pierwsze zdjęcie",
+                badge_desc_cinema: "Uruchom tryb kinowy",
+                badge_desc_explorer: "Kliknij w każdą ikonkę social media",
+                badge_desc_dark_mode: "Włącz tryb ciemny",
+                badge_desc_polyglot: "Przełącz stronę na każdy dostępny język",
+                badge_desc_send_photo: "Prześlij swoje zdjęcie przez formularz",
+                badge_desc_rate_site: "Zostaw opinię o stronie",
+                badge_desc_report_bug: "Zgłoś błąd lub problem na stronie",
+                badge_shots_1: "Pierwsze Koty Za Płoty",
+                badge_shots_100: "Świeżak",
+                badge_shots_1000: "Wyszkolony Strzelec",
+                badge_shots_10000: "Snajper Elite",
+                badge_shots_100000: "Legenda AWP",
+                badge_shots_1000000: "Nieśmiertelny",
+                badge_likes_1: "Pierwsza Miłość",
+                badge_likes_10: "Kolekcjoner",
+                badge_likes_25: "Fanatyk Galerii",
+                badge_likes_100: "Ekspert od Ulubionych",
+                badge_dark_mode: "Nocny Marek",
+                badge_cinema: "Kinoman",
+                badge_explorer: "Odkrywca Social Media",
+                badge_polyglot: "Językoznawca",
+                badge_send_photo: "Fotoreporter",
+                badge_rate_site: "Krytyk",
+                badge_report_bug: "Łowca Błędów"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -589,7 +667,47 @@ l lang="pl" class="light">
                 close_btn: "Close",
                 save_btn: "Save",
                 changes_left: "Changes left",
-                me_badge: "Me"
+                me_badge: "Me",
+                unknown_country: "Outer Space",
+                badges_button: "Achievements",
+                badges_modal_title: "Your Achievements",
+                badges_progress_label: "Your progress",
+                badges_avg_completion: "Average unlocked",
+                badge_pct_tooltip: "Unlocked by {pct}% of all players",
+                badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
+                badge_unlocked_prefix: "New achievement!",
+                badge_locked: "Locked",
+                badge_group_shots: "Shots",
+                badge_group_likes: "Likes",
+                badge_group_special: "Special",
+                badge_desc_shots: "Fire {n} shots",
+                badge_desc_shots_1: "Fire your first shot",
+                badge_desc_likes: "Like {n} photos",
+                badge_desc_likes_1: "Like your first photo",
+                badge_desc_cinema: "Launch cinema mode",
+                badge_desc_explorer: "Click every social media icon",
+                badge_desc_dark_mode: "Turn on dark mode",
+                badge_desc_polyglot: "Switch the site to every available language",
+                badge_desc_send_photo: "Submit your photo through the form",
+                badge_desc_rate_site: "Leave feedback about the site",
+                badge_desc_report_bug: "Report a bug or issue on the site",
+                badge_shots_1: "First Blood",
+                badge_shots_100: "Rookie",
+                badge_shots_1000: "Trained Marksman",
+                badge_shots_10000: "Elite Sniper",
+                badge_shots_100000: "AWP Legend",
+                badge_shots_1000000: "Immortal",
+                badge_likes_1: "First Love",
+                badge_likes_10: "Collector",
+                badge_likes_25: "Gallery Fanatic",
+                badge_likes_100: "Favorites Expert",
+                badge_dark_mode: "Night Owl",
+                badge_cinema: "Cinema Buff",
+                badge_explorer: "Social Media Explorer",
+                badge_polyglot: "Linguist",
+                badge_send_photo: "Photo Reporter",
+                badge_rate_site: "Critic",
+                badge_report_bug: "Bug Hunter"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -660,7 +778,47 @@ l lang="pl" class="light">
                 close_btn: "Schließen",
                 save_btn: "Speichern",
                 changes_left: "Verbleibende Änderungen",
-                me_badge: "Ich"
+                me_badge: "Ich",
+                unknown_country: "Weltall",
+                badges_button: "Erfolge",
+                badges_modal_title: "Deine Erfolge",
+                badges_progress_label: "Dein Fortschritt",
+                badges_avg_completion: "Durchschnittlich freigeschaltet",
+                badge_pct_tooltip: "Von {pct}% aller Spieler freigeschaltet",
+                badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
+                badge_unlocked_prefix: "Neuer Erfolg!",
+                badge_locked: "Gesperrt",
+                badge_group_shots: "Schüsse",
+                badge_group_likes: "Favoriten",
+                badge_group_special: "Spezial",
+                badge_desc_shots: "Gib {n} Schüsse ab",
+                badge_desc_shots_1: "Gib deinen ersten Schuss ab",
+                badge_desc_likes: "Markiere {n} Fotos als Favorit",
+                badge_desc_likes_1: "Markiere dein erstes Foto als Favorit",
+                badge_desc_cinema: "Starte den Kinomodus",
+                badge_desc_explorer: "Klicke auf jedes Social-Media-Symbol",
+                badge_desc_dark_mode: "Aktiviere den Dunkelmodus",
+                badge_desc_polyglot: "Stelle die Seite auf jede verfügbare Sprache um",
+                badge_desc_send_photo: "Reiche dein Foto über das Formular ein",
+                badge_desc_rate_site: "Hinterlasse Feedback zur Seite",
+                badge_desc_report_bug: "Melde einen Fehler auf der Seite",
+                badge_shots_1: "Erster Abschuss",
+                badge_shots_100: "Anfänger",
+                badge_shots_1000: "Ausgebildeter Schütze",
+                badge_shots_10000: "Elite-Scharfschütze",
+                badge_shots_100000: "AWP-Legende",
+                badge_shots_1000000: "Unsterblicher",
+                badge_likes_1: "Erste Liebe",
+                badge_likes_10: "Sammler",
+                badge_likes_25: "Galerie-Fanatiker",
+                badge_likes_100: "Favoriten-Experte",
+                badge_dark_mode: "Nachteule",
+                badge_cinema: "Kinofan",
+                badge_explorer: "Social-Media-Entdecker",
+                badge_polyglot: "Sprachwissenschaftler",
+                badge_send_photo: "Fotoreporter",
+                badge_rate_site: "Kritiker",
+                badge_report_bug: "Bug-Jäger"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -731,7 +889,47 @@ l lang="pl" class="light">
                 close_btn: "Закрыть",
                 save_btn: "Сохранить",
                 changes_left: "Осталось изменений",
-                me_badge: "Я"
+                me_badge: "Я",
+                unknown_country: "Космос",
+                badges_button: "Достижения",
+                badges_modal_title: "Твои достижения",
+                badges_progress_label: "Твой прогресс",
+                badges_avg_completion: "В среднем разблокировано",
+                badge_pct_tooltip: "Разблокировано у {pct}% всех игроков",
+                badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
+                badge_unlocked_prefix: "Новое достижение!",
+                badge_locked: "Заблокировано",
+                badge_group_shots: "Выстрелы",
+                badge_group_likes: "Лайки",
+                badge_group_special: "Особые",
+                badge_desc_shots: "Сделай {n} выстрелов",
+                badge_desc_shots_1: "Сделай свой первый выстрел",
+                badge_desc_likes: "Добавь {n} фото в избранное",
+                badge_desc_likes_1: "Добавь своё первое фото в избранное",
+                badge_desc_cinema: "Запусти режим кинотеатра",
+                badge_desc_explorer: "Нажми на каждую иконку соцсетей",
+                badge_desc_dark_mode: "Включи тёмную тему",
+                badge_desc_polyglot: "Переключи сайт на каждый доступный язык",
+                badge_desc_send_photo: "Отправь своё фото через форму",
+                badge_desc_rate_site: "Оставь отзыв о сайте",
+                badge_desc_report_bug: "Сообщи об ошибке на сайте",
+                badge_shots_1: "Первая Кровь",
+                badge_shots_100: "Новичок",
+                badge_shots_1000: "Обученный Стрелок",
+                badge_shots_10000: "Элитный Снайпер",
+                badge_shots_100000: "Легенда AWP",
+                badge_shots_1000000: "Бессмертный",
+                badge_likes_1: "Первая Любовь",
+                badge_likes_10: "Коллекционер",
+                badge_likes_25: "Фанат Галереи",
+                badge_likes_100: "Эксперт Избранного",
+                badge_dark_mode: "Полуночник",
+                badge_cinema: "Киноман",
+                badge_explorer: "Исследователь Соцсетей",
+                badge_polyglot: "Лингвист",
+                badge_send_photo: "Фоторепортёр",
+                badge_rate_site: "Критик",
+                badge_report_bug: "Охотник за Багами"
             }
         };
 
@@ -751,41 +949,39 @@ l lang="pl" class="light">
         const db = getDatabase(app);
         
         // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
-        const clicksRef = ref(db, 'clicks_v3');
-        const likesRef = ref(db, 'likes_v3');
-        const countriesRef = ref(db, 'countries_v3');
-        const playersRef = ref(db, 'players_v3');
+        // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
+        // PEŁNY RESET WSZYSTKIEGO (kliknięcia, polubienia, topki, odznaki, licznik odwiedzających): ZMIANA NA _v5 / _v2
+        const clicksRef = ref(db, 'clicks_v4');
+        const likesRef = ref(db, 'likes_v4');
+        const countriesRef = ref(db, 'countries_v5');
+        const playersRef = ref(db, 'players_v5');
+        // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
+        const badgeStatsRef = ref(db, 'badge_stats_v2');
+        const visitorsRef = ref(db, 'total_visitors_v2');
+
+        // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
+        // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
+        // działa dla każdego kraju świata, w każdym obsługiwanym języku.
+        const regionDisplayNamesCache = {};
+        function getCountryDisplayName(code, lang) {
+            if (!code || code === "Unknown") {
+                const t = window.translations[lang] || window.translations.en;
+                return t.unknown_country || "Unknown";
+            }
+            try {
+                if (!regionDisplayNamesCache[lang]) {
+                    regionDisplayNamesCache[lang] = new Intl.DisplayNames([lang], { type: 'region' });
+                }
+                const name = regionDisplayNamesCache[lang].of(code.toUpperCase());
+                return name || code;
+            } catch (err) {
+                return code;
+            }
+        }
 
         let userCountryCode = "Unknown";
         let userCountryName = "Nieznany";
         let userNick = localStorage.getItem('justAndrewUserNick') || "";
-
-        const countryLocalizations = {
-            pl: {
-                "PL": "Polska", "US": "Stany Zjednoczone", "DE": "Niemcy", "GB": "Wielka Brytania",
-                "FR": "Francja", "CZ": "Czechy", "SK": "Słowacja", "UA": "Ukraina", "NL": "Holandia",
-                "IE": "Irlandia", "NO": "Norwegia", "DK": "Dania", "SE": "Szwecja", "ES": "Hiszpania",
-                "IT": "Włochy", "Unknown": "Kosmos"
-            },
-            en: {
-                "PL": "Poland", "US": "United States", "DE": "Germany", "GB": "United Kingdom",
-                "FR": "France", "CZ": "Czechia", "SK": "Slovakia", "UA": "Ukraine", "NL": "Netherlands",
-                "IE": "Ireland", "NO": "Norway", "DK": "Denmark", "SE": "Sweden", "ES": "Spain",
-                "IT": "Italy", "Unknown": "Outer Space"
-            },
-            de: {
-                "PL": "Polen", "US": "Vereinigte Staaten", "DE": "Deutschland", "GB": "Vereinigtes Königreich",
-                "FR": "Frankreich", "CZ": "Tschechien", "SK": "Slowakei", "UA": "Ukraine", "NL": "Niederlande",
-                "IE": "Irland", "NO": "Norwegen", "DK": "Dänemark", "SE": "Schweden", "ES": "Spanien",
-                "IT": "Italien", "Unknown": "Weltall"
-            },
-            ru: {
-                "PL": "Польша", "US": "США", "DE": "Германия", "GB": "Великобритания",
-                "FR": "Франция", "CZ": "Чехия", "SK": "Словакия", "UA": "Украина", "NL": "Нидерланды",
-                "IE": "Ирландия", "NO": "Норвегия", "DK": "Дания", "SE": "Швеция", "ES": "Испания",
-                "IT": "Италия", "Unknown": "Космос"
-            }
-        };
 
         async function fetchUserCountry() {
             try {
@@ -812,10 +1008,332 @@ l lang="pl" class="light">
         }
 
         // FUNKCJA TWORZĄCA LATAJĄCY TEKST "+1" (POPCAT EFFECT)
+        // ==================== SYSTEM ODZNAK / OSIĄGNIĘĆ ====================
+        const BADGE_DEFS = [
+            { id: 'shots_1',       category: 'shots', threshold: 1,       icon: 'fa-paw',        rarity: 'gray' },
+            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs', rarity: 'lightblue' },
+            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye',   rarity: 'purple' },
+            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars', rarity: 'pink' },
+            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire',       rarity: 'red' },
+            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown',      rarity: 'gold' },
+            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart',      rarity: 'gray' },
+            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'lightblue' },
+            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'purple' },
+            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'pink' },
+            { id: 'dark_mode',     category: 'special', icon: 'fa-moon',           rarity: 'gray' },
+            { id: 'cinema',        category: 'special', icon: 'fa-film',           rarity: 'lightblue' },
+            { id: 'explorer',      category: 'special', icon: 'fa-compass',        rarity: 'blue' },
+            { id: 'polyglot',      category: 'special', icon: 'fa-language',       rarity: 'blue' },
+            { id: 'send_photo',    category: 'special', icon: 'fa-camera-retro',   rarity: 'lightblue' },
+            { id: 'rate_site',     category: 'special', icon: 'fa-comment-dots',   rarity: 'lightblue' },
+            { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' }
+        ];
+
+        // Kolejność rzadkości od najgorszej do najlepszej: szara < jasnoniebieska < niebieska < fioletowa < różowa < czerwona < złota
+        const RARITY_STYLES = {
+            gray:      { grad: 'from-slate-400 to-slate-500',                     ring: 'border-slate-200 dark:border-slate-700',      glow: '' },
+            lightblue: { grad: 'from-sky-300 to-sky-400',                         ring: 'border-sky-100 dark:border-sky-900/40',       glow: '' },
+            blue:      { grad: 'from-sky-500 to-blue-600',                        ring: 'border-sky-200 dark:border-sky-900/60',       glow: '' },
+            purple:    { grad: 'from-purple-500 to-indigo-600',                   ring: 'border-purple-200 dark:border-purple-900/60', glow: '' },
+            pink:      { grad: 'from-pink-500 to-rose-600',                       ring: 'border-pink-200 dark:border-pink-900/60',     glow: 'shadow-[0_0_16px_rgba(236,72,153,0.35)]' },
+            red:       { grad: 'from-red-500 to-red-700',                         ring: 'border-red-300 dark:border-red-900/60',       glow: 'shadow-[0_0_20px_rgba(239,68,68,0.45)]' },
+            gold:      { grad: 'from-amber-400 via-yellow-500 to-amber-600',      ring: 'border-amber-300 dark:border-amber-700',      glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' }
+        };
+        // Mapowanie rzadkości na dźwięk osiągnięcia oraz czas wyświetlania popupu (im rzadsza odznaka, tym dłużej)
+        const RARITY_SOUND_META = {
+            gray:      { sound: 'achSoundMinecraft',     duration: 2400 },
+            lightblue: { sound: 'achSoundMinecraft',     duration: 2800 },
+            blue:      { sound: 'achSoundSteam',         duration: 3200 },
+            purple:    { sound: 'achSoundSteam',         duration: 3600 },
+            pink:      { sound: 'achSoundSteamDeck',     duration: 4200 },
+            red:       { sound: 'achSoundMinecraftRare', duration: 6800 },
+            gold:      { sound: 'achSoundMinecraftRare', duration: 7500 }
+        };
+        function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.gray; }
+        function getRaritySoundMeta(rarity) { return RARITY_SOUND_META[rarity] || RARITY_SOUND_META.gray; }
+        const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
+
+        function getUnlockedBadges() {
+            return JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+        }
+
+        function getBadgeName(id) {
+            return (window.translations[window.currentLang] && window.translations[window.currentLang]['badge_' + id]) || id;
+        }
+
+        function getBadgeDesc(def) {
+            const t = window.translations[window.currentLang];
+            if (def.category === 'shots') {
+                return def.threshold === 1 ? t.badge_desc_shots_1 : t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
+            }
+            if (def.category === 'likes') {
+                return def.threshold === 1 ? t.badge_desc_likes_1 : t.badge_desc_likes.replace('{n}', def.threshold.toLocaleString());
+            }
+            if (def.id === 'cinema') return t.badge_desc_cinema;
+            if (def.id === 'explorer') return t.badge_desc_explorer;
+            if (def.id === 'dark_mode') return t.badge_desc_dark_mode;
+            if (def.id === 'polyglot') return t.badge_desc_polyglot;
+            if (def.id === 'send_photo') return t.badge_desc_send_photo;
+            if (def.id === 'rate_site') return t.badge_desc_rate_site;
+            if (def.id === 'report_bug') return t.badge_desc_report_bug;
+            return '';
+        }
+
+        function unlockBadge(id) {
+            const unlocked = getUnlockedBadges();
+            if (unlocked.includes(id)) return;
+            unlocked.push(id);
+            localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
+            runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
+            showBadgeUnlockPopup(id);
+            renderBadgesModal();
+        }
+
+        function checkShotBadges(count) {
+            BADGE_DEFS.filter(b => b.category === 'shots' && count >= b.threshold).forEach(b => unlockBadge(b.id));
+        }
+
+        function checkLikeBadges(count) {
+            BADGE_DEFS.filter(b => b.category === 'likes' && count >= b.threshold).forEach(b => unlockBadge(b.id));
+        }
+
+        function trackIconClick(iconId) {
+            let clicked = JSON.parse(localStorage.getItem('justAndrewClickedIcons') || '[]');
+            if (!clicked.includes(iconId)) {
+                clicked.push(iconId);
+                localStorage.setItem('justAndrewClickedIcons', JSON.stringify(clicked));
+            }
+            if (SOCIAL_ICONS.every(id => clicked.includes(id))) {
+                unlockBadge('explorer');
+            }
+        }
+
+        function showBadgeUnlockPopup(id) {
+            const def = BADGE_DEFS.find(b => b.id === id);
+            if (!def) return;
+            const t = window.translations[window.currentLang];
+            const style = getRarityStyle(def.rarity);
+            const soundMeta = getRaritySoundMeta(def.rarity);
+
+            const sound = document.getElementById(soundMeta.sound);
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
+
+            const popup = document.createElement('div');
+            popup.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border ${style.ring} ${style.glow} rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]`;
+            popup.innerHTML = `
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${style.grad} flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
+                    <i class="fas ${def.icon}"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] font-black uppercase tracking-wider text-indigo-500">${t.badge_unlocked_prefix}</p>
+                    <p class="font-black text-sm dark:text-white truncate">${getBadgeName(id)}</p>
+                </div>
+            `;
+            document.body.appendChild(popup);
+
+            requestAnimationFrame(() => {
+                popup.classList.remove('opacity-0', '-translate-y-4');
+                popup.classList.add('opacity-100', 'translate-y-0');
+            });
+
+            setTimeout(() => {
+                popup.classList.add('opacity-0', '-translate-y-4');
+                popup.classList.remove('opacity-100', 'translate-y-0');
+                setTimeout(() => popup.remove(), 500);
+            }, soundMeta.duration);
+        }
+
+        // Zwraca średni procent graczy, którzy odblokowali daną odznakę (0-100), albo null,
+        // jeśli statystyki jeszcze nie zostały wczytane z bazy.
+        function getBadgeUnlockPct(id) {
+            if (!totalVisitorsCount) return null;
+            const count = badgeStatsData[id] || 0;
+            return Math.min(100, (count / totalVisitorsCount) * 100);
+        }
+
+        function renderBadgeTile(def, unlocked, t) {
+            const isUnlocked = unlocked.includes(def.id);
+            const name = isUnlocked ? getBadgeName(def.id) : t.badge_locked;
+            const desc = isUnlocked ? getBadgeDesc(def) : '';
+            const style = getRarityStyle(def.rarity);
+
+            const pct = getBadgeUnlockPct(def.id);
+            let pctBadge = '';
+            if (pct !== null) {
+                const pctLabel = pct > 0 && pct < 0.1 ? '<0.1%' : `${pct.toFixed(pct < 10 ? 1 : 0)}%`;
+                const pctTooltip = (t.badge_pct_tooltip || '').replace('{pct}', pct.toFixed(1));
+                pctBadge = `
+                    <span title="${pctTooltip}" class="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-[9px] font-black text-gray-500 dark:text-gray-400 cursor-help">
+                        <i class="fas fa-users text-[8px]"></i>${pctLabel}
+                    </span>
+                `;
+            }
+
+            return `
+                <div class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                    ${pctBadge}
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
+                        <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
+                    </div>
+                    <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
+                    ${desc ? `<p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">${desc}</p>` : ''}
+                </div>
+            `;
+        }
+
+        function renderBadgesModal() {
+            const grid = document.getElementById('badgesGrid');
+            if (!grid) return;
+            const unlocked = getUnlockedBadges();
+            const t = window.translations[window.currentLang];
+
+            const localCountEl = document.getElementById('badgesLocalCount');
+            if (localCountEl) localCountEl.textContent = `${unlocked.length}/${BADGE_DEFS.length}`;
+            updateBadgesProgressDisplay();
+
+            const groups = [
+                { key: 'shots',   label: t.badge_group_shots },
+                { key: 'likes',   label: t.badge_group_likes },
+                { key: 'special', label: t.badge_group_special }
+            ];
+
+            grid.innerHTML = groups.map(g => {
+                const defs = BADGE_DEFS.filter(d => d.category === g.key);
+                if (!defs.length) return '';
+                return `
+                    <div class="mb-1">
+                        <p class="text-[11px] font-black uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2 pl-1">${g.label}</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            ${defs.map(def => renderBadgeTile(def, unlocked, t)).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        let badgeStatsData = {};
+        let totalVisitorsCount = 0;
+
+        function updateBadgesProgressDisplay() {
+            const el = document.getElementById('badgesAvgCompletion');
+            if (!el || !window.translations) return;
+            const t = window.translations[window.currentLang];
+            if (!totalVisitorsCount) { el.textContent = ''; return; }
+            let sumPct = 0;
+            BADGE_DEFS.forEach(def => {
+                const count = badgeStatsData[def.id] || 0;
+                sumPct += Math.min(100, (count / totalVisitorsCount) * 100);
+            });
+            const avg = sumPct / BADGE_DEFS.length;
+            el.textContent = `${t.badges_avg_completion}: ${avg.toFixed(1)}%`;
+        }
+
+        function refreshBadgeTilesIfOpen() {
+            const modal = document.getElementById('badgesModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                renderBadgesModal();
+            }
+        }
+
+        onValue(badgeStatsRef, (snapshot) => {
+            badgeStatsData = snapshot.val() || {};
+            updateBadgesProgressDisplay();
+            refreshBadgeTilesIfOpen();
+        });
+        onValue(visitorsRef, (snapshot) => {
+            totalVisitorsCount = snapshot.val() || 0;
+            updateBadgesProgressDisplay();
+            refreshBadgeTilesIfOpen();
+        });
+
+        function openBadgesModal() {
+            renderBadgesModal();
+            document.getElementById('badgesModal').classList.remove('hidden');
+            document.getElementById('badgesModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBadgesModal() {
+            document.getElementById('badgesModal').classList.add('hidden');
+            document.getElementById('badgesModal').classList.remove('flex');
+            if (!document.getElementById('imageModal').classList.contains('active')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        window.trackIconClick = trackIconClick;
+        window.openBadgesModal = openBadgesModal;
+        window.closeBadgesModal = closeBadgesModal;
+        window.unlockBadge = unlockBadge;
+        window.checkLikeBadges = checkLikeBadges;
+        window.checkShotBadges = checkShotBadges;
+        window.renderBadgesModal = renderBadgesModal;
+
+        // ==================== CONFETTI ====================
+        function triggerConfetti(big = false) {
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'fixed';
+            canvas.style.inset = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '150';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const colors = ['#6366f1', '#818cf8', '#f472b6', '#fbbf24', '#34d399', '#60a5fa'];
+            const count = big ? 160 : 70;
+            const particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 240,
+                    y: canvas.height * 0.25,
+                    vx: (Math.random() - 0.5) * (big ? 15 : 9),
+                    vy: Math.random() * -12 - 4,
+                    size: Math.random() * 7 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 14,
+                    gravity: 0.32 + Math.random() * 0.15
+                });
+            }
+
+            let frame = 0;
+            const maxFrames = big ? 150 : 100;
+
+            function animate() {
+                frame++;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.vy += p.gravity;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    ctx.restore();
+                });
+                if (frame < maxFrames) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                }
+            }
+            animate();
+        }
+
         function createFloatingOne(e) {
             const floating = document.createElement('div');
             floating.textContent = '+1';
-            floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-xl';
+            floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-base';
             
             let x, y;
             if (e && e.clientX && e.clientY) {
@@ -835,7 +1353,7 @@ l lang="pl" class="light">
             
             setTimeout(() => {
                 floating.remove();
-            }, 550);
+            }, 1150);
         }
 
         function playEasterEgg(e) {
@@ -847,6 +1365,12 @@ l lang="pl" class="light">
             
             document.getElementById('localCount').textContent = localClicks;
             document.getElementById('statLocalShots').textContent = localClicks;
+
+            // Odznaki za liczbę strzałów + confetti przy okrągłych liczbach
+            checkShotBadges(localClicks);
+            if (localClicks % 100 === 0) {
+                triggerConfetti(localClicks % 1000 === 0);
+            }
 
             // Efekty PopCat:
             // 1. Animacja powiększenia (Pop) na tekście "just andrew"
@@ -892,13 +1416,13 @@ l lang="pl" class="light">
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v3/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v5/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v3/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v5/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -913,7 +1437,7 @@ l lang="pl" class="light">
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v3/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v4/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -945,9 +1469,7 @@ l lang="pl" class="light">
 
             sortedCountries.forEach((item, index) => {
                 const activeLang = window.currentLang;
-                const countryName = (countryLocalizations[activeLang] && countryLocalizations[activeLang][item.code]) 
-                                    || (countryLocalizations['en'][item.code]) 
-                                    || item.code;
+                const countryName = getCountryDisplayName(item.code, activeLang);
 
                 const lowerCode = item.code.toLowerCase();
                 const hasFlagIcon = item.code !== "Unknown";
@@ -1001,7 +1523,7 @@ l lang="pl" class="light">
                 const lowerCode = item.country.toLowerCase();
                 const hasFlagIcon = item.country !== "Unknown";
                 const flagHTML = hasFlagIcon 
-                    ? `<span class="fi fi-${lowerCode} rounded-sm shadow-sm scale-110 mr-1.5 shrink-0" title="${item.country}"></span>` 
+                    ? `<span class="fi fi-${lowerCode} rounded-sm shadow-sm scale-110 mr-1.5 shrink-0" title="${getCountryDisplayName(item.country, window.currentLang)}"></span>` 
                     : `<i class="fas fa-globe text-gray-400 mr-1.5 shrink-0"></i>`;
 
                 const row = document.createElement('tr');
@@ -1090,7 +1612,7 @@ l lang="pl" class="light">
 
                 try {
                     // Weryfikacja unikalności nicku w bazie danych Firebase
-                    const newNickRef = ref(db, `players_v3/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v5/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -1100,7 +1622,7 @@ l lang="pl" class="light">
                     }
 
                     // Jeśli nick jest w pełni wolny, migrujemy dane
-                    const oldNickRef = ref(db, `players_v3/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v5/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -1184,12 +1706,49 @@ l lang="pl" class="light">
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v5";
+            const epochKey = "justAndrewReset_v7";
             if (localStorage.getItem(epochKey) !== "true") {
+                // PEŁNY RESET: każdy zaczyna od zera - kliknięcia, nick, odznaki, polubienia/ulubione i licznik odwiedzin.
                 localStorage.setItem('justAndrewLocalClicks', '0');
                 localStorage.setItem('justAndrewNickChanges', '0');
                 localStorage.setItem('justAndrewLastNickChangeTime', '0');
+                localStorage.removeItem('justAndrewUnlockedBadges');
+                localStorage.removeItem('justAndrewClickedIcons');
+                localStorage.removeItem('justAndrewVisitedLangs');
+                localStorage.removeItem('justAndrewTotalLikesEver');
+                localStorage.removeItem('justAndrewFavorites');
+                localStorage.removeItem('justAndrewEverLikedPhotos');
+                localStorage.removeItem('justAndrewUserNick');
+                localStorage.removeItem('justAndrewVisitorCounted');
                 localStorage.setItem(epochKey, "true");
+            }
+
+            // DODATKOWY RESET SERDUSZEK: na niektórych przeglądarkach/urządzeniach zdjęcie było już
+            // polubione z wcześniejszych testów, więc kliknięcie serduszka je ODLUBIAŁO zamiast lubić
+            // (osiągnięcie odpala się tylko przy DODAWANIU polubienia) - stąd "działa na jednym, nie na drugim".
+            // Ten reset czyści ulubione i powiązane odznaki wszystkim, jednorazowo, żeby serduszka
+            // zaczynały czysto na każdym urządzeniu.
+            const favResetKey = "justAndrewFavReset_v1";
+            if (localStorage.getItem(favResetKey) !== "true") {
+                localStorage.removeItem('justAndrewFavorites');
+                localStorage.removeItem('justAndrewEverLikedPhotos');
+                let unlockedNow = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+                unlockedNow = unlockedNow.filter(id => !id.startsWith('likes_'));
+                localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlockedNow));
+                localStorage.setItem(favResetKey, "true");
+            }
+
+            if (localStorage.getItem('justAndrewVisitorCounted') !== 'true') {
+                runTransaction(visitorsRef, (cur) => (cur || 0) + 1);
+                localStorage.setItem('justAndrewVisitorCounted', 'true');
+            }
+
+            if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
+                const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+                alreadyUnlocked.forEach(id => {
+                    runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
+                });
+                localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
 
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
@@ -1499,6 +2058,16 @@ l lang="pl" class="light">
             localStorage.setItem('justAndrewLang', lang);
             document.getElementById('langSelect').value = lang;
 
+            const visitedLangs = JSON.parse(localStorage.getItem('justAndrewVisitedLangs') || '[]');
+            if (!visitedLangs.includes(lang)) {
+                visitedLangs.push(lang);
+                localStorage.setItem('justAndrewVisitedLangs', JSON.stringify(visitedLangs));
+            }
+            const allLangs = ['pl', 'en', 'de', 'ru'];
+            if (allLangs.every(l => visitedLangs.includes(l)) && window.unlockBadge) {
+                window.unlockBadge('polyglot');
+            }
+
             const currentLangFlag = document.getElementById('currentLangFlag');
             if (lang === 'en') {
                 currentLangFlag.className = 'fi fi-gb rounded-sm shadow-sm scale-110';
@@ -1537,6 +2106,11 @@ l lang="pl" class="light">
 
             if (document.getElementById('imageModal').classList.contains('active')) {
                 updateModal();
+            }
+
+            const badgesModal = document.getElementById('badgesModal');
+            if (badgesModal && !badgesModal.classList.contains('hidden')) {
+                window.renderBadgesModal();
             }
         }
 
@@ -1743,8 +2317,33 @@ l lang="pl" class="light">
         }
 
         function toggleSlideshow() { if (isCinemaActive) { stopSlideshow(); } else { startSlideshow(); } }
+
+        function enterBrowserFullscreen() {
+            const el = document.documentElement;
+            const request = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+            if (request) {
+                request.call(el).catch(() => {});
+            }
+        }
+
+        function exitBrowserFullscreen() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                const exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+                if (exit) exit.call(document).catch(() => {});
+            }
+        }
+
+        // Jeśli ktoś wyjdzie z fullscreena natywnym skrótem przeglądarki, zakończ też tryb kinowy
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && isCinemaActive) {
+                stopSlideshow();
+            }
+        });
+
         function startSlideshow() {
             isCinemaActive = true;
+            window.unlockBadge('cinema');
+            enterBrowserFullscreen();
             document.getElementById('modalHeader').classList.add('hidden');
             document.getElementById('modalFooter').classList.add('hidden');
             document.getElementById('modalArrowLeft').classList.add('hidden');
@@ -1763,6 +2362,7 @@ l lang="pl" class="light">
         function stopSlideshow() {
             if (!isCinemaActive) return;
             isCinemaActive = false;
+            exitBrowserFullscreen();
             clearInterval(slideshowInterval);
             slideshowInterval = null;
             document.getElementById('modalHeader').classList.remove('hidden');
@@ -1809,6 +2409,15 @@ l lang="pl" class="light">
             }
 
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+
+            if (isAdding) {
+                let everLiked = JSON.parse(localStorage.getItem('justAndrewEverLikedPhotos') || '[]');
+                if (!everLiked.includes(src)) {
+                    everLiked.push(src);
+                    localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(everLiked));
+                    window.checkLikeBadges(everLiked.length);
+                }
+            }
             
             if (window.incrementGlobalLike) {
                 window.incrementGlobalLike(src, isAdding);
@@ -1853,6 +2462,7 @@ l lang="pl" class="light">
             const dark = document.documentElement.classList.toggle('dark');
             document.getElementById('themeIcon').className = dark ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('theme', dark ? 'dark' : 'light');
+            if (dark && window.unlockBadge) window.unlockBadge('dark_mode');
         }
 
         function copyDirect(t) { 
