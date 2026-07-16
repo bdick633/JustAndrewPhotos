@@ -439,6 +439,10 @@
                 </div>
                 <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
             </div>
+            <div id="badgesProgressBar" class="flex items-center justify-between mb-4 mt-2 text-[11px] sm:text-xs">
+                <span class="font-bold text-gray-600 dark:text-gray-300"><span data-i18n="badges_progress_label">Twój postęp</span>: <span id="badgesLocalCount">0/0</span></span>
+                <span id="badgesAvgCompletion" class="text-gray-400 dark:text-gray-500"></span>
+            </div>
             <div id="badgesGrid" class="flex flex-col gap-5 mt-1"></div>
         </div>
     </div>
@@ -556,6 +560,8 @@
                 unknown_country: "Kosmos",
                 badges_button: "Osiągnięcia",
                 badges_modal_title: "Twoje osiągnięcia",
+                badges_progress_label: "Twój postęp",
+                badges_avg_completion: "Średnio odblokowało",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
                 badge_unlocked_prefix: "Nowe osiągnięcie!",
                 badge_locked: "Zablokowane",
@@ -664,6 +670,8 @@
                 unknown_country: "Outer Space",
                 badges_button: "Achievements",
                 badges_modal_title: "Your Achievements",
+                badges_progress_label: "Your progress",
+                badges_avg_completion: "Average unlocked",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
                 badge_unlocked_prefix: "New achievement!",
                 badge_locked: "Locked",
@@ -772,6 +780,8 @@
                 unknown_country: "Weltall",
                 badges_button: "Erfolge",
                 badges_modal_title: "Deine Erfolge",
+                badges_progress_label: "Dein Fortschritt",
+                badges_avg_completion: "Durchschnittlich freigeschaltet",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
                 badge_unlocked_prefix: "Neuer Erfolg!",
                 badge_locked: "Gesperrt",
@@ -880,6 +890,8 @@
                 unknown_country: "Космос",
                 badges_button: "Достижения",
                 badges_modal_title: "Твои достижения",
+                badges_progress_label: "Твой прогресс",
+                badges_avg_completion: "В среднем разблокировано",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
                 badge_unlocked_prefix: "Новое достижение!",
                 badge_locked: "Заблокировано",
@@ -938,6 +950,9 @@
         const likesRef = ref(db, 'likes_v3');
         const countriesRef = ref(db, 'countries_v4');
         const playersRef = ref(db, 'players_v4');
+        // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
+        const badgeStatsRef = ref(db, 'badge_stats_v1');
+        const visitorsRef = ref(db, 'total_visitors_v1');
 
         // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
         // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
@@ -1064,6 +1079,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
+            runTransaction(ref(db, `badge_stats_v1/${id}`), (cur) => (cur || 0) + 1);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1147,6 +1163,10 @@
             const unlocked = getUnlockedBadges();
             const t = window.translations[window.currentLang];
 
+            const localCountEl = document.getElementById('badgesLocalCount');
+            if (localCountEl) localCountEl.textContent = `${unlocked.length}/${BADGE_DEFS.length}`;
+            updateBadgesProgressDisplay();
+
             const groups = [
                 { key: 'shots',   label: t.badge_group_shots },
                 { key: 'likes',   label: t.badge_group_likes },
@@ -1166,6 +1186,32 @@
                 `;
             }).join('');
         }
+
+        let badgeStatsData = {};
+        let totalVisitorsCount = 0;
+
+        function updateBadgesProgressDisplay() {
+            const el = document.getElementById('badgesAvgCompletion');
+            if (!el || !window.translations) return;
+            const t = window.translations[window.currentLang];
+            if (!totalVisitorsCount) { el.textContent = ''; return; }
+            let sumPct = 0;
+            BADGE_DEFS.forEach(def => {
+                const count = badgeStatsData[def.id] || 0;
+                sumPct += Math.min(100, (count / totalVisitorsCount) * 100);
+            });
+            const avg = sumPct / BADGE_DEFS.length;
+            el.textContent = `${t.badges_avg_completion}: ${avg.toFixed(1)}%`;
+        }
+
+        onValue(badgeStatsRef, (snapshot) => {
+            badgeStatsData = snapshot.val() || {};
+            updateBadgesProgressDisplay();
+        });
+        onValue(visitorsRef, (snapshot) => {
+            totalVisitorsCount = snapshot.val() || 0;
+            updateBadgesProgressDisplay();
+        });
 
         function openBadgesModal() {
             renderBadgesModal();
@@ -1638,6 +1684,34 @@
                 const favsAtReset = JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]');
                 localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(favsAtReset));
                 localStorage.setItem(epochKey, "true");
+            }
+
+            // DODATKOWY RESET SERDUSZEK: na niektórych przeglądarkach/urządzeniach zdjęcie było już
+            // polubione z wcześniejszych testów, więc kliknięcie serduszka je ODLUBIAŁO zamiast lubić
+            // (osiągnięcie odpala się tylko przy DODAWANIU polubienia) - stąd "działa na jednym, nie na drugim".
+            // Ten reset czyści ulubione i powiązane odznaki wszystkim, jednorazowo, żeby serduszka
+            // zaczynały czysto na każdym urządzeniu.
+            const favResetKey = "justAndrewFavReset_v1";
+            if (localStorage.getItem(favResetKey) !== "true") {
+                localStorage.removeItem('justAndrewFavorites');
+                localStorage.removeItem('justAndrewEverLikedPhotos');
+                let unlockedNow = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+                unlockedNow = unlockedNow.filter(id => !id.startsWith('likes_'));
+                localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlockedNow));
+                localStorage.setItem(favResetKey, "true");
+            }
+
+            if (localStorage.getItem('justAndrewVisitorCounted') !== 'true') {
+                runTransaction(visitorsRef, (cur) => (cur || 0) + 1);
+                localStorage.setItem('justAndrewVisitorCounted', 'true');
+            }
+
+            if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v1') !== 'true') {
+                const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+                alreadyUnlocked.forEach(id => {
+                    runTransaction(ref(db, `badge_stats_v1/${id}`), (cur) => (cur || 0) + 1);
+                });
+                localStorage.setItem('justAndrewBadgeStatsBackfilled_v1', 'true');
             }
 
             const savedLocalClicks = localStorage.getItem('justAndrewLocalClicks') || '0';
