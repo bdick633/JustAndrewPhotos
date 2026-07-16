@@ -1053,6 +1053,10 @@
         window.trackIconClick = trackIconClick;
         window.openBadgesModal = openBadgesModal;
         window.closeBadgesModal = closeBadgesModal;
+        window.unlockBadge = unlockBadge;
+        window.checkLikeBadges = checkLikeBadges;
+        window.checkShotBadges = checkShotBadges;
+        window.renderBadgesModal = renderBadgesModal;
 
         // ==================== CONFETTI ====================
         function triggerConfetti(big = false) {
@@ -1845,7 +1849,7 @@
 
             const badgesModal = document.getElementById('badgesModal');
             if (badgesModal && !badgesModal.classList.contains('hidden')) {
-                renderBadgesModal();
+                window.renderBadgesModal();
             }
         }
 
@@ -2077,7 +2081,7 @@
 
         function startSlideshow() {
             isCinemaActive = true;
-            unlockBadge('cinema');
+            window.unlockBadge('cinema');
             enterBrowserFullscreen();
             document.getElementById('modalHeader').classList.add('hidden');
             document.getElementById('modalFooter').classList.add('hidden');
@@ -2149,7 +2153,7 @@
                 let totalLikesEver = parseInt(localStorage.getItem('justAndrewTotalLikesEver') || '0');
                 totalLikesEver++;
                 localStorage.setItem('justAndrewTotalLikesEver', totalLikesEver);
-                checkLikeBadges(totalLikesEver);
+                window.checkLikeBadges(totalLikesEver);
             }
             
             if (window.incrementGlobalLike) {
