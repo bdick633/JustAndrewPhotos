@@ -118,7 +118,10 @@
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
-    <audio id="achievementSound" src="./achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundMinecraft" src="./minecraft-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundSteam" src="./steam-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundSteamDeck" src="./steam-deck-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundMinecraftRare" src="./minecraft-rare-achievement.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -308,7 +311,7 @@
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="send_photo_title">Prześlij zdjęcie</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="send_photo_desc">Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScAf4V7Up8Mn7pZ3yLpe6mD7kkKDMeeF0CIOnlLNGwTgikUFw/viewform" target="_blank" onclick="window.unlockBadge('send_photo')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all">
                         <i class="fas fa-upload"></i> <span data-i18n="send_photo_btn">Wyślij fotkę</span>
                     </a>
                 </div>
@@ -321,7 +324,7 @@
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="rate_title">Oceń stronę</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="rate_desc">Twoja opinia jest dla mnie niezwykle ważna.</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMr11dGn0sSJLXr4B1wY2Y0nMaYLweEhQ2axjeiKngKygwPA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-amber-500 hover:bg-amber-650 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #d97706;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMr11dGn0sSJLXr4B1wY2Y0nMaYLweEhQ2axjeiKngKygwPA/viewform?usp=publish-editor" target="_blank" onclick="window.unlockBadge('rate_site')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-amber-500 hover:bg-amber-650 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #d97706;">
                         <i class="fas fa-pen"></i> <span data-i18n="rate_btn">Zostaw opinię</span>
                     </a>
                 </div>
@@ -334,7 +337,7 @@
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2" data-i18n="bug_title">Zgłoś błąd</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed" data-i18n="bug_desc">Coś nie działa tak, jak powinno? Zauważyłeś literówkę? Daj nam znać, a szybko to naprawimy!</p>
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScmoRiTIVNG68PgkmjVCDA7ASGOTq0T-3P_HAz7AKo89phomA/viewform?usp=publish-editor" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-750 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #e11d48;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScmoRiTIVNG68PgkmjVCDA7ASGOTq0T-3P_HAz7AKo89phomA/viewform?usp=publish-editor" target="_blank" onclick="window.unlockBadge('report_bug')" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-750 text-white text-xs font-bold rounded-xl transition-all" style="background-color: #e11d48;">
                         <i class="fas fa-exclamation-triangle"></i> <span data-i18n="bug_btn">Zgłoś problem</span>
                     </a>
                 </div>
@@ -436,8 +439,7 @@
                 </div>
                 <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
             </div>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-5" data-i18n="badges_modal_subtitle">Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!</p>
-            <div id="badgesGrid" class="flex flex-col gap-5"></div>
+            <div id="badgesGrid" class="flex flex-col gap-5 mt-1"></div>
         </div>
     </div>
 
@@ -568,6 +570,9 @@
                 badge_desc_explorer: "Kliknij w każdą ikonkę social media",
                 badge_desc_dark_mode: "Włącz tryb ciemny",
                 badge_desc_polyglot: "Przełącz stronę na każdy dostępny język",
+                badge_desc_send_photo: "Prześlij swoje zdjęcie przez formularz",
+                badge_desc_rate_site: "Zostaw opinię o stronie",
+                badge_desc_report_bug: "Zgłoś błąd lub problem na stronie",
                 badge_shots_1: "Pierwsze Koty Za Płoty",
                 badge_shots_100: "Świeżak",
                 badge_shots_1000: "Wyszkolony Strzelec",
@@ -581,7 +586,10 @@
                 badge_dark_mode: "Nocny Marek",
                 badge_cinema: "Kinoman",
                 badge_explorer: "Odkrywca Social Media",
-                badge_polyglot: "Językoznawca"
+                badge_polyglot: "Językoznawca",
+                badge_send_photo: "Fotoreporter",
+                badge_rate_site: "Krytyk",
+                badge_report_bug: "Łowca Błędów"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -670,6 +678,9 @@
                 badge_desc_explorer: "Click every social media icon",
                 badge_desc_dark_mode: "Turn on dark mode",
                 badge_desc_polyglot: "Switch the site to every available language",
+                badge_desc_send_photo: "Submit your photo through the form",
+                badge_desc_rate_site: "Leave feedback about the site",
+                badge_desc_report_bug: "Report a bug or issue on the site",
                 badge_shots_1: "First Blood",
                 badge_shots_100: "Rookie",
                 badge_shots_1000: "Trained Marksman",
@@ -683,7 +694,10 @@
                 badge_dark_mode: "Night Owl",
                 badge_cinema: "Cinema Buff",
                 badge_explorer: "Social Media Explorer",
-                badge_polyglot: "Linguist"
+                badge_polyglot: "Linguist",
+                badge_send_photo: "Photo Reporter",
+                badge_rate_site: "Critic",
+                badge_report_bug: "Bug Hunter"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -772,6 +786,9 @@
                 badge_desc_explorer: "Klicke auf jedes Social-Media-Symbol",
                 badge_desc_dark_mode: "Aktiviere den Dunkelmodus",
                 badge_desc_polyglot: "Stelle die Seite auf jede verfügbare Sprache um",
+                badge_desc_send_photo: "Reiche dein Foto über das Formular ein",
+                badge_desc_rate_site: "Hinterlasse Feedback zur Seite",
+                badge_desc_report_bug: "Melde einen Fehler auf der Seite",
                 badge_shots_1: "Erster Abschuss",
                 badge_shots_100: "Anfänger",
                 badge_shots_1000: "Ausgebildeter Schütze",
@@ -785,7 +802,10 @@
                 badge_dark_mode: "Nachteule",
                 badge_cinema: "Kinofan",
                 badge_explorer: "Social-Media-Entdecker",
-                badge_polyglot: "Sprachwissenschaftler"
+                badge_polyglot: "Sprachwissenschaftler",
+                badge_send_photo: "Fotoreporter",
+                badge_rate_site: "Kritiker",
+                badge_report_bug: "Bug-Jäger"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -874,6 +894,9 @@
                 badge_desc_explorer: "Нажми на каждую иконку соцсетей",
                 badge_desc_dark_mode: "Включи тёмную тему",
                 badge_desc_polyglot: "Переключи сайт на каждый доступный язык",
+                badge_desc_send_photo: "Отправь своё фото через форму",
+                badge_desc_rate_site: "Оставь отзыв о сайте",
+                badge_desc_report_bug: "Сообщи об ошибке на сайте",
                 badge_shots_1: "Первая Кровь",
                 badge_shots_100: "Новичок",
                 badge_shots_1000: "Обученный Стрелок",
@@ -887,7 +910,10 @@
                 badge_dark_mode: "Полуночник",
                 badge_cinema: "Киноман",
                 badge_explorer: "Исследователь Соцсетей",
-                badge_polyglot: "Лингвист"
+                badge_polyglot: "Лингвист",
+                badge_send_photo: "Фоторепортёр",
+                badge_rate_site: "Критик",
+                badge_report_bug: "Охотник за Багами"
             }
         };
 
@@ -963,30 +989,47 @@
         // FUNKCJA TWORZĄCA LATAJĄCY TEKST "+1" (POPCAT EFFECT)
         // ==================== SYSTEM ODZNAK / OSIĄGNIĘĆ ====================
         const BADGE_DEFS = [
-            { id: 'shots_1',       category: 'shots', threshold: 1,       icon: 'fa-paw',        rarity: 'common' },
-            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs', rarity: 'common' },
-            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye',   rarity: 'uncommon' },
-            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars', rarity: 'rare' },
-            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire',       rarity: 'epic' },
-            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown',      rarity: 'legendary' },
-            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart',      rarity: 'common' },
-            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'uncommon' },
-            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'rare' },
-            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'epic' },
-            { id: 'dark_mode',     category: 'special', icon: 'fa-moon',     rarity: 'common' },
-            { id: 'cinema',        category: 'special', icon: 'fa-film',     rarity: 'uncommon' },
-            { id: 'explorer',      category: 'special', icon: 'fa-compass',  rarity: 'rare' },
-            { id: 'polyglot',      category: 'special', icon: 'fa-language', rarity: 'epic' }
+            { id: 'shots_1',       category: 'shots', threshold: 1,       icon: 'fa-paw',        rarity: 'gray' },
+            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs', rarity: 'lightblue' },
+            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye',   rarity: 'purple' },
+            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars', rarity: 'pink' },
+            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire',       rarity: 'red' },
+            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown',      rarity: 'gold' },
+            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart',      rarity: 'gray' },
+            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'lightblue' },
+            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'purple' },
+            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'pink' },
+            { id: 'dark_mode',     category: 'special', icon: 'fa-moon',           rarity: 'gray' },
+            { id: 'cinema',        category: 'special', icon: 'fa-film',           rarity: 'lightblue' },
+            { id: 'explorer',      category: 'special', icon: 'fa-compass',        rarity: 'blue' },
+            { id: 'polyglot',      category: 'special', icon: 'fa-language',       rarity: 'blue' },
+            { id: 'send_photo',    category: 'special', icon: 'fa-camera-retro',   rarity: 'lightblue' },
+            { id: 'rate_site',     category: 'special', icon: 'fa-comment-dots',   rarity: 'lightblue' },
+            { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' }
         ];
 
+        // Kolejność rzadkości od najgorszej do najlepszej: szara < jasnoniebieska < niebieska < fioletowa < różowa < czerwona < złota
         const RARITY_STYLES = {
-            common:    { grad: 'from-slate-400 to-slate-500',   ring: 'border-slate-200 dark:border-slate-700',   glow: '' },
-            uncommon:  { grad: 'from-sky-500 to-blue-600',      ring: 'border-sky-200 dark:border-sky-900/60',    glow: '' },
-            rare:      { grad: 'from-purple-500 to-indigo-600', ring: 'border-purple-200 dark:border-purple-900/60', glow: '' },
-            epic:      { grad: 'from-pink-500 to-orange-500',   ring: 'border-pink-200 dark:border-pink-900/60',  glow: 'shadow-[0_0_18px_rgba(236,72,153,0.35)]' },
-            legendary: { grad: 'from-amber-400 via-yellow-500 to-amber-600', ring: 'border-amber-300 dark:border-amber-700', glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' }
+            gray:      { grad: 'from-slate-400 to-slate-500',                     ring: 'border-slate-200 dark:border-slate-700',      glow: '' },
+            lightblue: { grad: 'from-sky-300 to-sky-400',                         ring: 'border-sky-100 dark:border-sky-900/40',       glow: '' },
+            blue:      { grad: 'from-sky-500 to-blue-600',                        ring: 'border-sky-200 dark:border-sky-900/60',       glow: '' },
+            purple:    { grad: 'from-purple-500 to-indigo-600',                   ring: 'border-purple-200 dark:border-purple-900/60', glow: '' },
+            pink:      { grad: 'from-pink-500 to-rose-600',                       ring: 'border-pink-200 dark:border-pink-900/60',     glow: 'shadow-[0_0_16px_rgba(236,72,153,0.35)]' },
+            red:       { grad: 'from-red-500 to-red-700',                         ring: 'border-red-300 dark:border-red-900/60',       glow: 'shadow-[0_0_20px_rgba(239,68,68,0.45)]' },
+            gold:      { grad: 'from-amber-400 via-yellow-500 to-amber-600',      ring: 'border-amber-300 dark:border-amber-700',      glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' }
         };
-        function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.common; }
+        // Mapowanie rzadkości na dźwięk osiągnięcia oraz czas wyświetlania popupu (im rzadsza odznaka, tym dłużej)
+        const RARITY_SOUND_META = {
+            gray:      { sound: 'achSoundMinecraft',     duration: 2400 },
+            lightblue: { sound: 'achSoundMinecraft',     duration: 2800 },
+            blue:      { sound: 'achSoundSteam',         duration: 3200 },
+            purple:    { sound: 'achSoundSteam',         duration: 3600 },
+            pink:      { sound: 'achSoundSteamDeck',     duration: 4200 },
+            red:       { sound: 'achSoundMinecraftRare', duration: 6800 },
+            gold:      { sound: 'achSoundMinecraftRare', duration: 7500 }
+        };
+        function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.gray; }
+        function getRaritySoundMeta(rarity) { return RARITY_SOUND_META[rarity] || RARITY_SOUND_META.gray; }
         const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
 
         function getUnlockedBadges() {
@@ -1009,6 +1052,9 @@
             if (def.id === 'explorer') return t.badge_desc_explorer;
             if (def.id === 'dark_mode') return t.badge_desc_dark_mode;
             if (def.id === 'polyglot') return t.badge_desc_polyglot;
+            if (def.id === 'send_photo') return t.badge_desc_send_photo;
+            if (def.id === 'rate_site') return t.badge_desc_rate_site;
+            if (def.id === 'report_bug') return t.badge_desc_report_bug;
             return '';
         }
 
@@ -1045,8 +1091,9 @@
             if (!def) return;
             const t = window.translations[window.currentLang];
             const style = getRarityStyle(def.rarity);
+            const soundMeta = getRaritySoundMeta(def.rarity);
 
-            const sound = document.getElementById('achievementSound');
+            const sound = document.getElementById(soundMeta.sound);
             if (sound) {
                 sound.currentTime = 0;
                 sound.play().catch(() => {});
@@ -1074,7 +1121,7 @@
                 popup.classList.add('opacity-0', '-translate-y-4');
                 popup.classList.remove('opacity-100', 'translate-y-0');
                 setTimeout(() => popup.remove(), 500);
-            }, 3200);
+            }, soundMeta.duration);
         }
 
         function renderBadgeTile(def, unlocked, t) {
