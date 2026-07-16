@@ -70,6 +70,17 @@
         #imageModal.active { display: flex; align-items: center; justify-content: center; }
         .custom-svg-icon svg { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
 
+        .faceit-icon {
+            -webkit-mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/faceit.svg");
+            mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/faceit.svg");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+        }
+
         #cinemaProgressBar {
             transition: width 4s linear;
         }
@@ -90,7 +101,7 @@
                 opacity: 1;
             }
             100% {
-                transform: translate(-50%, -120px) scale(1.6);
+                transform: translate(-50%, -140px) scale(1.5);
                 opacity: 0;
             }
         }
@@ -100,7 +111,7 @@
             user-select: none;
             z-index: 100;
             font-family: sans-serif;
-            animation: floatUp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            animation: floatUp 1.1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
         }
     </style>
 </head>
@@ -155,8 +166,8 @@
                 <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
                 
                 <!-- FACEIT LINK -->
-                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" aria-label="FACEIT" class="w-6 h-6 flex items-center justify-center opacity-80 hover:opacity-100 transition">
-                    <img src="https://cdn.simpleicons.org/faceit/FF5500" alt="FACEIT" class="w-5 h-5 object-contain" />
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center">
+                    <span class="faceit-icon block w-5 h-5 bg-current"></span>
                 </a>
             </div>
         </div>
@@ -815,7 +826,7 @@
         function createFloatingOne(e) {
             const floating = document.createElement('div');
             floating.textContent = '+1';
-            floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-xl';
+            floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-base';
             
             let x, y;
             if (e && e.clientX && e.clientY) {
@@ -835,7 +846,7 @@
             
             setTimeout(() => {
                 floating.remove();
-            }, 550);
+            }, 1150);
         }
 
         function playEasterEgg(e) {
