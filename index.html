@@ -924,7 +924,6 @@
         }
 
         // FUNKCJA TWORZĄCA LATAJĄCY TEKST "+1" (POPCAT EFFECT)
-        function createFloatingOne(e) {
         // ==================== SYSTEM ODZNAK / OSIĄGNIĘĆ ====================
         const BADGE_DEFS = [
             { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs' },
@@ -1113,7 +1112,7 @@
             animate();
         }
 
-
+        function createFloatingOne(e) {
             const floating = document.createElement('div');
             floating.textContent = '+1';
             floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-base';
