@@ -146,27 +146,30 @@
             <button onclick="toggleFavoritesView()" id="favoritesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
                 <i class="far fa-heart"></i> <span id="favoritesTabText" data-i18n="favorites_tab">Ulubione</span>
             </button>
+            <button onclick="openBadgesModal()" id="badgesTabBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition-all">
+                <i class="fas fa-award"></i> <span data-i18n="badges_button">Odznaki</span>
+            </button>
             <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
             <div class="hidden lg:flex items-center space-x-4 text-gray-600 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-4">
-                <a href="https://www.instagram.com/andrewgod666/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="https://www.youtube.com/@andrewgod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
-                <a href="https://www.tiktok.com/@endrjugod666" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="https://www.instagram.com/andrewgod666/" target="_blank" onclick="trackIconClick('instagram')" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" onclick="trackIconClick('facebook')" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://www.youtube.com/@andrewgod666" target="_blank" onclick="trackIconClick('youtube')" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="https://www.tiktok.com/@endrjugod666" target="_blank" onclick="trackIconClick('tiktok')" class="hover:text-indigo-500 transition"><i class="fab fa-tiktok text-xl"></i></a>
                 
-                <a href="https://kick.com/andrewgod666" target="_blank" class="hover:text-indigo-500 transition flex items-center justify-center font-black text-[22px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
+                <a href="https://kick.com/andrewgod666" target="_blank" onclick="trackIconClick('kick')" class="hover:text-indigo-500 transition flex items-center justify-center font-black text-[22px] leading-none select-none" style="width: 20px; height: 20px; font-family: sans-serif; margin-top: -2px;">
                     K
                 </a>
 
-                <a href="https://tipply.pl/@justandrew" target="_blank" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
+                <a href="https://tipply.pl/@justandrew" target="_blank" onclick="trackIconClick('tipply')" class="custom-svg-icon w-6 h-6 hover:text-indigo-500 transition">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="34" font-weight="900" fill="currentColor" stroke="none">Tip</text></svg>
                 </a>
-                <button onclick="openDiscordModal()" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
-                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
+                <button onclick="openDiscordModal(); trackIconClick('discord')" class="hover:text-indigo-500 transition"><i class="fab fa-discord text-xl"></i></button>
+                <a href="https://steamcommunity.com/id/asdasdasdas1231" target="_blank" onclick="trackIconClick('steam')" class="hover:text-indigo-500 transition"><i class="fab fa-steam text-xl"></i></a>
                 
                 <!-- FACEIT LINK -->
-                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center">
+                <a href="https://www.faceit.com/pl/players/EndrjuGOD/cs2/stats" target="_blank" onclick="trackIconClick('faceit')" aria-label="FACEIT" class="hover:text-indigo-500 transition flex items-center justify-center">
                     <span class="faceit-icon block w-5 h-5 bg-current"></span>
                 </a>
             </div>
@@ -420,6 +423,23 @@
         </div>
     </div>
 
+    <!-- MODAL ODZNAKI -->
+    <div id="badgesModal" onclick="closeBadgesModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
+        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto">
+            <div class="flex items-center gap-3 mb-1">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                    <i class="fas fa-award text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white" data-i18n="badges_modal_title">Twoje odznaki</h3>
+                </div>
+                <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-5" data-i18n="badges_modal_subtitle">Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!</p>
+            <div id="badgesGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+        </div>
+    </div>
+
     <!-- MODAL DISCORD -->
     <div id="discordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
         <div onclick="event.stopPropagation()" class="max-w-xs w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl text-center shadow-2xl">
@@ -529,7 +549,29 @@
                 close_btn: "Zamknij",
                 save_btn: "Zapisz",
                 changes_left: "Pozostałe zmiany",
-                me_badge: "Ja"
+                me_badge: "Ja",
+                unknown_country: "Kosmos",
+                badges_button: "Odznaki",
+                badges_modal_title: "Twoje odznaki",
+                badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
+                badge_unlocked_prefix: "Nowa odznaka!",
+                badge_locked: "Zablokowana",
+                badge_desc_shots: "Oddaj {n} strzałów",
+                badge_desc_likes: "Polub {n} zdjęć",
+                badge_desc_likes_1: "Polub swoje pierwsze zdjęcie",
+                badge_desc_cinema: "Uruchom tryb kinowy",
+                badge_desc_explorer: "Kliknij w każdą ikonkę social media",
+                badge_shots_100: "Świeżak",
+                badge_shots_1000: "Wyszkolony Strzelec",
+                badge_shots_10000: "Snajper Elite",
+                badge_shots_100000: "Legenda AWP",
+                badge_shots_1000000: "Bóg Headshotów",
+                badge_likes_1: "Pierwsza Miłość",
+                badge_likes_10: "Kolekcjoner",
+                badge_likes_25: "Fanatyk Galerii",
+                badge_likes_100: "Ekspert od Ulubionych",
+                badge_cinema: "Kinoman",
+                badge_explorer: "Odkrywca Social Media"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -600,7 +642,29 @@
                 close_btn: "Close",
                 save_btn: "Save",
                 changes_left: "Changes left",
-                me_badge: "Me"
+                me_badge: "Me",
+                unknown_country: "Outer Space",
+                badges_button: "Badges",
+                badges_modal_title: "Your Badges",
+                badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
+                badge_unlocked_prefix: "New badge!",
+                badge_locked: "Locked",
+                badge_desc_shots: "Fire {n} shots",
+                badge_desc_likes: "Like {n} photos",
+                badge_desc_likes_1: "Like your first photo",
+                badge_desc_cinema: "Launch cinema mode",
+                badge_desc_explorer: "Click every social media icon",
+                badge_shots_100: "Rookie",
+                badge_shots_1000: "Trained Marksman",
+                badge_shots_10000: "Elite Sniper",
+                badge_shots_100000: "AWP Legend",
+                badge_shots_1000000: "Headshot God",
+                badge_likes_1: "First Love",
+                badge_likes_10: "Collector",
+                badge_likes_25: "Gallery Fanatic",
+                badge_likes_100: "Favorites Expert",
+                badge_cinema: "Cinema Buff",
+                badge_explorer: "Social Media Explorer"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -671,7 +735,29 @@
                 close_btn: "Schließen",
                 save_btn: "Speichern",
                 changes_left: "Verbleibende Änderungen",
-                me_badge: "Ich"
+                me_badge: "Ich",
+                unknown_country: "Weltall",
+                badges_button: "Abzeichen",
+                badges_modal_title: "Deine Abzeichen",
+                badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
+                badge_unlocked_prefix: "Neues Abzeichen!",
+                badge_locked: "Gesperrt",
+                badge_desc_shots: "Gib {n} Schüsse ab",
+                badge_desc_likes: "Markiere {n} Fotos als Favorit",
+                badge_desc_likes_1: "Markiere dein erstes Foto als Favorit",
+                badge_desc_cinema: "Starte den Kinomodus",
+                badge_desc_explorer: "Klicke auf jedes Social-Media-Symbol",
+                badge_shots_100: "Anfänger",
+                badge_shots_1000: "Ausgebildeter Schütze",
+                badge_shots_10000: "Elite-Scharfschütze",
+                badge_shots_100000: "AWP-Legende",
+                badge_shots_1000000: "Headshot-Gott",
+                badge_likes_1: "Erste Liebe",
+                badge_likes_10: "Sammler",
+                badge_likes_25: "Galerie-Fanatiker",
+                badge_likes_100: "Favoriten-Experte",
+                badge_cinema: "Kinofan",
+                badge_explorer: "Social-Media-Entdecker"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -742,7 +828,29 @@
                 close_btn: "Закрыть",
                 save_btn: "Сохранить",
                 changes_left: "Осталось изменений",
-                me_badge: "Я"
+                me_badge: "Я",
+                unknown_country: "Космос",
+                badges_button: "Значки",
+                badges_modal_title: "Твои значки",
+                badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
+                badge_unlocked_prefix: "Новый значок!",
+                badge_locked: "Заблокировано",
+                badge_desc_shots: "Сделай {n} выстрелов",
+                badge_desc_likes: "Добавь {n} фото в избранное",
+                badge_desc_likes_1: "Добавь своё первое фото в избранное",
+                badge_desc_cinema: "Запусти режим кинотеатра",
+                badge_desc_explorer: "Нажми на каждую иконку соцсетей",
+                badge_shots_100: "Новичок",
+                badge_shots_1000: "Обученный Стрелок",
+                badge_shots_10000: "Элитный Снайпер",
+                badge_shots_100000: "Легенда AWP",
+                badge_shots_1000000: "Бог Хедшотов",
+                badge_likes_1: "Первая Любовь",
+                badge_likes_10: "Коллекционер",
+                badge_likes_25: "Фанат Галереи",
+                badge_likes_100: "Эксперт Избранного",
+                badge_cinema: "Киноман",
+                badge_explorer: "Исследователь Соцсетей"
             }
         };
 
@@ -767,36 +875,29 @@
         const countriesRef = ref(db, 'countries_v3');
         const playersRef = ref(db, 'players_v3');
 
+        // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
+        // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
+        // działa dla każdego kraju świata, w każdym obsługiwanym języku.
+        const regionDisplayNamesCache = {};
+        function getCountryDisplayName(code, lang) {
+            if (!code || code === "Unknown") {
+                const t = window.translations[lang] || window.translations.en;
+                return t.unknown_country || "Unknown";
+            }
+            try {
+                if (!regionDisplayNamesCache[lang]) {
+                    regionDisplayNamesCache[lang] = new Intl.DisplayNames([lang], { type: 'region' });
+                }
+                const name = regionDisplayNamesCache[lang].of(code.toUpperCase());
+                return name || code;
+            } catch (err) {
+                return code;
+            }
+        }
+
         let userCountryCode = "Unknown";
         let userCountryName = "Nieznany";
         let userNick = localStorage.getItem('justAndrewUserNick') || "";
-
-        const countryLocalizations = {
-            pl: {
-                "PL": "Polska", "US": "Stany Zjednoczone", "DE": "Niemcy", "GB": "Wielka Brytania",
-                "FR": "Francja", "CZ": "Czechy", "SK": "Słowacja", "UA": "Ukraina", "NL": "Holandia",
-                "IE": "Irlandia", "NO": "Norwegia", "DK": "Dania", "SE": "Szwecja", "ES": "Hiszpania",
-                "IT": "Włochy", "Unknown": "Kosmos"
-            },
-            en: {
-                "PL": "Poland", "US": "United States", "DE": "Germany", "GB": "United Kingdom",
-                "FR": "France", "CZ": "Czechia", "SK": "Slovakia", "UA": "Ukraine", "NL": "Netherlands",
-                "IE": "Ireland", "NO": "Norway", "DK": "Denmark", "SE": "Sweden", "ES": "Spain",
-                "IT": "Italy", "Unknown": "Outer Space"
-            },
-            de: {
-                "PL": "Polen", "US": "Vereinigte Staaten", "DE": "Deutschland", "GB": "Vereinigtes Königreich",
-                "FR": "Frankreich", "CZ": "Tschechien", "SK": "Slowakei", "UA": "Ukraine", "NL": "Niederlande",
-                "IE": "Irland", "NO": "Norwegen", "DK": "Dänemark", "SE": "Schweden", "ES": "Spanien",
-                "IT": "Italien", "Unknown": "Weltall"
-            },
-            ru: {
-                "PL": "Польша", "US": "США", "DE": "Германия", "GB": "Великобритания",
-                "FR": "Франция", "CZ": "Чехия", "SK": "Словакия", "UA": "Украина", "NL": "Нидерланды",
-                "IE": "Ирландия", "NO": "Норвегия", "DK": "Дания", "SE": "Швеция", "ES": "Испания",
-                "IT": "Италия", "Unknown": "Космос"
-            }
-        };
 
         async function fetchUserCountry() {
             try {
@@ -824,6 +925,195 @@
 
         // FUNKCJA TWORZĄCA LATAJĄCY TEKST "+1" (POPCAT EFFECT)
         function createFloatingOne(e) {
+        // ==================== SYSTEM ODZNAK / OSIĄGNIĘĆ ====================
+        const BADGE_DEFS = [
+            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs' },
+            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye' },
+            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars' },
+            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire' },
+            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown' },
+            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart' },
+            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem' },
+            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star' },
+            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy' },
+            { id: 'cinema',        category: 'special', icon: 'fa-film' },
+            { id: 'explorer',      category: 'special', icon: 'fa-compass' }
+        ];
+        const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
+
+        function getUnlockedBadges() {
+            return JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
+        }
+
+        function getBadgeName(id) {
+            return (window.translations[window.currentLang] && window.translations[window.currentLang]['badge_' + id]) || id;
+        }
+
+        function getBadgeDesc(def) {
+            const t = window.translations[window.currentLang];
+            if (def.category === 'shots') return t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
+            if (def.category === 'likes') {
+                return def.threshold === 1 ? t.badge_desc_likes_1 : t.badge_desc_likes.replace('{n}', def.threshold.toLocaleString());
+            }
+            if (def.id === 'cinema') return t.badge_desc_cinema;
+            if (def.id === 'explorer') return t.badge_desc_explorer;
+            return '';
+        }
+
+        function unlockBadge(id) {
+            const unlocked = getUnlockedBadges();
+            if (unlocked.includes(id)) return;
+            unlocked.push(id);
+            localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
+            showBadgeUnlockPopup(id);
+            renderBadgesModal();
+        }
+
+        function checkShotBadges(count) {
+            BADGE_DEFS.filter(b => b.category === 'shots' && count >= b.threshold).forEach(b => unlockBadge(b.id));
+        }
+
+        function checkLikeBadges(count) {
+            BADGE_DEFS.filter(b => b.category === 'likes' && count >= b.threshold).forEach(b => unlockBadge(b.id));
+        }
+
+        function trackIconClick(iconId) {
+            let clicked = JSON.parse(localStorage.getItem('justAndrewClickedIcons') || '[]');
+            if (!clicked.includes(iconId)) {
+                clicked.push(iconId);
+                localStorage.setItem('justAndrewClickedIcons', JSON.stringify(clicked));
+            }
+            if (SOCIAL_ICONS.every(id => clicked.includes(id))) {
+                unlockBadge('explorer');
+            }
+        }
+
+        function showBadgeUnlockPopup(id) {
+            const def = BADGE_DEFS.find(b => b.id === id);
+            if (!def) return;
+            const t = window.translations[window.currentLang];
+
+            const popup = document.createElement('div');
+            popup.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border border-indigo-200 dark:border-indigo-900/60 shadow-[0_15px_40px_rgba(79,70,229,0.3)] rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]';
+            popup.innerHTML = `
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
+                    <i class="fas ${def.icon}"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] font-black uppercase tracking-wider text-indigo-500">${t.badge_unlocked_prefix}</p>
+                    <p class="font-black text-sm dark:text-white truncate">${getBadgeName(id)}</p>
+                </div>
+            `;
+            document.body.appendChild(popup);
+
+            requestAnimationFrame(() => {
+                popup.classList.remove('opacity-0', '-translate-y-4');
+                popup.classList.add('opacity-100', 'translate-y-0');
+            });
+
+            setTimeout(() => {
+                popup.classList.add('opacity-0', '-translate-y-4');
+                popup.classList.remove('opacity-100', 'translate-y-0');
+                setTimeout(() => popup.remove(), 500);
+            }, 3200);
+        }
+
+        function renderBadgesModal() {
+            const grid = document.getElementById('badgesGrid');
+            if (!grid) return;
+            const unlocked = getUnlockedBadges();
+            const t = window.translations[window.currentLang];
+
+            grid.innerHTML = BADGE_DEFS.map(def => {
+                const isUnlocked = unlocked.includes(def.id);
+                const name = isUnlocked ? getBadgeName(def.id) : t.badge_locked;
+                const desc = isUnlocked ? getBadgeDesc(def) : '';
+                return `
+                    <div class="flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? 'border-indigo-200 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-950/20' : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md' : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
+                            <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
+                        </div>
+                        <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
+                        ${desc ? `<p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">${desc}</p>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openBadgesModal() {
+            renderBadgesModal();
+            document.getElementById('badgesModal').classList.remove('hidden');
+            document.getElementById('badgesModal').classList.add('flex');
+        }
+
+        function closeBadgesModal() {
+            document.getElementById('badgesModal').classList.add('hidden');
+            document.getElementById('badgesModal').classList.remove('flex');
+        }
+
+        window.trackIconClick = trackIconClick;
+        window.openBadgesModal = openBadgesModal;
+        window.closeBadgesModal = closeBadgesModal;
+
+        // ==================== CONFETTI ====================
+        function triggerConfetti(big = false) {
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'fixed';
+            canvas.style.inset = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '150';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const colors = ['#6366f1', '#818cf8', '#f472b6', '#fbbf24', '#34d399', '#60a5fa'];
+            const count = big ? 160 : 70;
+            const particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 240,
+                    y: canvas.height * 0.25,
+                    vx: (Math.random() - 0.5) * (big ? 15 : 9),
+                    vy: Math.random() * -12 - 4,
+                    size: Math.random() * 7 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 14,
+                    gravity: 0.32 + Math.random() * 0.15
+                });
+            }
+
+            let frame = 0;
+            const maxFrames = big ? 150 : 100;
+
+            function animate() {
+                frame++;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.vy += p.gravity;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    ctx.restore();
+                });
+                if (frame < maxFrames) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                }
+            }
+            animate();
+        }
+
+
             const floating = document.createElement('div');
             floating.textContent = '+1';
             floating.className = 'floating-one font-black text-indigo-600 dark:text-indigo-400 text-base';
@@ -858,6 +1148,12 @@
             
             document.getElementById('localCount').textContent = localClicks;
             document.getElementById('statLocalShots').textContent = localClicks;
+
+            // Odznaki za liczbę strzałów + confetti przy okrągłych liczbach
+            checkShotBadges(localClicks);
+            if (localClicks % 100 === 0) {
+                triggerConfetti(localClicks % 1000 === 0);
+            }
 
             // Efekty PopCat:
             // 1. Animacja powiększenia (Pop) na tekście "just andrew"
@@ -956,9 +1252,7 @@
 
             sortedCountries.forEach((item, index) => {
                 const activeLang = window.currentLang;
-                const countryName = (countryLocalizations[activeLang] && countryLocalizations[activeLang][item.code]) 
-                                    || (countryLocalizations['en'][item.code]) 
-                                    || item.code;
+                const countryName = getCountryDisplayName(item.code, activeLang);
 
                 const lowerCode = item.code.toLowerCase();
                 const hasFlagIcon = item.code !== "Unknown";
@@ -1012,7 +1306,7 @@
                 const lowerCode = item.country.toLowerCase();
                 const hasFlagIcon = item.country !== "Unknown";
                 const flagHTML = hasFlagIcon 
-                    ? `<span class="fi fi-${lowerCode} rounded-sm shadow-sm scale-110 mr-1.5 shrink-0" title="${item.country}"></span>` 
+                    ? `<span class="fi fi-${lowerCode} rounded-sm shadow-sm scale-110 mr-1.5 shrink-0" title="${getCountryDisplayName(item.country, window.currentLang)}"></span>` 
                     : `<i class="fas fa-globe text-gray-400 mr-1.5 shrink-0"></i>`;
 
                 const row = document.createElement('tr');
@@ -1549,6 +1843,11 @@
             if (document.getElementById('imageModal').classList.contains('active')) {
                 updateModal();
             }
+
+            const badgesModal = document.getElementById('badgesModal');
+            if (badgesModal && !badgesModal.classList.contains('hidden')) {
+                renderBadgesModal();
+            }
         }
 
         function updateStatsUI() {
@@ -1754,8 +2053,33 @@
         }
 
         function toggleSlideshow() { if (isCinemaActive) { stopSlideshow(); } else { startSlideshow(); } }
+
+        function enterBrowserFullscreen() {
+            const el = document.documentElement;
+            const request = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+            if (request) {
+                request.call(el).catch(() => {});
+            }
+        }
+
+        function exitBrowserFullscreen() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                const exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+                if (exit) exit.call(document).catch(() => {});
+            }
+        }
+
+        // Jeśli ktoś wyjdzie z fullscreena natywnym skrótem przeglądarki, zakończ też tryb kinowy
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && isCinemaActive) {
+                stopSlideshow();
+            }
+        });
+
         function startSlideshow() {
             isCinemaActive = true;
+            unlockBadge('cinema');
+            enterBrowserFullscreen();
             document.getElementById('modalHeader').classList.add('hidden');
             document.getElementById('modalFooter').classList.add('hidden');
             document.getElementById('modalArrowLeft').classList.add('hidden');
@@ -1774,6 +2098,7 @@
         function stopSlideshow() {
             if (!isCinemaActive) return;
             isCinemaActive = false;
+            exitBrowserFullscreen();
             clearInterval(slideshowInterval);
             slideshowInterval = null;
             document.getElementById('modalHeader').classList.remove('hidden');
@@ -1820,6 +2145,13 @@
             }
 
             localStorage.setItem('justAndrewFavorites', JSON.stringify(favs));
+
+            if (isAdding) {
+                let totalLikesEver = parseInt(localStorage.getItem('justAndrewTotalLikesEver') || '0');
+                totalLikesEver++;
+                localStorage.setItem('justAndrewTotalLikesEver', totalLikesEver);
+                checkLikeBadges(totalLikesEver);
+            }
             
             if (window.incrementGlobalLike) {
                 window.incrementGlobalLike(src, isAdding);
