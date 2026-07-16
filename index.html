@@ -118,6 +118,7 @@
 <body class="bg-[#F3F4F6] text-gray-800 font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white pb-24 lg:pb-6" id="siteBody">
 
     <audio id="awpSound" src="./awp.mp3" preload="auto"></audio>
+    <audio id="achievementSound" src="./achievement.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -436,7 +437,7 @@
                 <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
             </div>
             <p class="text-xs text-gray-500 dark:text-gray-400 mb-5" data-i18n="badges_modal_subtitle">Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!</p>
-            <div id="badgesGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            <div id="badgesGrid" class="flex flex-col gap-5"></div>
         </div>
     </div>
 
@@ -551,27 +552,36 @@
                 changes_left: "Pozostałe zmiany",
                 me_badge: "Ja",
                 unknown_country: "Kosmos",
-                badges_button: "Odznaki",
-                badges_modal_title: "Twoje odznaki",
+                badges_button: "Osiągnięcia",
+                badges_modal_title: "Twoje osiągnięcia",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
-                badge_unlocked_prefix: "Nowa odznaka!",
-                badge_locked: "Zablokowana",
+                badge_unlocked_prefix: "Nowe osiągnięcie!",
+                badge_locked: "Zablokowane",
+                badge_group_shots: "Strzały",
+                badge_group_likes: "Polubienia",
+                badge_group_special: "Specjalne",
                 badge_desc_shots: "Oddaj {n} strzałów",
+                badge_desc_shots_1: "Oddaj swój pierwszy strzał",
                 badge_desc_likes: "Polub {n} zdjęć",
                 badge_desc_likes_1: "Polub swoje pierwsze zdjęcie",
                 badge_desc_cinema: "Uruchom tryb kinowy",
                 badge_desc_explorer: "Kliknij w każdą ikonkę social media",
+                badge_desc_dark_mode: "Włącz tryb ciemny",
+                badge_desc_polyglot: "Przełącz stronę na każdy dostępny język",
+                badge_shots_1: "Pierwsze Koty Za Płoty",
                 badge_shots_100: "Świeżak",
                 badge_shots_1000: "Wyszkolony Strzelec",
                 badge_shots_10000: "Snajper Elite",
                 badge_shots_100000: "Legenda AWP",
-                badge_shots_1000000: "Bóg Headshotów",
+                badge_shots_1000000: "Nieśmiertelny",
                 badge_likes_1: "Pierwsza Miłość",
                 badge_likes_10: "Kolekcjoner",
                 badge_likes_25: "Fanatyk Galerii",
                 badge_likes_100: "Ekspert od Ulubionych",
+                badge_dark_mode: "Nocny Marek",
                 badge_cinema: "Kinoman",
-                badge_explorer: "Odkrywca Social Media"
+                badge_explorer: "Odkrywca Social Media",
+                badge_polyglot: "Językoznawca"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -644,27 +654,36 @@
                 changes_left: "Changes left",
                 me_badge: "Me",
                 unknown_country: "Outer Space",
-                badges_button: "Badges",
-                badges_modal_title: "Your Badges",
+                badges_button: "Achievements",
+                badges_modal_title: "Your Achievements",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
-                badge_unlocked_prefix: "New badge!",
+                badge_unlocked_prefix: "New achievement!",
                 badge_locked: "Locked",
+                badge_group_shots: "Shots",
+                badge_group_likes: "Likes",
+                badge_group_special: "Special",
                 badge_desc_shots: "Fire {n} shots",
+                badge_desc_shots_1: "Fire your first shot",
                 badge_desc_likes: "Like {n} photos",
                 badge_desc_likes_1: "Like your first photo",
                 badge_desc_cinema: "Launch cinema mode",
                 badge_desc_explorer: "Click every social media icon",
+                badge_desc_dark_mode: "Turn on dark mode",
+                badge_desc_polyglot: "Switch the site to every available language",
+                badge_shots_1: "First Blood",
                 badge_shots_100: "Rookie",
                 badge_shots_1000: "Trained Marksman",
                 badge_shots_10000: "Elite Sniper",
                 badge_shots_100000: "AWP Legend",
-                badge_shots_1000000: "Headshot God",
+                badge_shots_1000000: "Immortal",
                 badge_likes_1: "First Love",
                 badge_likes_10: "Collector",
                 badge_likes_25: "Gallery Fanatic",
                 badge_likes_100: "Favorites Expert",
+                badge_dark_mode: "Night Owl",
                 badge_cinema: "Cinema Buff",
-                badge_explorer: "Social Media Explorer"
+                badge_explorer: "Social Media Explorer",
+                badge_polyglot: "Linguist"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -737,27 +756,36 @@
                 changes_left: "Verbleibende Änderungen",
                 me_badge: "Ich",
                 unknown_country: "Weltall",
-                badges_button: "Abzeichen",
-                badges_modal_title: "Deine Abzeichen",
+                badges_button: "Erfolge",
+                badges_modal_title: "Deine Erfolge",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
-                badge_unlocked_prefix: "Neues Abzeichen!",
+                badge_unlocked_prefix: "Neuer Erfolg!",
                 badge_locked: "Gesperrt",
+                badge_group_shots: "Schüsse",
+                badge_group_likes: "Favoriten",
+                badge_group_special: "Spezial",
                 badge_desc_shots: "Gib {n} Schüsse ab",
+                badge_desc_shots_1: "Gib deinen ersten Schuss ab",
                 badge_desc_likes: "Markiere {n} Fotos als Favorit",
                 badge_desc_likes_1: "Markiere dein erstes Foto als Favorit",
                 badge_desc_cinema: "Starte den Kinomodus",
                 badge_desc_explorer: "Klicke auf jedes Social-Media-Symbol",
+                badge_desc_dark_mode: "Aktiviere den Dunkelmodus",
+                badge_desc_polyglot: "Stelle die Seite auf jede verfügbare Sprache um",
+                badge_shots_1: "Erster Abschuss",
                 badge_shots_100: "Anfänger",
                 badge_shots_1000: "Ausgebildeter Schütze",
                 badge_shots_10000: "Elite-Scharfschütze",
                 badge_shots_100000: "AWP-Legende",
-                badge_shots_1000000: "Headshot-Gott",
+                badge_shots_1000000: "Unsterblicher",
                 badge_likes_1: "Erste Liebe",
                 badge_likes_10: "Sammler",
                 badge_likes_25: "Galerie-Fanatiker",
                 badge_likes_100: "Favoriten-Experte",
+                badge_dark_mode: "Nachteule",
                 badge_cinema: "Kinofan",
-                badge_explorer: "Social-Media-Entdecker"
+                badge_explorer: "Social-Media-Entdecker",
+                badge_polyglot: "Sprachwissenschaftler"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -830,27 +858,36 @@
                 changes_left: "Осталось изменений",
                 me_badge: "Я",
                 unknown_country: "Космос",
-                badges_button: "Значки",
-                badges_modal_title: "Твои значки",
+                badges_button: "Достижения",
+                badges_modal_title: "Твои достижения",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
-                badge_unlocked_prefix: "Новый значок!",
+                badge_unlocked_prefix: "Новое достижение!",
                 badge_locked: "Заблокировано",
+                badge_group_shots: "Выстрелы",
+                badge_group_likes: "Лайки",
+                badge_group_special: "Особые",
                 badge_desc_shots: "Сделай {n} выстрелов",
+                badge_desc_shots_1: "Сделай свой первый выстрел",
                 badge_desc_likes: "Добавь {n} фото в избранное",
                 badge_desc_likes_1: "Добавь своё первое фото в избранное",
                 badge_desc_cinema: "Запусти режим кинотеатра",
                 badge_desc_explorer: "Нажми на каждую иконку соцсетей",
+                badge_desc_dark_mode: "Включи тёмную тему",
+                badge_desc_polyglot: "Переключи сайт на каждый доступный язык",
+                badge_shots_1: "Первая Кровь",
                 badge_shots_100: "Новичок",
                 badge_shots_1000: "Обученный Стрелок",
                 badge_shots_10000: "Элитный Снайпер",
                 badge_shots_100000: "Легенда AWP",
-                badge_shots_1000000: "Бог Хедшотов",
+                badge_shots_1000000: "Бессмертный",
                 badge_likes_1: "Первая Любовь",
                 badge_likes_10: "Коллекционер",
                 badge_likes_25: "Фанат Галереи",
                 badge_likes_100: "Эксперт Избранного",
+                badge_dark_mode: "Полуночник",
                 badge_cinema: "Киноман",
-                badge_explorer: "Исследователь Соцсетей"
+                badge_explorer: "Исследователь Соцсетей",
+                badge_polyglot: "Лингвист"
             }
         };
 
@@ -926,18 +963,30 @@
         // FUNKCJA TWORZĄCA LATAJĄCY TEKST "+1" (POPCAT EFFECT)
         // ==================== SYSTEM ODZNAK / OSIĄGNIĘĆ ====================
         const BADGE_DEFS = [
-            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs' },
-            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye' },
-            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars' },
-            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire' },
-            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown' },
-            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart' },
-            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem' },
-            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star' },
-            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy' },
-            { id: 'cinema',        category: 'special', icon: 'fa-film' },
-            { id: 'explorer',      category: 'special', icon: 'fa-compass' }
+            { id: 'shots_1',       category: 'shots', threshold: 1,       icon: 'fa-paw',        rarity: 'common' },
+            { id: 'shots_100',     category: 'shots', threshold: 100,     icon: 'fa-crosshairs', rarity: 'common' },
+            { id: 'shots_1000',    category: 'shots', threshold: 1000,    icon: 'fa-bullseye',   rarity: 'uncommon' },
+            { id: 'shots_10000',   category: 'shots', threshold: 10000,   icon: 'fa-binoculars', rarity: 'rare' },
+            { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire',       rarity: 'epic' },
+            { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown',      rarity: 'legendary' },
+            { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart',      rarity: 'common' },
+            { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'uncommon' },
+            { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'rare' },
+            { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'epic' },
+            { id: 'dark_mode',     category: 'special', icon: 'fa-moon',     rarity: 'common' },
+            { id: 'cinema',        category: 'special', icon: 'fa-film',     rarity: 'uncommon' },
+            { id: 'explorer',      category: 'special', icon: 'fa-compass',  rarity: 'rare' },
+            { id: 'polyglot',      category: 'special', icon: 'fa-language', rarity: 'epic' }
         ];
+
+        const RARITY_STYLES = {
+            common:    { grad: 'from-slate-400 to-slate-500',   ring: 'border-slate-200 dark:border-slate-700',   glow: '' },
+            uncommon:  { grad: 'from-sky-500 to-blue-600',      ring: 'border-sky-200 dark:border-sky-900/60',    glow: '' },
+            rare:      { grad: 'from-purple-500 to-indigo-600', ring: 'border-purple-200 dark:border-purple-900/60', glow: '' },
+            epic:      { grad: 'from-pink-500 to-orange-500',   ring: 'border-pink-200 dark:border-pink-900/60',  glow: 'shadow-[0_0_18px_rgba(236,72,153,0.35)]' },
+            legendary: { grad: 'from-amber-400 via-yellow-500 to-amber-600', ring: 'border-amber-300 dark:border-amber-700', glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' }
+        };
+        function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.common; }
         const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
 
         function getUnlockedBadges() {
@@ -950,12 +999,16 @@
 
         function getBadgeDesc(def) {
             const t = window.translations[window.currentLang];
-            if (def.category === 'shots') return t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
+            if (def.category === 'shots') {
+                return def.threshold === 1 ? t.badge_desc_shots_1 : t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
+            }
             if (def.category === 'likes') {
                 return def.threshold === 1 ? t.badge_desc_likes_1 : t.badge_desc_likes.replace('{n}', def.threshold.toLocaleString());
             }
             if (def.id === 'cinema') return t.badge_desc_cinema;
             if (def.id === 'explorer') return t.badge_desc_explorer;
+            if (def.id === 'dark_mode') return t.badge_desc_dark_mode;
+            if (def.id === 'polyglot') return t.badge_desc_polyglot;
             return '';
         }
 
@@ -991,11 +1044,18 @@
             const def = BADGE_DEFS.find(b => b.id === id);
             if (!def) return;
             const t = window.translations[window.currentLang];
+            const style = getRarityStyle(def.rarity);
+
+            const sound = document.getElementById('achievementSound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
 
             const popup = document.createElement('div');
-            popup.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border border-indigo-200 dark:border-indigo-900/60 shadow-[0_15px_40px_rgba(79,70,229,0.3)] rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]';
+            popup.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border ${style.ring} ${style.glow} rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]`;
             popup.innerHTML = `
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${style.grad} flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
                     <i class="fas ${def.icon}"></i>
                 </div>
                 <div class="min-w-0">
@@ -1017,23 +1077,43 @@
             }, 3200);
         }
 
+        function renderBadgeTile(def, unlocked, t) {
+            const isUnlocked = unlocked.includes(def.id);
+            const name = isUnlocked ? getBadgeName(def.id) : t.badge_locked;
+            const desc = isUnlocked ? getBadgeDesc(def) : '';
+            const style = getRarityStyle(def.rarity);
+            return `
+                <div class="flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
+                        <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
+                    </div>
+                    <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
+                    ${desc ? `<p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">${desc}</p>` : ''}
+                </div>
+            `;
+        }
+
         function renderBadgesModal() {
             const grid = document.getElementById('badgesGrid');
             if (!grid) return;
             const unlocked = getUnlockedBadges();
             const t = window.translations[window.currentLang];
 
-            grid.innerHTML = BADGE_DEFS.map(def => {
-                const isUnlocked = unlocked.includes(def.id);
-                const name = isUnlocked ? getBadgeName(def.id) : t.badge_locked;
-                const desc = isUnlocked ? getBadgeDesc(def) : '';
+            const groups = [
+                { key: 'shots',   label: t.badge_group_shots },
+                { key: 'likes',   label: t.badge_group_likes },
+                { key: 'special', label: t.badge_group_special }
+            ];
+
+            grid.innerHTML = groups.map(g => {
+                const defs = BADGE_DEFS.filter(d => d.category === g.key);
+                if (!defs.length) return '';
                 return `
-                    <div class="flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? 'border-indigo-200 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-950/20' : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md' : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
-                            <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
+                    <div class="mb-1">
+                        <p class="text-[11px] font-black uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2 pl-1">${g.label}</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            ${defs.map(def => renderBadgeTile(def, unlocked, t)).join('')}
                         </div>
-                        <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
-                        ${desc ? `<p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">${desc}</p>` : ''}
                     </div>
                 `;
             }).join('');
@@ -1807,6 +1887,16 @@
             localStorage.setItem('justAndrewLang', lang);
             document.getElementById('langSelect').value = lang;
 
+            const visitedLangs = JSON.parse(localStorage.getItem('justAndrewVisitedLangs') || '[]');
+            if (!visitedLangs.includes(lang)) {
+                visitedLangs.push(lang);
+                localStorage.setItem('justAndrewVisitedLangs', JSON.stringify(visitedLangs));
+            }
+            const allLangs = ['pl', 'en', 'de', 'ru'];
+            if (allLangs.every(l => visitedLangs.includes(l)) && window.unlockBadge) {
+                window.unlockBadge('polyglot');
+            }
+
             const currentLangFlag = document.getElementById('currentLangFlag');
             if (lang === 'en') {
                 currentLangFlag.className = 'fi fi-gb rounded-sm shadow-sm scale-110';
@@ -2199,6 +2289,7 @@
             const dark = document.documentElement.classList.toggle('dark');
             document.getElementById('themeIcon').className = dark ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('theme', dark ? 'dark' : 'light');
+            if (dark && window.unlockBadge) window.unlockBadge('dark_mode');
         }
 
         function copyDirect(t) { 
