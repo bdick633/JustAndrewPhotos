@@ -276,6 +276,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="playersShowMoreWrap" class="mt-3 text-center hidden">
+                    <button id="playersShowMoreBtn" onclick="togglePlayersExpanded()" class="text-xs font-bold text-indigo-500 hover:text-indigo-600 transition"></button>
+                </div>
             </div>
 
             <!-- Tab: Kraje -->
@@ -295,6 +298,9 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div id="countriesShowMoreWrap" class="mt-3 text-center hidden">
+                    <button id="countriesShowMoreBtn" onclick="toggleCountriesExpanded()" class="text-xs font-bold text-indigo-500 hover:text-indigo-600 transition"></button>
                 </div>
             </div>
         </section>
@@ -522,6 +528,8 @@
                 loading_data: "Ładowanie danych...",
                 no_clicks: "Brak kliknięć",
                 no_players: "Brak graczy w rankingu",
+                show_more: "Zobacz więcej",
+                show_less: "Pokaż mniej",
                 co_create_title: "Wspólnie twórzmy tę stronę!",
                 send_photo_title: "Prześlij zdjęcie",
                 send_photo_desc: "Masz fajne ujęcie ze streamu lub trasy? Podziel się nim z naszą społecznością!",
@@ -561,7 +569,7 @@
                 badges_button: "Osiągnięcia",
                 badges_modal_title: "Twoje osiągnięcia",
                 badges_progress_label: "Twój postęp",
-                badges_avg_completion: "Średnio odblokowało",
+                badges_avg_completion: "Ukończono",
                 badge_pct_tooltip: "Odblokowało {pct}% wszystkich graczy",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
                 badge_unlocked_prefix: "Nowe osiągnięcie!",
@@ -580,6 +588,7 @@
                 badge_desc_send_photo: "Prześlij swoje zdjęcie przez formularz",
                 badge_desc_rate_site: "Zostaw opinię o stronie",
                 badge_desc_report_bug: "Zgłoś błąd lub problem na stronie",
+                badge_desc_piwosz: "Polub wszystkie zdjęcia oznaczone hashtagiem #piwo",
                 badge_shots_1: "Pierwsze Koty Za Płoty",
                 badge_shots_100: "Świeżak",
                 badge_shots_1000: "Wyszkolony Strzelec",
@@ -596,7 +605,8 @@
                 badge_polyglot: "Językoznawca",
                 badge_send_photo: "Fotoreporter",
                 badge_rate_site: "Krytyk",
-                badge_report_bug: "Łowca Błędów"
+                badge_report_bug: "Łowca Błędów",
+                badge_piwosz: "Piwosz"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -633,6 +643,8 @@
                 loading_data: "Loading data...",
                 no_clicks: "No clicks yet",
                 no_players: "No players in ranking",
+                show_more: "Show more",
+                show_less: "Show less",
                 co_create_title: "Let's build this page together!",
                 send_photo_title: "Submit a photo",
                 send_photo_desc: "Got a cool shot from the stream or route? Share it with our community!",
@@ -672,7 +684,7 @@
                 badges_button: "Achievements",
                 badges_modal_title: "Your Achievements",
                 badges_progress_label: "Your progress",
-                badges_avg_completion: "Average unlocked",
+                badges_avg_completion: "Completed",
                 badge_pct_tooltip: "Unlocked by {pct}% of all players",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
                 badge_unlocked_prefix: "New achievement!",
@@ -691,6 +703,7 @@
                 badge_desc_send_photo: "Submit your photo through the form",
                 badge_desc_rate_site: "Leave feedback about the site",
                 badge_desc_report_bug: "Report a bug or issue on the site",
+                badge_desc_piwosz: "Like every photo tagged with the #beer hashtag",
                 badge_shots_1: "First Blood",
                 badge_shots_100: "Rookie",
                 badge_shots_1000: "Trained Marksman",
@@ -707,7 +720,8 @@
                 badge_polyglot: "Linguist",
                 badge_send_photo: "Photo Reporter",
                 badge_rate_site: "Critic",
-                badge_report_bug: "Bug Hunter"
+                badge_report_bug: "Bug Hunter",
+                badge_piwosz: "Beer Enthusiast"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -744,6 +758,8 @@
                 loading_data: "Daten werden geladen...",
                 no_clicks: "Keine Klicks",
                 no_players: "Keine Spieler im Ranking",
+                show_more: "Mehr anzeigen",
+                show_less: "Weniger anzeigen",
                 co_create_title: "Lasst uns diese Seite zusammen gestalten!",
                 send_photo_title: "Foto senden",
                 send_photo_desc: "Hast du einen coolen Schnappschuss vom Stream oder der Route? Teile ihn mit uns!",
@@ -783,7 +799,7 @@
                 badges_button: "Erfolge",
                 badges_modal_title: "Deine Erfolge",
                 badges_progress_label: "Dein Fortschritt",
-                badges_avg_completion: "Durchschnittlich freigeschaltet",
+                badges_avg_completion: "Abgeschlossen",
                 badge_pct_tooltip: "Von {pct}% aller Spieler freigeschaltet",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
                 badge_unlocked_prefix: "Neuer Erfolg!",
@@ -802,6 +818,7 @@
                 badge_desc_send_photo: "Reiche dein Foto über das Formular ein",
                 badge_desc_rate_site: "Hinterlasse Feedback zur Seite",
                 badge_desc_report_bug: "Melde einen Fehler auf der Seite",
+                badge_desc_piwosz: "Like alle Fotos mit dem Hashtag #bier",
                 badge_shots_1: "Erster Abschuss",
                 badge_shots_100: "Anfänger",
                 badge_shots_1000: "Ausgebildeter Schütze",
@@ -818,7 +835,8 @@
                 badge_polyglot: "Sprachwissenschaftler",
                 badge_send_photo: "Fotoreporter",
                 badge_rate_site: "Kritiker",
-                badge_report_bug: "Bug-Jäger"
+                badge_report_bug: "Bug-Jäger",
+                badge_piwosz: "Bierliebhaber"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -855,6 +873,8 @@
                 loading_data: "Загрузка данных...",
                 no_clicks: "Нет кликов",
                 no_players: "Нет игроков в рейтинге",
+                show_more: "Показать больше",
+                show_less: "Показать меньше",
                 co_create_title: "Давайте создавать этот сайт вместе!",
                 send_photo_title: "Отправить фото",
                 send_photo_desc: "Есть классный кадр со стрима или поездки? Поделись им с нашим сообществом!",
@@ -894,7 +914,7 @@
                 badges_button: "Достижения",
                 badges_modal_title: "Твои достижения",
                 badges_progress_label: "Твой прогресс",
-                badges_avg_completion: "В среднем разблокировано",
+                badges_avg_completion: "Завершено",
                 badge_pct_tooltip: "Разблокировано у {pct}% всех игроков",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
                 badge_unlocked_prefix: "Новое достижение!",
@@ -913,6 +933,7 @@
                 badge_desc_send_photo: "Отправь своё фото через форму",
                 badge_desc_rate_site: "Оставь отзыв о сайте",
                 badge_desc_report_bug: "Сообщи об ошибке на сайте",
+                badge_desc_piwosz: "Поставь лайк всем фото с хештегом #пиво",
                 badge_shots_1: "Первая Кровь",
                 badge_shots_100: "Новичок",
                 badge_shots_1000: "Обученный Стрелок",
@@ -929,7 +950,8 @@
                 badge_polyglot: "Лингвист",
                 badge_send_photo: "Фоторепортёр",
                 badge_rate_site: "Критик",
-                badge_report_bug: "Охотник за Багами"
+                badge_report_bug: "Охотник за Багами",
+                badge_piwosz: "Пивной Ценитель"
             }
         };
 
@@ -1026,8 +1048,12 @@
             { id: 'polyglot',      category: 'special', icon: 'fa-language',       rarity: 'blue' },
             { id: 'send_photo',    category: 'special', icon: 'fa-camera-retro',   rarity: 'lightblue' },
             { id: 'rate_site',     category: 'special', icon: 'fa-comment-dots',   rarity: 'lightblue' },
-            { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' }
+            { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' },
+            { id: 'piwosz',        category: 'special', icon: 'fa-beer-mug-empty', rarity: 'pink' }
         ];
+
+        // Zdjęcia oznaczone hashtagiem #piwo - trzeba polubić wszystkie, by odblokować odznakę "Piwosz"
+        const BEER_PHOTO_SRCS = ['image31.png', 'image32.png', 'image27.png', 'image24.png', 'image7.png', 'image5.png'];
 
         // Kolejność rzadkości od najgorszej do najlepszej: szara < jasnoniebieska < niebieska < fioletowa < różowa < czerwona < złota
         const RARITY_STYLES = {
@@ -1076,6 +1102,7 @@
             if (def.id === 'send_photo') return t.badge_desc_send_photo;
             if (def.id === 'rate_site') return t.badge_desc_rate_site;
             if (def.id === 'report_bug') return t.badge_desc_report_bug;
+            if (def.id === 'piwosz') return t.badge_desc_piwosz;
             return '';
         }
 
@@ -1095,6 +1122,12 @@
 
         function checkLikeBadges(count) {
             BADGE_DEFS.filter(b => b.category === 'likes' && count >= b.threshold).forEach(b => unlockBadge(b.id));
+        }
+
+        function checkPiwoszBadge(everLikedSrcs) {
+            if (BEER_PHOTO_SRCS.every(src => everLikedSrcs.includes(src))) {
+                unlockBadge('piwosz');
+            }
         }
 
         function trackIconClick(iconId) {
@@ -1221,14 +1254,9 @@
             const el = document.getElementById('badgesAvgCompletion');
             if (!el || !window.translations) return;
             const t = window.translations[window.currentLang];
-            if (!totalVisitorsCount) { el.textContent = ''; return; }
-            let sumPct = 0;
-            BADGE_DEFS.forEach(def => {
-                const count = badgeStatsData[def.id] || 0;
-                sumPct += Math.min(100, (count / totalVisitorsCount) * 100);
-            });
-            const avg = sumPct / BADGE_DEFS.length;
-            el.textContent = `${t.badges_avg_completion}: ${avg.toFixed(1)}%`;
+            const unlocked = getUnlockedBadges();
+            const pct = BADGE_DEFS.length ? (unlocked.length / BADGE_DEFS.length) * 100 : 0;
+            el.textContent = `${t.badges_avg_completion}: ${pct.toFixed(1)}%`;
         }
 
         function refreshBadgeTilesIfOpen() {
@@ -1269,6 +1297,7 @@
         window.closeBadgesModal = closeBadgesModal;
         window.unlockBadge = unlockBadge;
         window.checkLikeBadges = checkLikeBadges;
+        window.checkPiwoszBadge = checkPiwoszBadge;
         window.checkShotBadges = checkShotBadges;
         window.renderBadgesModal = renderBadgesModal;
 
@@ -1450,6 +1479,11 @@
             document.getElementById('statTotalShots').textContent = data;
         });
 
+        const COUNTRIES_INITIAL_LIMIT = 5;
+        const PLAYERS_INITIAL_LIMIT = 10;
+        let countriesExpanded = false;
+        let playersExpanded = false;
+
         function renderCountriesRanking(countriesData) {
             const tableBody = document.getElementById('countriesTableBody');
             if (!tableBody) return;
@@ -1462,12 +1496,18 @@
                 }))
                 .sort((a, b) => b.clicks - a.clicks);
 
+            const showMoreWrap = document.getElementById('countriesShowMoreWrap');
+            const showMoreBtn = document.getElementById('countriesShowMoreBtn');
+
             if (sortedCountries.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">${window.translations[window.currentLang].no_clicks}</td></tr>`;
+                if (showMoreWrap) showMoreWrap.classList.add('hidden');
                 return;
             }
 
-            sortedCountries.forEach((item, index) => {
+            const visibleCountries = countriesExpanded ? sortedCountries : sortedCountries.slice(0, COUNTRIES_INITIAL_LIMIT);
+
+            visibleCountries.forEach((item, index) => {
                 const activeLang = window.currentLang;
                 const countryName = getCountryDisplayName(item.code, activeLang);
 
@@ -1486,7 +1526,24 @@
                 `;
                 tableBody.appendChild(row);
             });
+
+            if (showMoreWrap && showMoreBtn) {
+                if (sortedCountries.length > COUNTRIES_INITIAL_LIMIT) {
+                    showMoreWrap.classList.remove('hidden');
+                    const t = window.translations[window.currentLang];
+                    showMoreBtn.innerHTML = countriesExpanded
+                        ? `<i class="fas fa-chevron-up mr-1"></i>${t.show_less}`
+                        : `<i class="fas fa-chevron-down mr-1"></i>${t.show_more}`;
+                } else {
+                    showMoreWrap.classList.add('hidden');
+                }
+            }
         }
+
+        window.toggleCountriesExpanded = function() {
+            countriesExpanded = !countriesExpanded;
+            renderCountriesRanking(latestCountriesData);
+        };
 
         let latestCountriesData = {};
         onValue(countriesRef, (snapshot) => {
@@ -1494,9 +1551,9 @@
             renderCountriesRanking(latestCountriesData);
         });
 
-        onValue(playersRef, (snapshot) => {
-            const playersData = snapshot.val() || {};
+        function renderPlayersRanking(playersData) {
             const tableBody = document.getElementById('playersTableBody');
+            if (!tableBody) return;
             tableBody.innerHTML = '';
 
             const sortedPlayers = Object.keys(playersData)
@@ -1509,15 +1566,20 @@
                         country: isObject ? (node.country || 'Unknown') : 'Unknown'
                     };
                 })
-                .sort((a, b) => b.clicks - a.clicks)
-                .slice(0, 10);
+                .sort((a, b) => b.clicks - a.clicks);
+
+            const showMoreWrap = document.getElementById('playersShowMoreWrap');
+            const showMoreBtn = document.getElementById('playersShowMoreBtn');
 
             if (sortedPlayers.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-400">${window.translations[window.currentLang].no_players}</td></tr>`;
+                if (showMoreWrap) showMoreWrap.classList.add('hidden');
                 return;
             }
 
-            sortedPlayers.forEach((item, index) => {
+            const visiblePlayers = playersExpanded ? sortedPlayers : sortedPlayers.slice(0, PLAYERS_INITIAL_LIMIT);
+
+            visiblePlayers.forEach((item, index) => {
                 const isMe = item.nick === userNick;
                 
                 const lowerCode = item.country.toLowerCase();
@@ -1539,6 +1601,29 @@
                 `;
                 tableBody.appendChild(row);
             });
+
+            if (showMoreWrap && showMoreBtn) {
+                if (sortedPlayers.length > PLAYERS_INITIAL_LIMIT) {
+                    showMoreWrap.classList.remove('hidden');
+                    const t = window.translations[window.currentLang];
+                    showMoreBtn.innerHTML = playersExpanded
+                        ? `<i class="fas fa-chevron-up mr-1"></i>${t.show_less}`
+                        : `<i class="fas fa-chevron-down mr-1"></i>${t.show_more}`;
+                } else {
+                    showMoreWrap.classList.add('hidden');
+                }
+            }
+        }
+
+        window.togglePlayersExpanded = function() {
+            playersExpanded = !playersExpanded;
+            renderPlayersRanking(latestPlayersData);
+        };
+
+        let latestPlayersData = {};
+        onValue(playersRef, (snapshot) => {
+            latestPlayersData = snapshot.val() || {};
+            renderPlayersRanking(latestPlayersData);
         });
 
         // ODTWARZANIE STANU MODALA NICKU
@@ -1703,6 +1788,10 @@
             renderCountriesRanking(latestCountriesData);
         }
 
+        window.updatePlayersOnLangChange = function() {
+            renderPlayersRanking(latestPlayersData);
+        }
+
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
@@ -1742,6 +1831,9 @@
                 runTransaction(visitorsRef, (cur) => (cur || 0) + 1);
                 localStorage.setItem('justAndrewVisitorCounted', 'true');
             }
+
+            const everLikedAtLoad = JSON.parse(localStorage.getItem('justAndrewEverLikedPhotos') || '[]');
+            checkPiwoszBadge(everLikedAtLoad);
 
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
@@ -2102,6 +2194,10 @@
                 window.updateCountriesOnLangChange();
             }
 
+            if (window.updatePlayersOnLangChange) {
+                window.updatePlayersOnLangChange();
+            }
+
             renderGallery();
 
             if (document.getElementById('imageModal').classList.contains('active')) {
@@ -2416,6 +2512,7 @@
                     everLiked.push(src);
                     localStorage.setItem('justAndrewEverLikedPhotos', JSON.stringify(everLiked));
                     window.checkLikeBadges(everLiked.length);
+                    window.checkPiwoszBadge(everLiked);
                 }
             }
             
