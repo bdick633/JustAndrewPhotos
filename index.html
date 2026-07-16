@@ -25,6 +25,28 @@
         
         .modal-fade-in { animation: fadeIn 0.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* Ukrywa wizualnie pasek przewijania, zachowując możliwość scrollowania */
+        .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+        /* Konfetti przy odblokowaniu odznaki */
+        .confetti-piece {
+            position: fixed;
+            top: -12px;
+            width: 8px;
+            height: 14px;
+            opacity: 0.9;
+            z-index: 70;
+            pointer-events: none;
+            animation-name: confettiFall;
+            animation-timing-function: cubic-bezier(0.35, 0, 0.65, 1);
+            animation-fill-mode: forwards;
+        }
+        @keyframes confettiFall {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
         
         /* Personalizowany, stylowy kontener wyboru języka */
         .lang-dropdown-container {
@@ -435,7 +457,7 @@
 
     <!-- MODAL ODZNAKI -->
     <div id="badgesModal" onclick="closeBadgesModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
-        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto overscroll-contain">
+        <div onclick="event.stopPropagation()" class="max-w-lg w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in max-h-[85vh] overflow-y-auto overscroll-contain no-scrollbar">
             <div class="flex items-center gap-3 mb-1">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-md">
                     <i class="fas fa-award text-lg"></i>
@@ -445,10 +467,14 @@
                 </div>
                 <button onclick="closeBadgesModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
             </div>
-            <div id="badgesProgressBar" class="flex items-center justify-between mb-4 mt-2 text-[11px] sm:text-xs">
+            <div id="badgesProgressBar" class="flex items-center justify-between mb-2 mt-2 text-[11px] sm:text-xs">
                 <span class="font-bold text-gray-600 dark:text-gray-300"><span data-i18n="badges_progress_label">Twój postęp</span>: <span id="badgesLocalCount">0/0</span></span>
                 <span id="badgesAvgCompletion" class="text-gray-400 dark:text-gray-500"></span>
             </div>
+            <div class="w-full h-2 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden mb-4">
+                <div id="badgesProgressBarFill" class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-700 ease-out" style="width:0%"></div>
+            </div>
+            <div id="badgesFilterTabs"></div>
             <div id="badgesGrid" class="flex flex-col gap-5 mt-1"></div>
         </div>
     </div>
@@ -569,10 +595,15 @@
                 badges_button: "Osiągnięcia",
                 badges_modal_title: "Twoje osiągnięcia",
                 badges_progress_label: "Twój postęp",
+                badge_filter_all: "Wszystkie",
+                badge_filter_unlocked: "Odblokowane",
+                badge_filter_locked: "Zablokowane",
                 badges_avg_completion: "Ukończono",
                 badge_pct_tooltip: "Odblokowało {pct}% wszystkich graczy",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
                 badge_unlocked_prefix: "Nowe osiągnięcie!",
+                badge_share: "Pochwal się",
+                badge_share_text: "Zdobyłem/-am odznakę „{name}”!",
                 badge_locked: "Zablokowane",
                 badge_group_shots: "Strzały",
                 badge_group_likes: "Polubienia",
@@ -589,6 +620,7 @@
                 badge_desc_rate_site: "Zostaw opinię o stronie",
                 badge_desc_report_bug: "Zgłoś błąd lub problem na stronie",
                 badge_desc_piwosz: "Polub wszystkie zdjęcia oznaczone hashtagiem #piwo",
+                badge_desc_nightowl: "Odwiedź stronę między 00:00 a 4:59 czasu lokalnego",
                 badge_shots_1: "Pierwsze Koty Za Płoty",
                 badge_shots_100: "Świeżak",
                 badge_shots_1000: "Wyszkolony Strzelec",
@@ -606,7 +638,8 @@
                 badge_send_photo: "Fotoreporter",
                 badge_rate_site: "Krytyk",
                 badge_report_bug: "Łowca Błędów",
-                badge_piwosz: "Piwosz"
+                badge_piwosz: "Piwosz",
+                badge_nightowl: "Nocna Zmiana"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -684,10 +717,15 @@
                 badges_button: "Achievements",
                 badges_modal_title: "Your Achievements",
                 badges_progress_label: "Your progress",
+                badge_filter_all: "All",
+                badge_filter_unlocked: "Unlocked",
+                badge_filter_locked: "Locked",
                 badges_avg_completion: "Completed",
                 badge_pct_tooltip: "Unlocked by {pct}% of all players",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
                 badge_unlocked_prefix: "New achievement!",
+                badge_share: "Show off",
+                badge_share_text: "I unlocked the \"{name}\" achievement!",
                 badge_locked: "Locked",
                 badge_group_shots: "Shots",
                 badge_group_likes: "Likes",
@@ -704,6 +742,7 @@
                 badge_desc_rate_site: "Leave feedback about the site",
                 badge_desc_report_bug: "Report a bug or issue on the site",
                 badge_desc_piwosz: "Like every photo tagged with the #beer hashtag",
+                badge_desc_nightowl: "Visit the site between midnight and 4:59 AM local time",
                 badge_shots_1: "First Blood",
                 badge_shots_100: "Rookie",
                 badge_shots_1000: "Trained Marksman",
@@ -721,7 +760,8 @@
                 badge_send_photo: "Photo Reporter",
                 badge_rate_site: "Critic",
                 badge_report_bug: "Bug Hunter",
-                badge_piwosz: "Beer Enthusiast"
+                badge_piwosz: "Beer Enthusiast",
+                badge_nightowl: "Night Shift"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -799,10 +839,15 @@
                 badges_button: "Erfolge",
                 badges_modal_title: "Deine Erfolge",
                 badges_progress_label: "Dein Fortschritt",
+                badge_filter_all: "Alle",
+                badge_filter_unlocked: "Freigeschaltet",
+                badge_filter_locked: "Gesperrt",
                 badges_avg_completion: "Abgeschlossen",
                 badge_pct_tooltip: "Von {pct}% aller Spieler freigeschaltet",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
                 badge_unlocked_prefix: "Neuer Erfolg!",
+                badge_share: "Zeig es her",
+                badge_share_text: "Ich habe den Erfolg „{name}” freigeschaltet!",
                 badge_locked: "Gesperrt",
                 badge_group_shots: "Schüsse",
                 badge_group_likes: "Favoriten",
@@ -819,6 +864,7 @@
                 badge_desc_rate_site: "Hinterlasse Feedback zur Seite",
                 badge_desc_report_bug: "Melde einen Fehler auf der Seite",
                 badge_desc_piwosz: "Like alle Fotos mit dem Hashtag #bier",
+                badge_desc_nightowl: "Besuche die Seite zwischen 00:00 und 4:59 Uhr Ortszeit",
                 badge_shots_1: "Erster Abschuss",
                 badge_shots_100: "Anfänger",
                 badge_shots_1000: "Ausgebildeter Schütze",
@@ -836,7 +882,8 @@
                 badge_send_photo: "Fotoreporter",
                 badge_rate_site: "Kritiker",
                 badge_report_bug: "Bug-Jäger",
-                badge_piwosz: "Bierliebhaber"
+                badge_piwosz: "Bierliebhaber",
+                badge_nightowl: "Nachtschicht"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -914,10 +961,15 @@
                 badges_button: "Достижения",
                 badges_modal_title: "Твои достижения",
                 badges_progress_label: "Твой прогресс",
+                badge_filter_all: "Все",
+                badge_filter_unlocked: "Разблокированные",
+                badge_filter_locked: "Заблокированные",
                 badges_avg_completion: "Завершено",
                 badge_pct_tooltip: "Разблокировано у {pct}% всех игроков",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
                 badge_unlocked_prefix: "Новое достижение!",
+                badge_share: "Похвастаться",
+                badge_share_text: "Я получил(а) достижение «{name}»!",
                 badge_locked: "Заблокировано",
                 badge_group_shots: "Выстрелы",
                 badge_group_likes: "Лайки",
@@ -934,6 +986,7 @@
                 badge_desc_rate_site: "Оставь отзыв о сайте",
                 badge_desc_report_bug: "Сообщи об ошибке на сайте",
                 badge_desc_piwosz: "Поставь лайк всем фото с хештегом #пиво",
+                badge_desc_nightowl: "Зайди на сайт между 00:00 и 4:59 по местному времени",
                 badge_shots_1: "Первая Кровь",
                 badge_shots_100: "Новичок",
                 badge_shots_1000: "Обученный Стрелок",
@@ -951,7 +1004,8 @@
                 badge_send_photo: "Фоторепортёр",
                 badge_rate_site: "Критик",
                 badge_report_bug: "Охотник за Багами",
-                badge_piwosz: "Пивной Ценитель"
+                badge_piwosz: "Пивной Ценитель",
+                badge_nightowl: "Ночная Смена"
             }
         };
 
@@ -1042,6 +1096,7 @@
             { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'lightblue' },
             { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'purple' },
             { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'pink' },
+            { id: 'piwosz',        category: 'likes', icon: 'fa-beer-mug-empty', rarity: 'pink' },
             { id: 'dark_mode',     category: 'special', icon: 'fa-moon',           rarity: 'gray' },
             { id: 'cinema',        category: 'special', icon: 'fa-film',           rarity: 'lightblue' },
             { id: 'explorer',      category: 'special', icon: 'fa-compass',        rarity: 'blue' },
@@ -1049,8 +1104,11 @@
             { id: 'send_photo',    category: 'special', icon: 'fa-camera-retro',   rarity: 'lightblue' },
             { id: 'rate_site',     category: 'special', icon: 'fa-comment-dots',   rarity: 'lightblue' },
             { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' },
-            { id: 'piwosz',        category: 'special', icon: 'fa-beer-mug-empty', rarity: 'pink' }
+            { id: 'nightowl',      category: 'special', icon: 'fa-cloud-moon',     rarity: 'lightblue' }
         ];
+
+        // Kolejność rzadkości od najgorszej do najlepszej, używana do sortowania odznak w obrębie kategorii
+        const RARITY_ORDER = { gray: 0, lightblue: 1, blue: 2, purple: 3, pink: 4, red: 5, gold: 6 };
 
         // Zdjęcia oznaczone hashtagiem #piwo - trzeba polubić wszystkie, by odblokować odznakę "Piwosz"
         const BEER_PHOTO_SRCS = ['image31.png', 'image32.png', 'image27.png', 'image24.png', 'image7.png', 'image5.png'];
@@ -1077,6 +1135,143 @@
         };
         function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.gray; }
         function getRaritySoundMeta(rarity) { return RARITY_SOUND_META[rarity] || RARITY_SOUND_META.gray; }
+
+        // Wersje hex kolorystyki rzadkości - potrzebne do rysowania na <canvas> (Tailwind classes tam nie działają)
+        const RARITY_HEX = {
+            gray:      ['#94a3b8', '#64748b'],
+            lightblue: ['#7dd3fc', '#38bdf8'],
+            blue:      ['#38bdf8', '#2563eb'],
+            purple:    ['#a855f7', '#4f46e5'],
+            pink:      ['#ec4899', '#e11d48'],
+            red:       ['#ef4444', '#b91c1c'],
+            gold:      ['#fbbf24', '#d97706']
+        };
+        // Punkty unicode Font Awesome 6 Free (Solid) dla ikon użytych w BADGE_DEFS - do rysowania na <canvas>
+        const BADGE_ICON_UNICODE = {
+            'fa-paw': '\uf1b0',
+            'fa-crosshairs': '\uf05b',
+            'fa-bullseye': '\uf140',
+            'fa-binoculars': '\uf1e5',
+            'fa-fire': '\uf06d',
+            'fa-crown': '\uf521',
+            'fa-heart': '\uf004',
+            'fa-gem': '\uf3a5',
+            'fa-star': '\uf005',
+            'fa-trophy': '\uf091',
+            'fa-beer-mug-empty': '\uf0fc',
+            'fa-moon': '\uf186',
+            'fa-film': '\uf008',
+            'fa-compass': '\uf14e',
+            'fa-language': '\uf1ab',
+            'fa-camera-retro': '\uf083',
+            'fa-comment-dots': '\uf4ad',
+            'fa-bug': '\uf188',
+            'fa-cloud-moon': '\uf6c3'
+        };
+
+        function roundRectPath(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+        }
+
+        // Generuje obrazek-kartę odznaki (canvas, offline) i udostępnia go przez navigator.share,
+        // a jeśli przeglądarka tego nie wspiera - pobiera go jako PNG.
+        async function shareBadge(id) {
+            const def = BADGE_DEFS.find(b => b.id === id);
+            if (!def) return;
+            const t = window.translations[window.currentLang];
+            const name = getBadgeName(id);
+            const hex = RARITY_HEX[def.rarity] || RARITY_HEX.gray;
+
+            const canvas = document.createElement('canvas');
+            const W = 600, H = 340;
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+
+            const bg = ctx.createLinearGradient(0, 0, W, H);
+            bg.addColorStop(0, '#111827');
+            bg.addColorStop(1, '#1f2937');
+            roundRectPath(ctx, 0, 0, W, H, 28);
+            ctx.fillStyle = bg;
+            ctx.fill();
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = hex[1];
+            roundRectPath(ctx, 4, 4, W - 8, H - 8, 24);
+            ctx.stroke();
+
+            const cx = W / 2, cy = 128, r = 58;
+            const iconGrad = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+            iconGrad.addColorStop(0, hex[0]);
+            iconGrad.addColorStop(1, hex[1]);
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = iconGrad;
+            ctx.shadowColor = hex[1];
+            ctx.shadowBlur = 30;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            try { await document.fonts.load('900 56px "Font Awesome 6 Free"'); } catch (e) {}
+            const glyph = BADGE_ICON_UNICODE[def.icon];
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            if (glyph) {
+                ctx.font = '900 54px "Font Awesome 6 Free"';
+                ctx.fillText(glyph, cx, cy + 4);
+            } else {
+                ctx.font = '700 50px sans-serif';
+                ctx.fillText('★', cx, cy + 4);
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 30px sans-serif';
+            ctx.fillText(name, W / 2, 232);
+
+            ctx.fillStyle = hex[0];
+            ctx.font = '700 15px sans-serif';
+            ctx.fillText((t.badge_unlocked_prefix || '').toUpperCase(), W / 2, 268);
+
+            ctx.fillStyle = 'rgba(255,255,255,0.35)';
+            ctx.font = '600 13px sans-serif';
+            ctx.fillText(window.location.hostname || '', W / 2, 308);
+
+            canvas.toBlob(async (blob) => {
+                if (!blob) return;
+                const fileName = `${id}-badge.png`;
+                const file = new File([blob], fileName, { type: 'image/png' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: name,
+                            text: (t.badge_share_text || '').replace('{name}', name)
+                        });
+                        return;
+                    } catch (e) {
+                        // Anulowane przez użytkownika lub udostępnianie się nie powiodło - pobierz plik zamiast tego
+                    }
+                }
+
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 2000);
+            }, 'image/png');
+        }
+        window.shareBadge = shareBadge;
+
         const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
 
         function getUnlockedBadges() {
@@ -1103,6 +1298,7 @@
             if (def.id === 'rate_site') return t.badge_desc_rate_site;
             if (def.id === 'report_bug') return t.badge_desc_report_bug;
             if (def.id === 'piwosz') return t.badge_desc_piwosz;
+            if (def.id === 'nightowl') return t.badge_desc_nightowl;
             return '';
         }
 
@@ -1141,6 +1337,27 @@
             }
         }
 
+        // Lekki efekt konfetti (bez zewnętrznych bibliotek) - kilkanaście/kilkadziesiąt
+        // elementów <div> lecących w dół z góry ekranu, znikających po ok. 2-3s,
+        // nie blokujących kliknięć (pointer-events: none w CSS).
+        function spawnConfetti() {
+            const colors = ['#6366f1', '#a855f7', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+            const pieceCount = 36;
+            for (let i = 0; i < pieceCount; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                const duration = 2000 + Math.random() * 1000;
+                const delay = Math.random() * 250;
+                piece.style.left = `${Math.random() * 100}vw`;
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.borderRadius = Math.random() > 0.5 ? '2px' : '50%';
+                piece.style.animationDuration = `${duration}ms`;
+                piece.style.animationDelay = `${delay}ms`;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), duration + delay + 150);
+            }
+        }
+
         function showBadgeUnlockPopup(id) {
             const def = BADGE_DEFS.find(b => b.id === id);
             if (!def) return;
@@ -1153,6 +1370,8 @@
                 sound.currentTime = 0;
                 sound.play().catch(() => {});
             }
+
+            spawnConfetti();
 
             const popup = document.createElement('div');
             popup.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border ${style.ring} ${style.glow} rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]`;
@@ -1205,14 +1424,46 @@
                 `;
             }
 
+            const shareBtn = isUnlocked ? `
+                <button onclick="event.stopPropagation(); shareBadge('${def.id}')" title="${t.badge_share}" class="absolute top-2 left-2 w-5 h-5 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-black/10 dark:hover:bg-white/20 transition-colors">
+                    <i class="fas fa-share-nodes text-[9px]"></i>
+                </button>
+            ` : '';
+
             return `
                 <div class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
                     ${pctBadge}
+                    ${shareBtn}
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
                         <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
                     </div>
                     <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
                     ${desc ? `<p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">${desc}</p>` : ''}
+                </div>
+            `;
+        }
+
+        let badgeFilter = 'all';
+
+        function setBadgeFilter(filter) {
+            badgeFilter = filter;
+            renderBadgesModal();
+        }
+        window.setBadgeFilter = setBadgeFilter;
+
+        function renderBadgeFilterTabs(t) {
+            const filters = [
+                { key: 'all',      label: t.badge_filter_all },
+                { key: 'unlocked', label: t.badge_filter_unlocked },
+                { key: 'locked',   label: t.badge_filter_locked }
+            ];
+            return `
+                <div class="flex items-center gap-1.5 mb-4 p-1 rounded-xl bg-gray-100 dark:bg-gray-900/60">
+                    ${filters.map(f => `
+                        <button onclick="setBadgeFilter('${f.key}')" class="flex-1 py-1.5 rounded-lg text-[11px] sm:text-xs font-black transition-all ${badgeFilter === f.key ? 'bg-white dark:bg-[#1a1c24] text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'}">
+                            ${f.label}
+                        </button>
+                    `).join('')}
                 </div>
             `;
         }
@@ -1227,6 +1478,9 @@
             if (localCountEl) localCountEl.textContent = `${unlocked.length}/${BADGE_DEFS.length}`;
             updateBadgesProgressDisplay();
 
+            const filterTabsEl = document.getElementById('badgesFilterTabs');
+            if (filterTabsEl) filterTabsEl.innerHTML = renderBadgeFilterTabs(t);
+
             const groups = [
                 { key: 'shots',   label: t.badge_group_shots },
                 { key: 'likes',   label: t.badge_group_likes },
@@ -1234,8 +1488,12 @@
             ];
 
             grid.innerHTML = groups.map(g => {
-                const defs = BADGE_DEFS.filter(d => d.category === g.key);
+                let defs = BADGE_DEFS.filter(d => d.category === g.key);
+                if (badgeFilter === 'unlocked') defs = defs.filter(d => unlocked.includes(d.id));
+                if (badgeFilter === 'locked') defs = defs.filter(d => !unlocked.includes(d.id));
                 if (!defs.length) return '';
+                // Sortowanie odznak w obrębie kategorii wg rosnącej rzadkości (od najpospolitszej do najrzadszej)
+                defs = [...defs].sort((a, b) => (RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0));
                 return `
                     <div class="mb-1">
                         <p class="text-[11px] font-black uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2 pl-1">${g.label}</p>
@@ -1252,11 +1510,13 @@
 
         function updateBadgesProgressDisplay() {
             const el = document.getElementById('badgesAvgCompletion');
+            const barFill = document.getElementById('badgesProgressBarFill');
             if (!el || !window.translations) return;
             const t = window.translations[window.currentLang];
             const unlocked = getUnlockedBadges();
             const pct = BADGE_DEFS.length ? (unlocked.length / BADGE_DEFS.length) * 100 : 0;
             el.textContent = `${t.badges_avg_completion}: ${pct.toFixed(1)}%`;
+            if (barFill) barFill.style.width = `${pct}%`;
         }
 
         function refreshBadgeTilesIfOpen() {
@@ -1834,6 +2094,12 @@
 
             const everLikedAtLoad = JSON.parse(localStorage.getItem('justAndrewEverLikedPhotos') || '[]');
             checkPiwoszBadge(everLikedAtLoad);
+
+            // Odznaka "Nocna Zmiana": wejście na stronę między 00:00 a 04:59 czasu lokalnego użytkownika
+            const currentHour = new Date().getHours();
+            if (currentHour >= 0 && currentHour < 5) {
+                unlockBadge('nightowl');
+            }
 
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
