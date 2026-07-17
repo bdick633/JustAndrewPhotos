@@ -47,6 +47,13 @@
             0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
+
+        /* Podświetlenie kafelka odznaki, do którego przenosi kliknięcie w popup odblokowania */
+        .badge-tile-highlight { animation: badgeTilePulse 1.4s ease-in-out 2; }
+        @keyframes badgeTilePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.55); }
+            50%      { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
+        }
         
         /* Personalizowany, stylowy kontener wyboru języka */
         .lang-dropdown-container {
@@ -479,6 +486,23 @@
         </div>
     </div>
 
+    <div id="badgeShareModal" onclick="closeBadgeShareModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-[60] p-6">
+        <div onclick="event.stopPropagation()" class="max-w-sm w-full bg-white dark:bg-[#1a1c24] border border-gray-100 dark:border-gray-800 p-6 rounded-3xl shadow-2xl modal-fade-in">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                    <i class="fas fa-share-nodes text-sm"></i>
+                </div>
+                <h3 class="text-base font-black text-gray-900 dark:text-white" data-i18n="badge_share_modal_title">Twoja odznaka</h3>
+                <button onclick="closeBadgeShareModal()" class="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <img id="badgeShareImg" src="" alt="" class="w-full rounded-2xl shadow-lg mb-4 border border-gray-100 dark:border-gray-800">
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 text-center" data-i18n="badge_share_modal_subtitle">Pobierz obrazek i wrzuć go, gdzie chcesz</p>
+            <a id="badgeShareDownloadBtn" href="#" download="odznaka.png" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm transition-colors">
+                <i class="fas fa-download"></i> <span data-i18n="badge_share_download">Pobierz obrazek</span>
+            </a>
+        </div>
+    </div>
+
     <!-- MODAL DISCORD -->
     <div id="discordModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
         <div onclick="event.stopPropagation()" class="max-w-xs w-full bg-white dark:bg-[#1a1c24] p-8 rounded-3xl text-center shadow-2xl">
@@ -602,8 +626,12 @@
                 badge_pct_tooltip: "Odblokowało {pct}% wszystkich graczy",
                 badges_modal_subtitle: "Zbieraj osiągnięcia klikając, polubiając zdjęcia i odkrywając stronę!",
                 badge_unlocked_prefix: "Nowe osiągnięcie!",
+                badge_unlock_popup_hint: "Kliknij, aby zobaczyć w zakładce osiągnięć",
                 badge_share: "Pochwal się",
                 badge_share_text: "Zdobyłem/-am odznakę „{name}”!",
+                badge_share_modal_title: "Twoja odznaka",
+                badge_share_modal_subtitle: "Pobierz obrazek i wrzuć go, gdzie chcesz",
+                badge_share_download: "Pobierz obrazek",
                 badge_locked: "Zablokowane",
                 badge_group_shots: "Strzały",
                 badge_group_likes: "Polubienia",
@@ -724,8 +752,12 @@
                 badge_pct_tooltip: "Unlocked by {pct}% of all players",
                 badges_modal_subtitle: "Collect achievements by clicking, liking photos, and exploring the site!",
                 badge_unlocked_prefix: "New achievement!",
+                badge_unlock_popup_hint: "Click to view it in your achievements",
                 badge_share: "Show off",
                 badge_share_text: "I unlocked the \"{name}\" achievement!",
+                badge_share_modal_title: "Your badge",
+                badge_share_modal_subtitle: "Download the image and share it anywhere",
+                badge_share_download: "Download image",
                 badge_locked: "Locked",
                 badge_group_shots: "Shots",
                 badge_group_likes: "Likes",
@@ -846,8 +878,12 @@
                 badge_pct_tooltip: "Von {pct}% aller Spieler freigeschaltet",
                 badges_modal_subtitle: "Sammle Erfolge durch Klicken, Favorisieren von Fotos und Erkunden der Seite!",
                 badge_unlocked_prefix: "Neuer Erfolg!",
+                badge_unlock_popup_hint: "Klicken, um es bei deinen Erfolgen zu sehen",
                 badge_share: "Zeig es her",
                 badge_share_text: "Ich habe den Erfolg „{name}” freigeschaltet!",
+                badge_share_modal_title: "Dein Abzeichen",
+                badge_share_modal_subtitle: "Lade das Bild herunter und teile es überall",
+                badge_share_download: "Bild herunterladen",
                 badge_locked: "Gesperrt",
                 badge_group_shots: "Schüsse",
                 badge_group_likes: "Favoriten",
@@ -968,8 +1004,12 @@
                 badge_pct_tooltip: "Разблокировано у {pct}% всех игроков",
                 badges_modal_subtitle: "Собирай достижения, кликая, добавляя фото в избранное и исследуя сайт!",
                 badge_unlocked_prefix: "Новое достижение!",
+                badge_unlock_popup_hint: "Нажми, чтобы посмотреть в достижениях",
                 badge_share: "Похвастаться",
                 badge_share_text: "Я получил(а) достижение «{name}»!",
+                badge_share_modal_title: "Твоё достижение",
+                badge_share_modal_subtitle: "Скачай картинку и поделись ей где хочешь",
+                badge_share_download: "Скачать картинку",
                 badge_locked: "Заблокировано",
                 badge_group_shots: "Выстрелы",
                 badge_group_likes: "Лайки",
@@ -1247,7 +1287,12 @@
                 const fileName = `${id}-badge.png`;
                 const file = new File([blob], fileName, { type: 'image/png' });
 
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                // Na telefonie natywne okno "Udostępnij" ma sens (Instagram, Messenger, SMS itd.).
+                // Na komputerze pokazujemy własne, ładne okienko z podglądem i przyciskiem pobierania
+                // zamiast systemowego okna udostępniania (które na Windowsie proponuje głównie Pocztę/OneNote).
+                const isMobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+
+                if (isMobileDevice && navigator.canShare && navigator.canShare({ files: [file] })) {
                     try {
                         await navigator.share({
                             files: [file],
@@ -1256,21 +1301,41 @@
                         });
                         return;
                     } catch (e) {
-                        // Anulowane przez użytkownika lub udostępnianie się nie powiodło - pobierz plik zamiast tego
+                        // Anulowane przez użytkownika lub udostępnianie się nie powiodło - pokaż okienko z podglądem
                     }
                 }
 
                 const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                setTimeout(() => URL.revokeObjectURL(url), 2000);
+                if (currentShareObjectUrl) URL.revokeObjectURL(currentShareObjectUrl);
+                currentShareObjectUrl = url;
+                const img = document.getElementById('badgeShareImg');
+                const dlBtn = document.getElementById('badgeShareDownloadBtn');
+                if (img) { img.src = url; img.alt = name; }
+                if (dlBtn) { dlBtn.href = url; dlBtn.download = fileName; }
+
+                const shareModal = document.getElementById('badgeShareModal');
+                if (shareModal) {
+                    shareModal.classList.remove('hidden');
+                    shareModal.classList.add('flex');
+                }
             }, 'image/png');
         }
         window.shareBadge = shareBadge;
+
+        let currentShareObjectUrl = null;
+
+        function closeBadgeShareModal() {
+            const shareModal = document.getElementById('badgeShareModal');
+            if (shareModal) {
+                shareModal.classList.add('hidden');
+                shareModal.classList.remove('flex');
+            }
+            if (currentShareObjectUrl) {
+                URL.revokeObjectURL(currentShareObjectUrl);
+                currentShareObjectUrl = null;
+            }
+        }
+        window.closeBadgeShareModal = closeBadgeShareModal;
 
         const SOCIAL_ICONS = ['instagram', 'facebook', 'youtube', 'tiktok', 'kick', 'tipply', 'discord', 'steam', 'faceit'];
 
@@ -1284,6 +1349,8 @@
 
         function getBadgeDesc(def) {
             const t = window.translations[window.currentLang];
+            if (def.id === 'piwosz') return t.badge_desc_piwosz;
+            if (def.id === 'nightowl') return t.badge_desc_nightowl;
             if (def.category === 'shots') {
                 return def.threshold === 1 ? t.badge_desc_shots_1 : t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
             }
@@ -1297,8 +1364,6 @@
             if (def.id === 'send_photo') return t.badge_desc_send_photo;
             if (def.id === 'rate_site') return t.badge_desc_rate_site;
             if (def.id === 'report_bug') return t.badge_desc_report_bug;
-            if (def.id === 'piwosz') return t.badge_desc_piwosz;
-            if (def.id === 'nightowl') return t.badge_desc_nightowl;
             return '';
         }
 
@@ -1374,7 +1439,9 @@
             spawnConfetti();
 
             const popup = document.createElement('div');
-            popup.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border ${style.ring} ${style.glow} rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw]`;
+            popup.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-white dark:bg-[#1a1c24] border ${style.ring} ${style.glow} rounded-2xl px-5 py-3.5 opacity-0 -translate-y-4 transition-all duration-500 max-w-[90vw] cursor-pointer hover:scale-[1.02]`;
+            popup.title = t.badge_unlock_popup_hint || '';
+            popup.onclick = () => openBadgesModalToBadge(id);
             popup.innerHTML = `
                 <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${style.grad} flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
                     <i class="fas ${def.icon}"></i>
@@ -1431,7 +1498,7 @@
             ` : '';
 
             return `
-                <div class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 opacity-60'}">
+                <div id="badge-tile-${def.id}" class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : `${style.ring} bg-gray-50 dark:bg-gray-900/40 opacity-70`}">
                     ${pctBadge}
                     ${shareBtn}
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
@@ -1498,7 +1565,14 @@
                     <div class="mb-1">
                         <p class="text-[11px] font-black uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2 pl-1">${g.label}</p>
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            ${defs.map(def => renderBadgeTile(def, unlocked, t)).join('')}
+                            ${defs.map(def => {
+                                try {
+                                    return renderBadgeTile(def, unlocked, t);
+                                } catch (e) {
+                                    console.error('Błąd renderowania odznaki', def.id, e);
+                                    return '';
+                                }
+                            }).join('')}
                         </div>
                     </div>
                 `;
@@ -1538,7 +1612,14 @@
         });
 
         function openBadgesModal() {
-            renderBadgesModal();
+            // Modal ma się otworzyć ZAWSZE, nawet jeśli renderowanie siatki odznak
+            // z jakiegoś powodu rzuci błąd - inaczej jeden zepsuty kafelek blokuje
+            // kliknięcie w całą zakładkę osiągnięć.
+            try {
+                renderBadgesModal();
+            } catch (e) {
+                console.error('Błąd renderowania modala odznak:', e);
+            }
             document.getElementById('badgesModal').classList.remove('hidden');
             document.getElementById('badgesModal').classList.add('flex');
             document.body.style.overflow = 'hidden';
@@ -1551,6 +1632,23 @@
                 document.body.style.overflow = 'auto';
             }
         }
+
+        // Otwiera zakładkę osiągnięć, ustawia filtr na "Wszystkie" (żeby dana odznaka
+        // na pewno była widoczna niezależnie od aktywnego filtra), po czym przewija
+        // do konkretnego kafelka i chwilę go podświetla. Wywoływane po kliknięciu
+        // w popup odblokowania nowej odznaki.
+        function openBadgesModalToBadge(id) {
+            badgeFilter = 'all';
+            openBadgesModal();
+            setTimeout(() => {
+                const tile = document.getElementById(`badge-tile-${id}`);
+                if (!tile) return;
+                tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                tile.classList.add('badge-tile-highlight');
+                setTimeout(() => tile.classList.remove('badge-tile-highlight'), 1500);
+            }, 60);
+        }
+        window.openBadgesModalToBadge = openBadgesModalToBadge;
 
         window.trackIconClick = trackIconClick;
         window.openBadgesModal = openBadgesModal;
