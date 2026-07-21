@@ -1067,13 +1067,14 @@
         // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
         // PEŁNY RESET WSZYSTKIEGO (kliknięcia, polubienia, topki, odznaki, licznik odwiedzających): ZMIANA NA _v5 / _v2
-        const clicksRef = ref(db, 'clicks_v4');
-        const likesRef = ref(db, 'likes_v4');
-        const countriesRef = ref(db, 'countries_v5');
-        const playersRef = ref(db, 'players_v5');
+        // KOLEJNY PEŁNY RESET WSZYSTKIEGO: ZMIANA NA _v6 / _v3
+        const clicksRef = ref(db, 'clicks_v5');
+        const likesRef = ref(db, 'likes_v5');
+        const countriesRef = ref(db, 'countries_v6');
+        const playersRef = ref(db, 'players_v6');
         // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
-        const badgeStatsRef = ref(db, 'badge_stats_v2');
-        const visitorsRef = ref(db, 'total_visitors_v2');
+        const badgeStatsRef = ref(db, 'badge_stats_v3');
+        const visitorsRef = ref(db, 'total_visitors_v3');
 
         // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
         // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
@@ -1372,7 +1373,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
-            runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
+            runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1803,13 +1804,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v5/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v6/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v5/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v6/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -1824,7 +1825,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v4/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v5/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -2055,7 +2056,7 @@
 
                 try {
                     // Weryfikacja unikalności nicku w bazie danych Firebase
-                    const newNickRef = ref(db, `players_v5/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v6/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -2065,7 +2066,7 @@
                     }
 
                     // Jeśli nick jest w pełni wolny, migrujemy dane
-                    const oldNickRef = ref(db, `players_v5/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v6/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -2153,7 +2154,7 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v7";
+            const epochKey = "justAndrewReset_v8";
             if (localStorage.getItem(epochKey) !== "true") {
                 // PEŁNY RESET: każdy zaczyna od zera - kliknięcia, nick, odznaki, polubienia/ulubione i licznik odwiedzin.
                 localStorage.setItem('justAndrewLocalClicks', '0');
@@ -2167,6 +2168,8 @@
                 localStorage.removeItem('justAndrewEverLikedPhotos');
                 localStorage.removeItem('justAndrewUserNick');
                 localStorage.removeItem('justAndrewVisitorCounted');
+                localStorage.removeItem('tipplyBannerClosed');
+                localStorage.removeItem('justAndrewBadgeStatsBackfilled_v2');
                 localStorage.setItem(epochKey, "true");
             }
 
@@ -2202,7 +2205,7 @@
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
                 alreadyUnlocked.forEach(id => {
-                    runTransaction(ref(db, `badge_stats_v2/${id}`), (cur) => (cur || 0) + 1);
+                    runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
                 });
                 localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
@@ -2243,12 +2246,12 @@
             { 
                 src: 'image37.png', cat: 'Stream', globalLikes: 0,
                 title: { pl: 'Strefa Pełnego Skupienia', en: 'Full Focus Zone', de: 'Zone voller Konzentration', ru: 'Зона полной концентрации' },
-                tags: { pl: '#gaming #gpro #focus #live #gameplay', en: '#gaming #gpro #focus #live #gameplay', de: '#gaming #gpro #focus #live #gameplay', ru: '#gaming #gpro #фокус #live #геймплей' },
+                tags: { pl: '#gaming #esport #focus #live #gameplay', en: '#gaming #esport #focus #live #gameplay', de: '#gaming #esport #focus #live #gameplay', ru: '#gaming #киберспорт #фокус #live #геймплей' },
                 desc: {
-                    pl: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W moich niezawodnych słuchawkach Logitech G Pro X nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.',
-                    en: 'Moments when every millisecond counts and all ambient sound is completely cut off. In my trusty Logitech G Pro X headset, I\'m listening for enemy footsteps on de_mirage. Eyes locked on the monitor screen — it can only mean one thing: a spectacular round is coming.',
-                    de: 'Momente, in denen jede Millisekunde zählt und jedes Umgebungsgeräusch komplett ausgeblendet wird. In meinem zuverlässigen Logitech G Pro X-Headset lausche ich den Schritten des Gegners auf de_mirage. Der Blick starr auf den Bildschirm gerichtet, kündigt nur eines an — eine spektakuläre Runde steht bevor.',
-                    ru: 'Моменты, когда важна каждая миллисекунда, а все посторонние звуки полностью отсекаются. В своих надёжных наушниках Logitech G Pro X я вслушиваюсь в шаги противника на карте de_mirage. Взгляд, прикованный к экрану монитора, предвещает только одно — впереди зрелищный раунд.'
+                    pl: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W słuchawkach z mikrofonem uważnie nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.',
+                    en: 'Moments when every millisecond counts and all ambient sound is completely cut off. Wearing my headset with mic, I\'m listening for enemy footsteps on de_mirage. Eyes locked on the monitor screen — it can only mean one thing: a spectacular round is coming.',
+                    de: 'Momente, in denen jede Millisekunde zählt und jedes Umgebungsgeräusch komplett ausgeblendet wird. Mit meinem Headset mit Mikrofon lausche ich den Schritten des Gegners auf de_mirage. Der Blick starr auf den Bildschirm gerichtet, kündigt nur eines an — eine spektakuläre Runde steht bevor.',
+                    ru: 'Моменты, когда важна каждая миллисекунда, а все посторонние звуки полностью отсекаются. В наушниках с микрофоном я внимательно вслушиваюсь в шаги противника на карте de_mirage. Взгляд, прикованный к экрану монитора, предвещает только одно — впереди зрелищный раунд.'
                 }
             },
             { 
@@ -2648,7 +2651,7 @@
                             <p class="text-indigo-400 text-[10px] uppercase font-bold">${translatedCat}</p>
                         </div>
                     </div>
-                    <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 py-2 px-3.5 rounded-full text-white favorite-btn flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all text-xs font-black shadow-lg ${isFav ? 'border-red-500' : ''}">
+                    <button onclick="toggleFavorite(event, '${photo.src}')" class="absolute top-4 right-4 py-2 px-3.5 rounded-full text-white favorite-btn flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all text-xs font-black shadow-lg">
                         <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
                         <span class="text-white font-black hover-count-label">${likesCount}</span>
                     </button>
@@ -2682,7 +2685,6 @@
                     
                     const btn = card.querySelector('.favorite-btn');
                     if (btn) {
-                        btn.classList.toggle('border-red-500', isFav);
                         btn.innerHTML = `
                             <i class="${isFav ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
                             <span class="text-white font-black hover-count-label">${likesCount}</span>
@@ -2764,7 +2766,7 @@
                 : `<i class="far fa-heart"></i> <span id="modalFavCount">${likesCount}</span>`;
             
             if (isFav) {
-                document.getElementById('modalFavBtn').className = "px-4 h-10 rounded-full flex items-center gap-2 border border-red-500 text-red-500 text-xs font-bold bg-transparent transition-colors duration-200";
+                document.getElementById('modalFavBtn').className = "px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-red-500 text-xs font-bold bg-transparent transition-colors duration-200";
             } else {
                 document.getElementById('modalFavBtn').className = "px-4 h-10 rounded-full flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-xs font-bold text-gray-800 dark:text-white bg-transparent transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800";
             }
