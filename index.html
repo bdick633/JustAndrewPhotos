@@ -1484,16 +1484,23 @@
             const soundMeta = getRaritySoundMeta(def.rarity);
 
             const sound = document.getElementById(soundMeta.sound);
-            let popupDuration = soundMeta.duration;
+            const MIN_POPUP_DURATION = 5000;
+            let popupDuration = Math.max(MIN_POPUP_DURATION, soundMeta.duration);
             let popupHidden = false;
             if (sound) {
                 sound.currentTime = 0;
                 sound.play().catch(() => {});
-                // Popup pozostaje widoczny dokładnie tak długo, jak trwa piosenka (jeśli znamy jej realny czas trwania)
+                // Popup pozostaje widoczny co najmniej MIN_POPUP_DURATION, a jeśli dźwięk
+                // trwa dłużej - dokładnie tak długo jak on (żeby dłuższe utwory grały do końca)
                 if (isFinite(sound.duration) && sound.duration > 0) {
-                    popupDuration = sound.duration * 1000;
+                    popupDuration = Math.max(MIN_POPUP_DURATION, sound.duration * 1000);
                 }
-                sound.onended = () => hidePopup();
+                sound.onended = () => {
+                    // Nie chowaj popupu wcześniej niż nasze minimum, nawet jeśli dźwięk
+                    // (np. bardzo krótki) skończy się szybciej
+                    if (popupDuration <= MIN_POPUP_DURATION) return;
+                    hidePopup();
+                };
             }
 
             function hidePopup() {
