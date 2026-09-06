@@ -1076,7 +1076,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, runTransaction, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
@@ -1084,19 +1083,6 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        // Logowanie anonimowe: część konfiguracji reguł Firebase Realtime Database
-        // wymaga, żeby zapis wykonywał zalogowany użytkownik (auth != null). Strona
-        // nie ma systemu kont, więc logujemy KAŻDEGO odwiedzającego anonimowo w tle -
-        // dla użytkownika wygląda to identycznie (nie widzi żadnego logowania), ale
-        // dzięki temu zapisy do bazy (wspólny licznik strzałów, polubienia) mogą
-        // przechodzić nawet gdy reguły bazy tego wymagają. Jeśli logowanie anonimowe
-        // nie jest włączone w konsoli Firebase, ten krok po prostu nic nie zmienia
-        // (błąd trafia tylko do konsoli deweloperskiej, strona działa dalej jak wcześniej).
-        const auth = getAuth(app);
-        signInAnonymously(auth).catch((err) => {
-            console.warn('Logowanie anonimowe Firebase nie powiodło się (prawdopodobnie trzeba je włączyć w konsoli Firebase → Authentication → Sign-in method):', err);
-        });
         
         // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
