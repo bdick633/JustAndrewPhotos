@@ -50,6 +50,17 @@
 
         /* Podświetlenie kafelka odznaki, do którego przenosi kliknięcie w popup odblokowania */
         .badge-tile-highlight { animation: badgeTilePulse 1.4s ease-in-out 2; }
+
+        /* Migoczący, "legendarny" gradient dla najrzadszej odznaki specjalnej */
+        .legendary-shimmer {
+            background-size: 200% 200% !important;
+            animation: legendaryShimmer 2.2s ease-in-out infinite;
+        }
+        @keyframes legendaryShimmer {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         @keyframes badgeTilePulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.55); }
             50%      { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
@@ -151,6 +162,7 @@
     <audio id="achSoundSteam" src="./steam-achievement.mp3" preload="auto"></audio>
     <audio id="achSoundSteamDeck" src="./steam-deck-achievement.mp3" preload="auto"></audio>
     <audio id="achSoundMinecraftRare" src="./minecraft-rare-achievement.mp3" preload="auto"></audio>
+    <audio id="achSoundBarka" src="./barka.mp3" preload="auto"></audio>
 
     <header class="py-8 px-6 md:px-12 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -601,7 +613,7 @@
                 nick_changed: "Nick pomyślnie zmieniony!",
                 nick_taken: "Ten nick jest już zajęty! Wybierz inny.",
                 nick_limit_reached: "Osiągnąłeś już limit 3 zmian nicku!",
-                nick_cooldown: "Odczekaj chwilę przed ponowną zmianą nicku.",
+                nick_cooldown: "Odczekaj chwile przed ponowną zmianą nicku.",
                 copied: "Skopiowano!",
                 tipply_title: "Podoba Ci się to, co robię?",
                 tipply_desc: "Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶",
@@ -649,6 +661,7 @@
                 badge_desc_report_bug: "Zgłoś błąd lub problem na stronie",
                 badge_desc_piwosz: "Polub wszystkie zdjęcia oznaczone hashtagiem #piwo",
                 badge_desc_nightowl: "Odwiedź stronę między 00:00 a 4:59 czasu lokalnego",
+                badge_desc_godzina_2137: "Wejdź na stronę dokładnie o 21:37 czasu lokalnego",
                 badge_shots_1: "Pierwsze Koty Za Płoty",
                 badge_shots_100: "Świeżak",
                 badge_shots_1000: "Wyszkolony Strzelec",
@@ -667,7 +680,8 @@
                 badge_rate_site: "Krytyk",
                 badge_report_bug: "Łowca Błędów",
                 badge_piwosz: "Piwosz",
-                badge_nightowl: "Nocna Zmiana"
+                badge_nightowl: "Nocna Zmiana",
+                badge_godzina_2137: "21:37"
             },
             en: {
                 clicks_label: "Clicks:",
@@ -775,6 +789,7 @@
                 badge_desc_report_bug: "Report a bug or issue on the site",
                 badge_desc_piwosz: "Like every photo tagged with the #beer hashtag",
                 badge_desc_nightowl: "Visit the site between midnight and 4:59 AM local time",
+                badge_desc_godzina_2137: "Visit the site at exactly 21:37 local time",
                 badge_shots_1: "First Blood",
                 badge_shots_100: "Rookie",
                 badge_shots_1000: "Trained Marksman",
@@ -793,7 +808,8 @@
                 badge_rate_site: "Critic",
                 badge_report_bug: "Bug Hunter",
                 badge_piwosz: "Beer Enthusiast",
-                badge_nightowl: "Night Shift"
+                badge_nightowl: "Night Shift",
+                badge_godzina_2137: "21:37"
             },
             de: {
                 clicks_label: "Klicks:",
@@ -806,7 +822,7 @@
                 cat_relaks: "Entspannung",
                 sort_default: "Standardreihenfolge",
                 sort_popular: "Beliebteste",
-                sort_unpopular: "Unbeliebteste",
+                sort_unbeliebte: "Unbeliebteste",
                 search_placeholder: "Suchen...",
                 empty_search_title: "Keine Ergebnisse",
                 empty_search_desc: "Wir konnten keine passenden Fotos für Ihre Suche finden.",
@@ -901,6 +917,7 @@
                 badge_desc_report_bug: "Melde einen Fehler auf der Seite",
                 badge_desc_piwosz: "Like alle Fotos mit dem Hashtag #bier",
                 badge_desc_nightowl: "Besuche die Seite zwischen 00:00 und 4:59 Uhr Ortszeit",
+                badge_desc_godzina_2137: "Besuche die Seite genau um 21:37 Uhr Ortszeit",
                 badge_shots_1: "Erster Abschuss",
                 badge_shots_100: "Anfänger",
                 badge_shots_1000: "Ausgebildeter Schütze",
@@ -919,7 +936,8 @@
                 badge_rate_site: "Kritiker",
                 badge_report_bug: "Bug-Jäger",
                 badge_piwosz: "Bierliebhaber",
-                badge_nightowl: "Nachtschicht"
+                badge_nightowl: "Nachtschicht",
+                badge_godzina_2137: "21:37"
             },
             ru: {
                 clicks_label: "Клики:",
@@ -1027,6 +1045,7 @@
                 badge_desc_report_bug: "Сообщи об ошибке на сайте",
                 badge_desc_piwosz: "Поставь лайк всем фото с хештегом #пиво",
                 badge_desc_nightowl: "Зайди на сайт между 00:00 и 4:59 по местному времени",
+                badge_desc_godzina_2137: "Зайди на сайт ровно в 21:37 по местному времени",
                 badge_shots_1: "Первая Кровь",
                 badge_shots_100: "Новичок",
                 badge_shots_1000: "Обученный Стрелок",
@@ -1045,7 +1064,8 @@
                 badge_rate_site: "Критик",
                 badge_report_bug: "Охотник за Багами",
                 badge_piwosz: "Пивной Ценитель",
-                badge_nightowl: "Ночная Смена"
+                badge_nightowl: "Ночная Смена",
+                badge_godzina_2137: "21:37"
             }
         };
 
@@ -1068,14 +1088,13 @@
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
         // PEŁNY RESET WSZYSTKIEGO (kliknięcia, polubienia, topki, odznaki, licznik odwiedzających): ZMIANA NA _v5 / _v2
         // KOLEJNY PEŁNY RESET WSZYSTKIEGO: ZMIANA NA _v6 / _v3
-        // KOLEJNY PEŁNY RESET WSZYSTKIEGO: ZMIANA NA _v7 (klik./polub./topki) / _v4 (odznaki/odwiedzający)
-        const clicksRef = ref(db, 'clicks_v6');
-        const likesRef = ref(db, 'likes_v6');
-        const countriesRef = ref(db, 'countries_v7');
-        const playersRef = ref(db, 'players_v7');
+        const clicksRef = ref(db, 'clicks_v5');
+        const likesRef = ref(db, 'likes_v5');
+        const countriesRef = ref(db, 'countries_v6');
+        const playersRef = ref(db, 'players_v6');
         // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
-        const badgeStatsRef = ref(db, 'badge_stats_v4');
-        const visitorsRef = ref(db, 'total_visitors_v4');
+        const badgeStatsRef = ref(db, 'badge_stats_v3');
+        const visitorsRef = ref(db, 'total_visitors_v3');
 
         // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
         // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
@@ -1146,11 +1165,12 @@
             { id: 'send_photo',    category: 'special', icon: 'fa-camera-retro',   rarity: 'lightblue' },
             { id: 'rate_site',     category: 'special', icon: 'fa-comment-dots',   rarity: 'lightblue' },
             { id: 'report_bug',    category: 'special', icon: 'fa-bug',            rarity: 'lightblue' },
-            { id: 'nightowl',      category: 'special', icon: 'fa-cloud-moon',     rarity: 'lightblue' }
+            { id: 'nightowl',      category: 'special', icon: 'fa-cloud-moon',     rarity: 'lightblue' },
+            { id: 'godzina_2137',  category: 'special', icon: 'fa-hourglass-half', rarity: 'legendary' }
         ];
 
         // Kolejność rzadkości od najgorszej do najlepszej, używana do sortowania odznak w obrębie kategorii
-        const RARITY_ORDER = { gray: 0, lightblue: 1, blue: 2, purple: 3, pink: 4, red: 5, gold: 6 };
+        const RARITY_ORDER = { gray: 0, lightblue: 1, blue: 2, purple: 3, pink: 4, red: 5, gold: 6, legendary: 7 };
 
         // Zdjęcia oznaczone hashtagiem #piwo - trzeba polubić wszystkie, by odblokować odznakę "Piwosz"
         const BEER_PHOTO_SRCS = ['image31.png', 'image32.png', 'image27.png', 'image24.png', 'image7.png', 'image5.png'];
@@ -1163,9 +1183,11 @@
             purple:    { grad: 'from-purple-500 to-indigo-600',                   ring: 'border-purple-200 dark:border-purple-900/60', glow: '' },
             pink:      { grad: 'from-pink-500 to-rose-600',                       ring: 'border-pink-200 dark:border-pink-900/60',     glow: 'shadow-[0_0_16px_rgba(236,72,153,0.35)]' },
             red:       { grad: 'from-red-500 to-red-700',                         ring: 'border-red-300 dark:border-red-900/60',       glow: 'shadow-[0_0_20px_rgba(239,68,68,0.45)]' },
-            gold:      { grad: 'from-amber-400 via-yellow-500 to-amber-600',      ring: 'border-amber-300 dark:border-amber-700',      glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' }
+            gold:      { grad: 'from-amber-400 via-yellow-500 to-amber-600',      ring: 'border-amber-300 dark:border-amber-700',      glow: 'shadow-[0_0_22px_rgba(245,158,11,0.5)]' },
+            legendary: { grad: 'from-amber-200 via-white to-amber-400',           ring: 'border-amber-200 dark:border-amber-500/60', glow: 'shadow-[0_0_28px_rgba(251,191,36,0.65)]' }
         };
         // Mapowanie rzadkości na dźwięk osiągnięcia oraz czas wyświetlania popupu (im rzadsza odznaka, tym dłużej)
+        // Dla rzadkości "legendary" czas trwania popupu jest nadpisywany dynamicznie realnym czasem trwania utworu (patrz showBadgeUnlockPopup)
         const RARITY_SOUND_META = {
             gray:      { sound: 'achSoundMinecraft',     duration: 2400 },
             lightblue: { sound: 'achSoundMinecraft',     duration: 2800 },
@@ -1173,7 +1195,8 @@
             purple:    { sound: 'achSoundSteam',         duration: 3600 },
             pink:      { sound: 'achSoundSteamDeck',     duration: 4200 },
             red:       { sound: 'achSoundMinecraftRare', duration: 6800 },
-            gold:      { sound: 'achSoundMinecraftRare', duration: 7500 }
+            gold:      { sound: 'achSoundMinecraftRare', duration: 7500 },
+            legendary: { sound: 'achSoundBarka',         duration: 39000 }
         };
         function getRarityStyle(rarity) { return RARITY_STYLES[rarity] || RARITY_STYLES.gray; }
         function getRaritySoundMeta(rarity) { return RARITY_SOUND_META[rarity] || RARITY_SOUND_META.gray; }
@@ -1186,7 +1209,8 @@
             purple:    ['#a855f7', '#4f46e5'],
             pink:      ['#ec4899', '#e11d48'],
             red:       ['#ef4444', '#b91c1c'],
-            gold:      ['#fbbf24', '#d97706']
+            gold:      ['#fbbf24', '#d97706'],
+            legendary: ['#fde68a', '#f59e0b']
         };
         // Punkty unicode Font Awesome 6 Free (Solid) dla ikon użytych w BADGE_DEFS - do rysowania na <canvas>
         const BADGE_ICON_UNICODE = {
@@ -1208,7 +1232,8 @@
             'fa-camera-retro': '\uf083',
             'fa-comment-dots': '\uf4ad',
             'fa-bug': '\uf188',
-            'fa-cloud-moon': '\uf6c3'
+            'fa-cloud-moon': '\uf6c3',
+            'fa-hourglass-half': '\uf252'
         };
 
         function roundRectPath(ctx, x, y, w, h, r) {
@@ -1353,6 +1378,7 @@
             const t = window.translations[window.currentLang];
             if (def.id === 'piwosz') return t.badge_desc_piwosz;
             if (def.id === 'nightowl') return t.badge_desc_nightowl;
+            if (def.id === 'godzina_2137') return t.badge_desc_godzina_2137;
             if (def.category === 'shots') {
                 return def.threshold === 1 ? t.badge_desc_shots_1 : t.badge_desc_shots.replace('{n}', def.threshold.toLocaleString());
             }
@@ -1374,7 +1400,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
-            runTransaction(ref(db, `badge_stats_v4/${id}`), (cur) => (cur || 0) + 1);
+            runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1433,9 +1459,24 @@
             const soundMeta = getRaritySoundMeta(def.rarity);
 
             const sound = document.getElementById(soundMeta.sound);
+            let popupDuration = soundMeta.duration;
+            let popupHidden = false;
             if (sound) {
                 sound.currentTime = 0;
                 sound.play().catch(() => {});
+                // Popup pozostaje widoczny dokładnie tak długo, jak trwa piosenka (jeśli znamy jej realny czas trwania)
+                if (isFinite(sound.duration) && sound.duration > 0) {
+                    popupDuration = sound.duration * 1000;
+                }
+                sound.onended = () => hidePopup();
+            }
+
+            function hidePopup() {
+                if (popupHidden) return;
+                popupHidden = true;
+                popup.classList.add('opacity-0', '-translate-y-4');
+                popup.classList.remove('opacity-100', 'translate-y-0');
+                setTimeout(() => popup.remove(), 500);
             }
 
             spawnConfetti();
@@ -1445,7 +1486,7 @@
             popup.title = t.badge_unlock_popup_hint || '';
             popup.onclick = () => openBadgesModalToBadge(id);
             popup.innerHTML = `
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${style.grad} flex items-center justify-center text-white text-lg shrink-0 shadow-lg">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${style.grad} flex items-center justify-center text-white text-lg shrink-0 shadow-lg ${def.rarity === 'legendary' ? 'legendary-shimmer' : ''}">
                     <i class="fas ${def.icon}"></i>
                 </div>
                 <div class="min-w-0">
@@ -1460,11 +1501,7 @@
                 popup.classList.add('opacity-100', 'translate-y-0');
             });
 
-            setTimeout(() => {
-                popup.classList.add('opacity-0', '-translate-y-4');
-                popup.classList.remove('opacity-100', 'translate-y-0');
-                setTimeout(() => popup.remove(), 500);
-            }, soundMeta.duration);
+            setTimeout(hidePopup, popupDuration);
         }
 
         // Zwraca średni procent graczy, którzy odblokowali daną odznakę (0-100), albo null,
@@ -1503,7 +1540,7 @@
                 <div id="badge-tile-${def.id}" class="relative flex flex-col items-center text-center p-4 rounded-2xl border transition-all ${isUnlocked ? `${style.ring} ${style.glow} bg-white dark:bg-white/[0.03]` : `${style.ring} bg-gray-50 dark:bg-gray-900/40 opacity-70`}">
                     ${pctBadge}
                     ${shareBtn}
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-2 ${isUnlocked ? `bg-gradient-to-br ${style.grad} text-white shadow-md ${def.rarity === 'legendary' ? 'legendary-shimmer' : ''}` : 'bg-gray-200 dark:bg-gray-800 text-gray-400'}">
                         <i class="fas ${isUnlocked ? def.icon : 'fa-lock'}"></i>
                     </div>
                     <p class="text-xs font-black dark:text-white leading-tight">${name}</p>
@@ -1805,13 +1842,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v7/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v6/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v7/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v6/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -1826,7 +1863,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v6/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v5/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -2057,7 +2094,7 @@
 
                 try {
                     // Weryfikacja unikalności nicku w bazie danych Firebase
-                    const newNickRef = ref(db, `players_v7/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v6/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -2067,7 +2104,7 @@
                     }
 
                     // Jeśli nick jest w pełni wolny, migrujemy dane
-                    const oldNickRef = ref(db, `players_v7/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v6/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -2172,6 +2209,22 @@
                 localStorage.removeItem('tipplyBannerClosed');
                 localStorage.removeItem('justAndrewBadgeStatsBackfilled_v2');
                 localStorage.setItem(epochKey, "true");
+
+                // ZEROWY ZAPIS (v9): razem z lokalnym resetem, zerowane są też wspólne statystyki
+                // w bazie danych, żeby WSZYSCY odwiedzający (nie tylko to urządzenie) zaczynali
+                // od zera - dotyczy to też % zdobycia każdego osiągnięcia (badge_stats_v3 i
+                // total_visitors_v3), globalnych polubień zdjęć (likes_v5), licznika kliknięć
+                // (clicks_v5) oraz rankingu graczy/krajów (players_v6, countries_v6).
+                const globalResetDoneKey = "justAndrewGlobalDbReset_v9";
+                if (localStorage.getItem(globalResetDoneKey) !== "true") {
+                    set(clicksRef, 0).catch(() => {});
+                    set(likesRef, {}).catch(() => {});
+                    set(countriesRef, {}).catch(() => {});
+                    set(playersRef, {}).catch(() => {});
+                    set(badgeStatsRef, {}).catch(() => {});
+                    set(visitorsRef, 0).catch(() => {});
+                    localStorage.setItem(globalResetDoneKey, "true");
+                }
             }
 
             // DODATKOWY RESET SERDUSZEK: na niektórych przeglądarkach/urządzeniach zdjęcie było już
@@ -2203,10 +2256,16 @@
                 unlockBadge('nightowl');
             }
 
+            // Odznaka legendarna: wejście na stronę dokładnie o 21:37 czasu lokalnego użytkownika
+            const nowFor2137 = new Date();
+            if (nowFor2137.getHours() === 21 && nowFor2137.getMinutes() === 37) {
+                unlockBadge('godzina_2137');
+            }
+
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
                 alreadyUnlocked.forEach(id => {
-                    runTransaction(ref(db, `badge_stats_v4/${id}`), (cur) => (cur || 0) + 1);
+                    runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
                 });
                 localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
@@ -2761,6 +2820,7 @@
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
             const likesCount = item.globalLikes || 0;
             
+            document.getElementById('modalFavCount').textContent = likesCount;
             document.getElementById('modalFavBtn').innerHTML = isFav 
                 ? `<i class="fas fa-heart text-red-500"></i> <span id="modalFavCount">${likesCount}</span>` 
                 : `<i class="far fa-heart"></i> <span id="modalFavCount">${likesCount}</span>`;
