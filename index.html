@@ -1407,7 +1407,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
-            runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
+            runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1).catch(reportDbWriteError);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1847,12 +1847,12 @@
         function incrementGlobalCounter() {
             runTransaction(clicksRef, (currentValue) => {
                 return (currentValue || 0) + 1;
-            });
+            }).catch(reportDbWriteError);
 
             const countryDbRef = ref(db, `countries_v6/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
-            });
+            }).catch(reportDbWriteError);
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
             const playerDbRef = ref(db, `players_v6/${safeNickKey}`);
@@ -1865,7 +1865,18 @@
                     clicks: (currentValue.clicks || 0) + 1, 
                     country: userCountryCode 
                 };
-            });
+            }).catch(reportDbWriteError);
+        }
+
+        let dbWriteErrorShown = false;
+        function reportDbWriteError(err) {
+            console.error('Błąd zapisu do bazy danych Firebase:', err);
+            if (dbWriteErrorShown) return;
+            dbWriteErrorShown = true;
+            const code = (err && (err.code || err.message)) || '?';
+            if (window.showToast) {
+                window.showToast(`Błąd zapisu do bazy (${code}) - sprawdź reguły Firebase Realtime Database`, 'error');
+            }
         }
 
         function incrementGlobalLike(photoSrc, isAdding) {
@@ -1875,7 +1886,7 @@
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
                 return isAdding ? val + 1 : Math.max(0, val - 1);
-            });
+            }).catch(reportDbWriteError);
         }
 
         onValue(clicksRef, (snapshot) => {
@@ -2234,14 +2245,14 @@
                     return true;
                 }).then((result) => {
                     if (result.committed && result.snapshot.val() === true) {
-                        set(clicksRef, 0).catch(() => {});
-                        set(likesRef, {}).catch(() => {});
-                        set(countriesRef, {}).catch(() => {});
-                        set(playersRef, {}).catch(() => {});
-                        set(badgeStatsRef, {}).catch(() => {});
-                        set(visitorsRef, 0).catch(() => {});
+                        set(clicksRef, 0).catch(reportDbWriteError);
+                        set(likesRef, {}).catch(reportDbWriteError);
+                        set(countriesRef, {}).catch(reportDbWriteError);
+                        set(playersRef, {}).catch(reportDbWriteError);
+                        set(badgeStatsRef, {}).catch(reportDbWriteError);
+                        set(visitorsRef, 0).catch(reportDbWriteError);
                     }
-                }).catch(() => {});
+                }).catch(reportDbWriteError);
             }
 
             // DODATKOWY RESET SERDUSZEK: na niektórych przeglądarkach/urządzeniach zdjęcie było już
@@ -2260,7 +2271,7 @@
             }
 
             if (localStorage.getItem('justAndrewVisitorCounted') !== 'true') {
-                runTransaction(visitorsRef, (cur) => (cur || 0) + 1);
+                runTransaction(visitorsRef, (cur) => (cur || 0) + 1).catch(reportDbWriteError);
                 localStorage.setItem('justAndrewVisitorCounted', 'true');
             }
 
@@ -2282,7 +2293,7 @@
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
                 alreadyUnlocked.forEach(id => {
-                    runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
+                    runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1).catch(reportDbWriteError);
                 });
                 localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
