@@ -1305,9 +1305,16 @@
             ctx.font = '700 15px sans-serif';
             ctx.fillText((t.badge_unlocked_prefix || '').toUpperCase(), W / 2, 268);
 
+            const nick = localStorage.getItem('justAndrewUserNick') || '';
+            if (nick) {
+                ctx.fillStyle = 'rgba(255,255,255,0.75)';
+                ctx.font = '700 16px sans-serif';
+                ctx.fillText(nick, W / 2, 294);
+            }
+
             ctx.fillStyle = 'rgba(255,255,255,0.35)';
             ctx.font = '600 13px sans-serif';
-            ctx.fillText(window.location.hostname || '', W / 2, 308);
+            ctx.fillText(window.location.hostname || '', W / 2, 316);
 
             canvas.toBlob(async (blob) => {
                 if (!blob) return;
@@ -2215,16 +2222,26 @@
                 // od zera - dotyczy to też % zdobycia każdego osiągnięcia (badge_stats_v3 i
                 // total_visitors_v3), globalnych polubień zdjęć (likes_v5), licznika kliknięć
                 // (clicks_v5) oraz rankingu graczy/krajów (players_v6, countries_v6).
-                const globalResetDoneKey = "justAndrewGlobalDbReset_v9";
-                if (localStorage.getItem(globalResetDoneKey) !== "true") {
-                    set(clicksRef, 0).catch(() => {});
-                    set(likesRef, {}).catch(() => {});
-                    set(countriesRef, {}).catch(() => {});
-                    set(playersRef, {}).catch(() => {});
-                    set(badgeStatsRef, {}).catch(() => {});
-                    set(visitorsRef, 0).catch(() => {});
-                    localStorage.setItem(globalResetDoneKey, "true");
-                }
+                //
+                // WAŻNE: to musi wykonać się DOKŁADNIE RAZ na całej stronie, a nie raz na
+                // każdej przeglądarce - dlatego strażnikiem NIE jest localStorage (bo wtedy
+                // każdy nowy/incognito odwiedzający zerowałby dane wszystkim w nieskończoność),
+                // tylko transakcja w samej bazie Firebase: wygrywa ją dokładnie jeden, pierwszy
+                // klient na świecie, wszyscy pozostali dostają "committed: false" i nic nie robią.
+                const globalResetMetaRef = ref(db, 'meta/global_reset_v9_done');
+                runTransaction(globalResetMetaRef, (cur) => {
+                    if (cur === true) return; // ktoś już to zrobił - przerwij, nie nadpisuj niczego
+                    return true;
+                }).then((result) => {
+                    if (result.committed && result.snapshot.val() === true) {
+                        set(clicksRef, 0).catch(() => {});
+                        set(likesRef, {}).catch(() => {});
+                        set(countriesRef, {}).catch(() => {});
+                        set(playersRef, {}).catch(() => {});
+                        set(badgeStatsRef, {}).catch(() => {});
+                        set(visitorsRef, 0).catch(() => {});
+                    }
+                }).catch(() => {});
             }
 
             // DODATKOWY RESET SERDUSZEK: na niektórych przeglądarkach/urządzeniach zdjęcie było już
@@ -2945,6 +2962,13 @@
             
             if (window.incrementGlobalLike) {
                 window.incrementGlobalLike(src, isAdding);
+            }
+
+            // Aktualizacja liczby polubień "na oko" od razu po kliknięciu, zamiast czekać
+            // na odpowiedź z bazy danych (która i tak zaraz nadpisze to prawdziwą wartością).
+            const likedPhotoObj = photosData.find(p => p.src === src);
+            if (likedPhotoObj) {
+                likedPhotoObj.globalLikes = Math.max(0, (likedPhotoObj.globalLikes || 0) + (isAdding ? 1 : -1));
             }
 
             if (!isAdding && isFavoritesView) {
