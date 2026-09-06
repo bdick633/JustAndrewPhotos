@@ -1075,7 +1075,7 @@
     <!-- POŁĄCZENIE I INICJALIZACJA BAZY DANYCH FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, runTransaction, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, runTransaction, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
@@ -1879,6 +1879,23 @@
             console.error('Błąd zapisu do bazy danych Firebase:', err);
         }
 
+        // Reguły bezpieczeństwa Firebase pozwalają na zapis/kasowanie TYLKO pojedynczych
+        // dzieci (np. likes_v5/image1_png), a NIE na nadpisanie/wyczyszczenie całej kolekcji
+        // naraz (np. set(likesRef, {})) - taki zapis jest po cichu odrzucany. Dlatego żeby
+        // faktycznie wyzerować całą kolekcję, trzeba pobrać listę jej dzieci i skasować
+        // każde z osobna.
+        async function clearCollectionChildren(parentPath) {
+            try {
+                const snap = await get(ref(db, parentPath));
+                const val = snap.val();
+                if (!val) return;
+                const keys = Object.keys(val);
+                await Promise.all(keys.map(k => remove(ref(db, `${parentPath}/${k}`))));
+            } catch (e) {
+                reportDbWriteError(e);
+            }
+        }
+
         // Śledzi lokalne, jeszcze niepotwierdzone przez serwer zmiany liczby polubień
         // dla każdego zdjęcia (np. +1 zaraz po kliknięciu serduszka). Dzięki temu
         // licznik widoczny na ekranie rośnie natychmiast i w prawidłowej kolejności
@@ -2236,7 +2253,7 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v9";
+            const epochKey = "justAndrewReset_v10";
             if (localStorage.getItem(epochKey) !== "true") {
                 // PEŁNY RESET: każdy zaczyna od zera - kliknięcia, nick, odznaki, polubienia/ulubione i licznik odwiedzin.
                 localStorage.setItem('justAndrewLocalClicks', '0');
@@ -2254,29 +2271,37 @@
                 localStorage.removeItem('justAndrewBadgeStatsBackfilled_v2');
                 localStorage.setItem(epochKey, "true");
 
-                // ZEROWY ZAPIS (v9): razem z lokalnym resetem, zerowane są też wspólne statystyki
+                // ZEROWY ZAPIS (v10): razem z lokalnym resetem, zerowane są też wspólne statystyki
                 // w bazie danych, żeby WSZYSCY odwiedzający (nie tylko to urządzenie) zaczynali
                 // od zera - dotyczy to też % zdobycia każdego osiągnięcia (badge_stats_v3 i
                 // total_visitors_v3), globalnych polubień zdjęć (likes_v5), licznika kliknięć
                 // (clicks_v5) oraz rankingu graczy/krajów (players_v6, countries_v6).
+                //
+                // POPRAWKA v10: poprzednia wersja (v9) próbowała wyczyścić likes_v5, countries_v6,
+                // players_v6 i badge_stats_v3 przez nadpisanie całej kolekcji naraz (set(ref, {})).
+                // Reguły bezpieczeństwa Firebase po cichu odrzucały taki zapis (dozwolony jest
+                // tylko zapis/kasowanie pojedynczych dzieci), więc te 4 kolekcje NIE zostały
+                // wtedy wyczyszczone, mimo że clicks_v5 i total_visitors_v3 (proste liczby)
+                // wyzerowały się poprawnie - stąd rozjazd w tabelach i błędne procenty.
+                // Teraz używamy clearCollectionChildren(), które kasuje każde dziecko z osobna.
                 //
                 // WAŻNE: to musi wykonać się DOKŁADNIE RAZ na całej stronie, a nie raz na
                 // każdej przeglądarce - dlatego strażnikiem NIE jest localStorage (bo wtedy
                 // każdy nowy/incognito odwiedzający zerowałby dane wszystkim w nieskończoność),
                 // tylko transakcja w samej bazie Firebase: wygrywa ją dokładnie jeden, pierwszy
                 // klient na świecie, wszyscy pozostali dostają "committed: false" i nic nie robią.
-                const globalResetMetaRef = ref(db, 'meta/global_reset_v9_done');
+                const globalResetMetaRef = ref(db, 'meta/global_reset_v10_done');
                 runTransaction(globalResetMetaRef, (cur) => {
                     if (cur === true) return; // ktoś już to zrobił - przerwij, nie nadpisuj niczego
                     return true;
                 }).then((result) => {
                     if (result.committed && result.snapshot.val() === true) {
                         set(clicksRef, 0).catch(reportDbWriteError);
-                        set(likesRef, {}).catch(reportDbWriteError);
-                        set(countriesRef, {}).catch(reportDbWriteError);
-                        set(playersRef, {}).catch(reportDbWriteError);
-                        set(badgeStatsRef, {}).catch(reportDbWriteError);
                         set(visitorsRef, 0).catch(reportDbWriteError);
+                        clearCollectionChildren('likes_v5');
+                        clearCollectionChildren('countries_v6');
+                        clearCollectionChildren('players_v6');
+                        clearCollectionChildren('badge_stats_v3');
                     }
                 }).catch(reportDbWriteError);
             }
@@ -2999,13 +3024,6 @@
             
             if (window.incrementGlobalLike) {
                 window.incrementGlobalLike(src, isAdding);
-            }
-
-            // Aktualizacja liczby polubień "na oko" od razu po kliknięciu, zamiast czekać
-            // na odpowiedź z bazy danych (która i tak zaraz nadpisze to prawdziwą wartością).
-            const likedPhotoObj = photosData.find(p => p.src === src);
-            if (likedPhotoObj) {
-                likedPhotoObj.globalLikes = Math.max(0, (likedPhotoObj.globalLikes || 0) + (isAdding ? 1 : -1));
             }
 
             if (!isAdding && isFavoritesView) {
