@@ -642,7 +642,7 @@
                 badge_share: "Pochwal się",
                 badge_share_text: "Zdobyłem/-am odznakę „{name}”!",
                 badge_share_modal_title: "Twoja odznaka",
-                badge_share_modal_subtitle: "Pobierz obrazek i wrzuć go, gdzie chcesz",
+                badge_share_modal_subtitle: "Możesz pobrać ten obrazek i pochwalić się nim, gdzie tylko chcesz - na czacie, w social mediach albo wysłać znajomym",
                 badge_share_download: "Pobierz obrazek",
                 badge_locked: "Zablokowane",
                 badge_group_shots: "Strzały",
@@ -770,7 +770,7 @@
                 badge_share: "Show off",
                 badge_share_text: "I unlocked the \"{name}\" achievement!",
                 badge_share_modal_title: "Your badge",
-                badge_share_modal_subtitle: "Download the image and share it anywhere",
+                badge_share_modal_subtitle: "You can download this image and share it or show it off anywhere you like - chat, social media, or straight to a friend",
                 badge_share_download: "Download image",
                 badge_locked: "Locked",
                 badge_group_shots: "Shots",
@@ -898,7 +898,7 @@
                 badge_share: "Zeig es her",
                 badge_share_text: "Ich habe den Erfolg „{name}” freigeschaltet!",
                 badge_share_modal_title: "Dein Abzeichen",
-                badge_share_modal_subtitle: "Lade das Bild herunter und teile es überall",
+                badge_share_modal_subtitle: "Du kannst das Bild herunterladen und es überall teilen oder damit angeben - im Chat, in sozialen Medien oder direkt an Freunde",
                 badge_share_download: "Bild herunterladen",
                 badge_locked: "Gesperrt",
                 badge_group_shots: "Schüsse",
@@ -1026,7 +1026,7 @@
                 badge_share: "Похвастаться",
                 badge_share_text: "Я получил(а) достижение «{name}»!",
                 badge_share_modal_title: "Твоё достижение",
-                badge_share_modal_subtitle: "Скачай картинку и поделись ей где хочешь",
+                badge_share_modal_subtitle: "Можешь скачать эту картинку и поделиться ей где захочешь - в чате, соцсетях или отправить другу",
                 badge_share_download: "Скачать картинку",
                 badge_locked: "Заблокировано",
                 badge_group_shots: "Выстрелы",
@@ -1076,6 +1076,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, runTransaction, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             databaseURL: "https://justandrew-counter-default-rtdb.europe-west1.firebasedatabase.app"
@@ -1083,6 +1084,19 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        // Logowanie anonimowe: część konfiguracji reguł Firebase Realtime Database
+        // wymaga, żeby zapis wykonywał zalogowany użytkownik (auth != null). Strona
+        // nie ma systemu kont, więc logujemy KAŻDEGO odwiedzającego anonimowo w tle -
+        // dla użytkownika wygląda to identycznie (nie widzi żadnego logowania), ale
+        // dzięki temu zapisy do bazy (wspólny licznik strzałów, polubienia) mogą
+        // przechodzić nawet gdy reguły bazy tego wymagają. Jeśli logowanie anonimowe
+        // nie jest włączone w konsoli Firebase, ten krok po prostu nic nie zmienia
+        // (błąd trafia tylko do konsoli deweloperskiej, strona działa dalej jak wcześniej).
+        const auth = getAuth(app);
+        signInAnonymously(auth).catch((err) => {
+            console.warn('Logowanie anonimowe Firebase nie powiodło się (prawdopodobnie trzeba je włączyć w konsoli Firebase → Authentication → Sign-in method):', err);
+        });
         
         // RESET GLOBALNY: ZMIANA Z _v2 NA _v3
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
@@ -1868,25 +1882,49 @@
             }).catch(reportDbWriteError);
         }
 
-        let dbWriteErrorShown = false;
+        // Błędy zapisu do bazy trafiają WYŁĄCZNIE do konsoli deweloperskiej (F12).
+        // Wcześniej pokazywał się tu też techniczny komunikat-toast dla zwykłych
+        // odwiedzających ("Błąd zapisu do bazy (...) - sprawdź reguły Firebase...") -
+        // to było mylące dla użytkowników i wyglądało jak zepsuta strona, więc
+        // ten popup został usunięty. Strona nadal działa "na oko" poprawnie dzięki
+        // optymistycznym aktualizacjom lokalnym (patrz pendingLikeDeltas niżej),
+        // nawet jeśli w danej chwili zapis do Firebase się nie powiedzie.
         function reportDbWriteError(err) {
             console.error('Błąd zapisu do bazy danych Firebase:', err);
-            if (dbWriteErrorShown) return;
-            dbWriteErrorShown = true;
-            const code = (err && (err.code || err.message)) || '?';
-            if (window.showToast) {
-                window.showToast(`Błąd zapisu do bazy (${code}) - sprawdź reguły Firebase Realtime Database`, 'error');
-            }
         }
+
+        // Śledzi lokalne, jeszcze niepotwierdzone przez serwer zmiany liczby polubień
+        // dla każdego zdjęcia (np. +1 zaraz po kliknięciu serduszka). Dzięki temu
+        // licznik widoczny na ekranie rośnie natychmiast i w prawidłowej kolejności
+        // (1, 2, 3...) i NIE cofa się do starej wartości, gdyby w międzyczasie
+        // z bazy przyszła jeszcze nieodświeżona wartość albo gdyby zapis chwilowo
+        // się nie powiódł.
+        const pendingLikeDeltas = {};
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
             const photoLikeRef = ref(db, `likes_v5/${dbKey}`);
+            const delta = isAdding ? 1 : -1;
+
+            pendingLikeDeltas[photoSrc] = (pendingLikeDeltas[photoSrc] || 0) + delta;
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
                 return isAdding ? val + 1 : Math.max(0, val - 1);
-            }).catch(reportDbWriteError);
+            }).then((result) => {
+                if (result && result.committed) {
+                    // Serwer potwierdził zapis - jego wartość jest teraz źródłem prawdy,
+                    // więc zdejmujemy naszą tymczasową "obietnicę" zmiany.
+                    pendingLikeDeltas[photoSrc] = (pendingLikeDeltas[photoSrc] || 0) - delta;
+                    if (pendingLikeDeltas[photoSrc] === 0) delete pendingLikeDeltas[photoSrc];
+                }
+            }).catch((err) => {
+                reportDbWriteError(err);
+                // Zapis się nie powiódł - celowo NIE cofamy lokalnej wartości
+                // (pendingLikeDeltas zostaje), żeby ta osoba nadal widziała u siebie
+                // poprawnie rosnącą liczbę, nawet jeśli chwilowo nie zsynchronizuje
+                // się to jeszcze z innymi odwiedzającymi.
+            });
         }
 
         onValue(clicksRef, (snapshot) => {
@@ -2187,7 +2225,9 @@
             const data = snapshot.val() || {};
             window.photosData.forEach(photo => {
                 const dbKey = photo.src.replace('.', '_');
-                photo.globalLikes = data[dbKey] || 0;
+                const serverValue = data[dbKey] || 0;
+                const pending = pendingLikeDeltas[photo.src] || 0;
+                photo.globalLikes = Math.max(0, serverValue + pending);
             });
             window.updateLikesInDOMOnly();
             if (document.getElementById('imageModal').classList.contains('active')) {
