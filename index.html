@@ -601,7 +601,7 @@
                 nick_changed: "Nick pomyślnie zmieniony!",
                 nick_taken: "Ten nick jest już zajęty! Wybierz inny.",
                 nick_limit_reached: "Osiągnąłeś już limit 3 zmian nicku!",
-                nick_cooldown: "Odczekaj chwile przed ponowną zmianą nicku.",
+                nick_cooldown: "Odczekaj chwilę przed ponowną zmianą nicku.",
                 copied: "Skopiowano!",
                 tipply_title: "Podoba Ci się to, co robię?",
                 tipply_desc: "Twoje wsparcie pomaga mi rozwijać kanał i tworzyć więcej treści. Wielkie dzięki za każdą wpłatę! 🫶",
@@ -806,7 +806,7 @@
                 cat_relaks: "Entspannung",
                 sort_default: "Standardreihenfolge",
                 sort_popular: "Beliebteste",
-                sort_unbeliebte: "Unbeliebteste",
+                sort_unpopular: "Unbeliebteste",
                 search_placeholder: "Suchen...",
                 empty_search_title: "Keine Ergebnisse",
                 empty_search_desc: "Wir konnten keine passenden Fotos für Ihre Suche finden.",
@@ -1068,13 +1068,14 @@
         // RESET TOPEK GRACZY I KRAJÓW: ZMIANA Z _v3 NA _v4
         // PEŁNY RESET WSZYSTKIEGO (kliknięcia, polubienia, topki, odznaki, licznik odwiedzających): ZMIANA NA _v5 / _v2
         // KOLEJNY PEŁNY RESET WSZYSTKIEGO: ZMIANA NA _v6 / _v3
-        const clicksRef = ref(db, 'clicks_v5');
-        const likesRef = ref(db, 'likes_v5');
-        const countriesRef = ref(db, 'countries_v6');
-        const playersRef = ref(db, 'players_v6');
+        // KOLEJNY PEŁNY RESET WSZYSTKIEGO: ZMIANA NA _v7 (klik./polub./topki) / _v4 (odznaki/odwiedzający)
+        const clicksRef = ref(db, 'clicks_v6');
+        const likesRef = ref(db, 'likes_v6');
+        const countriesRef = ref(db, 'countries_v7');
+        const playersRef = ref(db, 'players_v7');
         // Statystyki odznak: ile unikalnych urządzeń odblokowało daną odznakę oraz ilu w ogóle było odwiedzających
-        const badgeStatsRef = ref(db, 'badge_stats_v3');
-        const visitorsRef = ref(db, 'total_visitors_v3');
+        const badgeStatsRef = ref(db, 'badge_stats_v4');
+        const visitorsRef = ref(db, 'total_visitors_v4');
 
         // Pełne, zlokalizowane nazwy państw dla DOWOLNEGO kodu ISO, generowane
         // automatycznie przez wbudowany w przeglądarkę Intl.DisplayNames —
@@ -1373,7 +1374,7 @@
             if (unlocked.includes(id)) return;
             unlocked.push(id);
             localStorage.setItem('justAndrewUnlockedBadges', JSON.stringify(unlocked));
-            runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
+            runTransaction(ref(db, `badge_stats_v4/${id}`), (cur) => (cur || 0) + 1);
             showBadgeUnlockPopup(id);
             renderBadgesModal();
         }
@@ -1804,13 +1805,13 @@
                 return (currentValue || 0) + 1;
             });
 
-            const countryDbRef = ref(db, `countries_v6/${userCountryCode}`);
+            const countryDbRef = ref(db, `countries_v7/${userCountryCode}`);
             runTransaction(countryDbRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
             const safeNickKey = userNick.replace(/[.#$\[\]]/g, '_');
-            const playerDbRef = ref(db, `players_v6/${safeNickKey}`);
+            const playerDbRef = ref(db, `players_v7/${safeNickKey}`);
             
             runTransaction(playerDbRef, (currentValue) => {
                 if (currentValue === null || typeof currentValue !== 'object') {
@@ -1825,7 +1826,7 @@
 
         function incrementGlobalLike(photoSrc, isAdding) {
             const dbKey = photoSrc.replace('.', '_');
-            const photoLikeRef = ref(db, `likes_v5/${dbKey}`);
+            const photoLikeRef = ref(db, `likes_v6/${dbKey}`);
 
             runTransaction(photoLikeRef, (currentValue) => {
                 let val = currentValue || 0;
@@ -2056,7 +2057,7 @@
 
                 try {
                     // Weryfikacja unikalności nicku w bazie danych Firebase
-                    const newNickRef = ref(db, `players_v6/${safeNewKey}`);
+                    const newNickRef = ref(db, `players_v7/${safeNewKey}`);
                     const checkSnap = await get(newNickRef);
                     
                     if (checkSnap.exists()) {
@@ -2066,7 +2067,7 @@
                     }
 
                     // Jeśli nick jest w pełni wolny, migrujemy dane
-                    const oldNickRef = ref(db, `players_v6/${safeOldKey}`);
+                    const oldNickRef = ref(db, `players_v7/${safeOldKey}`);
                     const snap = await get(oldNickRef);
                     const currentData = snap.val();
 
@@ -2154,7 +2155,7 @@
         window.showToast = showToast;
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const epochKey = "justAndrewReset_v8";
+            const epochKey = "justAndrewReset_v9";
             if (localStorage.getItem(epochKey) !== "true") {
                 // PEŁNY RESET: każdy zaczyna od zera - kliknięcia, nick, odznaki, polubienia/ulubione i licznik odwiedzin.
                 localStorage.setItem('justAndrewLocalClicks', '0');
@@ -2205,7 +2206,7 @@
             if (localStorage.getItem('justAndrewBadgeStatsBackfilled_v2') !== 'true') {
                 const alreadyUnlocked = JSON.parse(localStorage.getItem('justAndrewUnlockedBadges') || '[]');
                 alreadyUnlocked.forEach(id => {
-                    runTransaction(ref(db, `badge_stats_v3/${id}`), (cur) => (cur || 0) + 1);
+                    runTransaction(ref(db, `badge_stats_v4/${id}`), (cur) => (cur || 0) + 1);
                 });
                 localStorage.setItem('justAndrewBadgeStatsBackfilled_v2', 'true');
             }
@@ -2760,7 +2761,6 @@
             const isFav = (JSON.parse(localStorage.getItem('justAndrewFavorites') || '[]')).includes(item.src);
             const likesCount = item.globalLikes || 0;
             
-            document.getElementById('modalFavCount').textContent = likesCount;
             document.getElementById('modalFavBtn').innerHTML = isFav 
                 ? `<i class="fas fa-heart text-red-500"></i> <span id="modalFavCount">${likesCount}</span>` 
                 : `<i class="far fa-heart"></i> <span id="modalFavCount">${likesCount}</span>`;
