@@ -96,6 +96,32 @@
             color: #E2E8F0;
         }
 
+        /* Poprawki układu dla trybu RTL (hebrajski) - pionowa kreska oddzielająca
+           ikonki social media od przełącznika motywu oraz pozycje ikon w polach
+           tekstowych muszą być "lustrzane" względem trybu LTR. */
+        html[dir="rtl"] #headerSocialLinks {
+            border-left: none;
+            border-right: 1px solid #d1d5db;
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+        html.dark[dir="rtl"] #headerSocialLinks {
+            border-right-color: #374151;
+        }
+        html[dir="rtl"] #searchInput {
+            padding-left: 1rem;
+            padding-right: 2.75rem;
+        }
+        html[dir="rtl"] .fa-search.absolute {
+            left: auto;
+            right: 1rem;
+        }
+        html[dir="rtl"] .custom-select {
+            background-position: left 1.1rem center;
+            padding-right: 1rem !important;
+            padding-left: 3rem !important;
+        }
+
         .favorite-btn {
             background-color: rgba(0, 0, 0, 0.5) !important; 
             backdrop-filter: blur(4px);
@@ -176,7 +202,7 @@
                 <span id="localCount" class="font-black text-indigo-600 dark:text-indigo-400">0</span>
             </div>
         </div>
-        <div class="flex items-center space-x-3.5">
+        <div class="flex items-center gap-3.5">
             <!-- Selektor Języka z graficzną flagą obok tekstu -->
             <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 shadow-sm transition-all hover:border-indigo-500">
                 <span id="currentLangFlag" class="fi fi-pl rounded-sm shadow-sm scale-110"></span>
@@ -198,7 +224,7 @@
             <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 transition-all">
                 <i id="themeIcon" class="fas fa-moon text-lg"></i>
             </button>
-            <div class="hidden lg:flex items-center space-x-4 text-gray-600 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-4">
+            <div id="headerSocialLinks" class="hidden lg:flex items-center gap-4 text-gray-600 dark:text-gray-400 border-s border-gray-300 dark:border-gray-700 ps-4">
                 <a href="https://www.instagram.com/andrewgod666/" target="_blank" onclick="trackIconClick('instagram')" class="hover:text-indigo-500 transition"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="https://www.facebook.com/people/%C5%81ukasz-Andrzejewski/pfbid0McQqiu1gHFkZE8tBkYXC8iRYKnGYcY9Jhr5UgGerzrWY8VAdDW8ajZZhye9nKo6Tl/" target="_blank" onclick="trackIconClick('facebook')" class="hover:text-indigo-500 transition"><i class="fab fa-facebook-f text-xl"></i></a>
                 <a href="https://www.youtube.com/@andrewgod666" target="_blank" onclick="trackIconClick('youtube')" class="hover:text-indigo-500 transition"><i class="fab fa-youtube text-xl"></i></a>
@@ -2598,347 +2624,347 @@
         const photosData = [
             { 
                 src: 'image35.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Celebracja wbicia 10LVL', en: 'Hitting Level 10 Celebration', de: 'Feier zum Erreichen von Level 10', ru: 'Праздник по случаю 10 уровня' },
-                tags: { pl: '#10lvl #siła #biceps #win #awans #faceit', en: '#10lvl #strength #biceps #win #rankup #faceit', de: '#10lvl #kraft #bizeps #sieg #aufstieg #faceit', ru: '#10lvl #сила #бицепс #победа #повышение #faceit' },
+                title: { pl: 'Celebracja wbicia 10LVL', en: 'Hitting Level 10 Celebration', de: 'Feier zum Erreichen von Level 10', ru: 'Праздник по случаю 10 уровня', he: 'חגיגת הגעה לרמה 10' },
+                tags: { pl: '#10lvl #siła #biceps #win #awans #faceit', en: '#10lvl #strength #biceps #win #rankup #faceit', de: '#10lvl #kraft #bizeps #sieg #aufstieg #faceit', ru: '#10lvl #сила #бицепс #победа #повышение #faceit', he: '#רמה10 #כוח #ביצפס #ניצחון #עלייה #פייסאיט' },
                 desc: { 
                     pl: 'Niezapomniana, pełna czystych emocji chwila radości po zaciętej walce na serwerach Faceit! Wbicie upragnionego 10 poziomu zwieńczone dumnym pokazem muskułów i bicepsa wprost do kamery. Prawdziwa streamerska duma i dowód na to, że ciężki trening w Counter-Strike przynosi upragnione owoce.',
                     en: 'An unforgettable, pure moment of joy after a fierce battle on the Faceit servers! Reaching the coveted level 10, capped off with a proud flex of muscle and biceps straight into the camera. Real streamer pride and proof that hard training in Counter-Strike pays off.',
                     de: 'Ein unvergesslicher Moment purer Freude nach einem harten Kampf auf den Faceit-Servern! Das Erreichen des ersehnten Level 10, gekrönt von einem stolzen Muskel- und Bizeps-Flex direkt in die Kamera. Echter Streamer-Stolz und der Beweis, dass hartes Training in Counter-Strike sich auszahlt.',
-                    ru: 'Незабываемый момент искренней радости после напряжённой битвы на серверах Faceit! Достижение долгожданного 10 уровня, увенчанное гордым показом мышц и бицепса прямо в камеру. Настоящая стримерская гордость и доказательство того, что упорные тренировки в Counter-Strike приносят плоды.'
+                    ru: 'Незабываемый момент искренней радости после напряжённой битвы на серверах Faceit! Достижение долгожданного 10 уровня, увенчанное гордым показом мышц и бицепса прямо в камеру. Настоящая стримерская гордость и доказательство того, что упорные тренировки в Counter-Strike приносят плоды.', he: 'רגע בלתי נשכח, מלא ברגשות אמיתיים של שמחה אחרי קרב עיקש בשרתי Faceit! הגעה לרמה 10 הנכספת, בשיא של הצגת שרירים וביצפס גאה ישר למצלמה. גאווה אמיתית של סטרימר והוכחה לכך שאימון קשה בקאונטר-סטרייק משתלם.'
                 }
             },
             { 
                 src: 'image36.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Trasa pod kontrolą', en: 'Road Under Control', de: 'Strecke unter Kontrolle', ru: 'Дорога под контролем' },
-                tags: { pl: '#trucker #trasa #kabina #pulpit #work', en: '#trucker #route #cabin #dashboard #work', de: '#trucker #strecke #kabine #armaturenbrett #work', ru: '#дальнобойщик #маршрут #кабина #панель #работа' },
+                title: { pl: 'Trasa pod kontrolą', en: 'Road Under Control', de: 'Strecke unter Kontrolle', ru: 'Дорога под контролем', he: 'הדרך בשליטה' },
+                tags: { pl: '#trucker #trasa #kabina #pulpit #work', en: '#trucker #route #cabin #dashboard #work', de: '#trucker #strecke #kabine #armaturenbrett #work', ru: '#дальнобойщик #маршрут #кабина #панель #работа', he: '#נהג_משאית #דרך #תא_נהג #לוח_מחוונים #עבודה' },
                 desc: {
                     pl: 'Spojrzenie z perspektywy mojego mobilnego biura podczas przemierzania kolejnych kilometrów europejskich autostrad. Za oknem dynamicznie zmieniający się krajobraz, a na desce rozdzielczej widoczne wsparcie od moich najwspanialszych widzów. Praca kierowcy to nie tylko zawód, ale prawdziwy styl życia pełen wolności.',
                     en: 'A view from my mobile office while covering another stretch of European highways. Outside the window the landscape keeps changing, and on the dashboard you can see the support from my amazing viewers. Being a truck driver isn\'t just a job — it\'s a way of life full of freedom.',
                     de: 'Der Blick aus meinem mobilen Büro, während ich weitere Kilometer europäischer Autobahnen zurücklege. Vor dem Fenster wechselt ständig die Landschaft, und auf dem Armaturenbrett ist die Unterstützung meiner großartigen Zuschauer zu sehen. Der Beruf des Fernfahrers ist nicht nur ein Job, sondern ein echter Lebensstil voller Freiheit.',
-                    ru: 'Взгляд из моего мобильного офиса во время очередных километров европейских автомагистралей. За окном постоянно меняющийся пейзаж, а на панели приборов видна поддержка от моих замечательных зрителей. Работа дальнобойщика — это не просто профессия, а настоящий образ жизни, полный свободы.'
+                    ru: 'Взгляд из моего мобильного офиса во время очередных километров европейских автомагистралей. За окном постоянно меняющийся пейзаж, а на панели приборов видна поддержка от моих замечательных зрителей. Работа дальнобойщика — это не просто профессия, а настоящий образ жизни, полный свободы.', he: 'מבט מהמשרד הנייד שלי בזמן חציית עוד קילומטרים בכבישים המהירים של אירופה. מאחורי החלון נוף שמשתנה כל הזמן, ועל לוח המחוונים ניתן לראות את התמיכה של הצופים הנפלאים שלי. עבודת נהג משאית היא לא רק מקצוע, אלא אורח חיים אמיתי מלא בחופש.'
                 }
             },
             { 
                 src: 'image37.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Strefa Pełnego Skupienia', en: 'Full Focus Zone', de: 'Zone voller Konzentration', ru: 'Зона полной концентрации' },
-                tags: { pl: '#gaming #esport #focus #live #gameplay', en: '#gaming #esport #focus #live #gameplay', de: '#gaming #esport #focus #live #gameplay', ru: '#gaming #киберспорт #фокус #live #геймплей' },
+                title: { pl: 'Strefa Pełnego Skupienia', en: 'Full Focus Zone', de: 'Zone voller Konzentration', ru: 'Зона полной концентрации', he: 'אזור ריכוז מלא' },
+                tags: { pl: '#gaming #esport #focus #live #gameplay', en: '#gaming #esport #focus #live #gameplay', de: '#gaming #esport #focus #live #gameplay', ru: '#gaming #киберспорт #фокус #live #геймплей', he: '#גיימינג #ספורט_אלקטרוני #פוקוס #לייב #משחקיות' },
                 desc: {
                     pl: 'Momenty, w których liczy się każda milisekunda, a dźwięk otoczenia zostaje całkowicie odcięty. W słuchawkach z mikrofonem uważnie nasłuchuję kroków przeciwnika na mapie de_mirage. Skupiony wzrok utkwiony w ekranie monitora zwiastuje tylko jedno — nadchodzi spektakularna runda.',
                     en: 'Moments when every millisecond counts and all ambient sound is completely cut off. Wearing my headset with mic, I\'m listening for enemy footsteps on de_mirage. Eyes locked on the monitor screen — it can only mean one thing: a spectacular round is coming.',
                     de: 'Momente, in denen jede Millisekunde zählt und jedes Umgebungsgeräusch komplett ausgeblendet wird. Mit meinem Headset mit Mikrofon lausche ich den Schritten des Gegners auf de_mirage. Der Blick starr auf den Bildschirm gerichtet, kündigt nur eines an — eine spektakuläre Runde steht bevor.',
-                    ru: 'Моменты, когда важна каждая миллисекунда, а все посторонние звуки полностью отсекаются. В наушниках с микрофоном я внимательно вслушиваюсь в шаги противника на карте de_mirage. Взгляд, прикованный к экрану монитора, предвещает только одно — впереди зрелищный раунд.'
+                    ru: 'Моменты, когда важна каждая миллисекунда, а все посторонние звуки полностью отсекаются. В наушниках с микрофоном я внимательно вслушиваюсь в шаги противника на карте de_mirage. Взгляд, прикованный к экрану монитора, предвещает только одно — впереди зрелищный раунд.', he: 'רגעים שבהם כל אלפית שנייה קובעת וכל רעש רקע מנוטרל לחלוטין. עם אוזניות ומיקרופון, אני מקשיב בקשב רב לצעדי היריב במפה de_mirage. מבט נעוץ במסך המוניטור מבשר רק דבר אחד - עומד להתרחש סיבוב מרהיב.'
                 }
             },
             { 
                 src: 'image38.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Zwycięski Uśmiech', en: 'Winning Smile', de: 'Siegerlächeln', ru: 'Победная улыбка' },
-                tags: { pl: '#smile #happy #clutch #live #community', en: '#smile #happy #clutch #live #community', de: '#smile #happy #clutch #live #community', ru: '#улыбка #счастье #клатч #live #community' },
+                title: { pl: 'Zwycięski Uśmiech', en: 'Winning Smile', de: 'Siegerlächeln', ru: 'Победная улыбка', he: 'חיוך של ניצחון' },
+                tags: { pl: '#smile #happy #clutch #live #community', en: '#smile #happy #clutch #live #community', de: '#smile #happy #clutch #live #community', ru: '#улыбка #счастье #клатч #live #community', he: '#חיוך #שמחה #קלאטש #לייב #קהילה' },
                 desc: {
                     pl: 'Ten moment, kiedy clutch 1v3 kończy się rozbrojeniem bomby w ostatniej sekundzie! Szeroki, szczery uśmiech na twarzy i chwila luźnej interakcji z czatem to najlepsza nagroda za zaangażowanie na streamie. Nic tak nie buduje klimatu transmisji jak wspólne świętowanie małych i dużych sukcesów z Wami.',
                     en: 'That moment when a 1v3 clutch ends with defusing the bomb in the last second! A wide, genuine smile and a moment of relaxed chat interaction are the best reward for engaging with the stream. Nothing builds the vibe of a broadcast like celebrating small and big wins together with you.',
                     de: 'Dieser Moment, wenn ein 1v3-Clutch mit der Entschärfung der Bombe in der letzten Sekunde endet! Ein breites, echtes Lächeln und ein Moment lockerer Interaktion mit dem Chat sind die beste Belohnung für das Engagement im Stream. Nichts schafft eine bessere Stimmung im Stream, als gemeinsam mit euch kleine und große Erfolge zu feiern.',
-                    ru: 'Тот момент, когда клатч один против трёх заканчивается разминированием бомбы на последней секунде! Широкая искренняя улыбка и момент непринуждённого общения с чатом — лучшая награда за вовлечённость в стрим. Ничто так не создаёт атмосферу трансляции, как совместное празднование маленьких и больших побед вместе с вами.'
+                    ru: 'Тот момент, когда клатч один против трёх заканчивается разминированием бомбы на последней секунде! Широкая искренняя улыбка и момент непринуждённого общения с чатом — лучшая награда за вовлечённость в стрим. Ничто так не создаёт атмосферу трансляции, как совместное празднование маленьких и больших побед вместе с вами.', he: 'הרגע שבו קלאטש של אחד נגד שלושה מסתיים בפירוק הפצצה בשנייה האחרונה! חיוך רחב וכן ורגע של אינטראקציה רגועה עם הצ׳אט הם הפרס הטוב ביותר על המעורבות בסטרים. שום דבר לא בונה את האווירה של השידור כמו חגיגה משותפת של הצלחות קטנות וגדולות איתכם.'
                 }
             },
             { 
                 src: 'image39.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Interakcja z Czatem na Żywo', en: 'Live Chat Interaction', de: 'Live-Chat-Interaktion', ru: 'Общение с чатом в прямом эфире' },
-                tags: { pl: '#chat #live #talk #chill #backstage', en: '#chat #live #talk #chill #backstage', de: '#chat #live #talk #chill #backstage', ru: '#чат #live #общение #chill #backstage' },
+                title: { pl: 'Interakcja z Czatem na Żywo', en: 'Live Chat Interaction', de: 'Live-Chat-Interaktion', ru: 'Общение с чатом в прямом эфире', he: 'אינטראקציה עם הצ׳אט בשידור חי' },
+                tags: { pl: '#chat #live #talk #chill #backstage', en: '#chat #live #talk #chill #backstage', de: '#chat #live #talk #chill #backstage', ru: '#чат #live #общение #chill #backstage', he: '#צאט #לייב #שיחה #רגיעה #מאחורי_הקלעים' },
                 desc: {
                     pl: 'Transmisja na żywo to przede wszystkim Wy — Wasze komentarze, żarty i nieustające wsparcie. Na tym ujęciu widać moment aktywnego czytania czatu, analizowania Waszych podpowiedzi oraz odpowiadania na nurtujące pytania. Każdy stream to nowa, niepowtarzalna historia pisana wspólnie z całą społecznością.',
                     en: 'A live broadcast is, above all, about you — your comments, jokes, and constant support. This shot captures a moment of actively reading chat, considering your suggestions, and answering burning questions. Every stream is a new, one-of-a-kind story written together with the whole community.',
                     de: 'Ein Livestream lebt vor allem von euch — euren Kommentaren, Witzen und eurer ständigen Unterstützung. Dieses Bild zeigt einen Moment, in dem ich aktiv den Chat lese, eure Vorschläge berücksichtige und brennende Fragen beantworte. Jeder Stream ist eine neue, einzigartige Geschichte, die gemeinsam mit der ganzen Community geschrieben wird.',
-                    ru: 'Прямой эфир — это прежде всего вы: ваши комментарии, шутки и постоянная поддержка. На этом кадре запечатлён момент активного чтения чата, обдумывания ваших предложений и ответов на волнующие вопросы. Каждый стрим — это новая, неповторимая история, написанная вместе со всем сообществом.'
+                    ru: 'Прямой эфир — это прежде всего вы: ваши комментарии, шутки и постоянная поддержка. На этом кадре запечатлён момент активного чтения чата, обдумывания ваших предложений и ответов на волнующие вопросы. Каждый стрим — это новая, неповторимая история, написанная вместе со всем сообществом.', he: 'שידור חי הוא בעיקר אתם - התגובות, הבדיחות והתמיכה המתמדת שלכם. בקטע הזה נראה רגע של קריאה פעילה של הצ׳אט, התייחסות להצעות שלכם ומענה לשאלות בוערות. כל סטרים הוא סיפור חדש וייחודי שנכתב יחד עם כל הקהילה.'
                 }
             },
             { 
                 src: 'image33.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Potężne Ziewnięcie', en: 'Mighty Yawn', de: 'Gewaltiges Gähnen', ru: 'Мощный зевок' },
-                tags: { pl: '#lodzik #lód #wieczór', en: '#lodzik #ice #evening', de: '#lodzik #eis #abend', ru: '#lodzik #лёд #вечер' },
+                title: { pl: 'Potężne Ziewnięcie', en: 'Mighty Yawn', de: 'Gewaltiges Gähnen', ru: 'Мощный зевок', he: 'פיהוק עוצמתי' },
+                tags: { pl: '#lodzik #lód #wieczór', en: '#lodzik #ice #evening', de: '#lodzik #eis #abend', ru: '#lodzik #лёд #вечер', he: '#ארטיק #קרח #ערב' },
                 desc: {
                     pl: 'Klasyczny moment zmęczenia podczas wielogodzinnej transmisji. Emocje sięgają zenitu, a ziewnięcie aż wykręca oczy!',
                     en: 'A classic moment of exhaustion during a many-hours-long broadcast. Emotions reach their peak, and the yawn practically twists my eyes shut!',
                     de: 'Ein klassischer Moment der Erschöpfung während einer stundenlangen Übertragung. Die Emotionen erreichen ihren Höhepunkt, und das Gähnen verdreht förmlich die Augen!',
-                    ru: 'Классический момент усталости во время многочасовой трансляции. Эмоции достигают предела, а зевок буквально выворачивает глаза!'
+                    ru: 'Классический момент усталости во время многочасовой трансляции. Эмоции достигают предела, а зевок буквально выворачивает глаза!', he: 'רגע קלאסי של עייפות במהלך שידור ארוך של שעות רבות. הרגשות מגיעים לשיא, והפיהוק כמעט מעוות את העיניים!'
                 }
             },
             { 
                 src: 'image34.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Zbliżenie Kontrolowane', en: 'Controlled Close-up', de: 'Kontrollierte Nahaufnahme', ru: 'Контролируемый крупный план' },
-                tags: { pl: '#zoom #twarz #blisko #emocje', en: '#zoom #face #close #emotions', de: '#zoom #gesicht #nah #emotionen', ru: '#zoom #лицо #близко #эмоции' },
+                title: { pl: 'Zbliżenie Kontrolowane', en: 'Controlled Close-up', de: 'Kontrollierte Nahaufnahme', ru: 'Контролируемый крупный план', he: 'תקריב מבוקר' },
+                tags: { pl: '#zoom #twarz #blisko #emocje', en: '#zoom #face #close #emotions', de: '#zoom #gesicht #nah #emotionen', ru: '#zoom #лицо #близко #эмоции', he: '#זום #פנים #קרוב #רגשות' },
                 desc: {
                     pl: 'Kiedy podchodzisz zdecydowanie za blisko obiektywu kamery, żeby przekazać widzom coś niezwykle istotnego. Mina mówi sama za siebie.',
                     en: 'The moment when you get decisively too close to the camera lens to tell viewers something extremely important. The face says it all.',
                     de: 'Der Moment, in dem man entschlossen viel zu nah an die Kameralinse herangeht, um den Zuschauern etwas äußerst Wichtiges mitzuteilen. Der Gesichtsausdruck spricht Bände.',
-                    ru: 'Момент, когда ты решительно подходишь слишком близко к объективу камеры, чтобы сообщить зрителям что-то крайне важное. Выражение лица говорит само за себя.'
+                    ru: 'Момент, когда ты решительно подходишь слишком близко к объективу камеры, чтобы сообщить зрителям что-то крайне важное. Выражение лица говорит само за себя.', he: 'הרגע שבו אתה מתקרב החלטית יותר מדי לעדשת המצלמה כדי לומר לצופים משהו חשוב מאוד. ההבעה בפנים אומרת הכול.'
                 }
             },
             { 
                 src: 'image28.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'essa', en: 'essa', de: 'essa', ru: 'essa' },
-                tags: { pl: '#v #pozdro', en: '#v #greetings', de: '#v #grüße', ru: '#v #привет' },
+                title: { pl: 'essa', en: 'essa', de: 'essa', ru: 'essa', he: 'essa' },
+                tags: { pl: '#v #pozdro', en: '#v #greetings', de: '#v #grüße', ru: '#v #привет', he: '#וי #דרישת_שלום' },
                 desc: {
                     pl: 'Just Andrew pozdrawia swoich widzów pięknym gestem.',
                     en: 'Just Andrew greets his viewers with a beautiful gesture.',
                     de: 'Just Andrew grüßt seine Zuschauer mit einer wunderschönen Geste.',
-                    ru: 'Джаст Эндрю приветствует своих зрителей красивым жестом.'
+                    ru: 'Джаст Эндрю приветствует своих зрителей красивым жестом.', he: 'ג׳אסט אנדרו מברך את הצופים שלו במחווה יפה.'
                 }
             },
             { 
                 src: 'image29.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Wnętrze maszyny', en: 'Inside the Machine', de: 'Inneres der Maschine', ru: 'Внутри машины' },
-                tags: { pl: '#ciężarówka', en: '#truck', de: '#lkw', ru: '#грузовик' },
-                desc: { pl: 'Moje mobilne biuro.', en: 'My mobile office.', de: 'Mein mobiles Büro.', ru: 'Мой мобильный офис.' }
+                title: { pl: 'Wnętrze maszyny', en: 'Inside the Machine', de: 'Inneres der Maschine', ru: 'Внутри машины', he: 'בתוך המכונה' },
+                tags: { pl: '#ciężarówka', en: '#truck', de: '#lkw', ru: '#грузовик', he: '#משאית' },
+                desc: { pl: 'Moje mobilne biuro.', en: 'My mobile office.', de: 'Mein mobiles Büro.', ru: 'Мой мобильный офис.', he: 'המשרד הנייד שלי.' }
             },
             { 
                 src: 'image30.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Chillera w domu', en: 'Chilling at Home', de: 'Chillen zu Hause', ru: 'Расслабон дома' },
-                tags: { pl: '#twarz', en: '#face', de: '#gesicht', ru: '#лицо' },
-                desc: { pl: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', en: 'Relaxing in the comfort of home after a hard day.', de: 'Entspannung in den eigenen vier Wänden nach einem harten Tag.', ru: 'Отдых в домашнем уюте после тяжёлого дня.' }
+                title: { pl: 'Chillera w domu', en: 'Chilling at Home', de: 'Chillen zu Hause', ru: 'Расслабон дома', he: 'רגיעה בבית' },
+                tags: { pl: '#twarz', en: '#face', de: '#gesicht', ru: '#лицо', he: '#פנים' },
+                desc: { pl: 'Odpoczynek w domowym zaciszu po ciężkim dniu.', en: 'Relaxing in the comfort of home after a hard day.', de: 'Entspannung in den eigenen vier Wänden nach einem harten Tag.', ru: 'Отдых в домашнем уюте после тяжёлого дня.', he: 'מנוחה בנוחות הבית אחרי יום קשה.' }
             },
             { 
                 src: 'image31.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Czeski klimat', en: 'Czech Vibes', de: 'Tschechisches Flair', ru: 'Чешская атмосфера' },
-                tags: { pl: '#piwo #Žatecký', en: '#beer #Žatecký', de: '#bier #Žatecký', ru: '#пиво #Žatecký' },
-                desc: { pl: 'Degustacja legendarnego chmielu prosto z Czech.', en: 'Tasting legendary hops straight from Czechia.', de: 'Verkostung des legendären Hopfens direkt aus Tschechien.', ru: 'Дегустация легендарного хмеля прямиком из Чехии.' }
+                title: { pl: 'Czeski klimat', en: 'Czech Vibes', de: 'Tschechisches Flair', ru: 'Чешская атмосфера', he: 'אווירה צ׳כית' },
+                tags: { pl: '#piwo #Žatecký', en: '#beer #Žatecký', de: '#bier #Žatecký', ru: '#пиво #Žatecký', he: '#בירה #Žatecký' },
+                desc: { pl: 'Degustacja legendarnego chmielu prosto z Czech.', en: 'Tasting legendary hops straight from Czechia.', de: 'Verkostung des legendären Hopfens direkt aus Tschechien.', ru: 'Дегустация легендарного хмеля прямиком из Чехии.', he: 'טעימת כשות אגדית ישר מצ׳כיה.' }
             },
             { 
                 src: 'image32.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Streamowe orzeźwienie', en: 'Stream Refreshment', de: 'Stream-Erfrischung', ru: 'Стримовое освежение' },
-                tags: { pl: '#piwo #live', en: '#beer #live', de: '#bier #live', ru: '#пиво #live' },
-                desc: { pl: 'Nic tak nie poprawia jakości streama jak zimne piwko.', en: 'Nothing improves stream quality like a cold beer.', de: 'Nichts verbessert die Stream-Qualität so sehr wie ein kaltes Bier.', ru: 'Ничто так не улучшает качество стрима, как холодное пиво.' }
+                title: { pl: 'Streamowe orzeźwienie', en: 'Stream Refreshment', de: 'Stream-Erfrischung', ru: 'Стримовое освежение', he: 'רענון סטרימי' },
+                tags: { pl: '#piwo #live', en: '#beer #live', de: '#bier #live', ru: '#пиво #live', he: '#בירה #live' },
+                desc: { pl: 'Nic tak nie poprawia jakości streama jak zimne piwko.', en: 'Nothing improves stream quality like a cold beer.', de: 'Nichts verbessert die Stream-Qualität so sehr wie ein kaltes Bier.', ru: 'Ничто так не улучшает качество стрима, как холодное пиво.', he: 'שום דבר לא משפר את איכות הסטרים כמו בירה קרה.' }
             },
             { 
                 src: 'image27.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Transmisja i Orzeźwienie', en: 'Broadcast and Refreshment', de: 'Übertragung und Erfrischung', ru: 'Трансляция и освежение' },
-                tags: { pl: '#live #refresh #piwo #lech', en: '#live #refresh #beer #lech', de: '#live #refresh #bier #lech', ru: '#live #refresh #пиво #lech' },
-                desc: { pl: 'Kulisowy kadr.', en: 'A behind-the-scenes shot.', de: 'Ein Blick hinter die Kulissen.', ru: 'Кадр за кулисами.' }
+                title: { pl: 'Transmisja i Orzeźwienie', en: 'Broadcast and Refreshment', de: 'Übertragung und Erfrischung', ru: 'Трансляция и освежение', he: 'שידור ורענון' },
+                tags: { pl: '#live #refresh #piwo #lech', en: '#live #refresh #beer #lech', de: '#live #refresh #bier #lech', ru: '#live #refresh #пиво #lech', he: '#live #refresh #בירה #lech' },
+                desc: { pl: 'Kulisowy kadr.', en: 'A behind-the-scenes shot.', de: 'Ein Blick hinter die Kulissen.', ru: 'Кадр за кулисами.', he: 'קטע מאחורי הקלעים.' }
             },
             { 
                 src: 'image24.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Relaks ze szklanką', en: 'Relaxing with a Glass', de: 'Entspannung mit einem Glas', ru: 'Расслабон со стаканом' },
-                tags: { pl: '#drink #chill #piwo', en: '#drink #chill #beer', de: '#drink #chill #bier', ru: '#drink #chill #пиво' },
-                desc: { pl: 'Przerwa na napój.', en: 'A drink break.', de: 'Eine Trinkpause.', ru: 'Перерыв на напиток.' }
+                title: { pl: 'Relaks ze szklanką', en: 'Relaxing with a Glass', de: 'Entspannung mit einem Glas', ru: 'Расслабон со стаканом', he: 'רגיעה עם כוס' },
+                tags: { pl: '#drink #chill #piwo', en: '#drink #chill #beer', de: '#drink #chill #bier', ru: '#drink #chill #пиво', he: '#drink #chill #בירה' },
+                desc: { pl: 'Przerwa na napój.', en: 'A drink break.', de: 'Eine Trinkpause.', ru: 'Перерыв на напиток.', he: 'הפסקת שתייה.' }
             },
             { 
                 src: 'image7.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Odświeżenie', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение' },
-                tags: { pl: '#relaks #chill #piwo #żubr', en: '#relax #chill #beer #żubr', de: '#relax #chill #bier #żubr', ru: '#relax #chill #пиво #żubr' },
-                desc: { pl: 'Chwila oddechu.', en: 'A moment to catch your breath.', de: 'Ein Moment zum Durchatmen.', ru: 'Момент, чтобы перевести дыхание.' }
+                title: { pl: 'Odświeżenie', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение', he: 'רענון' },
+                tags: { pl: '#relaks #chill #piwo #żubr', en: '#relax #chill #beer #żubr', de: '#relax #chill #bier #żubr', ru: '#relax #chill #пиво #żubr', he: '#relax #chill #בירה #żubr' },
+                desc: { pl: 'Chwila oddechu.', en: 'A moment to catch your breath.', de: 'Ein Moment zum Durchatmen.', ru: 'Момент, чтобы перевести дыхание.', he: 'רגע לנשום.' }
             },
             { 
                 src: 'image1.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Moment zdziwienia', en: 'Moment of Surprise', de: 'Moment der Überraschung', ru: 'Момент удивления' },
-                tags: { pl: '#surprise #face #fun #sigma', en: '#surprise #face #fun #sigma', de: '#surprise #face #fun #sigma', ru: '#surprise #face #fun #sigma' },
-                desc: { pl: 'Niespodziewany moment na streamie.', en: 'An unexpected moment on stream.', de: 'Ein unerwarteter Moment im Stream.', ru: 'Неожиданный момент на стриме.' }
+                title: { pl: 'Moment zdziwienia', en: 'Moment of Surprise', de: 'Moment der Überraschung', ru: 'Момент удивления', he: 'רגע של תדהמה' },
+                tags: { pl: '#surprise #face #fun #sigma', en: '#surprise #face #fun #sigma', de: '#surprise #face #fun #sigma', ru: '#surprise #face #fun #sigma', he: '#surprise #face #fun #sigma' },
+                desc: { pl: 'Niespodziewany moment na streamie.', en: 'An unexpected moment on stream.', de: 'Ein unerwarteter Moment im Stream.', ru: 'Неожиданный момент на стриме.', he: 'רגע בלתי צפוי בסטרים.' }
             },
             { 
                 src: 'image2.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Duet', en: 'Duo', de: 'Duo', ru: 'Дуэт' },
-                tags: { pl: '#rodzeństwo #przyjaciele #ola', en: '#siblings #friends #ola', de: '#geschwister #freunde #ola', ru: '#братьяисёстры #друзья #ola' },
-                desc: { pl: 'Relacja między postaciami.', en: 'The relationship between the two of them.', de: 'Die Beziehung zwischen den beiden.', ru: 'Отношения между персонажами.' }
+                title: { pl: 'Duet', en: 'Duo', de: 'Duo', ru: 'Дуэт', he: 'דואט' },
+                tags: { pl: '#rodzeństwo #przyjaciele #ola', en: '#siblings #friends #ola', de: '#geschwister #freunde #ola', ru: '#братьяисёстры #друзья #ola', he: '#אחים_ואחיות #חברים #ola' },
+                desc: { pl: 'Relacja między postaciami.', en: 'The relationship between the two of them.', de: 'Die Beziehung zwischen den beiden.', ru: 'Отношения между персонажами.', he: 'הקשר בין הדמויות.' }
             },
             { 
                 src: 'image3.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Flexing', en: 'Flexing', de: 'Flexing', ru: 'Флексинг' },
-                tags: { pl: '#mięśnie #siła #ola #biceps', en: '#muscles #strength #ola #biceps', de: '#muskeln #kraft #ola #bizeps', ru: '#мышцы #сила #ola #бицепс' },
-                desc: { pl: 'Pokaz formy.', en: 'Showing off the gains.', de: 'Zurschaustellung der Form.', ru: 'Демонстрация формы.' }
+                title: { pl: 'Flexing', en: 'Flexing', de: 'Flexing', ru: 'Флексинг', he: 'הצגת שרירים' },
+                tags: { pl: '#mięśnie #siła #ola #biceps', en: '#muscles #strength #ola #biceps', de: '#muskeln #kraft #ola #bizeps', ru: '#мышцы #сила #ola #бицепс', he: '#שרירים #כוח #ola #ביצפס' },
+                desc: { pl: 'Pokaz formy.', en: 'Showing off the gains.', de: 'Zurschaustellung der Form.', ru: 'Демонстрация формы.', he: 'הצגת הפורם.' }
             },
             { 
                 src: 'image4.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Świeca', en: 'Candle Pose', de: 'Kerzenstand', ru: 'Свечка' },
-                tags: { pl: '#świeca #akrobata #ola', en: '#candle #acrobat #ola', de: '#kerze #akrobat #ola', ru: '#свечка #акробат #ola' },
-                desc: { pl: 'Akrobacje na żywo.', en: 'Live acrobatics.', de: 'Akrobatik live.', ru: 'Акробатика в прямом эфире.' }
+                title: { pl: 'Świeca', en: 'Candle Pose', de: 'Kerzenstand', ru: 'Свечка', he: 'נר' },
+                tags: { pl: '#świeca #akrobata #ola', en: '#candle #acrobat #ola', de: '#kerze #akrobat #ola', ru: '#свечка #акробат #ola', he: '#נר #אקרובט #ola' },
+                desc: { pl: 'Akrobacje na żywo.', en: 'Live acrobatics.', de: 'Akrobatik live.', ru: 'Акробатика в прямом эфире.', he: 'אקרובטיקה בשידור חי.' }
             },
             { 
                 src: 'image5.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Refreshment', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение' },
-                tags: { pl: '#piwo #lech', en: '#beer #lech', de: '#bier #lech', ru: '#пиво #lech' },
-                desc: { pl: 'Zasłużona przerwa.', en: 'A well-deserved break.', de: 'Eine wohlverdiente Pause.', ru: 'Заслуженный перерыв.' }
+                title: { pl: 'Refreshment', en: 'Refreshment', de: 'Erfrischung', ru: 'Освежение', he: 'רענון' },
+                tags: { pl: '#piwo #lech', en: '#beer #lech', de: '#bier #lech', ru: '#пиво #lech', he: '#בירה #lech' },
+                desc: { pl: 'Zasłużona przerwa.', en: 'A well-deserved break.', de: 'Eine wohlverdiente Pause.', ru: 'Заслуженный перерыв.', he: 'הפסקה מגיעה לה.' }
             },
             { 
                 src: 'image6.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Głębokie skupienie', en: 'Deep Focus', de: 'Tiefe Konzentration', ru: 'Глубокая концентрация' },
-                tags: { pl: '#zakola #twarz', en: '#zakola #face', de: '#zakola #gesicht', ru: '#zakola #лицо' },
-                desc: { pl: 'Pełna precyzja.', en: 'Full precision.', de: 'Volle Präzision.', ru: 'Полная точность.' }
+                title: { pl: 'Głębokie skupienie', en: 'Deep Focus', de: 'Tiefe Konzentration', ru: 'Глубокая концентрация', he: 'ריכוז עמוק' },
+                tags: { pl: '#zakola #twarz', en: '#zakola #face', de: '#zakola #gesicht', ru: '#zakola #лицо', he: '#zakola #פנים' },
+                desc: { pl: 'Pełna precyzja.', en: 'Full precision.', de: 'Volle Präzision.', ru: 'Полная точность.', he: 'דיוק מלא.' }
             },
             { 
                 src: 'image8.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Przerwa na sprzęt', en: 'Gear Break', de: 'Ausrüstungspause', ru: 'Перерыв на технику' },
-                tags: { pl: '#setup #tech #słuchawki', en: '#setup #tech #headphones', de: '#setup #tech #kopfhörer', ru: '#setup #tech #наушники' },
-                desc: { pl: 'Kulisowe ujęcia.', en: 'Behind-the-scenes shots.', de: 'Blicke hinter die Kulissen.', ru: 'Закулисные кадры.' }
+                title: { pl: 'Przerwa na sprzęt', en: 'Gear Break', de: 'Ausrüstungspause', ru: 'Перерыв на технику', he: 'הפסקת ציוד' },
+                tags: { pl: '#setup #tech #słuchawki', en: '#setup #tech #headphones', de: '#setup #tech #kopfhörer', ru: '#setup #tech #наушники', he: '#setup #tech #אוזניות' },
+                desc: { pl: 'Kulisowe ujęcia.', en: 'Behind-the-scenes shots.', de: 'Blicke hinter die Kulissen.', ru: 'Закулисные кадры.', he: 'צילומים מאחורי הקלעים.' }
             },
             { 
                 src: 'image9.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Serce', en: 'Heart', de: 'Herz', ru: 'Сердечко' },
-                tags: { pl: '#uwu #love #serce #serduszko', en: '#uwu #love #heart', de: '#uwu #love #herz', ru: '#uwu #love #сердце' },
-                desc: { pl: 'Dla widzów.', en: 'For the viewers.', de: 'Für die Zuschauer.', ru: 'Для зрителей.' }
+                title: { pl: 'Serce', en: 'Heart', de: 'Herz', ru: 'Сердечко', he: 'לב' },
+                tags: { pl: '#uwu #love #serce #serduszko', en: '#uwu #love #heart', de: '#uwu #love #herz', ru: '#uwu #love #сердце', he: '#uwu #love #לב' },
+                desc: { pl: 'Dla widzów.', en: 'For the viewers.', de: 'Für die Zuschauer.', ru: 'Для зрителей.', he: 'לצופים.' }
             },
             { 
                 src: 'image10.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Przyjaciele', en: 'Friends', de: 'Freunde', ru: 'Друзья' },
-                tags: { pl: '#friends #party #ola', en: '#friends #party #ola', de: '#friends #party #ola', ru: '#friends #party #ola' },
-                desc: { pl: 'Wspólny czas.', en: 'Time together.', de: 'Gemeinsame Zeit.', ru: 'Время вместе.' }
+                title: { pl: 'Przyjaciele', en: 'Friends', de: 'Freunde', ru: 'Друзья', he: 'חברים' },
+                tags: { pl: '#friends #party #ola', en: '#friends #party #ola', de: '#friends #party #ola', ru: '#friends #party #ola', he: '#friends #party #ola' },
+                desc: { pl: 'Wspólny czas.', en: 'Time together.', de: 'Gemeinsame Zeit.', ru: 'Время вместе.', he: 'זמן ביחד.' }
             },
             { 
                 src: 'image11.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Z puszystym przyjacielem', en: 'With a Fluffy Friend', de: 'Mit einem flauschigen Freund', ru: 'С пушистым другом' },
-                tags: { pl: '#kot #cute', en: '#cat #cute', de: '#katze #cute', ru: '#кот #cute' },
-                desc: { pl: 'Mój pupil.', en: 'My pet.', de: 'Mein Haustier.', ru: 'Мой питомец.' }
+                title: { pl: 'Z puszystym przyjacielem', en: 'With a Fluffy Friend', de: 'Mit einem flauschigen Freund', ru: 'С пушистым другом', he: 'עם חבר פרוותי' },
+                tags: { pl: '#kot #cute', en: '#cat #cute', de: '#katze #cute', ru: '#кот #cute', he: '#חתול #cute' },
+                desc: { pl: 'Mój pupil.', en: 'My pet.', de: 'Mein Haustier.', ru: 'Мой питомец.', he: 'חיית המחמד שלי.' }
             },
             { 
                 src: 'image12.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Zbliżenie', en: 'Close-up', de: 'Nahaufnahme', ru: 'Крупный план' },
-                tags: { pl: '#face #zoom', en: '#face #zoom', de: '#face #zoom', ru: '#face #zoom' },
-                desc: { pl: 'Uśmiech!', en: 'Smile!', de: 'Lächeln!', ru: 'Улыбка!' }
+                title: { pl: 'Zbliżenie', en: 'Close-up', de: 'Nahaufnahme', ru: 'Крупный план', he: 'תקריב' },
+                tags: { pl: '#face #zoom', en: '#face #zoom', de: '#face #zoom', ru: '#face #zoom', he: '#face #zoom' },
+                desc: { pl: 'Uśmiech!', en: 'Smile!', de: 'Lächeln!', ru: 'Улыбка!', he: 'חיוך!' }
             },
             { 
                 src: 'image13.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Pozdrowienia', en: 'Greetings', de: 'Grüße', ru: 'Приветствие' },
-                tags: { pl: '#hello #serce', en: '#hello #heart', de: '#hello #herz', ru: '#hello #сердце' },
-                desc: { pl: 'Interakcja z czatem.', en: 'Chat interaction.', de: 'Interaktion mit dem Chat.', ru: 'Общение с чатом.' }
+                title: { pl: 'Pozdrowienia', en: 'Greetings', de: 'Grüße', ru: 'Приветствие', he: 'ברכות' },
+                tags: { pl: '#hello #serce', en: '#hello #heart', de: '#hello #herz', ru: '#hello #сердце', he: '#hello #לב' },
+                desc: { pl: 'Interakcja z czatem.', en: 'Chat interaction.', de: 'Interaktion mit dem Chat.', ru: 'Общение с чатом.', he: 'אינטראקציה עם הצ׳אט.' }
             },
             { 
                 src: 'image14.jpg', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Skupienie', en: 'Focus', de: 'Konzentration', ru: 'Концентрация' },
-                tags: { pl: '#focus #work', en: '#focus #work', de: '#focus #work', ru: '#focus #work' },
-                desc: { pl: 'Praca wre.', en: 'Work is in full swing.', de: 'Die Arbeit läuft auf Hochtouren.', ru: 'Работа кипит.' }
+                title: { pl: 'Skupienie', en: 'Focus', de: 'Konzentration', ru: 'Концентрация', he: 'ריכוז' },
+                tags: { pl: '#focus #work', en: '#focus #work', de: '#focus #work', ru: '#focus #work', he: '#focus #work' },
+                desc: { pl: 'Praca wre.', en: 'Work is in full swing.', de: 'Die Arbeit läuft auf Hochtouren.', ru: 'Работа кипит.', he: 'העבודה בעיצומה.' }
             },
             { 
                 src: 'image15.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Trening', en: 'Training', de: 'Training', ru: 'Тренировка' },
-                tags: { pl: '#gym #power #cycki #piersi', en: '#gym #power', de: '#gym #power', ru: '#gym #power' },
-                desc: { pl: 'Pasja do sportu.', en: 'A passion for sports.', de: 'Leidenschaft für Sport.', ru: 'Страсть к спорту.' }
+                title: { pl: 'Trening', en: 'Training', de: 'Training', ru: 'Тренировка', he: 'אימון' },
+                tags: { pl: '#gym #power #cycki #piersi', en: '#gym #power', de: '#gym #power', ru: '#gym #power', he: '#gym #power' },
+                desc: { pl: 'Pasja do sportu.', en: 'A passion for sports.', de: 'Leidenschaft für Sport.', ru: 'Страсть к спорту.', he: 'תשוקה לספורט.' }
             },
             { 
                 src: 'image16.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Serce z pracy', en: 'Heart from the Road', de: 'Herz von der Arbeit', ru: 'Сердце с работы' },
-                tags: { pl: '#ciężarówka #love', en: '#truck #love', de: '#lkw #love', ru: '#грузовик #love' },
-                desc: { pl: 'Z trasy.', en: 'From the road.', de: 'Von der Strecke.', ru: 'С маршрута.' }
+                title: { pl: 'Serce z pracy', en: 'Heart from the Road', de: 'Herz von der Arbeit', ru: 'Сердце с работы', he: 'לב מהעבודה' },
+                tags: { pl: '#ciężarówka #love', en: '#truck #love', de: '#lkw #love', ru: '#грузовик #love', he: '#משאית #love' },
+                desc: { pl: 'Z trasy.', en: 'From the road.', de: 'Von der Strecke.', ru: 'С маршрута.', he: 'מהדרך.' }
             },
             { 
                 src: 'image17.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Niezadowolenie', en: 'Displeasure', de: 'Unzufriedenheit', ru: 'Недовольство' },
-                tags: { pl: '#angry #funny', en: '#angry #funny', de: '#angry #funny', ru: '#angry #funny' },
-                desc: { pl: 'Zabawne emocje.', en: 'Funny emotions.', de: 'Lustige Emotionen.', ru: 'Забавные эмоции.' }
+                title: { pl: 'Niezadowolenie', en: 'Displeasure', de: 'Unzufriedenheit', ru: 'Недовольство', he: 'אי שביעות רצון' },
+                tags: { pl: '#angry #funny', en: '#angry #funny', de: '#angry #funny', ru: '#angry #funny', he: '#angry #funny' },
+                desc: { pl: 'Zabawne emocje.', en: 'Funny emotions.', de: 'Lustige Emotionen.', ru: 'Забавные эмоции.', he: 'רגשות מצחיקים.' }
             },
             { 
                 src: 'image18.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Siła i motywacja', en: 'Strength and Motivation', de: 'Kraft und Motivation', ru: 'Сила и мотивация' },
-                tags: { pl: '#agresja #złość', en: '#aggression #anger', de: '#aggression #wut', ru: '#агрессия #злость' },
-                desc: { pl: 'Kiedy droga męczy.', en: 'When the road wears you out.', de: 'Wenn die Strecke ermüdet.', ru: 'Когда дорога утомляет.' }
+                title: { pl: 'Siła i motywacja', en: 'Strength and Motivation', de: 'Kraft und Motivation', ru: 'Сила и мотивация', he: 'כוח ומוטיבציה' },
+                tags: { pl: '#agresja #złość', en: '#aggression #anger', de: '#aggression #wut', ru: '#агрессия #злость', he: '#אגרסיה #כעס' },
+                desc: { pl: 'Kiedy droga męczy.', en: 'When the road wears you out.', de: 'Wenn die Strecke ermüdet.', ru: 'Когда дорога утомляет.', he: 'כשהדרך מתישה.' }
             },
             { 
                 src: 'image19.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Skupienie przed kamerą', en: 'Focus in Front of the Camera', de: 'Konzentration vor der Kamera', ru: 'Концентрация перед камерой' },
-                tags: { pl: '#look #eye', en: '#look #eye', de: '#look #eye', ru: '#look #eye' },
-                desc: { pl: 'Poważny kadr.', en: 'A serious shot.', de: 'Eine ernste Aufnahme.', ru: 'Серьёзный кадр.' }
+                title: { pl: 'Skupienie przed kamerą', en: 'Focus in Front of the Camera', de: 'Konzentration vor der Kamera', ru: 'Концентрация перед камерой', he: 'ריכוז מול המצלמה' },
+                tags: { pl: '#look #eye', en: '#look #eye', de: '#look #eye', ru: '#look #eye', he: '#look #eye' },
+                desc: { pl: 'Poważny kadr.', en: 'A serious shot.', de: 'Eine ernste Aufnahme.', ru: 'Серьёзный кадр.', he: 'קטע רציני.' }
             },
             { 
                 src: 'image20.png', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Spojrzenie z góry', en: 'View from Above', de: 'Blick von oben', ru: 'Взгляд сверху' },
-                tags: { pl: '#pov #perspective', en: '#pov #perspective', de: '#pov #perspective', ru: '#pov #perspective' },
-                desc: { pl: 'Inna perspektywa.', en: 'A different perspective.', de: 'Eine andere Perspektive.', ru: 'Другой ракурс.' }
+                title: { pl: 'Spojrzenie z góry', en: 'View from Above', de: 'Blick von oben', ru: 'Взгляд сверху', he: 'מבט מלמעלה' },
+                tags: { pl: '#pov #perspective', en: '#pov #perspective', de: '#pov #perspective', ru: '#pov #perspective', he: '#pov #perspective' },
+                desc: { pl: 'Inna perspektywa.', en: 'A different perspective.', de: 'Eine andere Perspektive.', ru: 'Другой ракурс.', he: 'פרספקטיבה אחרת.' }
             },
             { 
                 src: 'image21.jpg', cat: 'Stream', globalLikes: 0,
-                title: { pl: 'Gest sympatii', en: 'Friendly Gesture', de: 'Freundliche Geste', ru: 'Дружеский жест' },
-                tags: { pl: '#heart #hands #serce', en: '#heart #hands', de: '#heart #hands', ru: '#heart #hands' },
-                desc: { pl: 'Uwu dłońmi.', en: 'Uwu with the hands.', de: 'Uwu mit den Händen.', ru: 'Уву руками.' }
+                title: { pl: 'Gest sympatii', en: 'Friendly Gesture', de: 'Freundliche Geste', ru: 'Дружеский жест', he: 'מחוות חיבה' },
+                tags: { pl: '#heart #hands #serce', en: '#heart #hands', de: '#heart #hands', ru: '#heart #hands', he: '#heart #hands' },
+                desc: { pl: 'Uwu dłońmi.', en: 'Uwu with the hands.', de: 'Uwu mit den Händen.', ru: 'Уву руками.', he: 'Uwu בידיים.' }
             },
             { 
                 src: 'image22.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'W trase', en: 'On the Road', de: 'Auf der Strecke', ru: 'В рейсе' },
-                tags: { pl: '#driving #trucker', en: '#driving #trucker', de: '#driving #trucker', ru: '#driving #trucker' },
-                desc: { pl: 'Live z kabiny.', en: 'Live from the cabin.', de: 'Live aus der Kabine.', ru: 'Live из кабины.' }
+                title: { pl: 'W trase', en: 'On the Road', de: 'Auf der Strecke', ru: 'В рейсе', he: 'בדרכים' },
+                tags: { pl: '#driving #trucker', en: '#driving #trucker', de: '#driving #trucker', ru: '#driving #trucker', he: '#driving #trucker' },
+                desc: { pl: 'Live z kabiny.', en: 'Live from the cabin.', de: 'Live aus der Kabine.', ru: 'Live из кабины.', he: 'לייב מהתא.' }
             },
             { 
                 src: 'image25.png', cat: 'Praca', globalLikes: 0,
-                title: { pl: 'Pulpit sterowniczy', en: 'Dashboard', de: 'Armaturenbrett', ru: 'Панель управления' },
-                tags: { pl: '#view #truck', en: '#view #truck', de: '#view #truck', ru: '#view #truck' },
-                desc: { pl: 'Koniec trasy.', en: 'End of the route.', de: 'Ende der Strecke.', ru: 'Конец маршрута.' }
+                title: { pl: 'Pulpit sterowniczy', en: 'Dashboard', de: 'Armaturenbrett', ru: 'Панель управления', he: 'לוח בקרה' },
+                tags: { pl: '#view #truck', en: '#view #truck', de: '#view #truck', ru: '#view #truck', he: '#view #truck' },
+                desc: { pl: 'Koniec trasy.', en: 'End of the route.', de: 'Ende der Strecke.', ru: 'Конец маршрута.', he: 'סוף הדרך.' }
             },
             { 
                 src: 'image26.jpg', cat: 'Relaks', globalLikes: 0,
-                title: { pl: 'Chwila wytchnienia', en: 'A Moment of Rest', de: 'Ein Moment der Ruhe', ru: 'Момент отдыха' },
-                tags: { pl: '#chill #rest #klata #łóżko #odpoczynek', en: '#chill #rest', de: '#chill #rest', ru: '#chill #rest' },
-                desc: { pl: 'Miłość od pierwszego wejrzenia.', en: 'Relaxation.', de: 'Entspannung.', ru: 'Расслабление.' }
+                title: { pl: 'Chwila wytchnienia', en: 'A Moment of Rest', de: 'Ein Moment der Ruhe', ru: 'Момент отдыха', he: 'רגע של מנוחה' },
+                tags: { pl: '#chill #rest #klata #łóżko #odpoczynek', en: '#chill #rest', de: '#chill #rest', ru: '#chill #rest', he: '#chill #rest' },
+                desc: { pl: 'Miłość od pierwszego wejrzenia.', en: 'Relaxation.', de: 'Entspannung.', ru: 'Расслабление.', he: 'הרפיה.' }
             },
             {
                 src: 'image40.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Izrael', en: 'Israel', de: 'Israel', ru: 'Израиль' },
-                tags: { pl: '#ai #izrael #ortodoksyjny #tradycja', en: '#ai #israel #orthodox #tradition', de: '#ai #israel #orthodox #tradition', ru: '#ai #израиль #ортодоксальный #традиция' },
+                title: { pl: 'Izrael', en: 'Israel', de: 'Israel', ru: 'Израиль', he: 'ישראל' },
+                tags: { pl: '#ai #izrael #ortodoksyjny #tradycja', en: '#ai #israel #orthodox #tradition', de: '#ai #israel #orthodox #tradition', ru: '#ai #израиль #ортодоксальный #традиция', he: '#ai #ישראל #אורתודוקסי #מסורת' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret mężczyzny w czarnym kapeluszu i z pejsami, w garniturze z frędzlami cicit, na tle plakatu z hebrajskim napisem i symbolami finansów.',
                     en: 'An AI-generated portrait of a man wearing a black hat and payot sidelocks, in a suit with tzitzit fringes, in front of a poster with Hebrew text and financial symbols.',
                     de: 'Ein KI-generiertes Porträt eines Mannes mit schwarzem Hut und Schläfenlocken, im Anzug mit Zizit-Fransen, vor einem Plakat mit hebräischer Schrift und Finanzsymbolen.',
-                    ru: 'Портрет мужчины, сгенерированный ИИ, в чёрной шляпе и с пейсами, в костюме с цицит, на фоне плаката с ивритской надписью и финансовыми символами.'
+                    ru: 'Портрет мужчины, сгенерированный ИИ, в чёрной шляпе и с пейсами, в костюме с цицит, на фоне плаката с ивритской надписью и финансовыми символами.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר עם כובע שחור ופאות, בחליפה עם ציציות, על רקע פוסטר עם כיתוב בעברית וסמלים פיננסיים.'
                 }
             },
             {
                 src: 'image41.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Ukraina', en: 'Ukraine', de: 'Ukraine', ru: 'Украина' },
-                tags: { pl: '#ai #ukraina #wojsko #patriotyzm', en: '#ai #ukraine #military #patriotism', de: '#ai #ukraine #militär #patriotismus', ru: '#ai #украина #армия #патриотизм' },
+                title: { pl: 'Ukraina', en: 'Ukraine', de: 'Ukraine', ru: 'Украина', he: 'אוקראינה' },
+                tags: { pl: '#ai #ukraina #wojsko #patriotyzm', en: '#ai #ukraine #military #patriotism', de: '#ai #ukraine #militär #patriotismus', ru: '#ai #украина #армия #патриотизм', he: '#ai #אוקראינה #צבא #פטריוטיזם' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret mężczyzny w mundurze wojskowym z naszywkami Sił Zbrojnych Ukrainy, na tle ukraińskich flag i patriotycznych haseł.',
                     en: 'An AI-generated portrait of a man in a military uniform with Armed Forces of Ukraine patches, in front of Ukrainian flags and patriotic slogans.',
                     de: 'Ein KI-generiertes Porträt eines Mannes in Militäruniform mit Abzeichen der Streitkräfte der Ukraine, vor ukrainischen Flaggen und patriotischen Parolen.',
-                    ru: 'Портрет мужчины, сгенерированный ИИ, в военной форме с нашивками ВСУ, на фоне украинских флагов и патриотических лозунгов.'
+                    ru: 'Портрет мужчины, сгенерированный ИИ, в военной форме с нашивками ВСУ, на фоне украинских флагов и патриотических лозунгов.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר במדי צבא עם סמלי הכוחות המזוינים של אוקראינה, על רקע דגלי אוקראינה וסיסמאות פטריוטיות.'
                 }
             },
             {
                 src: 'image42.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Niderlandy', en: 'Netherlands', de: 'Niederlande', ru: 'Нидерланды' },
-                tags: { pl: '#ai #niderlandy #weed #amsterdam', en: '#ai #netherlands #weed #amsterdam', de: '#ai #niederlande #weed #amsterdam', ru: '#ai #нидерланды #трава #амстердам' },
+                title: { pl: 'Niderlandy', en: 'Netherlands', de: 'Niederlande', ru: 'Нидерланды', he: 'הולנד' },
+                tags: { pl: '#ai #niderlandy #weed #amsterdam', en: '#ai #netherlands #weed #amsterdam', de: '#ai #niederlande #weed #amsterdam', ru: '#ai #нидерланды #трава #амстердам', he: '#ai #הולנד #weed #אמסטרדם' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret mężczyzny w kapeluszu typu bucket hat z motywem liścia konopi, na tle plakatu "Keep Calm and Smoke Weed".',
                     en: 'An AI-generated portrait of a man wearing a bucket hat with a cannabis leaf pattern, in front of a "Keep Calm and Smoke Weed" poster.',
                     de: 'Ein KI-generiertes Porträt eines Mannes mit einem Bucket Hat mit Cannabisblatt-Muster, vor einem Poster mit der Aufschrift "Keep Calm and Smoke Weed".',
-                    ru: 'Портрет мужчины, сгенерированный ИИ, в панаме с рисунком листьев конопли, на фоне постера "Keep Calm and Smoke Weed".'
+                    ru: 'Портрет мужчины, сгенерированный ИИ, в панаме с рисунком листьев конопли, на фоне постера "Keep Calm and Smoke Weed".', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר החובש כובע באקט עם הדפס עלה קנאביס, על רקע פוסטר "Keep Calm and Smoke Weed".'
                 }
             },
             {
                 src: 'image43.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Pracownik McDonalda', en: 'McDonald\'s Employee', de: 'McDonald\'s-Mitarbeiter', ru: 'Сотрудник McDonald\'s' },
-                tags: { pl: '#ai #mcdonalds #praca #fastfood', en: '#ai #mcdonalds #work #fastfood', de: '#ai #mcdonalds #arbeit #fastfood', ru: '#ai #макдоналдс #работа #фастфуд' },
+                title: { pl: 'Pracownik McDonalda', en: 'McDonald\'s Employee', de: 'McDonald\'s-Mitarbeiter', ru: 'Сотрудник McDonald\'s', he: 'עובד מקדונלד\'ס' },
+                tags: { pl: '#ai #mcdonalds #praca #fastfood', en: '#ai #mcdonalds #work #fastfood', de: '#ai #mcdonalds #arbeit #fastfood', ru: '#ai #макдоналдс #работа #фастфуд', he: '#ai #מקדונלדס #עבודה #פאסטפוד' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret młodego mężczyzny w uniformie i czapce McDonald\'s, trzymającego tacę z jedzeniem na tle kuchni restauracji.',
                     en: 'An AI-generated portrait of a young man in a McDonald\'s uniform and cap, holding a tray of food in front of a restaurant kitchen.',
                     de: 'Ein KI-generiertes Porträt eines jungen Mannes in McDonald\'s-Uniform und Kappe, der ein Tablett mit Essen vor einer Restaurantküche hält.',
-                    ru: 'Портрет молодого мужчины, сгенерированный ИИ, в форме и кепке McDonald\'s, держащего поднос с едой на фоне кухни ресторана.'
+                    ru: 'Портрет молодого мужчины, сгенерированный ИИ, в форме и кепке McDonald\'s, держащего поднос с едой на фоне кухни ресторана.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר צעיר במדי ובכובע מקדונלד\'ס, מחזיק מגש עם אוכל על רקע מטבח מסעדה.'
                 }
             },
             {
                 src: 'image44.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Stewardessa', en: 'Flight Attendant', de: 'Flugbegleiterin', ru: 'Стюардесса' },
-                tags: { pl: '#ai #stewardessa #lotnictwo #samolot', en: '#ai #stewardess #aviation #airplane', de: '#ai #flugbegleiterin #luftfahrt #flugzeug', ru: '#ai #стюардесса #авиация #самолёт' },
+                title: { pl: 'Stewardessa', en: 'Flight Attendant', de: 'Flugbegleiterin', ru: 'Стюардесса', he: 'דיילת' },
+                tags: { pl: '#ai #stewardessa #lotnictwo #samolot', en: '#ai #stewardess #aviation #airplane', de: '#ai #flugbegleiterin #luftfahrt #flugzeug', ru: '#ai #стюардесса #авиация #самолёт', he: '#ai #דיילת #תעופה #מטוס' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret osoby w granatowym mundurze stewardessy, stojącej w przejściu między fotelami w kabinie samolotu.',
                     en: 'An AI-generated portrait of a person in a navy flight attendant uniform, standing in the aisle between seats in an airplane cabin.',
                     de: 'Ein KI-generiertes Porträt einer Person in marineblauer Flugbegleiter-Uniform, stehend im Gang zwischen den Sitzen in einer Flugzeugkabine.',
-                    ru: 'Портрет человека, сгенерированный ИИ, в тёмно-синей форме стюардессы, стоящего в проходе между креслами в салоне самолёта.'
+                    ru: 'Портрет человека, сгенерированный ИИ, в тёмно-синей форме стюардессы, стоящего в проходе между креслами в салоне самолёта.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של אדם במדי דיילת בצבע כחול כהה, עומד במעבר בין המושבים בתא הנוסעים של מטוס.'
                 }
             },
             {
                 src: 'image45.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Pilot', en: 'Pilot', de: 'Pilot', ru: 'Пилот' },
-                tags: { pl: '#ai #pilot #lotnictwo #kokpit', en: '#ai #pilot #aviation #cockpit', de: '#ai #pilot #luftfahrt #cockpit', ru: '#ai #пилот #авиация #кабина' },
+                title: { pl: 'Pilot', en: 'Pilot', de: 'Pilot', ru: 'Пилот', he: 'טייס' },
+                tags: { pl: '#ai #pilot #lotnictwo #kokpit', en: '#ai #pilot #aviation #cockpit', de: '#ai #pilot #luftfahrt #cockpit', ru: '#ai #пилот #авиация #кабина', he: '#ai #טייס #תעופה #תא_טייס' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret mężczyzny w mundurze pilota, pozującego w kokpicie samolotu na tle panoramy miasta.',
                     en: 'An AI-generated portrait of a man in a pilot\'s uniform, posing in an airplane cockpit against a city skyline.',
                     de: 'Ein KI-generiertes Porträt eines Mannes in Pilotenuniform, posierend im Cockpit eines Flugzeugs vor einer Stadtsilhouette.',
-                    ru: 'Портрет мужчины, сгенерированный ИИ, в форме пилота, позирующего в кабине самолёта на фоне городской панорамы.'
+                    ru: 'Портрет мужчины, сгенерированный ИИ, в форме пилота, позирующего в кабине самолёта на фоне городской панорамы.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר במדי טייס, מצטלם בתא הטייס של מטוס על רקע קו רקיע של עיר.'
                 }
             },
             {
                 src: 'image46.png', cat: 'AI', globalLikes: 0,
-                title: { pl: 'Polityk', en: 'Politician', de: 'Politiker', ru: 'Политик' },
-                tags: { pl: '#ai #polityk #wybory #polska', en: '#ai #politician #elections #poland', de: '#ai #politiker #wahlen #polen', ru: '#ai #политик #выборы #польша' },
+                title: { pl: 'Polityk', en: 'Politician', de: 'Politiker', ru: 'Политик', he: 'פוליטיקאי' },
+                tags: { pl: '#ai #polityk #wybory #polska', en: '#ai #politician #elections #poland', de: '#ai #politiker #wahlen #polen', ru: '#ai #политик #выборы #польша', he: '#ai #פוליטיקאי #בחירות #פולין' },
                 desc: {
                     pl: 'Wygenerowany przez AI portret mężczyzny w garniturze, przemawiającego przy mównicy z flagami Polski w tle, w scenerii wydarzenia wyborczego.',
                     en: 'An AI-generated portrait of a man in a suit, speaking at a podium with Polish flags in the background, set at an election event.',
                     de: 'Ein KI-generiertes Porträt eines Mannes im Anzug, der an einem Rednerpult mit polnischen Flaggen im Hintergrund spricht, im Rahmen einer Wahlveranstaltung.',
-                    ru: 'Портрет мужчины в костюме, сгенерированный ИИ, выступающего за трибуной на фоне польских флагов, на фоне предвыборного мероприятия.'
+                    ru: 'Портрет мужчины в костюме, сгенерированный ИИ, выступающего за трибуной на фоне польских флагов, на фоне предвыборного мероприятия.', he: 'דיוקן שנוצר על ידי בינה מלאכותית של גבר בחליפה, נואם מאחורי דוכן עם דגלי פולין ברקע, בסצנה של אירוע בחירות.'
                 }
             }
         ];
