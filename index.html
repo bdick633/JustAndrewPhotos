@@ -3571,9 +3571,12 @@
         function toggleDescription() {
             const box = document.getElementById('descriptionBox');
             const isHidden = box.classList.toggle('hidden');
-            document.getElementById('descButton').innerHTML = isHidden 
-                ? `<i class="fas fa-info-circle"></i> ${window.translations[window.currentLang].show_desc}` 
-                : `<i class="fas fa-info-circle"></i> ${window.translations[window.currentLang].hide_desc}`;
+            // Zachowujemy atrybut data-i18n na wewnętrznym <span>, żeby zmiana języka
+            // (nawet gdy modal jest już otwarty) zawsze poprawnie odświeżała ten napis -
+            // wcześniej nadpisywaliśmy całe innerHTML zwykłym tekstem i ten atrybut znikał.
+            const key = isHidden ? 'show_desc' : 'hide_desc';
+            document.getElementById('descButton').innerHTML =
+                `<i class="fas fa-info-circle"></i> <span data-i18n="${key}">${window.translations[window.currentLang][key]}</span>`;
         }
 
         function toggleFavorite(e, src) {
