@@ -429,27 +429,49 @@
         &copy; 2026 JustAndrew. <span data-i18n="all_rights">Wszystkie prawa zastrzeżone.</span>
     </footer>
 
-    <!-- BOCZNY WIDGET REKLAMOWY (rotujące sloty: IG / reklama / tipply) - tylko na stronie głównej -->
-    <!-- Wspólny kontener trzyma oba kafelki reklamowe jeden pod drugim, z odstępem, i centruje całość w pionie -->
-    <div id="sideAdStack" class="hidden xl:flex fixed top-1/2 -translate-y-1/2 right-5 z-[80] flex-col gap-4">
-        <div id="sideAdWidget" class="side-ad-tile relative w-60 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
-            <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
-            <button onclick="closeSideAd()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
-                <i class="fas fa-times"></i>
-            </button>
+    <!-- BOCZNY WIDGET REKLAMOWY (McDonald's / rotujące sloty IG+tipply / wolny slot) - tylko na stronie głównej -->
+    <!-- Wspólny kontener trzyma wszystkie kafelki reklamowe jeden pod drugim, z odstępem, i centruje całość w pionie -->
+    <div id="sideAdStack" class="hidden xl:flex fixed top-1/2 -translate-y-1/2 right-5 z-[80] w-64 flex-col gap-6">
 
-            <div id="sideAdSlideContainer" class="relative w-full h-80"></div>
-
-            <div id="sideAdDots" class="flex justify-center gap-1.5 py-3 bg-gray-50 dark:bg-black/20"></div>
-        </div>
-
-        <!-- Drugi kafelek reklamowy - statyczny obrazek, osobno zamykany -->
-        <div id="sideAdWidget2" class="side-ad-tile relative w-60 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
+        <!-- Kafelek 1: statyczny obrazek McDonald's, osobno zamykany -->
+        <div id="sideAdWidget2" class="side-ad-tile relative w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
             <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
             <button onclick="closeSideAd2()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
                 <i class="fas fa-times"></i>
             </button>
             <img src="ad_mcdonalds.jpg" alt="Reklama McDonald's - Super Combo Extra" class="w-full h-auto block select-none">
+            <!-- Informacja o koszerności - widoczna wyłącznie w wersji hebrajskiej strony -->
+            <p id="mcdonaldsKosherNote" dir="rtl" class="hidden text-center text-[11px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 py-1.5 px-2 leading-snug">
+                ❌ לא כשר <span class="font-normal text-gray-600 dark:text-gray-400">- מקדונלד'ס בפולין אינו כשר</span>
+            </p>
+        </div>
+
+        <!-- Kafelek 2: rotujący widget (Instagram / Tipply) -->
+        <div id="sideAdWidget" class="side-ad-tile relative w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
+            <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
+            <button onclick="closeSideAd()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div id="sideAdSlideContainer" class="relative w-full h-96"></div>
+
+            <div id="sideAdDots" class="flex justify-center gap-1.5 py-3 bg-gray-50 dark:bg-black/20"></div>
+        </div>
+
+        <!-- Kafelek 3: wolny slot reklamowy - stały, bez rotacji, sama informacja kontaktowa -->
+        <div id="sideAdWidget3" class="side-ad-tile relative w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
+            <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
+            <button onclick="closeSideAd3()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="bg-gradient-to-br from-indigo-600 to-sky-500 flex flex-col items-center justify-center text-center px-4 py-8">
+                <div class="w-14 h-14 text-2xl rounded-full bg-white/20 ring-4 ring-white/60 shadow-lg mb-3 flex items-center justify-center">
+                    <i class="fas fa-bullhorn text-white drop-shadow"></i>
+                </div>
+                <p class="text-white font-black text-sm leading-snug mb-1.5 drop-shadow-sm" data-i18n="side_ad_contact_title">Tu może być Twoja reklama</p>
+                <p class="text-white/90 text-[11px] leading-relaxed mb-4 max-w-[85%]" data-i18n="side_ad_contact_desc">Chcesz się tu pojawić? Napisz do mnie i ustalimy szczegóły.</p>
+                <button type="button" onclick="openDiscordModal(); trackIconClick('discord')" class="px-4 py-2 text-[11px] bg-white/95 hover:bg-white text-gray-900 font-black rounded-full shadow-md transition-all cursor-pointer" data-i18n="side_ad_contact_btn">Kontakt</button>
+            </div>
         </div>
     </div>
 
@@ -3043,6 +3065,11 @@
 
             document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
 
+            // Informacja o (braku) koszerności reklamy McDonald's - pokazujemy ją
+            // tylko w wersji hebrajskiej strony, dla pozostałych języków zostaje ukryta.
+            const kosherNote = document.getElementById('mcdonaldsKosherNote');
+            if (kosherNote) kosherNote.classList.toggle('hidden', lang !== 'he');
+
             const currentLangFlag = document.getElementById('currentLangFlag');
             const flagCountry = lang === 'en' ? 'gb' : (lang === 'he' ? 'il' : lang);
             currentLangFlag.className = `fi fi-${flagCountry} rounded-sm shadow-sm scale-110`;
@@ -3271,15 +3298,6 @@
                 action: function() { trackIconClick('instagram'); window.open(this.url, '_blank'); }
             },
             {
-                id: 'contact',
-                icon: 'fas fa-bullhorn',
-                gradient: 'from-indigo-600 to-sky-500',
-                titleKey: 'side_ad_contact_title',
-                descKey: 'side_ad_contact_desc',
-                btnKey: 'side_ad_contact_btn',
-                action: function() { openDiscordModal(); trackIconClick('discord'); }
-            },
-            {
                 id: 'tipply',
                 icon: 'fas fa-mug-hot',
                 gradient: 'from-emerald-600 to-teal-500',
@@ -3368,6 +3386,13 @@
             sessionStorage.setItem('sideAdWidget2ClosedThisSession', 'true');
         }
 
+        // Zamknięcie trzeciego kafelka (wolny slot reklamowy) - niezależne od pozostałych.
+        function closeSideAd3() {
+            const widget3 = document.getElementById('sideAdWidget3');
+            if (widget3) widget3.style.display = 'none';
+            sessionStorage.setItem('sideAdWidget3ClosedThisSession', 'true');
+        }
+
         function initSideAdWidget() {
             const widget = document.getElementById('sideAdWidget');
             if (sessionStorage.getItem('sideAdClosedThisSession')) {
@@ -3381,6 +3406,11 @@
             if (sessionStorage.getItem('sideAdWidget2ClosedThisSession')) {
                 if (widget2) widget2.style.display = 'none';
             }
+
+            const widget3 = document.getElementById('sideAdWidget3');
+            if (sessionStorage.getItem('sideAdWidget3ClosedThisSession')) {
+                if (widget3) widget3.style.display = 'none';
+            }
         }
 
         // Chowa boczny widget na czas trwania modala (dowolnego trybu - zwykłego i kinowego)
@@ -3389,6 +3419,7 @@
             sideAdSuspendedForModal = suspended;
             const widget = document.getElementById('sideAdWidget');
             const widget2 = document.getElementById('sideAdWidget2');
+            const widget3 = document.getElementById('sideAdWidget3');
 
             if (widget && !sessionStorage.getItem('sideAdClosedThisSession')) {
                 if (suspended) {
@@ -3403,6 +3434,10 @@
 
             if (widget2 && !sessionStorage.getItem('sideAdWidget2ClosedThisSession')) {
                 widget2.style.display = suspended ? 'none' : '';
+            }
+
+            if (widget3 && !sessionStorage.getItem('sideAdWidget3ClosedThisSession')) {
+                widget3.style.display = suspended ? 'none' : '';
             }
         }
 
