@@ -185,6 +185,7 @@
                     <option value="en">EN</option>
                     <option value="de">DE</option>
                     <option value="ru">RU</option>
+                    <option value="he">HE</option>
                 </select>
             </div>
 
@@ -471,7 +472,6 @@
                 <button id="modalArrowLeft" onclick="prevImage()" class="absolute left-4 z-10 w-12 h-12 rounded-full bg-black/40 text-white hover:bg-indigo-600 flex items-center justify-center backdrop-blur-sm transition-all"><i class="fas fa-chevron-left text-lg"></i></button>
                 <img id="modalImage" src="" class="max-w-[90%] max-h-[55vh] md:max-h-[65vh] object-contain rounded-lg shadow-md transition-all duration-300">
                 <!-- Losowa reklama pojawiająca się czasem zamiast zdjęcia podczas przełączania strzałkami -->
-                <div id="modalAdOverlay" class="hidden absolute inset-4 md:inset-8 z-[5] rounded-2xl overflow-hidden shadow-xl modal-fade-in"></div>
                 <span id="modalAiBadge" class="hidden absolute bottom-4 right-4 z-20 group">
                     <span class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white/90 dark:bg-black/70 backdrop-blur-sm text-gray-900 dark:text-white text-[11px] font-black tracking-wide shadow-lg border border-gray-200 dark:border-white/10 cursor-help">
                         <i class="fas fa-wand-magic-sparkles text-[10px] text-indigo-500 dark:text-indigo-300"></i>AI
@@ -702,6 +702,7 @@
                 badge_shots_100000: "Legenda AWP",
                 badge_shots_1000000: "Nieśmiertelny",
                 badge_likes_1: "Pierwsza Miłość",
+                badge_likes_5: "Zauroczony",
                 badge_likes_10: "Kolekcjoner",
                 badge_likes_25: "Fanatyk Galerii",
                 badge_likes_100: "Ekspert od Ulubionych",
@@ -842,6 +843,7 @@
                 badge_shots_100000: "AWP Legend",
                 badge_shots_1000000: "Immortal",
                 badge_likes_1: "First Love",
+                badge_likes_5: "Smitten",
                 badge_likes_10: "Collector",
                 badge_likes_25: "Gallery Fanatic",
                 badge_likes_100: "Favorites Expert",
@@ -982,6 +984,7 @@
                 badge_shots_100000: "AWP-Legende",
                 badge_shots_1000000: "Unsterblicher",
                 badge_likes_1: "Erste Liebe",
+                badge_likes_5: "Verliebt",
                 badge_likes_10: "Sammler",
                 badge_likes_25: "Galerie-Fanatiker",
                 badge_likes_100: "Favoriten-Experte",
@@ -1122,6 +1125,7 @@
                 badge_shots_100000: "Легенда AWP",
                 badge_shots_1000000: "Бессмертный",
                 badge_likes_1: "Первая Любовь",
+                badge_likes_5: "Влюблённый",
                 badge_likes_10: "Коллекционер",
                 badge_likes_25: "Фанат Галереи",
                 badge_likes_100: "Эксперт Избранного",
@@ -1134,6 +1138,147 @@
                 badge_report_bug: "Охотник за Багами",
                 badge_piwosz: "Пивной Ценитель",
                 badge_nightowl: "Ночная Смена",
+                badge_godzina_2137: "21:37"
+            },
+            he: {
+                clicks_label: "קליקים:",
+                favorites_tab: "מועדפים",
+                all_tab: "הכל",
+                gallery_title: "גלריית תמונות",
+                all_cats: "כל הקטגוריות",
+                cat_stream: "סטרים",
+                cat_praca: "עבודה",
+                cat_relaks: "רגיעה",
+                cat_ai: "בינה מלאכותית",
+                ai_badge_tooltip: "תמונה שנוצרה על ידי בינה מלאכותית",
+                side_ad_label: "פרסומת",
+                side_ad_ig_title: "עוד באינסטגרם!",
+                side_ad_ig_desc: "כל יום תמונות חדשות מאחורי הקלעים - עקבו ותהיו מעודכנים! 🔥",
+                side_ad_ig_btn: "לאינסטגרם",
+                side_ad_contact_title: "כאן יכולה להיות הפרסומת שלך",
+                side_ad_contact_desc: "רוצים להופיע כאן? כתבו לי ונסכם פרטים.",
+                side_ad_contact_btn: "צור קשר",
+                side_ad_tipply_title: "אוהבים את האתר?",
+                side_ad_tipply_desc: "אפשר לתמוך בי דרך Tipply - כל תרומה חשובה! 🫶",
+                side_ad_tipply_btn: "תמכו",
+                sort_default: "סדר ברירת מחדל",
+                sort_popular: "הפופולריים ביותר",
+                sort_unpopular: "הפחות פופולריים",
+                search_placeholder: "חיפוש...",
+                empty_search_title: "אין תוצאות",
+                empty_search_desc: "לא מצאנו תמונות התואמות לחיפוש שלך.",
+                empty_favs_title: "ריק כאן",
+                empty_favs_desc: "עדיין אין לך תמונות מועדפות.",
+                empty_favs_cat_desc: "עדיין אין לך תמונות מועדפות בקטגוריה זו.",
+                stats_title: "סטטיסטיקות הגלריה",
+                stat_photos: "תמונות בגלריה",
+                stat_liked: "תמונות שאהבת",
+                stat_your_clicks: "הקליקים שלך",
+                stat_total_clicks: "סך כל הקליקים",
+                rank_countries: "דירוג מדינות",
+                rank_players: "שחקנים מובילים",
+                your_nick: "הכינוי שלך:",
+                no_nick: "אין",
+                change_nick: "שנה כינוי",
+                pos_col: "מיקום",
+                country_col: "מדינה",
+                player_col: "שחקן",
+                clicks_col: "קליקים",
+                loading_data: "טוען נתונים...",
+                no_clicks: "אין קליקים",
+                no_players: "אין שחקנים בדירוג",
+                show_more: "הצג עוד",
+                show_less: "הצג פחות",
+                co_create_title: "בואו נבנה יחד את האתר הזה!",
+                send_photo_title: "שלח תמונה",
+                send_photo_desc: "יש לך צילום מגניב מהסטרים או מהמסלול? שתף אותו עם הקהילה שלנו!",
+                send_photo_btn: "שלח תמונה",
+                rate_title: "דרג את האתר",
+                rate_desc: "הדעה שלך חשובה לי מאוד.",
+                rate_btn: "השאר משוב",
+                bug_title: "דווח על באג",
+                bug_desc: "משהו לא עובד כמו שצריך? שמת לב לשגיאת כתיב? ספר לנו ונתקן את זה במהירות!",
+                bug_btn: "דווח על בעיה",
+                all_rights: "כל הזכויות שמורות.",
+                cinema_exit: "צא ממצב קולנוע (ESC)",
+                show_desc: "הצג תיאור",
+                hide_desc: "הסתר תיאור",
+                cinema_mode: "מצב קולנוע",
+                download_btn: "הורד",
+                open_btn: "פתח",
+                nick_prompt: "הזן כינוי חדש ללחיצות:",
+                nick_changed: "הכינוי שונה בהצלחה!",
+                nick_taken: "הכינוי הזה כבר תפוס! בחר אחר.",
+                nick_limit_reached: "הגעת למגבלה של 3 שינויי כינוי!",
+                nick_cooldown: "אנא המתן רגע לפני שינוי הכינוי שוב.",
+                copied: "הועתק!",
+                tipply_title: "אוהב את מה שאני עושה?",
+                tipply_desc: "התמיכה שלך עוזרת לי לפתח את הערוץ וליצור עוד תוכן. תודה רבה על כל תרומה! 🫶",
+                tipply_btn: "תמכו",
+                tipply_sure: "אתה בטוח?",
+                tipply_sad: "לוקאש יהיה עצוב 😥",
+                tipply_hide: "כן, הסתר",
+                tipply_cancel: "ביטול",
+                copy_name: "העתק שם",
+                close_btn: "סגור",
+                save_btn: "שמור",
+                changes_left: "שינויים שנותרו",
+                me_badge: "אני",
+                unknown_country: "חלל החיצון",
+                badges_button: "הישגים",
+                badges_modal_title: "ההישגים שלך",
+                badges_progress_label: "ההתקדמות שלך",
+                badge_filter_all: "הכל",
+                badge_filter_unlocked: "פתוחים",
+                badge_filter_locked: "נעולים",
+                badges_avg_completion: "הושלם",
+                badge_pct_tooltip: "נפתח על ידי {pct}% מכלל השחקנים",
+                badges_modal_subtitle: "אספו הישגים על ידי לחיצה, סימון תמונות כמועדפות וחקירת האתר!",
+                badge_unlocked_prefix: "הישג חדש!",
+                badge_unlock_popup_hint: "לחץ כדי לראות בלשונית ההישגים",
+                badge_share: "התרברב",
+                badge_share_text: "פתחתי את ההישג „{name}”!",
+                badge_share_modal_title: "התג שלך",
+                badge_share_modal_subtitle: "אפשר להוריד את התמונה הזו ולהתרברב בה בכל מקום - בצ'אט, ברשתות החברתיות או לשלוח לחברים",
+                badge_share_download: "הורד תמונה",
+                badge_locked: "נעול",
+                badge_group_shots: "יריות",
+                badge_group_likes: "לייקים",
+                badge_group_special: "מיוחדים",
+                badge_desc_shots: "ירה {n} יריות",
+                badge_desc_shots_1: "ירה את היריה הראשונה שלך",
+                badge_desc_likes: "סמן {n} תמונות כמועדפות",
+                badge_desc_likes_1: "סמן את התמונה הראשונה שלך כמועדפת",
+                badge_desc_cinema: "הפעל מצב קולנוע",
+                badge_desc_explorer: "לחץ על כל אייקון של רשת חברתית",
+                badge_desc_dark_mode: "הפעל מצב כהה",
+                badge_desc_polyglot: "העבר את האתר לכל שפה זמינה",
+                badge_desc_send_photo: "שלח את התמונה שלך דרך הטופס",
+                badge_desc_rate_site: "השאר משוב על האתר",
+                badge_desc_report_bug: "דווח על באג או בעיה באתר",
+                badge_desc_piwosz: "סמן כמועדפות את כל התמונות עם התג #בירה",
+                badge_desc_nightowl: "בקר באתר בין 00:00 ל-4:59 לפי השעון המקומי",
+                badge_desc_godzina_2137: "היה באתר בדיוק בשעה 21:37 לפי השעון המקומי",
+                badge_shots_1: "דם ראשון",
+                badge_shots_100: "טירון",
+                badge_shots_1000: "צלף מאומן",
+                badge_shots_10000: "צלף עלית",
+                badge_shots_100000: "אגדת AWP",
+                badge_shots_1000000: "בן אלמוות",
+                badge_likes_1: "אהבה ראשונה",
+                badge_likes_5: "מאוהב",
+                badge_likes_10: "אספן",
+                badge_likes_25: "חובב הגלריה",
+                badge_likes_100: "מומחה מועדפים",
+                badge_dark_mode: "ינשוף לילה",
+                badge_cinema: "חובב קולנוע",
+                badge_explorer: "חוקר רשתות חברתיות",
+                badge_polyglot: "בלשן",
+                badge_send_photo: "כתב צילום",
+                badge_rate_site: "מבקר",
+                badge_report_bug: "צייד באגים",
+                badge_piwosz: "חובב בירה",
+                badge_nightowl: "משמרת לילה",
                 badge_godzina_2137: "21:37"
             }
         };
@@ -1223,6 +1368,7 @@
             { id: 'shots_100000',  category: 'shots', threshold: 100000,  icon: 'fa-fire',       rarity: 'red' },
             { id: 'shots_1000000', category: 'shots', threshold: 1000000, icon: 'fa-crown',      rarity: 'gold' },
             { id: 'likes_1',       category: 'likes', threshold: 1,       icon: 'fa-heart',      rarity: 'gray' },
+            { id: 'likes_5',       category: 'likes', threshold: 5,       icon: 'fa-medal',      rarity: 'gray' },
             { id: 'likes_10',      category: 'likes', threshold: 10,      icon: 'fa-gem',        rarity: 'lightblue' },
             { id: 'likes_25',      category: 'likes', threshold: 25,      icon: 'fa-star',       rarity: 'purple' },
             { id: 'likes_100',     category: 'likes', threshold: 100,     icon: 'fa-trophy',     rarity: 'pink' },
@@ -1290,6 +1436,7 @@
             'fa-fire': '\uf06d',
             'fa-crown': '\uf521',
             'fa-heart': '\uf004',
+            'fa-medal': '\uf5a2',
             'fa-gem': '\uf3a5',
             'fa-star': '\uf005',
             'fa-trophy': '\uf091',
@@ -2846,17 +2993,16 @@
                 visitedLangs.push(lang);
                 localStorage.setItem('justAndrewVisitedLangs', JSON.stringify(visitedLangs));
             }
-            const allLangs = ['pl', 'en', 'de', 'ru'];
+            const allLangs = ['pl', 'en', 'de', 'ru', 'he'];
             if (allLangs.every(l => visitedLangs.includes(l)) && window.unlockBadge) {
                 window.unlockBadge('polyglot');
             }
 
+            document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
+
             const currentLangFlag = document.getElementById('currentLangFlag');
-            if (lang === 'en') {
-                currentLangFlag.className = 'fi fi-gb rounded-sm shadow-sm scale-110';
-            } else {
-                currentLangFlag.className = `fi fi-${lang} rounded-sm shadow-sm scale-110`;
-            }
+            const flagCountry = lang === 'en' ? 'gb' : (lang === 'he' ? 'il' : lang);
+            currentLangFlag.className = `fi fi-${flagCountry} rounded-sm shadow-sm scale-110`;
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -3078,7 +3224,6 @@
                 titleKey: 'side_ad_ig_title',
                 descKey: 'side_ad_ig_desc',
                 btnKey: 'side_ad_ig_btn',
-                image: 'image1.png',
                 url: 'https://www.instagram.com/andrewgod666/',
                 action: function() { trackIconClick('instagram'); window.open(this.url, '_blank'); }
             },
@@ -3123,7 +3268,7 @@
 
             const avatar = slide.image
                 ? `<img src="${slide.image}" alt="" class="${isModal ? 'w-20 h-20' : 'w-14 h-14'} rounded-full object-cover ring-4 ring-white/60 shadow-lg mb-3">`
-                : `<i class="${slide.icon} ${iconSize} text-white/95 mb-3 drop-shadow"></i>`;
+                : `<div class="${isModal ? 'w-20 h-20 text-4xl' : 'w-14 h-14 text-2xl'} rounded-full bg-white/20 ring-4 ring-white/60 shadow-lg mb-3 flex items-center justify-center"><i class="${slide.icon} text-white drop-shadow"></i></div>`;
 
             return `
                 <div class="absolute inset-0 bg-gradient-to-br ${slide.gradient} flex flex-col items-center justify-center text-center ${padding} modal-fade-in">
@@ -3202,48 +3347,8 @@
 
         window.renderSideAdSlide = renderSideAdSlide;
 
-        // ==================== LOSOWA REKLAMA W MIEJSCU ZDJĘCIA (MODAL) ====================
-        // Podczas przełączania zdjęć strzałkami, od czasu do czasu (niezbyt często)
-        // zamiast kolejnego zdjęcia pokazuje się jeden z 3 slajdów reklamowych.
-        // Klikalny jest tylko przycisk w reklamie - tło nie reaguje na kliknięcie.
-        let modalAdActive = false;
-        let lastModalNavWasAd = false;
-        const MODAL_AD_CHANCE = 0.16; // ok. 1 na 6 przełączeń strzałką
-
-        function showModalAd() {
-            const overlay = document.getElementById('modalAdOverlay');
-            if (!overlay) return;
-            const slide = SIDE_AD_SLIDES[Math.floor(Math.random() * SIDE_AD_SLIDES.length)];
-            overlay.innerHTML = buildAdSlideHTML(slide, 'modal');
-            overlay.classList.remove('hidden');
-            modalAdActive = true;
-            document.getElementById('modalAiBadge').classList.add('hidden');
-        }
-
-        function hideModalAd() {
-            const overlay = document.getElementById('modalAdOverlay');
-            if (overlay) {
-                overlay.classList.add('hidden');
-                overlay.innerHTML = '';
-            }
-            modalAdActive = false;
-        }
-
-        // Wywoływane po każdym przejściu strzałką (nie przy pierwszym otwarciu modala).
-        function maybeShowModalAdAfterNav() {
-            if (!lastModalNavWasAd && Math.random() < MODAL_AD_CHANCE) {
-                showModalAd();
-                lastModalNavWasAd = true;
-            } else {
-                hideModalAd();
-                lastModalNavWasAd = false;
-            }
-        }
-
         function openModal(index) { 
             currentIndex = index; 
-            hideModalAd();
-            lastModalNavWasAd = false;
             updateModal(); 
             document.getElementById('imageModal').classList.add('active'); 
             document.body.style.overflow = 'hidden'; 
@@ -3290,8 +3395,6 @@
 
         function closeImageModal() { 
             stopSlideshow(); 
-            hideModalAd();
-            lastModalNavWasAd = false;
             document.getElementById('imageModal').classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
             cancelCloseTipplyBanner(); 
@@ -3468,7 +3571,6 @@
             if (filteredItems.length === 0) return;
             currentIndex = (currentIndex + 1) % filteredItems.length; 
             updateModal(); 
-            maybeShowModalAdAfterNav();
             
             imagesViewed++;
             if (imagesViewed >= 10) {
@@ -3479,7 +3581,6 @@
             if (filteredItems.length === 0) return;
             currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length; 
             updateModal(); 
-            maybeShowModalAdAfterNav();
             
             imagesViewed++;
             if (imagesViewed >= 10) {
