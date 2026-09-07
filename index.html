@@ -22,6 +22,11 @@
 
         .gallery-img { transition: transform 0.4s ease-out, filter 0.4s ease; }
         .gallery-img:hover { transform: scale(1.02); filter: brightness(1.05); }
+
+        /* Ta sama, subtelna animacja powiększenia co przy zdjęciach w galerii - zastosowana
+           do kafelków bocznego widgetu reklamowego, żeby oba elementy wizualnie do siebie pasowały. */
+        .side-ad-tile { transition: transform 0.4s ease-out, filter 0.4s ease; }
+        .side-ad-tile:hover { transform: scale(1.02); filter: brightness(1.05); }
         
         .modal-fade-in { animation: fadeIn 0.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
@@ -425,15 +430,27 @@
     </footer>
 
     <!-- BOCZNY WIDGET REKLAMOWY (rotujące sloty: IG / reklama / tipply) - tylko na stronie głównej -->
-    <div id="sideAdWidget" class="hidden xl:block fixed top-1/2 -translate-y-1/2 right-5 z-[80] w-60 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md transition-all duration-500">
-        <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
-        <button onclick="closeSideAd()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
-            <i class="fas fa-times"></i>
-        </button>
+    <!-- Wspólny kontener trzyma oba kafelki reklamowe jeden pod drugim, z odstępem, i centruje całość w pionie -->
+    <div id="sideAdStack" class="hidden xl:flex fixed top-1/2 -translate-y-1/2 right-5 z-[80] flex-col gap-4">
+        <div id="sideAdWidget" class="side-ad-tile relative w-60 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
+            <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
+            <button onclick="closeSideAd()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
 
-        <div id="sideAdSlideContainer" class="relative w-full h-80"></div>
+            <div id="sideAdSlideContainer" class="relative w-full h-80"></div>
 
-        <div id="sideAdDots" class="flex justify-center gap-1.5 py-3 bg-gray-50 dark:bg-black/20"></div>
+            <div id="sideAdDots" class="flex justify-center gap-1.5 py-3 bg-gray-50 dark:bg-black/20"></div>
+        </div>
+
+        <!-- Drugi kafelek reklamowy - statyczny obrazek, osobno zamykany -->
+        <div id="sideAdWidget2" class="side-ad-tile relative w-60 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800/80 bg-white/95 dark:bg-[#1a1c24]/95 backdrop-blur-md">
+            <span class="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-full bg-black/40 text-white text-[9px] font-bold uppercase tracking-wide select-none" data-i18n="side_ad_label">Reklama</span>
+            <button onclick="closeSideAd2()" class="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center text-xs transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="ad_mcdonalds.jpg" alt="Reklama McDonald's - Super Combo Extra" class="w-full h-auto block select-none">
+        </div>
     </div>
 
     <!-- TIPPLY BANNER -->
@@ -3343,14 +3360,27 @@
             sessionStorage.setItem('sideAdClosedThisSession', 'true');
         }
 
+        // Zamknięcie drugiego kafelka (statyczny obrazek) - niezależne od pierwszego,
+        // też tylko na czas bieżącej sesji przeglądarki.
+        function closeSideAd2() {
+            const widget2 = document.getElementById('sideAdWidget2');
+            if (widget2) widget2.style.display = 'none';
+            sessionStorage.setItem('sideAdWidget2ClosedThisSession', 'true');
+        }
+
         function initSideAdWidget() {
             const widget = document.getElementById('sideAdWidget');
             if (sessionStorage.getItem('sideAdClosedThisSession')) {
                 if (widget) widget.style.display = 'none';
-                return;
+            } else {
+                renderSideAdSlide();
+                startSideAdRotation();
             }
-            renderSideAdSlide();
-            startSideAdRotation();
+
+            const widget2 = document.getElementById('sideAdWidget2');
+            if (sessionStorage.getItem('sideAdWidget2ClosedThisSession')) {
+                if (widget2) widget2.style.display = 'none';
+            }
         }
 
         // Chowa boczny widget na czas trwania modala (dowolnego trybu - zwykłego i kinowego)
@@ -3358,16 +3388,21 @@
         function setSideAdSuspended(suspended) {
             sideAdSuspendedForModal = suspended;
             const widget = document.getElementById('sideAdWidget');
-            if (!widget) return;
-            if (sessionStorage.getItem('sideAdClosedThisSession')) return;
+            const widget2 = document.getElementById('sideAdWidget2');
 
-            if (suspended) {
-                widget.style.display = 'none';
-                if (sideAdInterval) clearInterval(sideAdInterval);
-            } else {
-                widget.style.display = '';
-                renderSideAdSlide();
-                startSideAdRotation();
+            if (widget && !sessionStorage.getItem('sideAdClosedThisSession')) {
+                if (suspended) {
+                    widget.style.display = 'none';
+                    if (sideAdInterval) clearInterval(sideAdInterval);
+                } else {
+                    widget.style.display = '';
+                    renderSideAdSlide();
+                    startSideAdRotation();
+                }
+            }
+
+            if (widget2 && !sessionStorage.getItem('sideAdWidget2ClosedThisSession')) {
+                widget2.style.display = suspended ? 'none' : '';
             }
         }
 
